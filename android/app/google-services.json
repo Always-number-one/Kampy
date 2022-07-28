@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "510280400227",
+    "project_id": "kampytest-5fc4d",
+    "storage_bucket": "kampytest-5fc4d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:510280400227:android:5bb8555fb1366b2eb9a756",
+        "android_client_info": {
+          "package_name": "com.example.kampy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "510280400227-e946rg6nvbci42pms5v3od3asbmed0jb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDuUoqLteGWejvMJ1dBjQhg3WJUTLcH0OM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "510280400227-e946rg6nvbci42pms5v3od3asbmed0jb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
