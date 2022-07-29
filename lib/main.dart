@@ -4,7 +4,7 @@ import 'kampy_event.dart';
 import 'kampy_chat.dart';
 import 'kampy_posts.dart';
 import 'kampy_home.dart';
-import 'kampy_home.dart';
+
 
 // call firebase
 import 'package:firebase_core/firebase_core.dart';
@@ -15,6 +15,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   // 
+
   runApp(const MyApp());
 }
 
@@ -32,7 +33,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.pink,
       ),
       
-      home:  User(),
+      home: const Kampy(),
     );
   }
 }
