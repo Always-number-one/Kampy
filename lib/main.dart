@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
-import 'User.dart';
-import 'Events.dart';
-import 'Chat.dart';
-import 'Posts.dart';
-import 'Home.dart';
-import 'Home.dart';
+import 'kampy_user.dart';
+import 'kampy_event.dart';
+import 'kampy_chat.dart';
+import 'kampy_posts.dart';
+import 'kampy_home.dart';
+import 'kampy_home.dart';
 
 // call firebase
 import 'package:firebase_core/firebase_core.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 void main() async {
   // call firebase
@@ -24,13 +25,14 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
     
         primarySwatch: Colors.pink,
       ),
       
-      home: const User(),
+      home:  User(),
     );
   }
 }
