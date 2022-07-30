@@ -5,10 +5,10 @@ import 'kampy_chat.dart';
 import 'kampy_posts.dart';
 import 'kampy_home.dart';
 import 'kampy_home.dart';
+import 'kampy_login.dart';
 
 // call firebase
 import 'package:firebase_core/firebase_core.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 void main() async {
   // call firebase
@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.pink,
       ),
       
-      home:  User(),
+      home:  LogIn(),              
     );
   }
 }
