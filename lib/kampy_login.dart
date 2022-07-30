@@ -15,7 +15,7 @@ class _LogInState extends State<LogIn> {
   
   Widget build(BuildContext context) {
     double w = MediaQuery.of(context).size.width;
-    // double h = MediaQuery.of(context).size.height;
+    double h = MediaQuery.of(context).size.height;
 
 
 
@@ -73,15 +73,26 @@ child: Stack(
                        )
                        ),
                     const SizedBox(  height: 30,),
+                    Row(
+                      children:[
+                        Expanded(child: Container(
+
+                        ),),
+                       
+                      
+                      ]
+                    ),
                     // first input
-              Container(
+               Container(
               margin:   const EdgeInsets.only(top:20),
-                      decoration: const BoxDecoration(
-                        boxShadow: [
+                      decoration: BoxDecoration(
+                        color: const Color.fromARGB(151, 255, 255, 255),
+                        borderRadius: BorderRadius.circular(50),
+                        boxShadow: const [
                         BoxShadow(
-                              blurRadius: 10,
-                           
-                              color: Color.fromARGB(39, 189, 201, 245),
+                              blurRadius: 15,
+                           offset: Offset(1, 1),
+                              color: Color.fromARGB(75, 198, 202, 218),
                         )]
                       ),
                      child:TextField(
@@ -93,9 +104,11 @@ child: Stack(
                           color: Color.fromARGB(255, 255, 255, 255),
                         )
                        ),
-                        enabledBorder: const OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Color.fromARGB(255, 36, 35, 35),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(50),
+                        borderSide: const BorderSide(
+
+                          color: Color.fromARGB(255, 255, 255, 255),
                         )
                        ),
                        
@@ -105,17 +118,19 @@ child: Stack(
                         )
                       ),
                      )  
-             ), 
+             ),
             //  second input
              
-          Container(
+            Container(
               margin:   const EdgeInsets.only(top:20),
-                      decoration: const BoxDecoration(
-                        boxShadow: [
+                      decoration: BoxDecoration(
+                        color: const Color.fromARGB(151, 255, 255, 255),
+                        borderRadius: BorderRadius.circular(50),
+                        boxShadow: const [
                         BoxShadow(
                               blurRadius: 15,
-                           
-                              color: Color.fromARGB(39, 189, 201, 245),
+                           offset: Offset(1, 1),
+                              color: Color.fromARGB(75, 198, 202, 218),
                         )]
                       ),
                      child:TextField(
@@ -124,12 +139,14 @@ child: Stack(
                         focusedBorder: const OutlineInputBorder(
                      
                         borderSide: BorderSide(
-                          color: Color.fromARGB(39, 189, 201, 245),
+                          color: Color.fromARGB(255, 255, 255, 255),
                         )
                        ),
-                        enabledBorder: const OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Color.fromARGB(255, 36, 35, 35),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(50),
+                        borderSide: const BorderSide(
+
+                          color: Color.fromARGB(255, 255, 255, 255),
                         )
                        ),
                        
@@ -143,12 +160,14 @@ child: Stack(
             //  third input
            Container(
               margin:   const EdgeInsets.only(top:20),
-                      decoration: const BoxDecoration(
-                        boxShadow: [
+                      decoration: BoxDecoration(
+                        color: Color.fromARGB(151, 255, 255, 255),
+                        borderRadius: BorderRadius.circular(50),
+                        boxShadow: const [
                         BoxShadow(
                               blurRadius: 15,
-                           
-                              color: Color.fromARGB(39, 189, 201, 245),
+                           offset: Offset(1, 1),
+                              color: Color.fromARGB(75, 198, 202, 218),
                         )]
                       ),
                      child:TextField(
@@ -160,9 +179,11 @@ child: Stack(
                           color: Color.fromARGB(255, 255, 255, 255),
                         )
                        ),
-                        enabledBorder: const OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Color.fromARGB(255, 36, 35, 35),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(50),
+                        borderSide: const BorderSide(
+
+                          color: Color.fromARGB(255, 255, 255, 255),
                         )
                        ),
                        
@@ -174,14 +195,16 @@ child: Stack(
                      )  
              ),
             // fourth container
-             Container(
+                Container(
               margin:   const EdgeInsets.only(top:20),
-                      decoration: const BoxDecoration(
-                        boxShadow: [
+                      decoration: BoxDecoration(
+                        color: Color.fromARGB(151, 255, 255, 255),
+                        borderRadius: BorderRadius.circular(50),
+                        boxShadow: const [
                         BoxShadow(
                               blurRadius: 15,
-                           
-                              color: Color.fromARGB(39, 189, 201, 245),
+                           offset: Offset(1, 1),
+                              color: Color.fromARGB(75, 198, 202, 218),
                         )]
                       ),
                      child:TextField(
@@ -193,9 +216,11 @@ child: Stack(
                           color: Color.fromARGB(255, 255, 255, 255),
                         )
                        ),
-                        enabledBorder: const OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Color.fromARGB(255, 36, 35, 35),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(50),
+                        borderSide: const BorderSide(
+
+                          color: Color.fromARGB(255, 255, 255, 255),
                         )
                        ),
                        
@@ -205,14 +230,32 @@ child: Stack(
                         )
                       ),
                      )  
-             )
+             ),
                 ],
               ),
             ),
             
             // third container 
+            // button container
+          Container(
+          margin:  const EdgeInsets.only(left: 90,right: 20,top:780,bottom: 50),
+
+            width: 200,
+            height: 70,
             
-    
+           decoration: const BoxDecoration(
+                borderRadius:   BorderRadius.only(
+               bottomLeft:  Radius.circular(700.0),
+                bottomRight:  Radius.circular(700.0),
+                topLeft:  Radius.circular(700.0),
+                topRight:  Radius.circular(700.0),
+              ),
+
+     color: Color.fromARGB(255, 5, 43, 74),
+              
+              
+          )
+          )
         ],),),
         
     
