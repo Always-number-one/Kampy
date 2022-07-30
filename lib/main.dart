@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'kampy_user.dart';
 import 'kampy_event.dart';
@@ -37,5 +38,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
-
