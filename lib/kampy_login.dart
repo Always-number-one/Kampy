@@ -266,15 +266,33 @@ child: Stack(
                        ),),
           ),
   
-          RichText(
-            
-            text: const TextSpan(
-            text: "Do you have an account?",
+          Container(
+        padding: const EdgeInsets.only(top: 880.0,left: 80,bottom: 50),
+           child: Row( 
+            children: const <Widget> [
+            Text( 
+           "Do you have an account?",
             style: TextStyle(
               color: Color.fromARGB(255, 118, 120, 118),
               fontSize: 20,
-            )
-          ))
+            ), 
+            
+          ),
+               Text( 
+           " Log in",
+            style: TextStyle(
+              color: Color.fromARGB(255, 118, 120, 118),
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ), 
+            
+          ),
+            ],
+       
+          )
+        
+          
+          )
        
         ],),),
         
