@@ -264,8 +264,17 @@ child: Stack(
                       
                        )
                        ),),
-          )
-       
+          ),
+  
+          RichText(
+            
+            text: const TextSpan(
+            text: "Do you have an account?",
+            style: TextStyle(
+              color: Color.fromARGB(255, 118, 120, 118),
+              fontSize: 20,
+            )
+          ))
        
         ],),),
         
