@@ -7,6 +7,7 @@ import 'kampy_posts.dart';
 import 'kampy_home.dart';
 
 
+
 // call firebase
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -34,7 +35,4 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.pink,
       ),
       
-      home: const Kampy(),
-    );
-  }
-}
+
