@@ -63,8 +63,8 @@ flutter:
   assets:
     - images/
 
-    - images/background1.png
-    - images/background2.jpg
+    # - images/background1.png
+    # - images/background2.jpg
 
   #   - images/a_dot_ham.jpeg
 #assets:
