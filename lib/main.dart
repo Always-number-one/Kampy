@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.pink,
       ),
       
-      home:  LogIn(),
+      home:  LogIn(),              
     );
   }
 }

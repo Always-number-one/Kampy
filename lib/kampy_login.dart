@@ -234,8 +234,7 @@ child: Stack(
                 ],
               ),
             ),
-            
-            // third container 
+       
             // button container
           Container(
           margin:  const EdgeInsets.only(left: 90,right: 20,top:780,bottom: 50),
@@ -251,11 +250,23 @@ child: Stack(
                 topRight:  Radius.circular(700.0),
               ),
 
-     color: Color.fromARGB(255, 5, 43, 74),
+           color: Color.fromARGB(255, 5, 43, 74),
+            
               
-              
+          ), child: const Center(
+          child : Text(
+            "Sign Up",
+                    textAlign: TextAlign.center,
+                       style:  TextStyle(
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white
+                      
+                       )
+                       ),),
           )
-          )
+       
+       
         ],),),
         
     
