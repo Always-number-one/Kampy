@@ -15,39 +15,32 @@ class _PostsState extends State<Posts> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Row(
-          mainAxisAlignment:MainAxisAlignment.center,
-          children: const <Widget>[
-           Text(
-            "Kampy",
-            style: TextStyle(
-              fontSize: 23,color: Colors.blue,
+      appBar:PreferredSize(
+        preferredSize:const Size.fromHeight(200),
+      child: AppBar(
+        centerTitle: true,
+        actions: [
+          InkWell(
+            onTap: () {
+               Navigator.push(context, MaterialPageRoute(builder: (context) => CreateBlog()));
+
+            },
+            child: Icon(Icons.add)
             ),
-          ),
-          Text("Posts", style: TextStyle(
-            fontSize: 23,color:Color.fromARGB(255, 255, 255, 255),
-          ),)
-        ]),
-        backgroundColor: Colors.transparent,
-        elevation: 0.0,
-      ),
+          SizedBox(width: 22,)
+        ],
+        flexibleSpace: ClipRRect(
+          // borderRadius: const BorderRadius.only(bottomRight: Radius.circular(50),bottomLeft: Radius.circular(50)),
+          child:Container(
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('images/appbar.png'),
+              fit:BoxFit.fill
+            )
+          )
+        ),),
+      ),),
       body:Container(),
-      floatingActionButton: Container(
-        padding:EdgeInsets.symmetric(vertical: 16),
-        child: Row(
-          mainAxisAlignment:MainAxisAlignment.center,
-        children: <Widget>[
-        FloatingActionButton(
-          onPressed: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => CreateBlog()
-            ),);
-          },
-          child: Icon(Icons.add),
-        )
-      ]
-        ),
-        ),
     );
   }
 }
