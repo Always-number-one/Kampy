@@ -18,9 +18,55 @@ class CreateBlog extends StatefulWidget {
 
 class _CreateBlogState extends State<CreateBlog> {
   File? _image;
+  final picker=ImagePicker();
+
   TextEditingController titleController=TextEditingController();
   TextEditingController descriptionController=TextEditingController();
+  
+Future getImageGallery()async{
+  final PickedFile=await picker.pickImage(source: ImageSource.gallery);
+  setState(() {
+    
+  });
+}
 
+  void dialog(context){
+    showDialog(
+      context:context,
+      builder:  (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10.0)
+          ),
+          content: Container(
+            height: 120,
+            child: Column(children: [
+              //camera
+              InkWell(
+                onTap: () {
+                  
+                },
+                child:const ListTile(
+                  leading: Icon(Icons.camera),
+                  title: Text('Camera'),
+                ),
+              ),
+              //galerie
+              InkWell(
+                onTap: () {
+                  
+                },
+                child:const ListTile(
+                  leading: Icon(Icons.photo_library),
+                  title: Text('Gallery'),
+                ),
+              ),
+            ]),
+          ),
+        );
+      }
+      );  
+  } 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,32 +79,37 @@ class _CreateBlogState extends State<CreateBlog> {
           padding: const EdgeInsets.symmetric(vertical: 10,horizontal: 20),
           child: Column(
             children: [
-              Center(
-              child: Container(
-                height: MediaQuery.of(context).size.height* .2,
-                width: MediaQuery.of(context).size.width*1,
-                child: _image !=null ? ClipRRect(
-                  child: Image.file(
-                    _image!.absolute,
-                    width: 100,
-                    height: 100,
-                    fit: BoxFit.fitHeight,
+              InkWell(
+                onTap: () {
+                  dialog(context);
+                },
+                child: Center(
+                child: Container(
+                  height: MediaQuery.of(context).size.height* .2,
+                  width: MediaQuery.of(context).size.width*1,
+                  child: _image !=null ? ClipRRect(
+                    child: Image.file(
+                      _image!.absolute,
+                      width: 100,
+                      height: 100,
+                      fit: BoxFit.fitHeight,
+                    ),
+                  ):Container(
+                     decoration: BoxDecoration(
+                      color: Color.fromARGB(255, 148, 148, 148),
+                      borderRadius: BorderRadius.circular(10)
+                     ),
+                     width: 100,
+                     height: 100,
+                     child: const Icon(
+                      Icons.camera_alt,
+                      color: Colors.blue,
+                     ),
                   ),
-                ):Container(
-                   decoration: BoxDecoration(
-                    color: Color.fromARGB(255, 148, 148, 148),
-                    borderRadius: BorderRadius.circular(10)
-                   ),
-                   width: 100,
-                   height: 100,
-                   child: const Icon(
-                    Icons.camera_alt,
-                    color: Colors.blue,
-                   ),
                 ),
+                          ),
               ),
-            ),
-            SizedBox(height: 30,),
+            const SizedBox(height: 30,),
             Form(
               child:Column(
                 children: [
@@ -74,7 +125,7 @@ class _CreateBlogState extends State<CreateBlog> {
                       labelStyle: TextStyle(color: Colors.grey,fontWeight: FontWeight.normal),
                   )
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 30,
                   ),
                   //description
@@ -90,7 +141,8 @@ class _CreateBlogState extends State<CreateBlog> {
                       hintStyle: TextStyle(color: Colors.grey,fontWeight: FontWeight.normal),
                       labelStyle: TextStyle(color: Colors.grey,fontWeight: FontWeight.normal),
                   )
-                  ),SizedBox(
+                  ),
+                  const SizedBox(
                     height: 30,
                   ),
                    ElevatedButton(
