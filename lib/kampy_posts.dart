@@ -30,7 +30,6 @@ class _PostsState extends State<Posts> {
           SizedBox(width: 22,)
         ],
         flexibleSpace: ClipRRect(
-          // borderRadius: const BorderRadius.only(bottomRight: Radius.circular(50),bottomLeft: Radius.circular(50)),
           child:Container(
           decoration: const BoxDecoration(
             image: DecorationImage(
