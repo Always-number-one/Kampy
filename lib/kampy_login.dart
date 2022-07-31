@@ -1,6 +1,7 @@
 import 'dart:ffi';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/kampy_signup.dart';
 class LogIn extends StatefulWidget {
  const LogIn({Key? key}) : super(key: key);
 
@@ -200,10 +201,13 @@ child: Stack(
                        )
                        ),),
           ),
-            Container(
+          // sign up 
+            GestureDetector(
+ 
+     child: Container(
         padding: const EdgeInsets.only(left: 30,bottom: 40),
            child: Row( 
-            children: const <Widget> [
+            children:const <Widget> [
             Text( 
            "Don't have an account?",
             style: TextStyle(
@@ -212,13 +216,16 @@ child: Stack(
             ), 
             
           ),
-               Text( 
-           " Sign Up",
-            style: TextStyle(
+              Text( 
+        
+           " Log in",
+            style:  TextStyle(
               color: Color.fromARGB(255, 25, 26, 25),
               fontSize: 20,
               fontWeight: FontWeight.bold,
+              
             ), 
+            
             
           ),
           
@@ -228,6 +235,14 @@ child: Stack(
         
           
           )
+,onTap: () { 
+          Navigator.push(
+              context,
+         MaterialPageRoute(builder: (context) => SignUp()),
+                );
+              },),
+            
+
 
 
 

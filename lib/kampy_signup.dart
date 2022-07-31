@@ -1,7 +1,12 @@
 // import 'dart:ffi';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'kampy_login.dart';
+import 'package:flutter/material.dart';
+import 'dart:math';
+
 class SignUp extends StatefulWidget {
  const SignUp({Key? key}) : super(key: key);
 
@@ -247,10 +252,15 @@ child: Stack(
                        )
                        ),),
           ),
-            Container(
+
+
+          // log in 
+          GestureDetector(
+ 
+     child: Container(
         padding: const EdgeInsets.only(left: 30,bottom: 40),
            child: Row( 
-            children: const <Widget> [
+            children:const <Widget> [
             Text( 
            "Do you have an account?",
             style: TextStyle(
@@ -259,13 +269,16 @@ child: Stack(
             ), 
             
           ),
-               Text( 
+              Text( 
+        
            " Log in",
-            style: TextStyle(
+            style:  TextStyle(
               color: Color.fromARGB(255, 25, 26, 25),
               fontSize: 20,
               fontWeight: FontWeight.bold,
+              
             ), 
+            
             
           ),
           
@@ -275,7 +288,13 @@ child: Stack(
         
           
           )
-
+,onTap: () { 
+          Navigator.push(
+              context,
+         MaterialPageRoute(builder: (context) => LogIn()),
+                );
+              },),
+            
 
 
              
