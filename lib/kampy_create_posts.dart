@@ -1,13 +1,18 @@
+import 'dart:io';
 import 'dart:ui';
-
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/services/crud.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:random_string/random_string.dart';
-import 'dart:io';
-
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+import 'package:firebase_database/firebase_database.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class CreateBlog extends StatefulWidget {
   CreateBlog({Key? key}) : super(key: key);
@@ -17,6 +22,13 @@ class CreateBlog extends StatefulWidget {
 }
 
 class _CreateBlogState extends State<CreateBlog> {
+
+  bool showSpinner=false;
+  final postRef=FirebaseDatabase.instance.ref().child('Posts');
+  firebase_storage.FirebaseStorage storage=firebase_storage.FirebaseStorage.instance;
+
+  FirebaseAuth _auth=FirebaseAuth.instance;
+
   File? _image;
   final picker=ImagePicker();
 
@@ -45,7 +57,6 @@ Future getCameraImage()async{
     }
   });
 }
-
 
 
   void dialog(context){
@@ -89,7 +100,9 @@ Future getCameraImage()async{
   } 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return ModalProgressHUD(
+      inAsyncCall:showSpinner,
+      child:Scaffold(
       appBar: AppBar(
         title: Text("Upload Post"),
         centerTitle: true,
@@ -167,8 +180,46 @@ Future getCameraImage()async{
                   ),
                    ElevatedButton(
                     child: const Text('Upload'),
-                    onPressed: () {
+                    onPressed: () async{
+                      setState(() {
+                        showSpinner=true;
+                      });
 
+                      try{
+                        int date =DateTime.now().microsecondsSinceEpoch;
+                        firebase_storage.Reference ref=firebase_storage.FirebaseStorage.instance.ref('kampytest$date');
+                        UploadTask uploadTask=ref.putFile(_image!.absolute);
+                        await Future.value(uploadTask);
+                        var newUrl=await ref.getDownloadURL();
+
+                        final User? user=_auth.currentUser;
+
+                        postRef.child('Post List').child(date.toString()).set({
+                          'pId':date.toString(),
+                          'pImage':newUrl.toString(),
+                          'pTime':date.toString(),
+                          'pTitle':titleController.text.toString(),
+                          'pDescription':descriptionController.text.toString(),
+                          'uEmail':user!.email.toString(),
+                          'uid':user.uid.toString(),
+
+                        }).then((value){
+                          toastMessage("Post Published");
+                          setState(() {
+                            showSpinner=false;
+                          });
+                        }).onError((error, stackTrace){
+                          toastMessage(error.toString());
+                          setState(() {
+                            showSpinner=false;
+                          });
+                        });
+                      }catch(e){
+                        setState(() {
+                          showSpinner=false;
+                        });
+                        toastMessage(e.toString());
+                      }
                     },)
                 ]
                 ) ,
@@ -176,9 +227,21 @@ Future getCameraImage()async{
             ],
           ),
         ),
-      ),
+      ),),
     );
   }
+}
+
+void toastMessage(String message){
+  Fluttertoast.showToast(
+        msg: "This is Center Short Toast",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.white,
+        textColor: Colors.black,
+        fontSize: 16.0
+    );
 }
 
 
