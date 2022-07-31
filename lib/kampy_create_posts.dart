@@ -23,12 +23,30 @@ class _CreateBlogState extends State<CreateBlog> {
   TextEditingController titleController=TextEditingController();
   TextEditingController descriptionController=TextEditingController();
   
+ //pick image from the gallery 
 Future getImageGallery()async{
-  final PickedFile=await picker.pickImage(source: ImageSource.gallery);
+  final pickedFile=await picker.pickImage(source: ImageSource.gallery);
   setState(() {
-    
+    if(pickedFile!=null){
+      _image=File(pickedFile.path);
+    }else{
+      print("no image selected");
+    }
   });
 }
+//pick image from the camera
+Future getCameraImage()async{
+  final pickedFile=await picker.pickImage(source: ImageSource.camera);
+  setState(() {
+    if(pickedFile!=null){
+      _image=File(pickedFile.path);
+    }else{
+      print("no image selected");
+    }
+  });
+}
+
+
 
   void dialog(context){
     showDialog(
@@ -44,7 +62,8 @@ Future getImageGallery()async{
               //camera
               InkWell(
                 onTap: () {
-                  
+                  getCameraImage();
+                  Navigator.pop(context);
                 },
                 child:const ListTile(
                   leading: Icon(Icons.camera),
@@ -54,7 +73,8 @@ Future getImageGallery()async{
               //galerie
               InkWell(
                 onTap: () {
-                  
+                  getImageGallery();
+                   Navigator.pop(context);
                 },
                 child:const ListTile(
                   leading: Icon(Icons.photo_library),
