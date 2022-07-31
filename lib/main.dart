@@ -6,6 +6,7 @@ import 'kampy_posts.dart';
 import 'kampy_home.dart';
 import 'kampy_home.dart';
 import 'kampy_login.dart';
+import 'kampy_signup.dart';
 
 // call firebase
 import 'package:firebase_core/firebase_core.dart';
@@ -32,7 +33,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.pink,
       ),
       
-      home:  LogIn(),              
+      home:  SignUp(),              
     );
   }
 }

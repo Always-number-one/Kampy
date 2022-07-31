@@ -82,82 +82,9 @@ child: Stack(
                       
                       ]
                     ),
-                    // first input
-               Container(
-              margin:   const EdgeInsets.only(top:20),
-                      decoration: BoxDecoration(
-                        color: const Color.fromARGB(151, 255, 255, 255),
-                        borderRadius: BorderRadius.circular(50),
-                        boxShadow: const [
-                        BoxShadow(
-                              blurRadius: 15,
-                           offset: Offset(1, 1),
-                              color: Color.fromARGB(75, 198, 202, 218),
-                        )]
-                      ),
-                     child:TextField(
-                     
-                      decoration: InputDecoration(                  
-                        focusedBorder: const OutlineInputBorder(
-                     
-                        borderSide: BorderSide(
-                          color: Color.fromARGB(255, 255, 255, 255),
-                        )
-                       ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(50),
-                        borderSide: const BorderSide(
-
-                          color: Color.fromARGB(255, 255, 255, 255),
-                        )
-                       ),
-                       
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(50),
-                          
-                        )
-                      ),
-                     )  
-             ),
-            //  second input
-             
-            Container(
-              margin:   const EdgeInsets.only(top:20),
-                      decoration: BoxDecoration(
-                        color: const Color.fromARGB(151, 255, 255, 255),
-                        borderRadius: BorderRadius.circular(50),
-                        boxShadow: const [
-                        BoxShadow(
-                              blurRadius: 15,
-                           offset: Offset(1, 1),
-                              color: Color.fromARGB(75, 198, 202, 218),
-                        )]
-                      ),
-                     child:TextField(
-                     
-                      decoration: InputDecoration(                  
-                        focusedBorder: const OutlineInputBorder(
-                     
-                        borderSide: BorderSide(
-                          color: Color.fromARGB(255, 255, 255, 255),
-                        )
-                       ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(50),
-                        borderSide: const BorderSide(
-
-                          color: Color.fromARGB(255, 255, 255, 255),
-                        )
-                       ),
-                       
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(50),
-                          
-                        )
-                      ),
-                     )  
-             ),
-            //  third input
+        
+           
+            //  first input
            Container(
               margin:   const EdgeInsets.only(top:20),
                       decoration: BoxDecoration(
@@ -194,9 +121,9 @@ child: Stack(
                       ),
                      )  
              ),
-            // fourth container
+            // second  input
                 Container(
-              margin:   const EdgeInsets.only(top:20),
+              margin:   const EdgeInsets.only(top:20 ,bottom: 30),
                       decoration: BoxDecoration(
                         color: Color.fromARGB(151, 255, 255, 255),
                         borderRadius: BorderRadius.circular(50),
@@ -237,7 +164,7 @@ child: Stack(
        
             // button container
           Container(
-          margin:  const EdgeInsets.only(left: 90,right: 20,top:780,bottom: 50),
+          margin:  const EdgeInsets.only(left: 90,right: 20,top:650,bottom: 50),
 
             width: 200,
             height: 70,
@@ -255,7 +182,7 @@ child: Stack(
               
           ), child: const Center(
           child : Text(
-            "Sign Up",
+            "Log In",
                     textAlign: TextAlign.center,
                        style:  TextStyle(
                         fontSize: 30,
@@ -267,11 +194,11 @@ child: Stack(
           ),
   
           Container(
-        padding: const EdgeInsets.only(top: 880.0,left: 80,bottom: 50),
+        padding: const EdgeInsets.only(top: 780.0,left: 50,bottom: 50),
            child: Row( 
             children: const <Widget> [
             Text( 
-           "Do you have an account?",
+           "Do don't have an account?",
             style: TextStyle(
               color: Color.fromARGB(255, 118, 120, 118),
               fontSize: 20,
@@ -279,7 +206,7 @@ child: Stack(
             
           ),
                Text( 
-           " Log in",
+           " Sign Up",
             style: TextStyle(
               color: Color.fromARGB(255, 118, 120, 118),
               fontSize: 20,
