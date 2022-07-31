@@ -1,5 +1,6 @@
 // import 'dart:ffi';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 class SignUp extends StatefulWidget {
  const SignUp({Key? key}) : super(key: key);
@@ -43,6 +44,7 @@ class _SignUpState extends State<SignUp> {
         
 child: Stack(
         children:<Widget> [
+         
     // sign up container
             Container(
                         decoration: BoxDecoration(
@@ -57,24 +59,42 @@ child: Stack(
 // child sign up
               child:Column(
                 //  crossAxisAlignment: CrossAxisAlignment.start,
+
                 children:  [
-                  const Padding(
-                  padding: EdgeInsets.all(15), //apply padding to all four sides
-                
-               child: Text("Sign Up",
-                    textAlign: TextAlign.center,
-                       style:  TextStyle(
-                        fontSize: 50,
-                      
-                       )
-                       ),
-                       ),
+                  // sign up title
+                  Container(
+        padding: const EdgeInsets.only(left: 120 ),
+           child: Row( 
+            children: const <Widget> [
+            Text( 
+           "Sign Up",
+            style: TextStyle(
+              color: Color.fromARGB(255, 14, 14, 14),
+               fontWeight: FontWeight.bold,
+              fontSize: 30,
+            ), 
+            
+          )
+          
+            ],
+       
+          )
+        
+          
+          ),
                    
-                    const SizedBox(  height: 30,),
-                
+                    const SizedBox(  height: 10,),
+         
+          // profile image
+          const CircleAvatar(
+          
+            radius: 50,
+            backgroundImage: AssetImage("images/profile1.jpg") ,
+
+          ),
                     // first input
                Container(
-              margin:   const EdgeInsets.only(top:0,right:20,left:20),
+              margin:   const EdgeInsets.only(top:10,right:20,left:20),
                       decoration: BoxDecoration(
                         color: const Color.fromARGB(151, 255, 255, 255),
                         borderRadius: BorderRadius.circular(50),
@@ -86,12 +106,16 @@ child: Stack(
                         )]
                       ),
                      child:TextField(
-                     
-                      decoration: InputDecoration(                  
+                      decoration: InputDecoration(      
+                        hintText: "Name", 
+                   prefixIcon:const Icon(Icons.account_circle,color:Color.fromARGB(255, 132, 31, 120)) ,         
+
                         focusedBorder: const OutlineInputBorder(
                      
                         borderSide: BorderSide(
                           color: Color.fromARGB(255, 255, 255, 255),
+                                            
+
                         )
                        ),
                         enabledBorder: OutlineInputBorder(
@@ -125,7 +149,10 @@ child: Stack(
                       ),
                      child:TextField(
                      
-                      decoration: InputDecoration(                  
+                      decoration: InputDecoration(   
+                           hintText: "Email",  
+                       prefixIcon:const Icon(Icons.email,color:Color.fromARGB(255, 132, 31, 120)) ,         
+               
                         focusedBorder: const OutlineInputBorder(
                      
                         borderSide: BorderSide(
@@ -149,7 +176,7 @@ child: Stack(
              ),
             //  third input
            Container(
-              margin:   const EdgeInsets.only(top:20,right:20,left:20),
+              margin:   const EdgeInsets.only(top:20,right:20,left:20,bottom: 10),
                       decoration: BoxDecoration(
                         color: const Color.fromARGB(151, 255, 255, 255),
                         borderRadius: BorderRadius.circular(50),
@@ -162,7 +189,10 @@ child: Stack(
                       ),
                      child:TextField(
                      
-                      decoration: InputDecoration(                  
+                      decoration: InputDecoration(  
+                           hintText: "Password",      
+                        prefixIcon:const Icon(Icons.password,color:Color.fromARGB(255, 132, 31, 120)) ,         
+            
                         focusedBorder: const OutlineInputBorder(
                      
                         borderSide: BorderSide(
@@ -184,43 +214,7 @@ child: Stack(
                       ),
                      )  
              ),
-            // fourth container
-                Container(
-              margin:   const EdgeInsets.only(top:20,bottom:20,right:20,left:20),
-                      decoration: BoxDecoration(
-                        color: const Color.fromARGB(151, 255, 255, 255),
-                        borderRadius: BorderRadius.circular(50),
-                        boxShadow: const [
-                        BoxShadow(
-                              blurRadius: 15,
-                           offset: Offset(1, 1),
-                              color: Color.fromARGB(75, 198, 202, 218),
-                        )]
-                      ),
-                     child:TextField(
-                     
-                      decoration: InputDecoration(                  
-                        focusedBorder: const OutlineInputBorder(
-                     
-                        borderSide: BorderSide(
-                          color: Color.fromARGB(255, 255, 255, 255),
-                        )
-                       ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(50),
-                        borderSide: const BorderSide(
-
-                          color: Color.fromARGB(255, 255, 255, 255),
-                        )
-                       ),
-                       
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(50),
-                          
-                        )
-                      ),
-                     )  
-             ),
+           
 
  // button container
 

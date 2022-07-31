@@ -20,151 +20,159 @@ class _LogInState extends State<LogIn> {
 
 
     return Scaffold(
-        backgroundColor:const Color.fromARGB(255, 248, 244, 244),
-      body:SingleChildScrollView(
+        backgroundColor: Colors.transparent, 
+     
+      body:
+      Stack(
+        children: <Widget>[
+          Container(
+              
+            decoration: const BoxDecoration(
+              image:  DecorationImage(
+              image:  AssetImage("images/background5.jpg"),
+             fit: BoxFit.fill,
+           )),
+          ),
+      
+      
+       SingleChildScrollView(
+        
+            
+               
+
+        
 child: Stack(
         children:<Widget> [
+         
+    // sign up container
             Container(
-     
-            width: w,
-            height: 400,
-            
-           decoration: const BoxDecoration(
-                borderRadius:   BorderRadius.only(
-               bottomLeft:  Radius.circular(700.0),
-                bottomRight:  Radius.circular(700.0),
-              ),
+                        decoration: BoxDecoration(
+                        color: const Color.fromARGB(108, 224, 224, 228),
+                        borderRadius: BorderRadius.circular(120),
+                     
+                      ),
+              margin:  const EdgeInsets.only(left: 20,right: 20,top: 70),
+             
 
-        image: DecorationImage(
-          image: AssetImage(
-              "images/background3.png"),
-                  fit: BoxFit.cover,
-                  
-        
-        )
-              
-              
-          )
-          ) , 
-            Container(
-              margin:  const EdgeInsets.only(left: 20,right: 20,top: 300),
-              color:Color.fromARGB(108, 224, 224, 228),
              width: w,
-
+// child sign up
               child:Column(
                 //  crossAxisAlignment: CrossAxisAlignment.start,
+
                 children:  [
-                  const Padding(
-                  padding: EdgeInsets.all(15), //apply padding to all four sides
-                
-               child: Text("Sign Up",
-                    textAlign: TextAlign.center,
-                       style:  TextStyle(
-                        fontSize: 50,
-                      
-                       )
-                       ),
-                       ),
-                       const  Text("Sign into your account",
-                       textAlign: TextAlign.left ,
-                       style: TextStyle(
-                        fontSize: 20,
-                        color: Color.fromARGB(112, 19, 18, 18),
-                       )
-                       ),
-                    const SizedBox(  height: 30,),
-                    Row(
-                      children:[
-                        Expanded(child: Container(
-
-                        ),),
-                       
-                      
-                      ]
-                    ),
-        
-           
-            //  first input
-           Container(
-              margin:   const EdgeInsets.only(top:20),
-                      decoration: BoxDecoration(
-                        color: Color.fromARGB(151, 255, 255, 255),
-                        borderRadius: BorderRadius.circular(50),
-                        boxShadow: const [
-                        BoxShadow(
-                              blurRadius: 15,
-                           offset: Offset(1, 1),
-                              color: Color.fromARGB(75, 198, 202, 218),
-                        )]
-                      ),
-                     child:TextField(
-                     
-                      decoration: InputDecoration(                  
-                        focusedBorder: const OutlineInputBorder(
-                     
-                        borderSide: BorderSide(
-                          color: Color.fromARGB(255, 255, 255, 255),
-                        )
-                       ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(50),
-                        borderSide: const BorderSide(
-
-                          color: Color.fromARGB(255, 255, 255, 255),
-                        )
-                       ),
-                       
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(50),
-                          
-                        )
-                      ),
-                     )  
-             ),
-            // second  input
-                Container(
-              margin:   const EdgeInsets.only(top:20 ,bottom: 30),
-                      decoration: BoxDecoration(
-                        color: Color.fromARGB(151, 255, 255, 255),
-                        borderRadius: BorderRadius.circular(50),
-                        boxShadow: const [
-                        BoxShadow(
-                              blurRadius: 15,
-                           offset: Offset(1, 1),
-                              color: Color.fromARGB(75, 198, 202, 218),
-                        )]
-                      ),
-                     child:TextField(
-                     
-                      decoration: InputDecoration(                  
-                        focusedBorder: const OutlineInputBorder(
-                     
-                        borderSide: BorderSide(
-                          color: Color.fromARGB(255, 255, 255, 255),
-                        )
-                       ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(50),
-                        borderSide: const BorderSide(
-
-                          color: Color.fromARGB(255, 255, 255, 255),
-                        )
-                       ),
-                       
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(50),
-                          
-                        )
-                      ),
-                     )  
-             ),
-                ],
-              ),
-            ),
+                  // sign up title
+                  Container(
+        padding: const EdgeInsets.only(left: 130 ),
+           child: Row( 
+            children: const <Widget> [
+            Text( 
+           "Log In",
+            style: TextStyle(
+              color: Color.fromARGB(255, 14, 14, 14),
+               fontWeight: FontWeight.bold,
+              fontSize: 30,
+            ), 
+            
+          )
+          
+            ],
        
-            // button container
-          Container(
-          margin:  const EdgeInsets.only(left: 90,right: 20,top:650,bottom: 50),
+          )
+        
+          
+          ),
+                   
+                    const SizedBox(  height: 10,),
+         
+         
+             
+            //  second input
+             
+            Container(
+              margin:   const EdgeInsets.only(top:20,right:20,left:20),
+                      decoration: BoxDecoration(
+                        color: const Color.fromARGB(151, 255, 255, 255),
+                        borderRadius: BorderRadius.circular(50),
+                        boxShadow: const [
+                        BoxShadow(
+                              blurRadius: 15,
+                           offset: Offset(1, 1),
+                              color: Color.fromARGB(75, 198, 202, 218),
+                        )]
+                      ),
+                     child:TextField(
+                     
+                      decoration: InputDecoration(   
+                           hintText: "Email",  
+                       prefixIcon:const Icon(Icons.email,color:Color.fromARGB(255, 132, 31, 120)) ,         
+               
+                        focusedBorder: const OutlineInputBorder(
+                     
+                        borderSide: BorderSide(
+                          color: Color.fromARGB(255, 255, 255, 255),
+                        )
+                       ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(50),
+                        borderSide: const BorderSide(
+
+                          color: Color.fromARGB(255, 255, 255, 255),
+                        )
+                       ),
+                       
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(50),
+                          
+                        )
+                      ),
+                     )  
+             ),
+            //  third input
+           Container(
+              margin:   const EdgeInsets.only(top:20,right:20,left:20,bottom: 10),
+                      decoration: BoxDecoration(
+                        color: const Color.fromARGB(151, 255, 255, 255),
+                        borderRadius: BorderRadius.circular(50),
+                        boxShadow: const [
+                        BoxShadow(
+                              blurRadius: 15,
+                           offset: Offset(1, 1),
+                              color: Color.fromARGB(75, 198, 202, 218),
+                        )]
+                      ),
+                     child:TextField(
+                     
+                      decoration: InputDecoration(  
+                           hintText: "Password",      
+                        prefixIcon:const Icon(Icons.password,color:Color.fromARGB(255, 132, 31, 120)) ,         
+            
+                        focusedBorder: const OutlineInputBorder(
+                     
+                        borderSide: BorderSide(
+                          color: Color.fromARGB(255, 255, 255, 255),
+                        )
+                       ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(50),
+                        borderSide: const BorderSide(
+
+                          color: Color.fromARGB(255, 255, 255, 255),
+                        )
+                       ),
+                       
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(50),
+                          
+                        )
+                      ),
+                     )  
+             ),
+           
+
+ // button container
+
+                 Container(
+          margin:  const EdgeInsets.only(left: 20,right: 20,bottom: 20),
 
             width: 200,
             height: 70,
@@ -177,7 +185,7 @@ child: Stack(
                 topRight:  Radius.circular(700.0),
               ),
 
-           color: Color.fromARGB(255, 5, 43, 74),
+           color: Color.fromARGB(255, 33, 1, 34),
             
               
           ), child: const Center(
@@ -192,15 +200,14 @@ child: Stack(
                        )
                        ),),
           ),
-  
-          Container(
-        padding: const EdgeInsets.only(top: 780.0,left: 50,bottom: 50),
+            Container(
+        padding: const EdgeInsets.only(left: 30,bottom: 40),
            child: Row( 
             children: const <Widget> [
             Text( 
-           "Do don't have an account?",
+           "Don't have an account?",
             style: TextStyle(
-              color: Color.fromARGB(255, 118, 120, 118),
+              color: Color.fromARGB(255, 14, 14, 14),
               fontSize: 20,
             ), 
             
@@ -208,26 +215,38 @@ child: Stack(
                Text( 
            " Sign Up",
             style: TextStyle(
-              color: Color.fromARGB(255, 118, 120, 118),
+              color: Color.fromARGB(255, 25, 26, 25),
               fontSize: 20,
               fontWeight: FontWeight.bold,
             ), 
             
           ),
+          
             ],
        
           )
         
           
           )
+
+
+
+             
+                ],
+              ),
+            ),
        
-        ],),),
+  
+       
+       
+        ],),),],
         
     
  
                
                 
                  
+    )           
     );
   }
 }
