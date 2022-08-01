@@ -1,22 +1,27 @@
-import 'dart:ffi';
+// import 'dart:ffi';
 
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/kampy_signup.dart';
-class LogIn extends StatefulWidget {
- const LogIn({Key? key}) : super(key: key);
+import 'kampy_login.dart';
+import 'package:flutter/material.dart';
+import 'dart:math';
+
+class SignUp extends StatefulWidget {
+ const SignUp({Key? key}) : super(key: key);
 
   @override
-  State<LogIn> createState() => _LogInState();
+  State<SignUp> createState() => _SignUpState();
   
 }
 
-class _LogInState extends State<LogIn> {
+class _SignUpState extends State<SignUp> {
   
   @override
   
   Widget build(BuildContext context) {
     double w = MediaQuery.of(context).size.width;
-    double h = MediaQuery.of(context).size.height;
+    // double h = MediaQuery.of(context).size.height;
 
 
 
@@ -63,17 +68,16 @@ child: Stack(
                 children:  [
                   // sign up title
                   Container(
-        padding: const EdgeInsets.only(left: 130 ),
+        padding: const EdgeInsets.only(left: 120 ),
            child: Row( 
             children: const <Widget> [
             Text( 
-           "Log In",
+           "Sign Up",
             style: TextStyle(
               color: Color.fromARGB(255, 14, 14, 14),
                fontWeight: FontWeight.bold,
               fontSize: 30,
-            ),
-             
+            ), 
             
           )
           
@@ -86,8 +90,54 @@ child: Stack(
                    
                     const SizedBox(  height: 10,),
          
-         
-             
+          // profile image
+          const CircleAvatar(
+          
+            radius: 50,
+            backgroundImage: AssetImage("images/profile1.jpg") ,
+
+          ),
+                    // first input
+               Container(
+              margin:   const EdgeInsets.only(top:10,right:20,left:20),
+                      decoration: BoxDecoration(
+                        color: const Color.fromARGB(151, 255, 255, 255),
+                        borderRadius: BorderRadius.circular(50),
+                        boxShadow: const [
+                        BoxShadow(
+                              blurRadius: 15,
+                           offset: Offset(1, 1),
+                              color: Color.fromARGB(75, 198, 202, 218),
+                        )]
+                      ),
+                     child:TextField(
+                      decoration: InputDecoration(      
+                        hintText: "Name", 
+                   prefixIcon:const Icon(Icons.account_circle,color:Color.fromARGB(255, 132, 31, 120)) ,         
+
+                        focusedBorder: const OutlineInputBorder(
+                     
+                        borderSide: BorderSide(
+                          color: Color.fromARGB(255, 255, 255, 255),
+                                            
+
+                        )
+                       ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(50),
+                        borderSide: const BorderSide(
+
+                          color: Color.fromARGB(255, 255, 255, 255),
+                        )
+                       ),
+                       
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(50),
+                          
+                        )
+                      ),
+                     )  
+             ),
             //  second input
              
             Container(
@@ -192,7 +242,7 @@ child: Stack(
               
           ), child: const Center(
           child : Text(
-            "Log In",
+            "Sign Up",
                     textAlign: TextAlign.center,
                        style:  TextStyle(
                         fontSize: 30,
@@ -202,15 +252,17 @@ child: Stack(
                        )
                        ),),
           ),
-          // sign up 
-            GestureDetector(
+
+
+          // log in 
+          GestureDetector(
  
      child: Container(
-        padding: const EdgeInsets.only(left: 30,bottom: 40),
+        padding: const EdgeInsets.only(left: 60,bottom: 40),
            child: Row( 
             children:const <Widget> [
             Text( 
-           "Don't have an account?",
+           "Have an account?",
             style: TextStyle(
               color: Color.fromARGB(255, 14, 14, 14),
               fontSize: 20,
@@ -219,7 +271,7 @@ child: Stack(
           ),
               Text( 
         
-           " Sign Up",
+           " Log in",
             style:  TextStyle(
               color: Color.fromARGB(255, 25, 26, 25),
               fontSize: 20,
@@ -239,12 +291,10 @@ child: Stack(
 ,onTap: () { 
           Navigator.push(
               context,
-         MaterialPageRoute(builder: (context) => SignUp()),
+         MaterialPageRoute(builder: (context) => LogIn()),
                 );
               },),
             
-
-
 
 
              
@@ -262,7 +312,6 @@ child: Stack(
                
                 
                  
-    )           
-    );
+    ));
   }
 }
