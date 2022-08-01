@@ -53,7 +53,7 @@ child: Stack(
     // sign up container
             Container(
                         decoration: BoxDecoration(
-                        color: const Color.fromARGB(108, 224, 224, 228),
+                        color: Color.fromARGB(0, 224, 224, 228),
                         borderRadius: BorderRadius.circular(120),
                      
                       ),
@@ -258,11 +258,11 @@ child: Stack(
           GestureDetector(
  
      child: Container(
-        padding: const EdgeInsets.only(left: 30,bottom: 40),
+        padding: const EdgeInsets.only(left: 60,bottom: 40),
            child: Row( 
             children:const <Widget> [
             Text( 
-           "Do you have an account?",
+           "Have an account?",
             style: TextStyle(
               color: Color.fromARGB(255, 14, 14, 14),
               fontSize: 20,

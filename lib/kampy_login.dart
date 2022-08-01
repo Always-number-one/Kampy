@@ -48,7 +48,7 @@ child: Stack(
     // sign up container
             Container(
                         decoration: BoxDecoration(
-                        color: const Color.fromARGB(108, 224, 224, 228),
+                        color: Color.fromARGB(0, 224, 224, 228),
                         borderRadius: BorderRadius.circular(120),
                      
                       ),
@@ -72,7 +72,8 @@ child: Stack(
               color: Color.fromARGB(255, 14, 14, 14),
                fontWeight: FontWeight.bold,
               fontSize: 30,
-            ), 
+            ),
+             
             
           )
           
@@ -218,7 +219,7 @@ child: Stack(
           ),
               Text( 
         
-           " Log in",
+           " Sign Up",
             style:  TextStyle(
               color: Color.fromARGB(255, 25, 26, 25),
               fontSize: 20,
