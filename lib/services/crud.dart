@@ -1,11 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-final databaseReference  = FirebaseFirestore.instance;
 
-class CrudMethods{
-  Future<void> addData(postData) async{
 
-    FirebaseFirestore.instance.collection("posts").add(postData).catchError((e){
+class CrudMethods {
+  Future<void> addData(eventData) async {
+    FirebaseFirestore.instance
+        .collection("events")
+        .add(eventData)
+        .catchError((e) {
+
       print(e);
     });
   }

@@ -28,11 +28,10 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
-      theme: ThemeData.dark(),
-      home: Posts(),
-      );
-      }
-      }
+      theme: ThemeData(
+    
+        primarySwatch: Colors.pink,
+      ),
       
       home:  SignUp(),              
     );
