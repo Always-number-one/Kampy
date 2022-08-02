@@ -12,6 +12,38 @@ class Posts extends StatefulWidget {
 }
 
 class _PostsState extends State<Posts> {
+int currentIndex=0;
+  static const TextStyle optionStyle =
+      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
+  static const List<Widget> _widgetOptions = <Widget>[
+    Text(
+      'Index 0: Home',
+      style: optionStyle,
+    ),
+    Text(
+      'Index 1: Search',
+      style: optionStyle,
+    ),
+    Text(
+      'Index 2: Add',
+      style: optionStyle,
+    ),
+    Text(
+      'Index 3: c',
+      style: optionStyle,
+    ),
+     Text(
+      'Index 4: profile',
+      style: optionStyle,
+    ),
+  ];
+
+  void _onItemTapped(int index) {
+    setState(() {
+      currentIndex = index;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,6 +72,40 @@ class _PostsState extends State<Posts> {
         ),),
       ),),
       body:Container(),
+            bottomNavigationBar: BottomNavigationBar(
+              currentIndex:currentIndex,
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+                       backgroundColor: Color.fromARGB(255, 79, 36, 90),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.search),
+            label: 'Serach',
+                        backgroundColor: Color.fromARGB(255, 79, 36, 90),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.add),
+            label: 'Add post',
+                       backgroundColor: Color.fromARGB(255, 79, 36, 90),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.save),
+            label: 'x',
+                       backgroundColor: Color.fromARGB(255, 79, 36, 90),
+          ),
+             BottomNavigationBarItem(
+            icon: Icon(Icons.account_circle),
+            label: 'Profile',
+            backgroundColor: Color.fromARGB(255, 79, 36, 90),
+            
+          ),
+        ],
+        currentIndex: currentIndex,
+        selectedItemColor: Color.fromARGB(255, 255, 255, 255),
+        onTap: _onItemTapped,
+      ),
     );
   }
 }
