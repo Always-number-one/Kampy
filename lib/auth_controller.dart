@@ -5,10 +5,11 @@ import 'kampy_login.dart';
 import 'kampy_welcome.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 class AuthController extends  GetxController {
-final FirebaseAuth auth = FirebaseAuth.instance;
 
   // when yoyu want to access tap: AuthController.instance....
  static AuthController instance = Get.find();
+ FirebaseAuth auth = FirebaseAuth.instance;
+
 // the bellow line will include user information
 late Rx<User?> _user;
 // auth will allow us to access to alot of properties from firebase
@@ -24,9 +25,10 @@ late Rx<User?> _user;
 }
 
 _initialScreen(User? user)async {
+  
   if (user==null){
     print("log in page");
-    Get.offAll(()=> const LogIn());
+    Get.offAll(()=>  LogIn());
   }
   else{
     Get.offAll(()=> Welcome(email: user.email!));
@@ -61,7 +63,7 @@ void login(String email, password) async {
 
   try{
    await auth.signInWithEmailAndPassword(email: email, password: password);
-
+    Get.offAll(()=> Welcome(email: email));
   } catch(e){
     print(e.toString());
 
@@ -69,6 +71,7 @@ void login(String email, password) async {
     
 
   }
+  
 }
 
 void logOut() async{

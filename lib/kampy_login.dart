@@ -1,6 +1,7 @@
 import 'dart:ffi';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/auth_controller.dart';
 import 'package:flutter_application_1/kampy_signup.dart';
 class LogIn extends StatefulWidget {
  const LogIn({Key? key}) : super(key: key);
@@ -11,7 +12,9 @@ class LogIn extends StatefulWidget {
 }
 
 class _LogInState extends State<LogIn> {
-  
+     // decalare email and password
+   final TextEditingController emailController =TextEditingController();
+    final TextEditingController passwordController =TextEditingController();
   @override
   
   Widget build(BuildContext context) {
@@ -45,7 +48,7 @@ class _LogInState extends State<LogIn> {
 child: Stack(
         children:<Widget> [
          
-    // sign up container
+    // log in up 
             Container(
                         decoration: BoxDecoration(
                         color: Color.fromARGB(0, 224, 224, 228),
@@ -56,7 +59,7 @@ child: Stack(
              
 
              width: w,
-// child sign up
+// child log in
               child:Column(
                 //  crossAxisAlignment: CrossAxisAlignment.start,
 
@@ -88,7 +91,7 @@ child: Stack(
          
          
              
-            //  second input
+            //  first input
              
             Container(
               width: 300,
@@ -104,7 +107,7 @@ child: Stack(
                         )]
                       ),
                      child:TextField(
-                     
+                     controller: emailController,
                       decoration: InputDecoration(   
                            hintText: "Email",  
                        prefixIcon:const Icon(Icons.email,color:Color.fromARGB(255, 132, 31, 120)) ,         
@@ -130,7 +133,7 @@ child: Stack(
                       ),
                      )  
              ),
-            //  third input
+            //  second input
            Container(
             width: 300,
               margin:   const EdgeInsets.only(top:20,right:20,left:20,bottom: 10),
@@ -145,7 +148,8 @@ child: Stack(
                         )]
                       ),
                      child:TextField(
-                     
+                     controller: passwordController,
+                     obscureText: true,
                       decoration: InputDecoration(  
                            hintText: "Password",      
                         prefixIcon:const Icon(Icons.password,color:Color.fromARGB(255, 132, 31, 120)) ,         
@@ -174,8 +178,11 @@ child: Stack(
            
 
  // button container
-
-                 Container(
+GestureDetector(
+  onTap: (){
+    AuthController.instance.login(emailController.text.trim(), passwordController.text.trim());
+  },
+                 child:Container(
           margin:  const EdgeInsets.only(left: 20,right: 20,bottom: 20),
 
             width: 150,
@@ -203,7 +210,7 @@ child: Stack(
                       
                        )
                        ),),
-          ),
+          ),),
           // sign up 
             GestureDetector(
  
