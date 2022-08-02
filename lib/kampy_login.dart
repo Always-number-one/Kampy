@@ -91,6 +91,7 @@ child: Stack(
             //  second input
              
             Container(
+              width: 300,
               margin:   const EdgeInsets.only(top:20,right:20,left:20),
                       decoration: BoxDecoration(
                         color: const Color.fromARGB(151, 255, 255, 255),
@@ -131,6 +132,7 @@ child: Stack(
              ),
             //  third input
            Container(
+            width: 300,
               margin:   const EdgeInsets.only(top:20,right:20,left:20,bottom: 10),
                       decoration: BoxDecoration(
                         color: const Color.fromARGB(151, 255, 255, 255),
@@ -176,8 +178,8 @@ child: Stack(
                  Container(
           margin:  const EdgeInsets.only(left: 20,right: 20,bottom: 20),
 
-            width: 200,
-            height: 70,
+            width: 150,
+            height: 60,
             
            decoration: const BoxDecoration(
                 borderRadius:   BorderRadius.only(
@@ -195,7 +197,7 @@ child: Stack(
             "Log In",
                     textAlign: TextAlign.center,
                        style:  TextStyle(
-                        fontSize: 30,
+                        fontSize: 20,
                         fontWeight: FontWeight.bold,
                         color: Colors.white
                       

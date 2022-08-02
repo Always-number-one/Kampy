@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/auth_controller.dart';
 import 'kampy_user.dart';
 import 'kampy_event.dart';
 import 'kampy_chat.dart';
@@ -7,7 +8,7 @@ import 'kampy_home.dart';
 import 'kampy_home.dart';
 import 'kampy_login.dart';
 import 'kampy_signup.dart';
-
+import 'package:get/get.dart';
 // call firebase
 import 'package:firebase_core/firebase_core.dart';
 
@@ -15,6 +16,7 @@ void main() async {
   // call firebase
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  await Firebase.initializeApp().then((value)=> Get.put(AuthController()));
   // 
   runApp(const MyApp());
 }

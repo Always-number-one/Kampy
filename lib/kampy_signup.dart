@@ -3,10 +3,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/auth_controller.dart';
 import 'kampy_login.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
-
+import 'auth_controller.dart';
 class SignUp extends StatefulWidget {
  const SignUp({Key? key}) : super(key: key);
 
@@ -20,6 +21,11 @@ class _SignUpState extends State<SignUp> {
   @override
   
   Widget build(BuildContext context) {
+    // decalare email and password
+    var emailController =TextEditingController();
+    var passwordController =TextEditingController();
+
+
     double w = MediaQuery.of(context).size.width;
     // double h = MediaQuery.of(context).size.height;
 
@@ -53,7 +59,7 @@ child: Stack(
     // sign up container
             Container(
                         decoration: BoxDecoration(
-                        color: Color.fromARGB(0, 224, 224, 228),
+                        color:const  Color.fromARGB(0, 224, 224, 228),
                         borderRadius: BorderRadius.circular(120),
                      
                       ),
@@ -90,6 +96,8 @@ child: Stack(
                    
                     const SizedBox(  height: 10,),
          
+
+
           // profile image
           const CircleAvatar(
           
@@ -97,50 +105,51 @@ child: Stack(
             backgroundImage: AssetImage("images/profile1.jpg") ,
 
           ),
-                    // first input
-               Container(
-              margin:   const EdgeInsets.only(top:10,right:20,left:20),
-                      decoration: BoxDecoration(
-                        color: const Color.fromARGB(151, 255, 255, 255),
-                        borderRadius: BorderRadius.circular(50),
-                        boxShadow: const [
-                        BoxShadow(
-                              blurRadius: 15,
-                           offset: Offset(1, 1),
-                              color: Color.fromARGB(75, 198, 202, 218),
-                        )]
-                      ),
-                     child:TextField(
-                      decoration: InputDecoration(      
-                        hintText: "Name", 
-                   prefixIcon:const Icon(Icons.account_circle,color:Color.fromARGB(255, 132, 31, 120)) ,         
+            //         // first input
+            //    Container(
+            //   margin:   const EdgeInsets.only(top:10,right:20,left:20),
+            //           decoration: BoxDecoration(
+            //             color: const Color.fromARGB(151, 255, 255, 255),
+            //             borderRadius: BorderRadius.circular(50),
+            //             boxShadow: const [
+            //             BoxShadow(
+            //                   blurRadius: 15,
+            //                offset: Offset(1, 1),
+            //                   color: Color.fromARGB(75, 198, 202, 218),
+            //             )]
+            //           ),
+            //          child:TextField(
+            //           decoration: InputDecoration(      
+            //             hintText: "Name", 
+            //        prefixIcon:const Icon(Icons.account_circle,color:Color.fromARGB(255, 132, 31, 120)) ,         
 
-                        focusedBorder: const OutlineInputBorder(
+            //             focusedBorder: const OutlineInputBorder(
                      
-                        borderSide: BorderSide(
-                          color: Color.fromARGB(255, 255, 255, 255),
+            //             borderSide: BorderSide(
+            //               color: Color.fromARGB(255, 255, 255, 255),
                                             
 
-                        )
-                       ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(50),
-                        borderSide: const BorderSide(
+            //             )
+            //            ),
+            //             enabledBorder: OutlineInputBorder(
+            //               borderRadius: BorderRadius.circular(50),
+            //             borderSide: const BorderSide(
 
-                          color: Color.fromARGB(255, 255, 255, 255),
-                        )
-                       ),
+            //               color: Color.fromARGB(255, 255, 255, 255),
+            //             )
+            //            ),
                        
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(50),
+            //             border: OutlineInputBorder(
+            //               borderRadius: BorderRadius.circular(50),
                           
-                        )
-                      ),
-                     )  
-             ),
+            //             )
+            //           ),
+            //          )  
+            //  ),
             //  second input
              
             Container(
+              width: 300,
               margin:   const EdgeInsets.only(top:20,right:20,left:20),
                       decoration: BoxDecoration(
                         color: const Color.fromARGB(151, 255, 255, 255),
@@ -153,7 +162,7 @@ child: Stack(
                         )]
                       ),
                      child:TextField(
-                     
+                     controller: emailController,
                       decoration: InputDecoration(   
                            hintText: "Email",  
                        prefixIcon:const Icon(Icons.email,color:Color.fromARGB(255, 132, 31, 120)) ,         
@@ -181,6 +190,7 @@ child: Stack(
              ),
             //  third input
            Container(
+            width: 300,
               margin:   const EdgeInsets.only(top:20,right:20,left:20,bottom: 10),
                       decoration: BoxDecoration(
                         color: const Color.fromARGB(151, 255, 255, 255),
@@ -193,7 +203,7 @@ child: Stack(
                         )]
                       ),
                      child:TextField(
-                     
+                     controller: passwordController,
                       decoration: InputDecoration(  
                            hintText: "Password",      
                         prefixIcon:const Icon(Icons.password,color:Color.fromARGB(255, 132, 31, 120)) ,         
@@ -222,12 +232,15 @@ child: Stack(
            
 
  // button container
-
-                 Container(
+GestureDetector(
+        onTap: (){
+          AuthController.instance.register(email, password);
+          },
+          child: Container(
           margin:  const EdgeInsets.only(left: 20,right: 20,bottom: 20),
 
-            width: 200,
-            height: 70,
+            width: 150,
+            height: 60,
             
            decoration: const BoxDecoration(
                 borderRadius:   BorderRadius.only(
@@ -245,13 +258,13 @@ child: Stack(
             "Sign Up",
                     textAlign: TextAlign.center,
                        style:  TextStyle(
-                        fontSize: 30,
+                        fontSize: 20,
                         fontWeight: FontWeight.bold,
                         color: Colors.white
                       
                        )
                        ),),
-          ),
+          ),),
 
 
           // log in 
