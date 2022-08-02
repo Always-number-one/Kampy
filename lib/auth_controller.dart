@@ -42,17 +42,17 @@ void register(String email, password) async {
 
   } catch(e){
     print(e.toString());
-  //    Get.snackbar("title", "message",
-  // snackPosition: SnackPosition.BOTTOM,
-  // titleText: const Text("account creation failed",
-  // style:  TextStyle(
-  // color:Colors.white,),
+     Get.snackbar("title", "message",
+  snackPosition: SnackPosition.BOTTOM,
+  titleText: const Text("account creation failed",
+  style:  TextStyle(
+  color:Colors.white,),
  
    
-  //     ), messageText:const Text("account creation failed",
-  // style:  TextStyle(
-  // color:Colors.white,),)
-  //       );
+      ), messageText:const Text("account creation failed",
+  style:  TextStyle(
+  color:Colors.white,),)
+        );
     
     
 
