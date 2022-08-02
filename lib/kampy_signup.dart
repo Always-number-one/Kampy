@@ -7,7 +7,8 @@ import 'package:flutter_application_1/auth_controller.dart';
 import 'kampy_login.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
-import 'auth_controller.dart';
+import 'package:get/get.dart';
+
 class SignUp extends StatefulWidget {
  const SignUp({Key? key}) : super(key: key);
 
@@ -17,14 +18,14 @@ class SignUp extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUp> {
-  
+   // decalare email and password
+   final TextEditingController emailController =TextEditingController();
+    final TextEditingController passwordController =TextEditingController();
+ 
   @override
   
   Widget build(BuildContext context) {
-    // decalare email and password
-    var emailController =TextEditingController();
-    var passwordController =TextEditingController();
-
+    
 
     double w = MediaQuery.of(context).size.width;
     // double h = MediaQuery.of(context).size.height;
@@ -204,6 +205,7 @@ child: Stack(
                       ),
                      child:TextField(
                      controller: passwordController,
+                     obscureText: true,
                       decoration: InputDecoration(  
                            hintText: "Password",      
                         prefixIcon:const Icon(Icons.password,color:Color.fromARGB(255, 132, 31, 120)) ,         
@@ -233,8 +235,9 @@ child: Stack(
 
  // button container
 GestureDetector(
-        onTap: (){
-          AuthController.instance.register(email, password);
+        onTap: () async {
+     AuthController.instance.register(emailController.text.trim(), passwordController.text.trim());
+       
           },
           child: Container(
           margin:  const EdgeInsets.only(left: 20,right: 20,bottom: 20),

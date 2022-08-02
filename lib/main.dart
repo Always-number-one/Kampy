@@ -9,13 +9,16 @@ import 'kampy_home.dart';
 import 'kampy_login.dart';
 import 'kampy_signup.dart';
 import 'package:get/get.dart';
+import 'package:get/get.dart';
+import 'kampy_welcome.dart';
+
 // call firebase
 import 'package:firebase_core/firebase_core.dart';
 
 void main() async {
   // call firebase
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+ WidgetsFlutterBinding.ensureInitialized();
+ 
   await Firebase.initializeApp().then((value)=> Get.put(AuthController()));
   // 
   runApp(const MyApp());
