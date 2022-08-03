@@ -1,4 +1,3 @@
-// import 'dart:ffi';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
@@ -6,8 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/auth_controller.dart';
 import 'kampy_login.dart';
 import 'package:flutter/material.dart';
-import 'dart:math';
-import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:flutter/src/widgets/basic.dart';
+import 'package:flutter/src/widgets/framework.dart';
 
 class SignUp extends StatefulWidget {
  const SignUp({Key? key}) : super(key: key);
@@ -27,6 +27,7 @@ class _SignUpState extends State<SignUp> {
   
   Widget build(BuildContext context) {
     
+final scaffoldState = GlobalKey<ScaffoldState>();
 
     double w = MediaQuery.of(context).size.width;
     // double h = MediaQuery.of(context).size.height;
@@ -34,10 +35,13 @@ class _SignUpState extends State<SignUp> {
 
 
     return Scaffold(
+              key: scaffoldState,
+
         backgroundColor: Colors.transparent, 
      
       body:
       Stack(
+
         children: <Widget>[
           Container(
               
@@ -73,7 +77,7 @@ child: Stack(
               child:Column(
                 //  crossAxisAlignment: CrossAxisAlignment.start,
 
-                children:  [
+                children:  <Widget>[
                   // sign up title
                   Container(
         padding: const EdgeInsets.only(left: 120 ),
@@ -96,18 +100,21 @@ child: Stack(
           
           ),
                    
-                    const SizedBox(  height: 10,),
+          const SizedBox(  height: 10,),
          
 
+// image pickler
 
-          // profile image
-          const CircleAvatar(
+             imageProfile(),
+         
+// profile image
+          // const CircleAvatar(
           
-            radius: 50,
-            backgroundImage: AssetImage("images/profile1.jpg") ,
+          //   radius: 50,
+          //   backgroundImage: AssetImage("images/profile1.jpg") ,
 
-          ),
-            //         // first input
+          // ),
+          //   //         // first input
                Container(
               margin:   const EdgeInsets.only(top:10,right:20,left:20),
                       decoration: BoxDecoration(
@@ -331,5 +338,137 @@ GestureDetector(
                 
                  
     ));
+    
   }
+
+
+
+// image picker function
+  Widget imageProfile(){
+      return Center(
+       child: Stack(
+        children: <Widget> [
+           const CircleAvatar(
+            radius: 50,
+            backgroundImage: AssetImage("images/profile1.jpg") ,
+          ),
+          Positioned(
+            bottom:0,
+            right: 10.0,
+            child:InkWell(
+              // direct user to add image
+              onTap: (){
+               showModalBottomSheet<void>(
+            // context and builder are
+            // required properties in this widget
+            context: context,
+            builder: (BuildContext context) {
+              // we set up a container inside which
+              // we create center column and display text
+ 
+              // Returning SizedBox instead of a Container
+              return SizedBox(
+                height: 200,
+               child: Column(
+      children: <Widget>[
+        const Text(
+          "choose Profile photo",
+          style:  TextStyle(
+            fontSize: 20.0,
+          ),
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          Row(
+            children: <Widget>[
+                // take photo from the camera
+              TextButton.icon(
+                icon: const Icon(Icons.camera),
+             onPressed: (){
+
+              },
+              label: const Text("Camera"),
+
+              ),
+            // Get photo from Gallery
+               TextButton.icon(
+               
+                
+            icon: const Icon(Icons.image),
+             onPressed: (){
+
+              },
+              label: const Text("Galerry"),
+
+             )
+            ],),
+      ]
+    ),
+              );
+            },
+          );
+              },
+            child:const Icon(Icons.camera_alt,
+            color: Color.fromARGB(255, 28, 3, 33),
+            size: 25.0,
+       )  ) )
+        ]
+      )
+      );
+    }
+
+
+
+// image picker bottomSheet
+
+ Widget bottomSheet() {
+
+ return  Container(
+    height: 100,
+    width: 500,
+    margin: const EdgeInsets.symmetric(
+      horizontal: 20,
+      vertical: 20,
+    ),
+    child: Column(
+      children: <Widget>[
+        const Text(
+          "choose Profile photo",
+          style:  TextStyle(
+            fontSize: 20.0,
+          ),
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          Row(
+            children: <Widget>[
+                // take photo from the camera
+              TextButton.icon(
+                icon: const Icon(Icons.camera),
+             onPressed: (){
+
+              },
+              label: const Text("Camera"),
+
+              ),
+            // Get photo from Gallery
+               TextButton.icon(
+               
+                
+            icon: const Icon(Icons.image),
+             onPressed: (){
+
+              },
+              label: const Text("Galerry"),
+
+             )
+            ],),
+      ]
+    ),
+    );
+  
+}
+
 }
