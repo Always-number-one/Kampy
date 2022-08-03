@@ -25,9 +25,7 @@ late Rx<User?> _user;
 }
 
 _initialScreen(User? user)async {
-print(user?.displayName);
   if (user==null){
-    print("log in page");
     Get.offAll(()=>  LogIn());
   }else if(user.displayName==null){
        await  Get.offAll(()=> Welcome(email:""));
@@ -50,17 +48,10 @@ User? user =res.user;
     return _user(user);
 
   } catch(e){
-    print(e.toString());
-     Get.snackbar("title", "message",
+    
+     Get.snackbar("error in creating user:", e.toString(),
   snackPosition: SnackPosition.BOTTOM,
-  titleText: const Text("account creation failed",
-  style:  TextStyle(
-  color:Colors.white,),
- 
-   
-      ), messageText:const Text("account creation failed",
-  style:  TextStyle(
-  color:Colors.white,),)
+  
         );
     
     
@@ -75,8 +66,13 @@ void login(String email, password) async {
     Get.offAll(()=> Welcome(email: email));
 
   } catch(e){
-    print(e.toString());
 
+
+    
+     Get.snackbar("error in access user:", e.toString(),
+  snackPosition: SnackPosition.BOTTOM
+ 
+        );
     
     
 
