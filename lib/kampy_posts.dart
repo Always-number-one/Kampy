@@ -12,6 +12,13 @@ class Posts extends StatefulWidget {
 }
 
 class _PostsState extends State<Posts> {
+int currentIndex=0;
+// final screens=[
+
+//   // CreateBlog(),
+
+// ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,6 +47,44 @@ class _PostsState extends State<Posts> {
         ),),
       ),),
       body:Container(),
+      // screens[currentIndex],
+            bottomNavigationBar: BottomNavigationBar(
+              type: BottomNavigationBarType.fixed,
+              backgroundColor:Colors.grey.shade400,
+              unselectedItemColor: Colors.black,
+              showSelectedLabels: true,
+              showUnselectedLabels: false,
+              currentIndex:currentIndex,
+              onTap:(index)=>setState(() => currentIndex=index),
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+                       backgroundColor: Color.fromARGB(255, 79, 36, 90),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.search),
+            label: 'Serach',
+                        backgroundColor: Color.fromARGB(255, 79, 36, 90),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.add),
+            label: 'Add post',
+                       backgroundColor: Color.fromARGB(255, 79, 36, 90),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.save),
+            label: 'x',
+                       backgroundColor: Color.fromARGB(255, 79, 36, 90),
+          ),
+             BottomNavigationBarItem(
+            icon: Icon(Icons.account_circle),
+            label: 'Profile',
+            backgroundColor: Color.fromARGB(255, 79, 36, 90),
+            
+          ),
+        ],
+      ),
     );
   }
 }
