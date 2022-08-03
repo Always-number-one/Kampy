@@ -3,9 +3,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/auth_controller.dart';
 import 'kampy_login.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
+import 'package:get/get.dart';
 
 class SignUp extends StatefulWidget {
  const SignUp({Key? key}) : super(key: key);
@@ -16,10 +18,16 @@ class SignUp extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUp> {
-  
+   // decalare email and password and name
+   final TextEditingController emailController =TextEditingController();
+    final TextEditingController passwordController =TextEditingController();
+      final TextEditingController nameController =TextEditingController();
+ 
   @override
   
   Widget build(BuildContext context) {
+    
+
     double w = MediaQuery.of(context).size.width;
     // double h = MediaQuery.of(context).size.height;
 
@@ -53,7 +61,7 @@ child: Stack(
     // sign up container
             Container(
                         decoration: BoxDecoration(
-                        color: Color.fromARGB(0, 224, 224, 228),
+                        color:const  Color.fromARGB(0, 224, 224, 228),
                         borderRadius: BorderRadius.circular(120),
                      
                       ),
@@ -90,6 +98,8 @@ child: Stack(
                    
                     const SizedBox(  height: 10,),
          
+
+
           // profile image
           const CircleAvatar(
           
@@ -97,7 +107,7 @@ child: Stack(
             backgroundImage: AssetImage("images/profile1.jpg") ,
 
           ),
-                    // first input
+            //         // first input
                Container(
               margin:   const EdgeInsets.only(top:10,right:20,left:20),
                       decoration: BoxDecoration(
@@ -111,6 +121,7 @@ child: Stack(
                         )]
                       ),
                      child:TextField(
+                      controller: nameController,
                       decoration: InputDecoration(      
                         hintText: "Name", 
                    prefixIcon:const Icon(Icons.account_circle,color:Color.fromARGB(255, 132, 31, 120)) ,         
@@ -141,6 +152,7 @@ child: Stack(
             //  second input
              
             Container(
+              width: 300,
               margin:   const EdgeInsets.only(top:20,right:20,left:20),
                       decoration: BoxDecoration(
                         color: const Color.fromARGB(151, 255, 255, 255),
@@ -153,7 +165,7 @@ child: Stack(
                         )]
                       ),
                      child:TextField(
-                     
+                     controller: emailController,
                       decoration: InputDecoration(   
                            hintText: "Email",  
                        prefixIcon:const Icon(Icons.email,color:Color.fromARGB(255, 132, 31, 120)) ,         
@@ -181,6 +193,7 @@ child: Stack(
              ),
             //  third input
            Container(
+            width: 300,
               margin:   const EdgeInsets.only(top:20,right:20,left:20,bottom: 10),
                       decoration: BoxDecoration(
                         color: const Color.fromARGB(151, 255, 255, 255),
@@ -193,7 +206,8 @@ child: Stack(
                         )]
                       ),
                      child:TextField(
-                     
+                     controller: passwordController,
+                     obscureText: true,
                       decoration: InputDecoration(  
                            hintText: "Password",      
                         prefixIcon:const Icon(Icons.password,color:Color.fromARGB(255, 132, 31, 120)) ,         
@@ -222,12 +236,16 @@ child: Stack(
            
 
  // button container
-
-                 Container(
+GestureDetector(
+        onTap: () async {
+     AuthController.instance.register(emailController.text.trim(), passwordController.text.trim(),nameController.text.trim());
+       
+          },
+          child: Container(
           margin:  const EdgeInsets.only(left: 20,right: 20,bottom: 20),
 
-            width: 200,
-            height: 70,
+            width: 150,
+            height: 60,
             
            decoration: const BoxDecoration(
                 borderRadius:   BorderRadius.only(
@@ -245,13 +263,13 @@ child: Stack(
             "Sign Up",
                     textAlign: TextAlign.center,
                        style:  TextStyle(
-                        fontSize: 30,
+                        fontSize: 20,
                         fontWeight: FontWeight.bold,
                         color: Colors.white
                       
                        )
                        ),),
-          ),
+          ),),
 
 
           // log in 
