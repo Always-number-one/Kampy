@@ -12,27 +12,24 @@ class KampyEvent extends StatefulWidget {
 }
 
 class _KampyEventState extends State<KampyEvent> {
-  CrudMethods crudMethods =  CrudMethods();
+  CrudMethods crudMethods = CrudMethods();
 
   QuerySnapshot? eventsSnapshot;
 
   Widget eventsList() {
     return Container(
       child: eventsSnapshot != null
-          ? Column(
-              children: <Widget>[
-                ListView.builder(
-                    itemCount: eventsSnapshot?.docs.length,
-                    shrinkWrap: true,
-                    itemBuilder: (context, index) {
-                      return EventsTile(
-                          eventName: eventsSnapshot?.docs[index]['eventName'],
-                          place: eventsSnapshot?.docs[index]['place'],
-                          time: eventsSnapshot?.docs[index]['time'],
-                          imgUrl: eventsSnapshot?.docs[index]['imgUrl']);
-                    })
-              ],
-            )
+          ? Container(
+              child: ListView.builder(
+                  itemCount: eventsSnapshot?.docs.length,
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) {
+                    return EventsTile(
+                        eventName: eventsSnapshot?.docs[index]['eventName'],
+                        place: eventsSnapshot?.docs[index]['place'],
+                        time: eventsSnapshot?.docs[index]['time'],
+                        imgUrl: eventsSnapshot?.docs[index]['imgUrl']);
+                  }))
           : Container(
               alignment: Alignment.center,
               child: const CircularProgressIndicator(),
@@ -101,7 +98,10 @@ class _KampyEventState extends State<KampyEvent> {
 class EventsTile extends StatelessWidget {
 // const   EventsTile({Key? key}) : super(key: key);
 
-  final String imgUrl, eventName, time, place;
+  final dynamic imgUrl;
+  final dynamic eventName;
+  final dynamic place;
+  final dynamic time;
 
   const EventsTile(
       {Key? key,
@@ -113,8 +113,8 @@ class EventsTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 150,
+    return CircleAvatar(
+      // height: 150,
       child: Stack(
         children: <Widget>[
           ClipRRect(

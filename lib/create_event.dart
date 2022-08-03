@@ -20,9 +20,8 @@ class _CreateEventState extends State<CreateEvent> {
   // firebase_storage.FirebaseStorage storage =
   //     firebase_storage.FirebaseStorage.instance;
 
-   String? eventName, time, place;
-  // String? time;
-  // String? place;
+   String? eventName, place, time;
+ 
   File? _photo;
   bool _isLoading = false;
   final ImagePicker _picker = ImagePicker();
@@ -59,7 +58,7 @@ class _CreateEventState extends State<CreateEvent> {
       // uploadTask.then((res) {
       //   res.ref.getDownloadURL();
       // });
-      Map<String, String> eventMap = {
+      Map<String, dynamic> eventMap = {
         "imgUrl": downloadUrl,
         "eventName": eventName??"",
         "place": place??"",
