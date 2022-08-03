@@ -25,20 +25,29 @@ late Rx<User?> _user;
 }
 
 _initialScreen(User? user)async {
-  
+print(user?.displayName);
   if (user==null){
     print("log in page");
     Get.offAll(()=>  LogIn());
+  }else if(user.displayName==null){
+       await  Get.offAll(()=> Welcome(email:""));
+
   }
   else{
-    Get.offAll(()=> Welcome(email: user.email!));
+   await  Get.offAll(()=> Welcome(email: user.displayName!));
 
 }
 }
-void register(String email, password) async {
+ register(String email, password,name) async {
 
   try{
-   await auth.createUserWithEmailAndPassword(email: email, password: password);
+
+    
+ UserCredential res = await auth.createUserWithEmailAndPassword(email: email, password: password);
+User? user =res.user;
+  user?.updateDisplayName(name);
+
+    return _user(user);
 
   } catch(e){
     print(e.toString());
@@ -64,6 +73,7 @@ void login(String email, password) async {
   try{
    await auth.signInWithEmailAndPassword(email: email, password: password);
     Get.offAll(()=> Welcome(email: email));
+
   } catch(e){
     print(e.toString());
 

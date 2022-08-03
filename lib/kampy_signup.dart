@@ -18,9 +18,10 @@ class SignUp extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUp> {
-   // decalare email and password
+   // decalare email and password and name
    final TextEditingController emailController =TextEditingController();
     final TextEditingController passwordController =TextEditingController();
+      final TextEditingController nameController =TextEditingController();
  
   @override
   
@@ -107,46 +108,47 @@ child: Stack(
 
           ),
             //         // first input
-            //    Container(
-            //   margin:   const EdgeInsets.only(top:10,right:20,left:20),
-            //           decoration: BoxDecoration(
-            //             color: const Color.fromARGB(151, 255, 255, 255),
-            //             borderRadius: BorderRadius.circular(50),
-            //             boxShadow: const [
-            //             BoxShadow(
-            //                   blurRadius: 15,
-            //                offset: Offset(1, 1),
-            //                   color: Color.fromARGB(75, 198, 202, 218),
-            //             )]
-            //           ),
-            //          child:TextField(
-            //           decoration: InputDecoration(      
-            //             hintText: "Name", 
-            //        prefixIcon:const Icon(Icons.account_circle,color:Color.fromARGB(255, 132, 31, 120)) ,         
+               Container(
+              margin:   const EdgeInsets.only(top:10,right:20,left:20),
+                      decoration: BoxDecoration(
+                        color: const Color.fromARGB(151, 255, 255, 255),
+                        borderRadius: BorderRadius.circular(50),
+                        boxShadow: const [
+                        BoxShadow(
+                              blurRadius: 15,
+                           offset: Offset(1, 1),
+                              color: Color.fromARGB(75, 198, 202, 218),
+                        )]
+                      ),
+                     child:TextField(
+                      controller: nameController,
+                      decoration: InputDecoration(      
+                        hintText: "Name", 
+                   prefixIcon:const Icon(Icons.account_circle,color:Color.fromARGB(255, 132, 31, 120)) ,         
 
-            //             focusedBorder: const OutlineInputBorder(
+                        focusedBorder: const OutlineInputBorder(
                      
-            //             borderSide: BorderSide(
-            //               color: Color.fromARGB(255, 255, 255, 255),
+                        borderSide: BorderSide(
+                          color: Color.fromARGB(255, 255, 255, 255),
                                             
 
-            //             )
-            //            ),
-            //             enabledBorder: OutlineInputBorder(
-            //               borderRadius: BorderRadius.circular(50),
-            //             borderSide: const BorderSide(
+                        )
+                       ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(50),
+                        borderSide: const BorderSide(
 
-            //               color: Color.fromARGB(255, 255, 255, 255),
-            //             )
-            //            ),
+                          color: Color.fromARGB(255, 255, 255, 255),
+                        )
+                       ),
                        
-            //             border: OutlineInputBorder(
-            //               borderRadius: BorderRadius.circular(50),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(50),
                           
-            //             )
-            //           ),
-            //          )  
-            //  ),
+                        )
+                      ),
+                     )  
+             ),
             //  second input
              
             Container(
@@ -236,7 +238,7 @@ child: Stack(
  // button container
 GestureDetector(
         onTap: () async {
-     AuthController.instance.register(emailController.text.trim(), passwordController.text.trim());
+     AuthController.instance.register(emailController.text.trim(), passwordController.text.trim(),nameController.text.trim());
        
           },
           child: Container(

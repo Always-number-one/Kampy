@@ -51,7 +51,7 @@ child: Stack(
     // sign up container
             Container(
                         decoration: BoxDecoration(
-                        color: Color.fromARGB(0, 224, 224, 228),
+                        color:const  Color.fromARGB(0, 224, 224, 228),
                         borderRadius: BorderRadius.circular(120),
                      
                       ),
@@ -66,11 +66,11 @@ child: Stack(
                 children:  [
                   // sign up title
                   Container(
-        padding: const EdgeInsets.only(left: 130 ),
+        padding: const EdgeInsets.only(left: 10 ),
            child: Row( 
             children:  <Widget> [
             Text( 
-          'email: ${widget.email}' ,
+          'name: ${widget.email}' ,
             style: const TextStyle(
               color: Color.fromARGB(255, 14, 14, 14),
                fontWeight: FontWeight.bold,
