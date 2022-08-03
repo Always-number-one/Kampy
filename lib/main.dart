@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.pink,
       ),
       
-      home:  SignUp(),              
+      home: const KampyEvent(),              
     );
   }
 }
