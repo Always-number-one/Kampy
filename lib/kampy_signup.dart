@@ -21,6 +21,7 @@ class _SignUpState extends State<SignUp> {
    final TextEditingController emailController =TextEditingController();
     final TextEditingController passwordController =TextEditingController();
       final TextEditingController nameController =TextEditingController();
+String file="";
       // image picker
   File? _photo;
 
@@ -32,6 +33,7 @@ class _SignUpState extends State<SignUp> {
     setState(() {
       if (pickedFile != null) {
         _photo = File(pickedFile.path);
+        file=pickedFile.path;
       } else {
         print('No image selected.');
       }
@@ -44,6 +46,8 @@ Future getFromCamera() async {
     setState(() {
       if (pickedFile != null) {
         _photo = File(pickedFile.path);
+        file=pickedFile.path;
+        print(pickedFile.path);
       } else {
         print('No image selected.');
       }
@@ -53,7 +57,6 @@ Future getFromCamera() async {
   
   Widget build(BuildContext context) {
 
-final scaffoldState = GlobalKey<ScaffoldState>();
 
     double w = MediaQuery.of(context).size.width;
     // double h = MediaQuery.of(context).size.height;
@@ -61,7 +64,6 @@ final scaffoldState = GlobalKey<ScaffoldState>();
 
 
     return Scaffold(
-              key: scaffoldState,
 
         backgroundColor: Colors.transparent, 
      
@@ -270,7 +272,7 @@ child: Stack(
  // button container
 GestureDetector(
         onTap: () async {
-     AuthController.instance.register(emailController.text.trim(), passwordController.text.trim(),nameController.text.trim());
+     AuthController.instance.register(emailController.text.trim(), passwordController.text.trim(),nameController.text.trim(),file.toString().trim());
        
           },
           child: Container(
@@ -384,12 +386,12 @@ GestureDetector(
 
           
           // ),
-          Padding(
-            padding: const EdgeInsets.all(16.0),
+         SingleChildScrollView(
             child: Container(
               width: MediaQuery.of(context).size.width,
               height: 200.0,
               child: CircleAvatar(
+                radius: 30,
                 child: _photo == null
                     ? Text("No Image is picked")
                     : Image.file(_photo!),
@@ -427,7 +429,9 @@ GestureDetector(
               TextButton.icon(
                 icon: const Icon(Icons.camera),
              onPressed: (){
+             
           getFromCamera();
+           print(_photo);
               },
               label: const Text("Camera"),
 
