@@ -1,13 +1,12 @@
-// import 'dart:ffi';
+import 'dart:io';
+
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/auth_controller.dart';
 import 'kampy_login.dart';
-import 'package:flutter/material.dart';
-import 'dart:math';
-import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 
 class SignUp extends StatefulWidget {
  const SignUp({Key? key}) : super(key: key);
@@ -22,11 +21,42 @@ class _SignUpState extends State<SignUp> {
    final TextEditingController emailController =TextEditingController();
     final TextEditingController passwordController =TextEditingController();
       final TextEditingController nameController =TextEditingController();
- 
+String file="";
+      // image picker
+  File? _photo;
+
+  final ImagePicker _picker = ImagePicker();
+// get image from galerry
+  Future  imgFromGallery() async {
+    final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+
+    setState(() {
+      if (pickedFile != null) {
+        _photo = File(pickedFile.path);
+        file=pickedFile.path;
+      } else {
+        print('No image selected.');
+      }
+    });
+  }
+// get image from gallery
+Future getFromCamera() async {
+     final pickedFile = await _picker.pickImage(source: ImageSource.camera);
+
+    setState(() {
+      if (pickedFile != null) {
+        _photo = File(pickedFile.path);
+        file=pickedFile.path;
+        print(pickedFile.path);
+      } else {
+        print('No image selected.');
+      }
+    });
+}
   @override
   
   Widget build(BuildContext context) {
-    
+
 
     double w = MediaQuery.of(context).size.width;
     // double h = MediaQuery.of(context).size.height;
@@ -34,10 +64,12 @@ class _SignUpState extends State<SignUp> {
 
 
     return Scaffold(
+
         backgroundColor: Colors.transparent, 
      
       body:
       Stack(
+
         children: <Widget>[
           Container(
               
@@ -73,7 +105,7 @@ child: Stack(
               child:Column(
                 //  crossAxisAlignment: CrossAxisAlignment.start,
 
-                children:  [
+                children:  <Widget>[
                   // sign up title
                   Container(
         padding: const EdgeInsets.only(left: 120 ),
@@ -96,18 +128,20 @@ child: Stack(
           
           ),
                    
-                    const SizedBox(  height: 10,),
+          const SizedBox(  height: 10,),
+         
+              //  Container(
+              //       child: Image.file(
+              //         _photo!,
+              //         fit: BoxFit.contain,
+              //       ),),
+               
+// image pickler
+
+             imageProfile(),
          
 
-
-          // profile image
-          const CircleAvatar(
-          
-            radius: 50,
-            backgroundImage: AssetImage("images/profile1.jpg") ,
-
-          ),
-            //         // first input
+                    // first input
                Container(
               margin:   const EdgeInsets.only(top:10,right:20,left:20),
                       decoration: BoxDecoration(
@@ -238,7 +272,7 @@ child: Stack(
  // button container
 GestureDetector(
         onTap: () async {
-     AuthController.instance.register(emailController.text.trim(), passwordController.text.trim(),nameController.text.trim());
+     AuthController.instance.register(emailController.text.trim(), passwordController.text.trim(),nameController.text.trim(),file.toString().trim());
        
           },
           child: Container(
@@ -276,6 +310,7 @@ GestureDetector(
           GestureDetector(
  
      child: Container(
+      
         padding: const EdgeInsets.only(left: 60,bottom: 40),
            child: Row( 
             children:const <Widget> [
@@ -331,5 +366,104 @@ GestureDetector(
                 
                  
     ));
+    
   }
+
+
+
+// image picker function
+  Widget imageProfile(){
+
+      return Center(
+       child: Stack(
+        children: <Widget> [
+          //   const CircleAvatar(
+          //   radius: 50,
+          //   backgroundImage:
+           
+          //   AssetImage("images/profile1.jpg") 
+
+
+          
+          // ),
+         SingleChildScrollView(
+            child: Container(
+              width: MediaQuery.of(context).size.width,
+              height: 200.0,
+              child: CircleAvatar(
+                radius: 30,
+                child: _photo == null
+                    ? Text("No Image is picked")
+                    : Image.file(_photo!),
+              ),
+            ),
+          ),
+          Positioned(
+            bottom:0,
+            right: 10.0,
+            child:InkWell(
+              // direct user to add image
+              onTap: (){
+               showModalBottomSheet<void>(
+       
+            context: context,
+            builder: (BuildContext context) {
+        
+              return SizedBox(
+                height: 200,
+               child: Column(
+      children: <Widget>[
+        const Text(
+          "choose Profile photo",
+          style:  TextStyle(
+            fontSize: 20.0,
+          ),
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+                // take photo from the camera
+              TextButton.icon(
+                icon: const Icon(Icons.camera),
+             onPressed: (){
+             
+          getFromCamera();
+           print(_photo);
+              },
+              label: const Text("Camera"),
+
+              ),
+            // Get photo from Gallery
+               TextButton.icon(
+               
+                
+            icon: const Icon(Icons.image),
+             onPressed: (){
+                     imgFromGallery(); 
+                     
+                     print(_photo.toString());  
+              },
+              label: const Text("Galerry"),
+
+             )
+            ],),
+      ]
+    ),
+              );
+            },
+          );
+              },
+            child:const Icon(Icons.camera_alt,
+            color: Color.fromARGB(255, 28, 3, 33),
+            size: 25.0,
+       )  ) )
+        ]
+      )
+      );
+    }
+
+
 }
