@@ -377,7 +377,8 @@ GestureDetector(
 
 
  CircleAvatar(
-      radius: 50,
+      minRadius: 50,
+         maxRadius: 50,
       backgroundColor: Color.fromARGB(0, 255, 255, 255),
       child: ClipOval(
          child: (_photo == null)

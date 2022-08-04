@@ -9,7 +9,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
-
+import 'kampy_navbar.dart';
 
 class AuthController extends  GetxController {
 
@@ -37,12 +37,12 @@ _initialScreen(User? user)async {
     Get.offAll(()=>  LogIn());
   }else if(user.photoURL==null){
 
-       await  Get.offAll(()=> Welcome(email:""));
-
+      //  await  Get.offAll(()=> Welcome(email:""));
+ await  Get.offAll(()=> NavBar());
   }
   else{
-   await  Get.offAll(()=> Welcome( email: user.photoURL!));
-
+  //  await  Get.offAll(()=> Welcome( email: user.photoURL!));
+ await  Get.offAll(()=> NavBar());
 }
 }
  register(String email, password,name ,image) async {

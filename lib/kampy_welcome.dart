@@ -69,32 +69,53 @@ child: Stack(
 
                 children:  [
                   // sign up title
-   
+        //           Container(
+        // padding: const EdgeInsets.only(left: 10 ),
+        //    child: Row( 
+        //     children:  <Widget> [
+        //     Text( 
+        //   'name: ${widget.email}' ,
+        //     style: const TextStyle(
+        //       color: Color.fromARGB(255, 14, 14, 14),
+        //        fontWeight: FontWeight.bold,
+        //       fontSize: 30,
+        //     ),
+             
+            
+        //   )
+          
+        //     ],
+       
+        //   )
+        //    ),
+          
+       
                    
-                 
+                    const SizedBox(  height: 10,),
          
          
              
             //  second input
- Padding(    
-  padding: EdgeInsets.only(bottom: 20,top: 20,),
-child:Container(
+         
+Container(
 
-height: 200,
+
     child: CircleAvatar(
+
+    minRadius: 50,
+         maxRadius: 50,
   
-      radius: 70.0,
-      backgroundColor: Color.fromARGB(0, 255, 255, 255),
+      backgroundColor: const Color.fromARGB(0, 255, 255, 255),
       child: ClipOval(
         child: (widget.email=="")
-        ? Image.asset('images/profile1.jpg',    height: 100,)
-        : Image.file(File(widget.email),    height: 100,),
+        ? Image.asset('images/profile1.jpg')
+        : Image.file(File(widget.email)),
       ),
     ),
   
 
 
-          ),) ,
+          ),
  // button container
 GestureDetector(
 onTap: (){
