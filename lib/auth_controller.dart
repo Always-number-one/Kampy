@@ -10,6 +10,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'kampy_navbar.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 class AuthController extends  GetxController {
 
@@ -37,12 +38,12 @@ _initialScreen(User? user)async {
     Get.offAll(()=>  LogIn());
   }else if(user.photoURL==null){
 
-      //  await  Get.offAll(()=> Welcome(email:""));
- await  Get.offAll(()=> NavBar());
+       await  Get.offAll(()=> Welcome(email:""));
+//  await  Get.offAll(()=> NavBar());
   }
   else{
-  //  await  Get.offAll(()=> Welcome( email: user.photoURL!));
- await  Get.offAll(()=> NavBar());
+   await  Get.offAll(()=> Welcome( email: user.photoURL!));
+//  await  Get.offAll(()=> NavBar());
 }
 }
  register(String email, password,name ,image) async {
@@ -59,7 +60,10 @@ User? user =res.user;
     "name":name,
     "photoUrl":image,
   });
-  user.updateDisplayName(name);
+  // await FirebaseStorage.instance.ref().putData(image);
+
+ await FirebaseStorage.instance.ref().child(name).putFile(File(image));
+   
   await user.updatePhotoURL(image);
 print(image);
 print(user.photoURL);
@@ -67,6 +71,7 @@ print(user.photoURL);
     return _user(user);
 
   } catch(e){
+    print(e);
     Get.snackbar(
               "error in creating user:", e.toString(),
                icon: const Icon(Icons.person, color: Color.fromARGB(255, 25, 1, 22)),
@@ -74,7 +79,7 @@ print(user.photoURL);
                backgroundColor:const  Color.fromARGB(255, 253, 255, 253),
                borderRadius: 20,
                margin:const  EdgeInsets.all(15),
-               colorText: Color.fromARGB(255, 5, 0, 0),
+               colorText: const Color.fromARGB(255, 5, 0, 0),
                duration: const Duration(seconds: 4),
                isDismissible: true,
                forwardAnimationCurve: Curves.easeOutBack,

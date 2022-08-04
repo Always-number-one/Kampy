@@ -10,7 +10,7 @@ import 'dart:io';
 class Welcome extends StatefulWidget {
 String email;
  Welcome({Key? key,required this.email}) : super(key: key);
-
+  
   @override
   State<Welcome> createState() => _WelcomeState();
   
@@ -21,7 +21,7 @@ class _WelcomeState extends State<Welcome> {
   @override
   
   Widget build(BuildContext context) {
-   
+   print(widget.email);
     double w = MediaQuery.of(context).size.width;
     double h = MediaQuery.of(context).size.height;
 
@@ -110,6 +110,7 @@ Container(
         child: (widget.email=="")
         ? Image.asset('images/profile1.jpg')
         : Image.file(File(widget.email)),
+      
       ),
     ),
   
