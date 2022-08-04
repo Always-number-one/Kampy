@@ -41,9 +41,9 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.purple,
       ),
 
-      home: const KampyEvent(),
+      home:  KampyEvent(),
 
-      home:  Chat(),
+    
 
     );
   }
