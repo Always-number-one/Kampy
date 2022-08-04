@@ -130,11 +130,7 @@ child: Stack(
                    
           const SizedBox(  height: 10,),
          
-              //  Container(
-              //       child: Image.file(
-              //         _photo!,
-              //         fit: BoxFit.contain,
-              //       ),),
+
                
 // image pickler
 
@@ -377,27 +373,23 @@ GestureDetector(
       return Center(
        child: Stack(
         children: <Widget> [
-          //   const CircleAvatar(
-          //   radius: 50,
-          //   backgroundImage:
-           
-          //   AssetImage("images/profile1.jpg") 
+         
 
 
-          
-          // ),
-         SingleChildScrollView(
-            child: Container(
-              width: MediaQuery.of(context).size.width,
-              height: 200.0,
-              child: CircleAvatar(
-                radius: 30,
-                child: _photo == null
-                    ? Text("No Image is picked")
-                    : Image.file(_photo!),
-              ),
-            ),
-          ),
+ CircleAvatar(
+      radius: 50,
+      backgroundColor: Color.fromARGB(0, 255, 255, 255),
+      child: ClipOval(
+         child: (_photo == null)
+           ? Image.network('https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/Unknown_person.jpg/434px-Unknown_person.jpg')
+              : Image.file(_photo!),
+      ),
+    ),
+  
+
+
+         
+      
           Positioned(
             bottom:0,
             right: 10.0,

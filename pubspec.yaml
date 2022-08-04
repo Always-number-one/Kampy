@@ -39,6 +39,7 @@ dependencies:
   get:
   path: ^1.8.1
   random_string: ^2.3.1
+  google_fonts: ^3.0.1
 
 
   firebase_database: ^9.0.20
@@ -54,6 +55,8 @@ dependencies:
 
   firebase_auth: ^3.6.2
   firebase_core: ^1.20.0
+  custom_clippers: ^2.0.0
+  
 
  
 
