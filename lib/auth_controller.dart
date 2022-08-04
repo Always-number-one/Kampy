@@ -5,6 +5,9 @@ import 'kampy_login.dart';
 import 'kampy_welcome.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
+import 'dart:io';
+import 'package:image_picker/image_picker.dart';
+
 
 class AuthController extends  GetxController {
 
@@ -27,18 +30,21 @@ late Rx<User?> _user;
 }
 
 _initialScreen(User? user)async {
+   
   if (user==null){
     Get.offAll(()=>  LogIn());
-  }else if(user.displayName==null){
+  }else if(user.photoURL==null){
+     print(user.photoURL);
        await  Get.offAll(()=> Welcome(email:""));
 
   }
   else{
-   await  Get.offAll(()=> Welcome(email: user.displayName!));
+   print(user.photoURL);
+   await  Get.offAll(()=> Welcome( email: user.photoURL!));
 
 }
 }
- register(String email, password,name) async {
+ register(String email, password,name ,image) async {
 
   try{
 
@@ -46,7 +52,9 @@ _initialScreen(User? user)async {
  UserCredential res = await auth.createUserWithEmailAndPassword(email: email, password: password);
 User? user =res.user;
   user?.updateDisplayName(name);
-
+  await user?.updatePhotoURL(image);
+print(image);
+print(user?.photoURL);
     return _user(user);
 
   } catch(e){
@@ -65,7 +73,7 @@ void login(String email, password) async {
 
   try{
    await auth.signInWithEmailAndPassword(email: email, password: password);
-    Get.offAll(()=> Welcome(email: email));
+   
 
   } catch(e){
 
