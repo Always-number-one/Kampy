@@ -37,8 +37,9 @@ class MyApp extends StatelessWidget {
     
         primarySwatch: Colors.purple,
       ),
-      home:Posts(),
-      // home:  SignUp(),              
+
+       home:  SignUp(),              
+
     );
   }
 }
