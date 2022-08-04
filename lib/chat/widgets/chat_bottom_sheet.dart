@@ -49,9 +49,10 @@ class ChatBottomSheet extends StatelessWidget {
           ),
         ),
         Spacer(),
-        Padding(
+        IconButton(
+          onPressed: () => {print('pressed')},
           padding: EdgeInsets.only(right: 10),
-          child: Icon(
+          icon: Icon(
             Icons.send,
             color: Color.fromARGB(255, 57, 1, 59),
             size: 30,

@@ -1,6 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'chat/chat_main.dart';
 import 'kampy_login.dart';
 import 'kampy_welcome.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -34,6 +36,7 @@ _initialScreen(User? user)async {
   if (user==null){
     Get.offAll(()=>  LogIn());
   }else if(user.photoURL==null){
+
        await  Get.offAll(()=> Welcome(email:""));
 
   }
@@ -49,8 +52,17 @@ _initialScreen(User? user)async {
     
  UserCredential res = await auth.createUserWithEmailAndPassword(email: email, password: password);
 User? user =res.user;
-  user?.updateDisplayName(name);
-  await user?.updatePhotoURL(image);
+
+  await FirebaseFirestore.instance.collection('users').doc(user!.uid).set({
+    "email":email,
+    "uid":user.uid,
+    "name":name,
+    "photoUrl":image,
+  });
+  user.updateDisplayName(name);
+  await user.updatePhotoURL(image);
+print(image);
+print(user.photoURL);
 
     return _user(user);
 
