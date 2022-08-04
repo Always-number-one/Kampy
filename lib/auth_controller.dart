@@ -1,12 +1,19 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'chat/chat_main.dart';
 import 'kampy_login.dart';
 import 'kampy_welcome.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+
+import 'dart:io';
+import 'package:image_picker/image_picker.dart';
+
+
 class AuthController extends  GetxController {
 
-  // when yoyu want to access tap: AuthController.instance....
+  // when you want to access tap: AuthController.instance....
  static AuthController instance = Get.find();
  FirebaseAuth auth = FirebaseAuth.instance;
 
@@ -25,26 +32,37 @@ late Rx<User?> _user;
 }
 
 _initialScreen(User? user)async {
+   
   if (user==null){
     Get.offAll(()=>  LogIn());
-  }else if(user.displayName==null){
-       await  Get.offAll(()=> Welcome(email:""));
+  }else if(user.photoURL==null){
+     print(user.photoURL);
+       await  Get.offAll(()=> Chat());
 
   }
   else{
-   await  Get.offAll(()=> Welcome(email: user.displayName!));
+   print(user.photoURL);
+   await  Get.offAll(()=> Chat());
 
 }
 }
- register(String email, password,name) async {
+ register(String email, password,name ,image) async {
 
   try{
 
     
  UserCredential res = await auth.createUserWithEmailAndPassword(email: email, password: password);
 User? user =res.user;
-  user?.updateDisplayName(name);
-
+  await FirebaseFirestore.instance.collection('users').doc(user!.uid).set({
+    "email":email,
+    "uid":user.uid,
+    "name":name,
+    "photoUrl":image,
+  });
+  user.updateDisplayName(name);
+  await user.updatePhotoURL(image);
+print(image);
+print(user.photoURL);
     return _user(user);
 
   } catch(e){
@@ -63,7 +81,7 @@ void login(String email, password) async {
 
   try{
    await auth.signInWithEmailAndPassword(email: email, password: password);
-    Get.offAll(()=> Welcome(email: email));
+   
 
   } catch(e){
 

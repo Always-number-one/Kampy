@@ -3,8 +3,12 @@ import 'auth_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/auth_controller.dart';
 import 'package:flutter_application_1/kampy_signup.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
+
+
 class Welcome extends StatefulWidget {
-  String email;
+String email;
  Welcome({Key? key,required this.email}) : super(key: key);
 
   @override
@@ -65,27 +69,27 @@ child: Stack(
 
                 children:  [
                   // sign up title
-                  Container(
-        padding: const EdgeInsets.only(left: 10 ),
-           child: Row( 
-            children:  <Widget> [
-            Text( 
-          'name: ${widget.email}' ,
-            style: const TextStyle(
-              color: Color.fromARGB(255, 14, 14, 14),
-               fontWeight: FontWeight.bold,
-              fontSize: 30,
-            ),
+        //           Container(
+        // padding: const EdgeInsets.only(left: 10 ),
+        //    child: Row( 
+        //     children:  <Widget> [
+        //     Text( 
+        //   'name: ${widget.email}' ,
+        //     style: const TextStyle(
+        //       color: Color.fromARGB(255, 14, 14, 14),
+        //        fontWeight: FontWeight.bold,
+        //       fontSize: 30,
+        //     ),
              
             
-          )
+        //   )
           
-            ],
+        //     ],
        
-          )
+        //   )
         
           
-          ),
+        //   ),
                    
                     const SizedBox(  height: 10,),
          
@@ -93,12 +97,24 @@ child: Stack(
              
             //  second input
          
-
+SingleChildScrollView(
+            child: Container(
+              width: MediaQuery.of(context).size.width,
+              height: 200.0,
+              child: CircleAvatar(
+                radius: 30,
+                child: widget.email==""
+                    ? Text("No Image is picked")
+                    : Image.file(File(widget.email)),
+              ),
+            ),
+          ),
  // button container
 GestureDetector(
 onTap: (){
   AuthController.instance.logOut();
 },
+
 
                child:  Container(
           margin:  const EdgeInsets.only(left: 20,right: 20,bottom: 20),
