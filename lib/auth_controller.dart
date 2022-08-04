@@ -4,9 +4,11 @@ import 'package:get/get.dart';
 import 'kampy_login.dart';
 import 'kampy_welcome.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+
+
 class AuthController extends  GetxController {
 
-  // when yoyu want to access tap: AuthController.instance....
+  // when you want to access tap: AuthController.instance....
  static AuthController instance = Get.find();
  FirebaseAuth auth = FirebaseAuth.instance;
 

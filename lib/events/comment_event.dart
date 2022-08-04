@@ -55,7 +55,7 @@ class _CommentsState extends State<Comments> {
                                     ],
                                   ),
                                 ),
-                                Divider(),
+                                const Divider(),
                                 Align(
                                   alignment: Alignment.centerLeft,
                                   child: Padding(

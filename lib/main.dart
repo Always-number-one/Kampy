@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/auth_controller.dart';
-import 'package:flutter_application_1/events/kampy_event.dart';
+import 'package:flutter_application_1/kampy_event.dart';
 import 'kampy_user.dart';
 
 import 'kampy_chat.dart';
 import 'kampy_posts.dart';
-import 'events/kampy_event.dart';
+import 'kampy_event.dart';
 import 'kampy_login.dart';
 import 'kampy_signup.dart';
 import 'package:get/get.dart';
