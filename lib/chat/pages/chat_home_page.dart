@@ -49,6 +49,7 @@ class _ChatHomeState extends State<ChatHome> {
                 fontSize: 28,
                 fontWeight: FontWeight.bold),
           ),
+
         ),
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 15),
