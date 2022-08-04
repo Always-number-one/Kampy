@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/auth_controller.dart';
+import 'package:flutter_application_1/kampy_event.dart';
 import 'kampy_user.dart';
-import 'kampy_event.dart';
+
+
+
+
 import 'kampy_posts.dart';
-import 'kampy_home.dart';
-import 'kampy_home.dart';
+import 'kampy_event.dart';
 import 'kampy_login.dart';
 import 'kampy_signup.dart';
 import 'package:get/get.dart';
-import 'package:get/get.dart';
+
 import 'kampy_welcome.dart';
 import 'chat/chat_main.dart';
 
@@ -20,7 +23,9 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp();
-  //.then((value)=> Get.put(AuthController()));
+
+  // .then((value) => Get.put(AuthController()));
+
   runApp(const MyApp());
 }
 
@@ -35,7 +40,11 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.purple,
       ),
+
+      home: const KampyEvent(),
+
       home:  Chat(),
+
     );
   }
 }
