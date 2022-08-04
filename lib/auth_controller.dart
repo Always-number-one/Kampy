@@ -54,16 +54,19 @@ _initialScreen(User? user)async {
  UserCredential res = await auth.createUserWithEmailAndPassword(email: email, password: password);
 User? user =res.user;
 
-  await FirebaseFirestore.instance.collection('users').doc(user!.uid).set({
+
+  // await FirebaseStorage.instance.ref().putData(image);
+// save image in the storage
+final saveStorage = await FirebaseStorage.instance.ref().child(name).putFile(File(image));
+  //  save the link of the storage image in firestore
+    final String downloadUrl = await saveStorage.ref.getDownloadURL();
+    await FirebaseFirestore.instance.collection('users').doc(user!.uid).set({
     "email":email,
     "uid":user.uid,
     "name":name,
-    "photoUrl":image,
+    "photoUrl":downloadUrl,
   });
-  // await FirebaseStorage.instance.ref().putData(image);
 
- await FirebaseStorage.instance.ref().child(name).putFile(File(image));
-   
   await user.updatePhotoURL(image);
 print(image);
 print(user.photoURL);
