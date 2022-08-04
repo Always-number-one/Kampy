@@ -22,9 +22,7 @@ void main() async {
   // call firebase
   WidgetsFlutterBinding.ensureInitialized();
 
-  await Firebase.initializeApp();
-
-  // .then((value) => Get.put(AuthController()));
+  await Firebase.initializeApp().then((value) => Get.put(AuthController()));
 
   runApp(const MyApp());
 }
@@ -41,9 +39,9 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.purple,
       ),
 
-      home: const KampyEvent(),
+      home: const SignUp(),
 
-      home:  Chat(),
+
 
     );
   }
