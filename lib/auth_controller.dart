@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/kampy_event.dart';
 import 'package:get/get.dart';
 import 'chat/chat_main.dart';
 import 'kampy_login.dart';
@@ -34,15 +35,14 @@ late Rx<User?> _user;
 _initialScreen(User? user)async {
    
   if (user==null){
-    Get.offAll(()=>  LogIn());
+    Get.offAll(()=>  const LogIn());
   }else if(user.photoURL==null){
-     print(user.photoURL);
-       await  Get.offAll(()=> Chat());
+
+       await  Get.offAll(()=> const KampyEvent());
 
   }
   else{
-   print(user.photoURL);
-   await  Get.offAll(()=> Chat());
+   await  Get.offAll(()=> const KampyEvent( ));
 
 }
 }
@@ -53,6 +53,7 @@ _initialScreen(User? user)async {
     
  UserCredential res = await auth.createUserWithEmailAndPassword(email: email, password: password);
 User? user =res.user;
+
   await FirebaseFirestore.instance.collection('users').doc(user!.uid).set({
     "email":email,
     "uid":user.uid,
@@ -63,15 +64,24 @@ User? user =res.user;
   await user.updatePhotoURL(image);
 print(image);
 print(user.photoURL);
+
     return _user(user);
 
   } catch(e){
-    
-     Get.snackbar("error in creating user:", e.toString(),
-  snackPosition: SnackPosition.BOTTOM,
-  
-        );
-    
+    Get.snackbar(
+              "error in creating user:", e.toString(),
+               icon: const Icon(Icons.person, color: Color.fromARGB(255, 25, 1, 22)),
+               snackPosition: SnackPosition.BOTTOM,
+               backgroundColor:const  Color.fromARGB(255, 253, 255, 253),
+               borderRadius: 20,
+               margin:const  EdgeInsets.all(15),
+               colorText: Color.fromARGB(255, 5, 0, 0),
+               duration: const Duration(seconds: 4),
+               isDismissible: true,
+               forwardAnimationCurve: Curves.easeOutBack,
+
+               );
+   
     
 
   }
@@ -86,12 +96,19 @@ void login(String email, password) async {
   } catch(e){
 
 
-    
-     Get.snackbar("error in access user:", e.toString(),
-  snackPosition: SnackPosition.BOTTOM
- 
-        );
-    
+     Get.snackbar(
+              "error in creating user:", e.toString(),
+               icon: const Icon(Icons.person, color: Color.fromARGB(255, 55, 4, 47)),
+               snackPosition: SnackPosition.BOTTOM,
+               backgroundColor: Colors.white,
+               borderRadius: 20,
+               margin:const  EdgeInsets.all(15),
+               colorText: const Color.fromARGB(255, 6, 0, 0),
+               duration: const Duration(seconds: 4),
+               isDismissible: true,
+               forwardAnimationCurve: Curves.easeOutBack,
+
+               );
     
 
   }
