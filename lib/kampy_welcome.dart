@@ -126,33 +126,32 @@ class _WelcomeState extends State<Welcome> {
                if (snapshot.data!.docs[i]['uid']==uid){
                 return Card(
                   margin: const EdgeInsets.all(10),
+                child:  Column(
+                     
+           children: [
+            Container(
+                     child: CircleAvatar(
+                       minRadius: 50,
+                        maxRadius: 50,
+                         backgroundImage: NetworkImage(snapshot.data!.docs[i]["photoUrl"]),
+                              ) ),       
                   // diplay current user if exists
-                  child: ListTile(
+                 ListTile(
                     title: Text(snapshot.data!.docs[i]['name']),
                     subtitle: Text(snapshot.data!.docs[i]['email'].toString()),
-                  ),
+            ),]),
                 );
                 }
                
            }
-           return const Text("theris no user");
+           return const Text("there is no user");
      
-                  // return ListView(
-                  //   children:
-                  //       snapshot.data!.docs.map((DocumentSnapshot document) {
-                  //     Map<String, dynamic> data =
-                  //         document.data()! as Map<String, dynamic>;
-                  //     return ListTile(
-                  //       title: Text(data['email']),
-                  //       subtitle: Text(data['name']),
-                  //     );
-                  //   }).toList(),
-                  // );
-
-                  //  Text("Full Name: ${data['email']} ${data['name']}");
-                } else{
-                  return Text("none");
-                }  } 
+                } 
+                else{
+                  return const Text("none");
+                }  
+                
+                } 
              ),
 
             SingleChildScrollView(
@@ -165,33 +164,11 @@ class _WelcomeState extends State<Welcome> {
                     ),
                     margin: const EdgeInsets.only(left: 20, right: 20, top: 70),
                     width: w,
-// text
-                    child: Column(
-                      //  crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        // sign up title
-                        //           Container(
-                        // padding: const EdgeInsets.only(left: 10 ),
-                        //    child: Row(
-                        //     children: const  <Widget> [
-                        //     Text(
-                        //   'name: ${"hello"}' ,
-                        //     style:  TextStyle(
-                        //       color: Color.fromARGB(255, 14, 14, 14),
-                        //        fontWeight: FontWeight.bold,
-                        //       fontSize: 30,
-                        //     ),
 
-                        //   )
-
-                        //     ],
-
-                        //   )
-                        //    ),
-
-                        //             const SizedBox(  height: 10,),
-
-                        //  avatar
+           child: Column(
+                     
+           children: [
+                       
 
 // Container(
 // child:const  CircleAvatar(
