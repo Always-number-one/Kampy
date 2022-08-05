@@ -40,7 +40,7 @@ int currentIndex=0;
           child:Container(
           decoration: const BoxDecoration(
             image: DecorationImage(
-              image: AssetImage('images/appbar.png'),
+              image: AssetImage('images/88257fc06f6e674a8ffc2a39bd3de33a.gif'),
               fit:BoxFit.fill
             )
           )
