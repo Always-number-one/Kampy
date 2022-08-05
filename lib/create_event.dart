@@ -93,7 +93,7 @@ class _CreateEventState extends State<CreateEvent> {
               Text("Add", style: TextStyle(fontSize: 22)),
               Text(" Event",
                   style: TextStyle(
-                      fontSize: 22, color: Color.fromARGB(255, 0, 255, 0)))
+                      fontSize: 22, color: Colors.white))
             ],
           ),
           backgroundColor: Colors.transparent,

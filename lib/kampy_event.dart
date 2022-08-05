@@ -38,7 +38,7 @@ class _KampyEventState extends State<KampyEvent> {
                 children: <Widget>[
                   ListView.builder(
                       padding:
-                          const EdgeInsets.only(top: 30, left: 20, right: 20),
+                          const EdgeInsets.only(top: 70, left: 20, right: 20),
                       itemCount: eventsSnapshot?.docs.length,
                       shrinkWrap: true,
                       itemBuilder: (context, index) {
