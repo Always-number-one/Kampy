@@ -1,29 +1,24 @@
-import 'dart:ffi';
 import 'auth_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/auth_controller.dart';
-import 'package:flutter_application_1/kampy_signup.dart';
-import 'package:image_picker/image_picker.dart';
-import 'dart:io';
-import 'kampy_navbar.dart';
+
+
+// circular animater
+import 'package:widget_circular_animator/widget_circular_animator.dart';
 
 // hex color
 import 'package:hexcolor/hexcolor.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-// import firestore
-import 'package:cloud_firestore/cloud_firestore.dart';
+
 // firebase auth
 import 'package:firebase_auth/firebase_auth.dart';
 
 // navbar
-import 'package:flutter/services.dart';
 import 'navbar_animated.dart';
 import 'kampy_posts.dart';
 import 'kampy_event.dart';
-import 'kampy_login.dart';
-import 'kampy_signup.dart';
-import 'package:get/get.dart';
+
 
 import 'chat/chat_main.dart';
 
@@ -99,6 +94,7 @@ class _WelcomeState extends State<Welcome> {
 
 // body starts here
         body: Stack(
+          // background 
           children: <Widget>[
             Container(
               decoration: const BoxDecoration(
@@ -128,13 +124,31 @@ class _WelcomeState extends State<Welcome> {
                   margin: const EdgeInsets.all(10),
                 child:  Column(
                      
-           children: [
-            Container(
-                     child: CircleAvatar(
+           children: [ 
+            Container(                        
+          margin: const EdgeInsets.only(left: 20, right: 20, bottom: 20, top: 70),
+
+          child: WidgetCircularAnimator(
+            innerColor: HexColor("#170B31") ,
+            outerColor:HexColor("#170B31") ,
+            innerAnimationSeconds: 70,
+            outerAnimationSeconds: 10,
+            innerAnimation:Curves.bounceOut,
+            outerAnimation: Curves.ease,
+            innerIconsSize:0,
+            outerIconsSize: 0,
+        
+            child: Container(
+              decoration: BoxDecoration(
+                  shape: BoxShape.circle, color: Colors.grey[200]),
+              child: CircleAvatar(
                        minRadius: 50,
                         maxRadius: 50,
                          backgroundImage: NetworkImage(snapshot.data!.docs[i]["photoUrl"]),
-                              ) ),       
+                              )
+            ),
+        )),
+               
                   // diplay current user if exists
                  ListTile(
                     title: Text(snapshot.data!.docs[i]['name']),
@@ -170,13 +184,7 @@ class _WelcomeState extends State<Welcome> {
            children: [
                        
 
-// Container(
-// child:const  CircleAvatar(
-// minRadius: 50,
-// maxRadius: 50,
-// backgroundImage: NetworkImage("https://api.time.com/wp-content/uploads/2020/09/time-100-Selena-Gomez.jpg"),
-//     ),
-//   ),
+
 
                         // button container
                         GestureDetector(
@@ -184,8 +192,7 @@ class _WelcomeState extends State<Welcome> {
                             AuthController.instance.logOut();
                           },
                           child: Container(
-                            margin: const EdgeInsets.only(
-                                left: 20, right: 20, bottom: 20),
+                            margin: const EdgeInsets.only(left: 20, right: 20, bottom: 20, top: 500),
                             width: 150,
                             height: 60,
                             decoration: const BoxDecoration(
