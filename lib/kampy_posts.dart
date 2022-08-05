@@ -64,7 +64,7 @@ class _PostsState extends State<Posts> {
   @override
   void initState(){
     super.initState();
-    crudMethodsP.getData().then((result)=>{postsSnapshot=result});
+    crudMethodsP.getData().then((result) =>{postsSnapshot=result});
   }
 
 
@@ -97,7 +97,7 @@ class _PostsState extends State<Posts> {
               FloatingActionButton(onPressed:() {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context)=> CreateBlog())
+                  MaterialPageRoute(builder: (context)=> CreatePost())
                 );
               },
               backgroundColor: const Color.fromARGB(255, 34, 3, 39),
@@ -131,7 +131,7 @@ class PostsTitle extends StatelessWidget {
       margin: const EdgeInsets.only(bottom: 16),
       height: 150,
       child: Stack(
-        children: <Widget>[
+        children: <Widget> [
           ClipRRect(
             borderRadius: BorderRadius.circular(8),
             child: Image.network(

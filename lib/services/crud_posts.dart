@@ -9,10 +9,7 @@ class CrudMethodsP{
       print(e);
     });
   }
-
-  getData() {}
-}
-
 getData()async{
   return await FirebaseFirestore.instance.collection("posts").get();
+}
 }
