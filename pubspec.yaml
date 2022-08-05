@@ -55,6 +55,9 @@ dependencies:
 
   firebase_auth: ^3.6.2
   firebase_core: ^1.20.0
+
+  google_fonts: ^3.0.1
+
   custom_clippers: ^2.0.0
 
   floating_bottom_bar: ^0.0.1
@@ -98,11 +101,11 @@ flutter:
 
     # - images/background1.png
     # - images/background2.jpg
-
     - images/appbar.png
     - images/background1.png
     - images/background2.jpg
     - images/profile1.jpg
+    - images/88257fc06f6e674a8ffc2a39bd3de33a.gif
 
 
   #   - images/a_dot_ham.jpeg
