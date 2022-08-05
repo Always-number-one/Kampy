@@ -102,14 +102,25 @@
 
 
 
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'navbar_animated.dart';
 
+
+import 'kampy_posts.dart';
+import 'kampy_event.dart';
+import 'kampy_login.dart';
+import 'kampy_signup.dart';
+import 'package:get/get.dart';
+
+import 'kampy_welcome.dart';
+import 'chat/chat_main.dart';
+
 void main() {
-  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then((_) {
-    runApp(NavBar());
-  });
+  // SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then((_) {
+  //   runApp(NavBar());
+  // });
 }
 
 class NavBar extends StatelessWidget {
@@ -133,13 +144,19 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
 
-  List<Widget>   _views = [
- Container( child: Center(child:  Text("weather", style: TextStyle(color: Color.fromARGB(255, 56, 3, 33), fontWeight: FontWeight.bold)))),
-    Container(child: Center(child: Text("map", style: TextStyle(color: Color.fromARGB(255, 56, 3, 33), fontWeight: FontWeight.bold)))),
-    Container(child: Center(child: Text("messages", style: TextStyle(color: Color.fromARGB(255, 56, 3, 33), fontWeight: FontWeight.bold)))),
-    Container(child: Center(child: Text("profile", style: TextStyle(color: Color.fromARGB(255, 56, 3, 33), fontWeight: FontWeight.bold))))
+//   final List<Widget>   _views = [
+//  Container( child:const Center(child:   Text("weather", style: TextStyle(color: Color.fromARGB(255, 56, 3, 33), fontWeight: FontWeight.bold)))),
+//     Container(child: const Center(child: Text("map", style: TextStyle(color: Color.fromARGB(255, 56, 3, 33), fontWeight: FontWeight.bold)))),
+//     Container(child: const Center(child: Text("messages", style: TextStyle(color: Color.fromARGB(255, 56, 3, 33), fontWeight: FontWeight.bold)))),
+//     Container(child: const Center(child: Text("profile", style: TextStyle(color: Color.fromARGB(255, 56, 3, 33), fontWeight: FontWeight.bold))))
+//   ];
+ final List<Widget>   _pages = [
+ KampyEvent(),Posts(),Welcome(email:""),Chat()
   ];
-
+// plus button array of pages
+  final List<Widget>   _views = [
+ KampyEvent(),Posts(),Chat(),Welcome(email:"")
+  ];
   int index = 0;
 
   @override
@@ -158,13 +175,23 @@ class _MyHomePageState extends State<MyHomePage> {
               setState(() {
                 index = i;
               });
+              Navigator.push(
+              context,
+         MaterialPageRoute(builder: (context) => _views[i]),
+                );
             },
+            // navigate between pages
             onTapButtonHidden: (i){
-              _alertExample("You touched at button of index $i");
+              print(i);
+              // _alertExample("You touched at button of index $i");
+               Navigator.push(
+              context,
+         MaterialPageRoute(builder: (context) => _pages[i]),
+                );
             },
           )
-        ),
-      body: _views[index],
+        )
+      
     );
   }
 
@@ -173,12 +200,13 @@ class _MyHomePageState extends State<MyHomePage> {
       context: context,
       barrierDismissible: false, // user must tap button!
       builder: (BuildContext context) {
+       
         return AlertDialog(
-          title: Text('Alert example'),
+          title: const Text('Alert example'),
           content: Container(child: Text(message)),
           actions: <Widget>[
-            FlatButton(
-              child: Text('OK'),
+            TextButton(
+              child: const Text('OK'),
               onPressed: () {
                 Navigator.of(context).pop();
               },

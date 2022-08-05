@@ -34,6 +34,8 @@ String file="";
       if (pickedFile != null) {
         _photo = File(pickedFile.path);
         file=pickedFile.path;
+        print(pickedFile.path);
+
       } else {
         print('No image selected.');
       }
