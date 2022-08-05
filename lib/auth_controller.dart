@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/kampy_event.dart';
 import 'package:get/get.dart';
 import 'chat/chat_main.dart';
 import 'kampy_login.dart';
@@ -40,12 +41,20 @@ late Rx<User?> _user;
 _initialScreen(User? user)async {
    
   if (user==null){
-    Get.offAll(()=>  LogIn());
+
+    Get.offAll(()=>  const LogIn());
+  }else if(user.photoURL==null){
+
+
+  await  Get.offAll(()=>  LogIn());
+
   }
   
   else{
+
    await  Get.offAll(()=> Welcome());
-//  await  Get.offAll(()=> NavBar());
+
+
 }
 }
  register(String email, password,name ,image) async {
