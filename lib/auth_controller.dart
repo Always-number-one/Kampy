@@ -1,4 +1,8 @@
+
+// import firestore 
 import 'package:cloud_firestore/cloud_firestore.dart';
+
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -11,6 +15,7 @@ import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'kampy_navbar.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+
 
 class AuthController extends  GetxController {
 
@@ -36,13 +41,10 @@ _initialScreen(User? user)async {
    
   if (user==null){
     Get.offAll(()=>  LogIn());
-  }else if(user.photoURL==null){
-
-       await  Get.offAll(()=> Welcome(email:""));
-//  await  Get.offAll(()=> NavBar());
   }
+  
   else{
-   await  Get.offAll(()=> Welcome( email: user.photoURL!));
+   await  Get.offAll(()=> Welcome());
 //  await  Get.offAll(()=> NavBar());
 }
 }
@@ -66,10 +68,6 @@ final saveStorage = await FirebaseStorage.instance.ref().child(name).putFile(Fil
     "name":name,
     "photoUrl":downloadUrl,
   });
-
-  await user.updatePhotoURL(image);
-print(image);
-print(user.photoURL);
 
     return _user(user);
 

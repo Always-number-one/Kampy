@@ -151,11 +151,11 @@ class _MyHomePageState extends State<MyHomePage> {
 //     Container(child: const Center(child: Text("profile", style: TextStyle(color: Color.fromARGB(255, 56, 3, 33), fontWeight: FontWeight.bold))))
 //   ];
  final List<Widget>   _pages = [
- KampyEvent(),Posts(),Welcome(email:""),Chat()
+ KampyEvent(),Posts(),Welcome(),Chat()
   ];
 // plus button array of pages
   final List<Widget>   _views = [
- KampyEvent(),Posts(),Chat(),Welcome(email:"")
+ KampyEvent(),Posts(),Chat(),Welcome()
   ];
   int index = 0;
 
