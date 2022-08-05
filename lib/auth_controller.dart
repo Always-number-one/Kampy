@@ -1,12 +1,22 @@
+
+// import firestore 
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/kampy_posts.dart';
+
+import 'package:flutter_application_1/kampy_event.dart';
+
 import 'package:get/get.dart';
+import 'chat/chat_main.dart';
 import 'kampy_login.dart';
 import 'kampy_welcome.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'dart:io';
+
 
 //flutter toast
 import 'package:fluttertoast/fluttertoast.dart';
@@ -21,9 +31,14 @@ import 'package:image_picker/image_picker.dart';
 
 
 
+import 'kampy_navbar.dart';
+
+
+
+
 class AuthController extends  GetxController {
 
-  // when yoyu want to access tap: AuthController.instance....
+  // when you want to access tap: AuthController.instance....
  static AuthController instance = Get.find();
  FirebaseAuth auth = FirebaseAuth.instance;
 
@@ -42,35 +57,62 @@ late Rx<User?> _user;
 }
 
 _initialScreen(User? user)async {
+   
   if (user==null){
+
     Get.offAll(()=>  LogIn());
   }else if(user.displayName==null){
        await  Get.offAll(()=>  Posts());
 
+
   }
+  
   else{
+
    await  Get.offAll(()=> Posts());
+
 
 }
 }
- register(String email, password,name) async {
+ register(String email, password,name ,image) async {
 
   try{
 
     
  UserCredential res = await auth.createUserWithEmailAndPassword(email: email, password: password);
 User? user =res.user;
-  user?.updateDisplayName(name);
+
+
+  // await FirebaseStorage.instance.ref().putData(image);
+// save image in the storage
+final saveStorage = await FirebaseStorage.instance.ref().child(name).putFile(File(image));
+  //  save the link of the storage image in firestore
+    final String downloadUrl = await saveStorage.ref.getDownloadURL();
+    await FirebaseFirestore.instance.collection('users').doc(user!.uid).set({
+    "email":email,
+    "uid":user.uid,
+    "name":name,
+    "photoUrl":downloadUrl,
+  });
 
     return _user(user);
 
   } catch(e){
-    
-     Get.snackbar("error in creating user:", e.toString(),
-  snackPosition: SnackPosition.BOTTOM,
-  
-        );
-    
+    print(e);
+    Get.snackbar(
+              "error in creating user:", e.toString(),
+               icon: const Icon(Icons.person, color: Color.fromARGB(255, 25, 1, 22)),
+               snackPosition: SnackPosition.BOTTOM,
+               backgroundColor:const  Color.fromARGB(255, 253, 255, 253),
+               borderRadius: 20,
+               margin:const  EdgeInsets.all(15),
+               colorText: const Color.fromARGB(255, 5, 0, 0),
+               duration: const Duration(seconds: 4),
+               isDismissible: true,
+               forwardAnimationCurve: Curves.easeOutBack,
+
+               );
+   
     
 
   }
@@ -80,17 +122,26 @@ void login(String email, password) async {
 
   try{
    await auth.signInWithEmailAndPassword(email: email, password: password);
-    Get.offAll(()=> Posts());
+
+
+
 
   } catch(e){
 
 
-    
-     Get.snackbar("error in access user:", e.toString(),
-  snackPosition: SnackPosition.BOTTOM
- 
-        );
-    
+     Get.snackbar(
+              "error in creating user:", e.toString(),
+               icon: const Icon(Icons.person, color: Color.fromARGB(255, 55, 4, 47)),
+               snackPosition: SnackPosition.BOTTOM,
+               backgroundColor: Colors.white,
+               borderRadius: 20,
+               margin:const  EdgeInsets.all(15),
+               colorText: const Color.fromARGB(255, 6, 0, 0),
+               duration: const Duration(seconds: 4),
+               isDismissible: true,
+               forwardAnimationCurve: Curves.easeOutBack,
+
+               );
     
 
   }

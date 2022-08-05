@@ -19,10 +19,10 @@ class CreateEvent extends StatefulWidget {
 class _CreateEventState extends State<CreateEvent> {
   // firebase_storage.FirebaseStorage storage =
   //     firebase_storage.FirebaseStorage.instance;
+  final controller = TextEditingController();
 
-   String? eventName, time, place;
-  // String? time;
-  // String? place;
+  String? eventName, place, time;
+
   File? _photo;
   bool _isLoading = false;
   final ImagePicker _picker = ImagePicker();
@@ -59,11 +59,11 @@ class _CreateEventState extends State<CreateEvent> {
       // uploadTask.then((res) {
       //   res.ref.getDownloadURL();
       // });
-      Map<String, String> eventMap = {
+      Map<String, dynamic> eventMap = {
         "imgUrl": downloadUrl,
-        "eventName": eventName??"",
-        "place": place??"",
-        "time": time??""
+        "eventName": eventName ?? "",
+        "place": place ?? "",
+        "time": time ?? ""
       };
       crudMethods.addData(eventMap).then((result) {
         Navigator.pop(context);
@@ -93,7 +93,7 @@ class _CreateEventState extends State<CreateEvent> {
               Text("Add", style: TextStyle(fontSize: 22)),
               Text(" Event",
                   style: TextStyle(
-                      fontSize: 22, color: Color.fromARGB(255, 0, 255, 0)))
+                      fontSize: 22, color: Colors.white))
             ],
           ),
           backgroundColor: Colors.transparent,
@@ -172,15 +172,15 @@ class _CreateEventState extends State<CreateEvent> {
                           },
                         ),
                         TextField(
-                          decoration: const InputDecoration(hintText: "Time"),
+                          decoration: const InputDecoration(hintText: "Place"),
                           onChanged: (val) {
-                            eventName = val;
+                            place = val;
                           },
                         ),
                         TextField(
-                          decoration: const InputDecoration(hintText: "Place"),
+                          decoration: const InputDecoration(hintText: "Time"),
                           onChanged: (val) {
-                            eventName = val;
+                            time = val;
                           },
                         )
                       ],
