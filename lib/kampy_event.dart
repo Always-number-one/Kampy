@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/create_event.dart';
 import 'package:flutter_application_1/services/crud.dart';
 import 'package:path/path.dart';
+import 'package:hexcolor/hexcolor.dart';
 
 class KampyEvent extends StatefulWidget {
   const KampyEvent({Key? key}) : super(key: key);
@@ -94,7 +95,7 @@ class _KampyEventState extends State<KampyEvent> {
         ),
       ),
       body: eventsList(),
-      backgroundColor: Color.fromARGB(212, 74, 12, 87),
+      backgroundColor: HexColor("#332052"),
       floatingActionButton: Container(
         padding: const EdgeInsets.symmetric(horizontal: 10),
         child: Row(
@@ -130,8 +131,8 @@ class EventsTile extends StatelessWidget {
     this.id = '',
     required this.imgUrl,
     required this.eventName,
-    required this.time,
     required this.place,
+    required this.time,
   }) : super(key: key);
 
   @override
@@ -155,8 +156,39 @@ class EventsTile extends StatelessWidget {
                 borderRadius: BorderRadius.circular(8)),
           ),
           Container(
+            width: MediaQuery.of(context).size.width,
             child: Column(
-              children: <Widget>[Text(eventName), Text(place), Text(time)],
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Text(
+                  eventName,
+                  style: const TextStyle(
+                      fontSize: 25,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.white),
+                ),
+                const SizedBox(
+                  height: 4,
+                ),
+                Text(
+                  place,
+                  style: const TextStyle(
+                      fontSize: 17,
+                      fontWeight: FontWeight.w400,
+                      color: Colors.white),
+                ),
+                const SizedBox(
+                  height: 4,
+                ),
+                // Text(
+                //   time,
+                //   style: const TextStyle(
+                //       fontSize: 17,
+                //       fontWeight: FontWeight.w400,
+                //       color: Colors.white),
+                // )
+              ],
             ),
           )
         ],

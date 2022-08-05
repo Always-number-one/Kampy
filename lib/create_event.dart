@@ -172,13 +172,13 @@ class _CreateEventState extends State<CreateEvent> {
                           },
                         ),
                         TextField(
-                          decoration: const InputDecoration(hintText: "Time"),
+                          decoration: const InputDecoration(hintText: "Place"),
                           onChanged: (val) {
                             place = val;
                           },
                         ),
                         TextField(
-                          decoration: const InputDecoration(hintText: "Place"),
+                          decoration: const InputDecoration(hintText: "Time"),
                           onChanged: (val) {
                             time = val;
                           },
