@@ -1,4 +1,8 @@
+
+// import firestore 
 import 'package:cloud_firestore/cloud_firestore.dart';
+
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -9,6 +13,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
+import 'kampy_navbar.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 
 class AuthController extends  GetxController {
@@ -35,14 +41,11 @@ _initialScreen(User? user)async {
    
   if (user==null){
     Get.offAll(()=>  LogIn());
-  }else if(user.photoURL==null){
-
-       await  Get.offAll(()=> Welcome(email:""));
-
   }
+  
   else{
-   await  Get.offAll(()=> Welcome( email: user.photoURL!));
-
+   await  Get.offAll(()=> Welcome());
+//  await  Get.offAll(()=> NavBar());
 }
 }
  register(String email, password,name ,image) async {
@@ -53,20 +56,23 @@ _initialScreen(User? user)async {
  UserCredential res = await auth.createUserWithEmailAndPassword(email: email, password: password);
 User? user =res.user;
 
-  await FirebaseFirestore.instance.collection('users').doc(user!.uid).set({
+
+  // await FirebaseStorage.instance.ref().putData(image);
+// save image in the storage
+final saveStorage = await FirebaseStorage.instance.ref().child(name).putFile(File(image));
+  //  save the link of the storage image in firestore
+    final String downloadUrl = await saveStorage.ref.getDownloadURL();
+    await FirebaseFirestore.instance.collection('users').doc(user!.uid).set({
     "email":email,
     "uid":user.uid,
     "name":name,
-    "photoUrl":image,
+    "photoUrl":downloadUrl,
   });
-  user.updateDisplayName(name);
-  await user.updatePhotoURL(image);
-print(image);
-print(user.photoURL);
 
     return _user(user);
 
   } catch(e){
+    print(e);
     Get.snackbar(
               "error in creating user:", e.toString(),
                icon: const Icon(Icons.person, color: Color.fromARGB(255, 25, 1, 22)),
@@ -74,7 +80,7 @@ print(user.photoURL);
                backgroundColor:const  Color.fromARGB(255, 253, 255, 253),
                borderRadius: 20,
                margin:const  EdgeInsets.all(15),
-               colorText: Color.fromARGB(255, 5, 0, 0),
+               colorText: const Color.fromARGB(255, 5, 0, 0),
                duration: const Duration(seconds: 4),
                isDismissible: true,
                forwardAnimationCurve: Curves.easeOutBack,
