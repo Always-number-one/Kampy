@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "510280400227",
+    "firebase_url":"https://kampytest-5fc4d-default-rtdb.europe-west1.firebasedatabase.app",
     "project_id": "kampytest-5fc4d",
     "storage_bucket": "kampytest-5fc4d.appspot.com"
   },
