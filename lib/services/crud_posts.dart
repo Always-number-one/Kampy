@@ -9,6 +9,8 @@ class CrudMethodsP{
       print(e);
     });
   }
+
+  getData() {}
 }
 
 getData()async{
