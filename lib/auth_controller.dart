@@ -61,17 +61,9 @@ _initialScreen(User? user)async {
   if (user==null){
 
     Get.offAll(()=>  LogIn());
-  }else if(user.displayName==null){
-       await  Get.offAll(()=>  KampyEvent());
-
-
   }
-  
   else{
-
-   await  Get.offAll(()=> KampyEvent());
-
-
+   await  Get.offAll(()=> Welcome());
 }
 }
  register(String email, password,name ,image) async {
