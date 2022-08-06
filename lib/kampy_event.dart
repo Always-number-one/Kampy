@@ -15,6 +15,7 @@ class KampyEvent extends StatefulWidget {
 class _KampyEventState extends State<KampyEvent> {
   CrudMethods crudMethods = CrudMethods();
 
+// get the data event from cloud firestore
   QuerySnapshot? eventsSnapshot;
 
   Widget eventsList() {
@@ -43,9 +44,11 @@ class _KampyEventState extends State<KampyEvent> {
                       shrinkWrap: true,
                       itemBuilder: (context, index) {
                         return EventsTile(
+                          //  info: eventsSnapshot?.docs[index]['info'],
                           eventName: eventsSnapshot?.docs[index]['eventName'],
                           place: eventsSnapshot?.docs[index]['place'],
                           time: eventsSnapshot?.docs[index]['time'],
+                         
                           imgUrl: eventsSnapshot?.docs[index]['imgUrl'],
                         );
                       })
@@ -64,7 +67,7 @@ class _KampyEventState extends State<KampyEvent> {
     super.initState();
     crudMethods.getData().then((result) => {eventsSnapshot = result});
   }
-
+//create appBar and button to redirect from kampy event widget to create event widget
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -125,6 +128,7 @@ class EventsTile extends StatelessWidget {
   final dynamic eventName;
   final dynamic place;
   final dynamic time;
+  // final dynamic info;
 
   EventsTile({
     Key? key,
@@ -133,8 +137,9 @@ class EventsTile extends StatelessWidget {
     required this.eventName,
     required this.place,
     required this.time,
+    // required this.info,
   }) : super(key: key);
-
+//show the data event
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -178,16 +183,26 @@ class EventsTile extends StatelessWidget {
                       fontWeight: FontWeight.w400,
                       color: Colors.white),
                 ),
-                const SizedBox(
-                  height: 4,
-                ),
+                // const SizedBox(
+                //   height: 4,
+                // ),
                 // Text(
                 //   time,
                 //   style: const TextStyle(
                 //       fontSize: 17,
                 //       fontWeight: FontWeight.w400,
                 //       color: Colors.white),
-                // )
+                // ),
+                // const SizedBox(
+                //   height: 4,
+                // ),
+                // Text(
+                //   info,
+                //   style: const TextStyle(
+                //       fontSize: 17,
+                //       fontWeight: FontWeight.w400,
+                //       color: Colors.white),
+                // ),
               ],
             ),
           )
