@@ -4,6 +4,7 @@ import 'package:flutter_application_1/create_event.dart';
 import 'package:flutter_application_1/services/crud.dart';
 import 'package:path/path.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:flutter_application_1/event_details.dart';
 
 class KampyEvent extends StatefulWidget {
   const KampyEvent({Key? key}) : super(key: key);
@@ -14,6 +15,7 @@ class KampyEvent extends StatefulWidget {
 
 class _KampyEventState extends State<KampyEvent> {
   CrudMethods crudMethods = CrudMethods();
+  
 
 // get the data event from cloud firestore
   QuerySnapshot? eventsSnapshot;
@@ -48,7 +50,7 @@ class _KampyEventState extends State<KampyEvent> {
                           eventName: eventsSnapshot?.docs[index]['eventName'],
                           place: eventsSnapshot?.docs[index]['place'],
                           time: eventsSnapshot?.docs[index]['time'],
-                         
+
                           imgUrl: eventsSnapshot?.docs[index]['imgUrl'],
                         );
                       })
@@ -60,6 +62,7 @@ class _KampyEventState extends State<KampyEvent> {
               ),
       ),
     );
+    
   }
 
   @override
@@ -67,6 +70,7 @@ class _KampyEventState extends State<KampyEvent> {
     super.initState();
     crudMethods.getData().then((result) => {eventsSnapshot = result});
   }
+
 //create appBar and button to redirect from kampy event widget to create event widget
   @override
   Widget build(BuildContext context) {
@@ -113,7 +117,7 @@ class _KampyEventState extends State<KampyEvent> {
               },
               backgroundColor: const Color.fromARGB(255, 34, 3, 39),
               child: const Icon(Icons.add),
-            )
+            ),
           ],
         ),
       ),
@@ -129,6 +133,8 @@ class EventsTile extends StatelessWidget {
   final dynamic place;
   final dynamic time;
   // final dynamic info;
+  bool _isFavorited = true;
+  int _favoriteCount = 41;
 
   EventsTile({
     Key? key,
@@ -143,7 +149,7 @@ class EventsTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 16),
+      margin: const EdgeInsets.only(bottom: 50),
       height: 150,
       child: Stack(
         children: <Widget>[
@@ -159,7 +165,54 @@ class EventsTile extends StatelessWidget {
             decoration: BoxDecoration(
                 color: Colors.black45.withOpacity(0.3),
                 borderRadius: BorderRadius.circular(8)),
+            // child: Container(
+            //   child: ElevatedButton(
+            //     child: const Text('Open Details'),
+            //     onPressed: () {
+            //       Navigator.push(
+            //         context,
+            //         MaterialPageRoute(builder: (context) => const EventDetails()),
+            //       );
+            //     },
+            //   ),
+            // ),
           ),
+          // show details button
+          Container(
+            child: ElevatedButton(
+              child: const Text('Open Details'),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const EventDetails()),
+                );
+              },
+            ),
+          ),
+          // Rating icon
+          Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Container(
+          padding: const EdgeInsets.symmetric(vertical: 155),
+          child: IconButton(
+            padding: const EdgeInsets.all(0),
+            alignment: Alignment.centerRight,
+            icon: (_isFavorited
+                ? const Icon(Icons.star)
+                : const Icon(Icons.star_border)),
+            color: Color.fromARGB(255, 230, 211, 43), onPressed: () {  },
+            
+          ),
+        ),
+        SizedBox(
+          width: 10,
+          child: SizedBox(
+            child: Text('$_favoriteCount', style: const TextStyle(fontSize: 17, color: Colors.black)),
+          ),
+        ),
+      ],
+    ),
           Container(
             width: MediaQuery.of(context).size.width,
             child: Column(
