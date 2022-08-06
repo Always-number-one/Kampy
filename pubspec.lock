@@ -261,7 +261,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.0.1"
-
   google_nav_bar:
     dependency: "direct main"
     description:
@@ -269,7 +268,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "5.0.6"
-
   hexcolor:
     dependency: "direct main"
     description:
@@ -277,7 +275,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.7"
-
   http:
     dependency: transitive
     description:
@@ -390,7 +387,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.8.1"
-
   path_drawing:
     dependency: transitive
     description:
@@ -405,7 +401,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.1"
-
   path_provider:
     dependency: transitive
     description:
@@ -490,7 +485,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.1.0"
-
   petitparser:
     dependency: transitive
     description:
@@ -498,7 +492,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "5.0.0"
-
   platform:
     dependency: transitive
     description:
@@ -602,7 +595,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.2.0+1"
-
   xml:
     dependency: transitive
     description:
@@ -610,7 +602,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "6.1.0"
-
 sdks:
   dart: ">=2.17.6 <3.0.0"
   flutter: ">=3.0.0"
