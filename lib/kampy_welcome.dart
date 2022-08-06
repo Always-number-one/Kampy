@@ -18,8 +18,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'navbar_animated.dart';
 import 'kampy_posts.dart';
 import 'kampy_event.dart';
-
-
 import 'chat/chat_main.dart';
 
 class Welcome extends StatefulWidget {

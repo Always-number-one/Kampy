@@ -80,6 +80,7 @@ class _CreatePostState extends State<CreatePost> {
     return Scaffold(
        appBar: PreferredSize(
         preferredSize: const Size.fromHeight(80.0),
+          child: SingleChildScrollView(
         child: AppBar(
           centerTitle: true,
           flexibleSpace: ClipRRect(
@@ -110,7 +111,7 @@ class _CreatePostState extends State<CreatePost> {
               ),
             )
           ],
-    )),
+    ))),
     body: _isLoading
     ?Container(
       alignment: Alignment.center,

@@ -63,7 +63,8 @@ class _CreateEventState extends State<CreateEvent> {
         "imgUrl": downloadUrl,
         "eventName": eventName ?? "",
         "place": place ?? "",
-        "time": time ?? ""
+        "time": time ?? "",
+        // "info": info ?? "",
       };
       crudMethods.addData(eventMap).then((result) {
         Navigator.pop(context);
@@ -92,12 +93,12 @@ class _CreateEventState extends State<CreateEvent> {
             children: const [
               Text("Add", style: TextStyle(fontSize: 22)),
               Text(" Event",
-                  style: TextStyle(
-                      fontSize: 22, color: Colors.white))
+                  style: TextStyle(fontSize: 22, color: Colors.white))
             ],
           ),
           backgroundColor: Colors.transparent,
           elevation: 0.0,
+          //upload data with clicking on the icon.file_upload
           actions: <Widget>[
             GestureDetector(
                 onTap: () {
@@ -120,6 +121,7 @@ class _CreateEventState extends State<CreateEvent> {
                   const SizedBox(
                     height: 10,
                   ),
+                  // create input for selecting an image from gallery
                   GestureDetector(
                       onTap: () {
                         imgFromGallery();
@@ -147,13 +149,14 @@ class _CreateEventState extends State<CreateEvent> {
                                   borderRadius: BorderRadius.circular(8)),
                               width: MediaQuery.of(context).size.width,
                               child: const Icon(
-                                Icons.add_a_photo,
+                                Icons.photo,
                                 color: Colors.black45,
                               ),
                             )),
                   const SizedBox(
                     height: 8,
                   ),
+                  //create a form input to write data
                   Container(
                     decoration: BoxDecoration(
                         color: Colors.white,
@@ -182,7 +185,19 @@ class _CreateEventState extends State<CreateEvent> {
                           onChanged: (val) {
                             time = val;
                           },
-                        )
+                        ),
+                        // TextField(
+                        //   decoration: const InputDecoration(
+                        //       hintText: "info",
+                        //       border: InputBorder.none,
+                        //       contentPadding: EdgeInsets.only(
+                        //           left: 10, top: 10, bottom: 10)
+                        //           ),
+                        //           maxLines: 4,
+                        //   onChanged: (val) {
+                        //     info = val;
+                        //   },
+                        // ),
                       ],
                     ),
                   )
@@ -193,7 +208,6 @@ class _CreateEventState extends State<CreateEvent> {
     );
   }
 }
-
 
 //   void _showPicker(context) {
 //     showModalBottomSheet(

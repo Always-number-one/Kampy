@@ -18,6 +18,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'dart:io';
 
 
+
 //flutter toast
 import 'package:fluttertoast/fluttertoast.dart';
 //firebase storage
@@ -31,7 +32,9 @@ import 'package:image_picker/image_picker.dart';
 
 
 
-import 'kampy_navbar.dart';
+
+// import 'kampy_navbar.dart';
+
 
 
 
@@ -64,8 +67,7 @@ _initialScreen(User? user)async {
   }
   else{
 
-   await  Get.offAll(()=> Welcome());
-
+   await  Get.offAll(()=> Posts());
 
 }
 }
@@ -157,7 +159,11 @@ void logOut() async{
     try {
       await _auth.currentUser!.updateDisplayName(name);
       await _auth.currentUser!.updatePhotoURL(image);
-      Navigator.push(context, MaterialPageRoute(builder: (context) =>Posts()));
+
+    //Navigator.push(context, MaterialPageRoute(builder: (context) =>Posts()));
+
+     Navigator.push(context, MaterialPageRoute(builder: (context) =>KampyEvent()));
+
     } catch (e) {
       Fluttertoast.showToast(msg: e.toString());
       print(e);

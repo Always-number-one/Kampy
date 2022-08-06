@@ -3,7 +3,8 @@
 import 'package:flutter/material.dart';
 
 class RecentChats extends StatelessWidget {
-  const RecentChats({Key? key}) : super(key: key);
+  final chats;
+  const RecentChats({key , required, required this.chats}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +26,7 @@ class RecentChats extends StatelessWidget {
           ]),
       child: Column(
         children: [
-          for (int i = 0; i < 10; i++) // map throug the data
+          for (int i = 0; i < chats.length ; i++) // map throug the data
             Padding(
               padding: EdgeInsets.symmetric(vertical: 15),
               child: InkWell(
@@ -38,7 +39,7 @@ class RecentChats extends StatelessWidget {
                     children: [
                       CircleAvatar(
                         radius: 35,
-                        backgroundImage: AssetImage('images/profile1.jpg'),
+                        backgroundImage: NetworkImage(chats[i]['senderURL']),
                       ),
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 20),
@@ -46,7 +47,7 @@ class RecentChats extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              "User",
+                              chats[i]['name'],
                               style: TextStyle(
                                 fontSize: 18,
                                 color: Colors.purple,
@@ -57,7 +58,7 @@ class RecentChats extends StatelessWidget {
                               height: 10,
                             ),
                             Text(
-                              "Message",
+                              chats[i]['message'],   
                               style: TextStyle(
                                   fontSize: 16, color: Colors.black54),
                             )
@@ -71,7 +72,7 @@ class RecentChats extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Text(
-                              'Time',
+                              chats[0]['date'],
                               style: TextStyle(
                                   fontSize: 15, color: Colors.black54),
                             ),

@@ -5,6 +5,13 @@ import 'package:flutter_application_1/services/crud.dart';
 import 'package:path/path.dart';
 import 'package:hexcolor/hexcolor.dart';
 
+// navbar
+import 'navbar_animated.dart';
+import 'kampy_posts.dart';
+import 'kampy_event.dart';
+import 'chat/chat_main.dart';
+import 'kampy_welcome.dart';
+
 class KampyEvent extends StatefulWidget {
   const KampyEvent({Key? key}) : super(key: key);
 
@@ -13,8 +20,15 @@ class KampyEvent extends StatefulWidget {
 }
 
 class _KampyEventState extends State<KampyEvent> {
+  // navbar 
+  final List<Widget> _pages = [KampyEvent(), Posts(), Welcome(), Chat()];
+// plus button array of pages
+  final List<Widget> _views = [KampyEvent(), Posts(), Chat(), Welcome()];
+  int index = 0;
+
   CrudMethods crudMethods = CrudMethods();
 
+// get the data event from cloud firestore
   QuerySnapshot? eventsSnapshot;
 
   Widget eventsList() {
@@ -43,9 +57,11 @@ class _KampyEventState extends State<KampyEvent> {
                       shrinkWrap: true,
                       itemBuilder: (context, index) {
                         return EventsTile(
+                          //  info: eventsSnapshot?.docs[index]['info'],
                           eventName: eventsSnapshot?.docs[index]['eventName'],
                           place: eventsSnapshot?.docs[index]['place'],
                           time: eventsSnapshot?.docs[index]['time'],
+                         
                           imgUrl: eventsSnapshot?.docs[index]['imgUrl'],
                         );
                       })
@@ -64,7 +80,7 @@ class _KampyEventState extends State<KampyEvent> {
     super.initState();
     crudMethods.getData().then((result) => {eventsSnapshot = result});
   }
-
+//create appBar and button to redirect from kampy event widget to create event widget
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -94,14 +110,56 @@ class _KampyEventState extends State<KampyEvent> {
           elevation: 0.0,
         ),
       ),
+
+       // navbar bottom
+        backgroundColor: Colors.white,
+        bottomNavigationBar: Builder(
+            builder: (context) => AnimatedBottomBar(
+                  defaultIconColor: Colors.black,
+                  activatedIconColor: const Color.fromARGB(255, 56, 3, 33),
+                  background: Colors.white,
+                  buttonsIcons: const [
+                    Icons.sunny_snowing,
+                    Icons.explore_sharp,
+                    Icons.messenger_outlined,
+                    Icons.person
+                  ],
+                  buttonsHiddenIcons: const [
+                    Icons.campaign_rounded,
+                    Icons.shopping_bag,
+                    Icons.image_rounded,
+                    Icons.post_add_rounded
+                  ],
+                  backgroundColorMiddleIcon:
+                      const Color.fromARGB(255, 56, 3, 33),
+                  onTapButton: (i) {
+                    setState(() {
+                      index = i;
+                    });
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => _views[i]),
+                    );
+                  },
+                  // navigate between pages
+                  onTapButtonHidden: (i) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => _pages[i]),
+                    );
+                  },
+                )),
+
       body: eventsList(),
-      backgroundColor: HexColor("#332052"),
+      // backgroundColor: HexColor("#332052"),
       floatingActionButton: Container(
         padding: const EdgeInsets.symmetric(horizontal: 10),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: <Widget>[
             FloatingActionButton(
+               // this hero tag for the navbar 
+                heroTag: "navbar",
               onPressed: () {
                 Navigator.push(
                     context,
@@ -125,6 +183,7 @@ class EventsTile extends StatelessWidget {
   final dynamic eventName;
   final dynamic place;
   final dynamic time;
+  // final dynamic info;
 
   EventsTile({
     Key? key,
@@ -133,8 +192,9 @@ class EventsTile extends StatelessWidget {
     required this.eventName,
     required this.place,
     required this.time,
+    // required this.info,
   }) : super(key: key);
-
+//show the data event
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -178,16 +238,26 @@ class EventsTile extends StatelessWidget {
                       fontWeight: FontWeight.w400,
                       color: Colors.white),
                 ),
-                const SizedBox(
-                  height: 4,
-                ),
+                // const SizedBox(
+                //   height: 4,
+                // ),
                 // Text(
                 //   time,
                 //   style: const TextStyle(
                 //       fontSize: 17,
                 //       fontWeight: FontWeight.w400,
                 //       color: Colors.white),
-                // )
+                // ),
+                // const SizedBox(
+                //   height: 4,
+                // ),
+                // Text(
+                //   info,
+                //   style: const TextStyle(
+                //       fontSize: 17,
+                //       fontWeight: FontWeight.w400,
+                //       color: Colors.white),
+                // ),
               ],
             ),
           )
