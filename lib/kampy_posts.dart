@@ -218,7 +218,14 @@ class PostsTitle extends StatelessWidget {
                       fontWeight: FontWeight.w500,
                       color: Color.fromARGB(255, 0, 0, 0)),
                       
-                ),
+                ),])),
+                Container(
+            margin: EdgeInsets.fromLTRB(190, 0, 00, 45),
+            width: MediaQuery.of(context).size.width,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children:<Widget> [
                 Text(description,
                   style: const TextStyle(
                       fontSize: 17,
@@ -228,12 +235,12 @@ class PostsTitle extends StatelessWidget {
                       const SizedBox(
                         height: 10,
                 ),
+
+              ]),
+                ),
               ],
             ),
-          )
-        ],
-      ),
-    );
+          );
   }
 }
 
