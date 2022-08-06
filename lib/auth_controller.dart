@@ -18,6 +18,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'dart:io';
 
 
+
 //flutter toast
 import 'package:fluttertoast/fluttertoast.dart';
 //firebase storage
@@ -66,7 +67,7 @@ _initialScreen(User? user)async {
   }
   else{
 
-   await  Get.offAll(()=> Welcome());
+   await  Get.offAll(()=> Posts());
 
 }
 }
