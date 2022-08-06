@@ -31,7 +31,9 @@ import 'package:image_picker/image_picker.dart';
 
 
 
+
 // import 'kampy_navbar.dart';
+
 
 
 
@@ -64,8 +66,7 @@ _initialScreen(User? user)async {
   }
   else{
 
-   await  Get.offAll(()=> Chat());
-
+   await  Get.offAll(()=> Welcome());
 
 }
 }
@@ -157,7 +158,11 @@ void logOut() async{
     try {
       await _auth.currentUser!.updateDisplayName(name);
       await _auth.currentUser!.updatePhotoURL(image);
-      Navigator.push(context, MaterialPageRoute(builder: (context) =>Posts()));
+
+    //Navigator.push(context, MaterialPageRoute(builder: (context) =>Posts()));
+
+     Navigator.push(context, MaterialPageRoute(builder: (context) =>KampyEvent()));
+
     } catch (e) {
       Fluttertoast.showToast(msg: e.toString());
       print(e);
