@@ -54,6 +54,7 @@ class _ChatHomeState extends State<ChatHome> {
   // convert a TimeStamp into a string ;
 
   String formatteDate(timeStamp) {
+    
     var dateFromTimeStamp =
         DateTime.fromMillisecondsSinceEpoch(timeStamp.seconds * 1000);
     return DateFormat("dd-MM-yyyy hh:mm a").format(dateFromTimeStamp);
