@@ -16,6 +16,7 @@ class ChatHome extends StatefulWidget {
 
 class _ChatHomeState extends State<ChatHome> {
   final controller = TextEditingController();
+  List usersPhotos = [];
   String? _name;
   String? _photoUrl;
   String? _uid;
@@ -33,10 +34,21 @@ class _ChatHomeState extends State<ChatHome> {
     });
   }
 
+  Future getUsers() async {
+    List tmpUsersPhotos = [];
+    await FirebaseFirestore.instance
+        .collection("users")
+        .get()
+        .then((snapshot) => snapshot.docs.forEach((doc) {
+              tmpUsersPhotos.add({'photoUrl': doc.data()['photoUrl']});
+            }));
+    usersPhotos = tmpUsersPhotos;
+  }
+
   @override
   Widget build(BuildContext context) {
+    getUsers();
     loggedUser();
-    print(_name);
     return Scaffold(
       drawer: Drawer(),
       body: ListView(children: [
@@ -49,7 +61,6 @@ class _ChatHomeState extends State<ChatHome> {
                 fontSize: 28,
                 fontWeight: FontWeight.bold),
           ),
-
         ),
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 15),
@@ -86,7 +97,10 @@ class _ChatHomeState extends State<ChatHome> {
             ),
           ),
         ),
-        ActiveChats(),
+        for (var i = 0; i < usersPhotos.length; i ++)
+          ActiveChats(
+            photoUrl: usersPhotos[i]["photoUrl"],
+          ),
         RecentChats(),
       ]),
       floatingActionButton: FloatingActionButton(

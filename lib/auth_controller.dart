@@ -37,11 +37,11 @@ _initialScreen(User? user)async {
     Get.offAll(()=>  LogIn());
   }else if(user.photoURL==null){
 
-       await  Get.offAll(()=> Welcome(email:""));
+       await  Get.offAll(()=> Chat());
 
   }
   else{
-   await  Get.offAll(()=> Welcome( email: user.photoURL!));
+   await  Get.offAll(()=> Chat());
 
 }
 }

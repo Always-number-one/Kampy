@@ -1,9 +1,11 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
-
+import 'dart:io';
 class ActiveChats extends StatelessWidget {
-  const ActiveChats({Key? key}) : super(key: key);
+  final  photoUrl;
+
+  const ActiveChats({key, required, required this.photoUrl}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +15,6 @@ class ActiveChats extends StatelessWidget {
           scrollDirection: Axis.horizontal,
           child: Row(
             children: [
-              for (int i = 0; i < 10; i++)
                 Padding(
                   padding: EdgeInsets.symmetric(vertical: 10, horizontal: 12),
                   child: Container(
@@ -32,7 +33,7 @@ class ActiveChats extends StatelessWidget {
                         ]),
                     child: CircleAvatar(
                       radius: 50,
-                      backgroundImage: AssetImage('images/profile1.jpg'),
+                      child: Image.network(photoUrl),
                     ),
                   ),
                 )
