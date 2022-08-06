@@ -184,7 +184,8 @@ class PostsTitle extends StatelessWidget {
     return Container(
       margin: EdgeInsets.fromLTRB(0, 0, 0, 16),
       // margin: const EdgeInsets.only(bottom: 16),
-      height: 150,
+
+      height: 190,
       width: MediaQuery.of(context).size.width,
       child: Stack(
         children: <Widget>[
@@ -193,19 +194,19 @@ class PostsTitle extends StatelessWidget {
             child: Image.network(
               imgUrl,
               width: 170,
-              height: 150,
+              height: 170,
               fit: BoxFit.cover,
             ),
           ),
           Container(
-            height: 150,
+            height: 170,
             decoration: BoxDecoration(
                 color: Colors.black45.withOpacity(0.3),
                 borderRadius: BorderRadius.circular(8),
                 ),
           ),
           Container(
-            margin: EdgeInsets.fromLTRB(190, 0, 00, 45),
+            margin: EdgeInsets.fromLTRB(150, 20, 00, 140),
             width: MediaQuery.of(context).size.width,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -220,7 +221,7 @@ class PostsTitle extends StatelessWidget {
                       
                 ),])),
                 Container(
-            margin: EdgeInsets.fromLTRB(190, 0, 00, 45),
+            margin: EdgeInsets.fromLTRB(190, 30, 00, 10),
             width: MediaQuery.of(context).size.width,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
