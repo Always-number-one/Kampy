@@ -128,16 +128,6 @@ class _WelcomeState extends State<Welcome> {
             Container(                        
           margin: const EdgeInsets.only(left: 20, right: 20, bottom: 20, top: 70),
 
-          child: WidgetCircularAnimator(
-            innerColor: HexColor("#170B31") ,
-            outerColor:HexColor("#170B31") ,
-            innerAnimationSeconds: 70,
-            outerAnimationSeconds: 10,
-            innerAnimation:Curves.bounceOut,
-            outerAnimation: Curves.ease,
-            innerIconsSize:0,
-            outerIconsSize: 0,
-        
             child: Container(
               decoration: BoxDecoration(
                   shape: BoxShape.circle, color: Colors.grey[200]),
@@ -147,13 +137,19 @@ class _WelcomeState extends State<Welcome> {
                          backgroundImage: NetworkImage(snapshot.data!.docs[i]["photoUrl"]),
                               )
             ),
-        )),
+        ),
                
                   // diplay current user if exists
                  ListTile(
+                 
                     title: Text(snapshot.data!.docs[i]['name']),
                     subtitle: Text(snapshot.data!.docs[i]['email'].toString()),
-            ),]),
+            ),
+            
+            
+            
+            
+            ]),
                 );
                 }
                
