@@ -2,10 +2,11 @@
 
 import 'package:flutter/material.dart';
 import 'dart:io';
-class ActiveChats extends StatelessWidget {
-  final  photoUrl;
 
-  const ActiveChats({key, required, required this.photoUrl}) : super(key: key);
+class ActiveChats extends StatelessWidget {
+  final photos;
+
+  const ActiveChats({key, required, required this.photos}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -15,6 +16,7 @@ class ActiveChats extends StatelessWidget {
           scrollDirection: Axis.horizontal,
           child: Row(
             children: [
+              for (var i = 0; i < photos.length; i++)
                 Padding(
                   padding: EdgeInsets.symmetric(vertical: 10, horizontal: 12),
                   child: Container(
@@ -33,7 +35,7 @@ class ActiveChats extends StatelessWidget {
                         ]),
                     child: CircleAvatar(
                       radius: 50,
-                      child: Image.network(photoUrl),
+                      backgroundImage: NetworkImage(photos[i]['photoUrl']),
                     ),
                   ),
                 )
