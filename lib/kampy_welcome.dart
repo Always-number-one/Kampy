@@ -69,46 +69,32 @@ child: Stack(
 
                 children:  [
                   // sign up title
-        //           Container(
-        // padding: const EdgeInsets.only(left: 10 ),
-        //    child: Row( 
-        //     children:  <Widget> [
-        //     Text( 
-        //   'name: ${widget.email}' ,
-        //     style: const TextStyle(
-        //       color: Color.fromARGB(255, 14, 14, 14),
-        //        fontWeight: FontWeight.bold,
-        //       fontSize: 30,
-        //     ),
-             
-            
-        //   )
-          
-        //     ],
-       
-        //   )
-        
-          
-        //   ),
+   
                    
-                    const SizedBox(  height: 10,),
+                 
          
          
              
             //  second input
-         
-SingleChildScrollView(
-            child: Container(
-              width: MediaQuery.of(context).size.width,
-              height: 200.0,
-              child: CircleAvatar(
-                radius: 30,
-                child: widget.email==""
-                    ? Text("No Image is picked")
-                    : Image.file(File(widget.email)),
-              ),
-            ),
-          ),
+ Padding(    
+  padding: EdgeInsets.only(bottom: 20,top: 20,),
+child:Container(
+
+height: 200,
+    child: CircleAvatar(
+  
+      radius: 70.0,
+      backgroundColor: Color.fromARGB(0, 255, 255, 255),
+      child: ClipOval(
+        child: (widget.email=="")
+        ? Image.asset('images/profile1.jpg',    height: 100,)
+        : Image.file(File(widget.email),    height: 100,),
+      ),
+    ),
+  
+
+
+          ),) ,
  // button container
 GestureDetector(
 onTap: (){
@@ -117,6 +103,7 @@ onTap: (){
 
 
                child:  Container(
+                
           margin:  const EdgeInsets.only(left: 20,right: 20,bottom: 20),
 
             width: 150,
