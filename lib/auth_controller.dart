@@ -61,15 +61,10 @@ _initialScreen(User? user)async {
   if (user==null){
 
     Get.offAll(()=>  LogIn());
-  }else if(user.displayName==null){
-       await  Get.offAll(()=>  Posts());
-
-
   }
-  
   else{
 
-   await  Get.offAll(()=> Posts());
+   await  Get.offAll(()=> Welcome());
 
 
 }
