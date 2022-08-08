@@ -91,22 +91,22 @@ class _PostsState extends State<Posts> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(100),
-        child: AppBar(
-          centerTitle: true,
-          flexibleSpace: ClipRRect(
-            child: Container(
-                decoration: const BoxDecoration(
-                    image: DecorationImage(
-                        image: AssetImage(
-                            "images/88257fc06f6e674a8ffc2a39bd3de33a.gif"),
-                        fit: BoxFit.fill))),
-          ),
-          backgroundColor: Colors.transparent,
-          elevation: 0.0,
-        ),
-      ),
+      // appBar: PreferredSize(
+      //   preferredSize: const Size.fromHeight(100),
+      //   child: AppBar(
+      //     centerTitle: true,
+      //     flexibleSpace: ClipRRect(
+      //       child: Container(
+      //           decoration: const BoxDecoration(
+      //               image: DecorationImage(
+      //                   image: AssetImage(
+      //                       "images/88257fc06f6e674a8ffc2a39bd3de33a.gif"),
+      //                   fit: BoxFit.fill))),
+      //     ),
+      //     backgroundColor: Colors.transparent,
+      //     elevation: 0.0,
+      //   ),
+      // ),
 
 
       body: postsList() ,

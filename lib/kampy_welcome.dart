@@ -2,14 +2,9 @@ import 'auth_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/auth_controller.dart';
 
-
-// circular animater
-import 'package:widget_circular_animator/widget_circular_animator.dart';
-
 // hex color
 import 'package:hexcolor/hexcolor.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
 
 // firebase auth
 import 'package:firebase_auth/firebase_auth.dart';
@@ -50,11 +45,17 @@ class _WelcomeState extends State<Welcome> {
     double h = MediaQuery.of(context).size.height;
 
     return Scaffold(
+      //appbar
+        appBar: AppBar(
+          title: Text("Proflie"),
+          centerTitle: true,
+          backgroundColor: Color.fromARGB(255, 20, 6, 29),
+        ),
+
         // navbar bottom
         backgroundColor: Colors.white,
         bottomNavigationBar: Builder(
             builder: (context) => AnimatedBottomBar(
-         
                   defaultIconColor: Colors.black,
                   activatedIconColor: const Color.fromARGB(255, 56, 3, 33),
                   background: Colors.white,
@@ -92,22 +93,23 @@ class _WelcomeState extends State<Welcome> {
 // navbar bottom ends here
 
 // body starts here
-        body: Stack(
-          // background 
+        body: SingleChildScrollView(
+            child: Column(
+          // background
           children: <Widget>[
             Container(
               decoration: const BoxDecoration(
-                color: Colors.white,
-              //     image: DecorationImage(
-              //   image: AssetImage("images/background5.jpg"),
-              //   fit: BoxFit.fill,
-              // )
+                color: Color.fromARGB(255, 255, 255, 255),
+                //     image: DecorationImage(
+                //   image: AssetImage("images/background5.jpg"),
+                //   fit: BoxFit.fill,
+                // )
               ),
             ),
 
-            // read data from firestore 
+            // read data from firestore
             StreamBuilder<QuerySnapshot>(
-              // build dnapshot using users collection
+                // build dnapshot using users collection
                 stream: users.snapshots(),
                 builder: (BuildContext context,
                     AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -116,149 +118,179 @@ class _WelcomeState extends State<Welcome> {
                   }
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return const Text("loading");
-                  }if (snapshot.hasData){
-                 
-           for (var i= 0 ;i<snapshot.data!.docs.length ;i++){
-          
-               if (snapshot.data!.docs[i]['uid']==uid){
-                return Card(
-                      color:const Color.fromARGB(255, 255, 255, 255),
-                  margin: const EdgeInsets.all(10),
-                child:  Column(
-                     
-           children: [ 
-            Container( 
-          
-                                    
-          margin: const EdgeInsets.only(left: 20, right: 20, bottom: 20, top: 70),
+                  }
+                  if (snapshot.hasData) {
+                    for (var i = 0; i < snapshot.data!.docs.length; i++) {
+                      if (snapshot.data!.docs[i]['uid'] == uid) {
+                        return Card(
+                          color: Color.fromARGB(255, 255, 255, 255),
+                          margin: const EdgeInsets.all(10),
+                          child: Column(children: [
+                            Container(
+                              margin: const EdgeInsets.only(
+                                  left: 20, right: 20, bottom: 10, top: 100),
+                              child: Container(
+                                decoration: const BoxDecoration(
+                                  color: Color.fromARGB(255, 255, 255, 255),
+                                  shape: BoxShape.circle,
+                                ),
+                                child: CircleAvatar(
+                                  minRadius: 90,
+                                  maxRadius: 90,
+                                  backgroundImage: NetworkImage(
+                                      snapshot.data!.docs[i]["photoUrl"]),
+                                ),
+                              ),
+                            ),
+                            //icon after the picture
+                            const Align(
+                              alignment: Alignment.center,
+                              child: Icon(
+                                Icons.mode_outlined,
+                              ),
+                            ),
+                            //profile photo text
+                            const Padding(
+                                padding: EdgeInsets.only(
+                                    left: 15, bottom: 40, right: 20, top: 20),
+                                child: Text("PROFILE PHOTO",
+                                    style: TextStyle(
+                                        color: Color.fromARGB(255, 34, 5, 61),
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 15))),
 
-            child: Container(
-            
-              decoration: const BoxDecoration(
-                color:Colors.white,
-                  shape: BoxShape.circle, 
-                
-                ),
-              child: CircleAvatar(
-                       minRadius: 50,
-                        maxRadius: 50,
-                         backgroundImage: NetworkImage(snapshot.data!.docs[i]["photoUrl"]),
-                              )
-            ),
-        ),
-          //     Container(
-          //     child: Align(
-          // alignment: Alignment.center,
-          // child: Text(snapshot.data!.docs[i]['name'].toString()),
-         
-          // ),),
-        
-                  // diplay current user if exists
-    //              ListTile(
-    //                tileColor: Colors.white,
-                
-    //               &  title: Text(snapshot.data!.docs[i]['name']),
-    //                 subtitle: Text(snapshot.data!.docs[i]['email'].toString()),
-    //         ),
-
-    // name
-                     SizedBox( 
-                      height: 70,
-                      child: Material(
-                       
-            elevation: 5.0,
-              shadowColor: const Color.fromARGB(255, 0, 6, 10),
-                          child: TextFormField(
-                            
-                obscureText: true,
-                autofocus: false,
-                decoration: InputDecoration(
-                  
-                    icon: const Icon(Icons.person ,color: Color.fromARGB(255, 1, 5, 13)),
-                    hintText:" name : ${snapshot.data!.docs[i]['name']} ",
-                    fillColor: const Color.fromARGB(0, 255, 255, 255),
-                    filled: true,
-                    contentPadding: const EdgeInsets.fromLTRB(20.0, 40.0, 20.0, 10.0),
-                    enabledBorder: OutlineInputBorder(borderRadius:BorderRadius.circular(5.0),
-                    borderSide: const BorderSide(color: Color.fromARGB(0, 228, 225, 225), width: 3.0)
-                    )
-                ),
-              ),
-            )  ,
-            ),
-            // email
-
-            Container( 
-                   margin: const EdgeInsets.only(top:10),
-                      height: 70,
-                      child: Material(
-                       
-              elevation: 5.0,
-              shadowColor: const Color.fromARGB(255, 0, 6, 10),
-                          child: TextFormField(
-                            
-                obscureText: true,
-                autofocus: false,
-                decoration: InputDecoration(
-                  
-                    icon: const Icon(Icons.email ,color: Color.fromARGB(255, 1, 5, 13)),
-                    hintText:" email : ${snapshot.data!.docs[i]['email']} ",
-                    fillColor: const Color.fromARGB(0, 255, 255, 255),
-                    filled: true,
-                    contentPadding: const EdgeInsets.fromLTRB(20.0, 40.0, 20.0, 10.0),
-                    enabledBorder: OutlineInputBorder(borderRadius:BorderRadius.circular(5.0),
-                    borderSide: const BorderSide(color: Color.fromARGB(0, 228, 225, 225), width: 3.0)
-                    )
-                ),
-                
-              ),
-            ) , 
-            ),
-
-            // country
-             Container( 
-                   margin: const EdgeInsets.only(top:5),
-                      height: 70,
-                      child: Material(
-                       
-              elevation: 5.0,
-              // shadowColor: const Color.fromARGB(255, 0, 6, 10),
-                          child: TextFormField(
-                            
-                obscureText: true,
-                autofocus: false,
-                decoration: InputDecoration(
-                  
-                    icon: const Icon(Icons.place ,color: Color.fromARGB(255, 1, 5, 13)),
-                    hintText:" country : Tunisia ",
-                    fillColor: const Color.fromARGB(0, 255, 255, 255),
-                    filled: true,
-                    contentPadding: const EdgeInsets.fromLTRB(20.0, 40.0, 20.0, 10.0),
-                    enabledBorder: OutlineInputBorder(borderRadius:BorderRadius.circular(5.0),
-                    borderSide: const BorderSide(color: Color.fromARGB(0, 228, 225, 225), width: 3.0)
-                    )
-                ),
-                
-              ),
-            )  
-            ),
-  
-
-
-            ]),
-                );
-                }
-               
-           }
-           return const Text("there is no user");
-     
-                } 
-                else{
-                  return const Text("none");
-                }  
-                
-                } 
-             ),
+                            Container(
+                              margin: EdgeInsets.only(
+                                  left: 20, top: 10, right: 20, bottom: 00),
+                              width: 300,
+                              height: 74,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text.rich(
+                                    TextSpan(
+                                      children: <TextSpan>[
+                                        const TextSpan(
+                                            text:
+                                                'NAME                                             \n\n',
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 19,
+                                            )),
+                                        TextSpan(
+                                          text:
+                                              "${snapshot.data!.docs[i]['name']}",
+                                          style: const TextStyle(
+                                            fontSize: 19,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  const Align(
+                                    alignment: Alignment.center,
+                                    child: Icon(Icons.arrow_forward_ios),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            const Divider(
+                              color: Color.fromARGB(
+                                  255, 0, 0, 0), //color of divider
+                              height: 1, //height spacing of divider
+                              thickness: 1, //thickness of divier line
+                              indent: 22, //spacing at the start of divider
+                              endIndent: 22, //spacing at the end of divider
+                            ),
+                            Container(
+                              margin: const EdgeInsets.symmetric(
+                                  horizontal: 10, vertical: 10),
+                              width: 300,
+                              height: 74,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text.rich(
+                                    TextSpan(
+                                      children: <TextSpan>[
+                                        const TextSpan(
+                                            text:
+                                                'EMAIL                                            \n\n',
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 19,
+                                            )),
+                                        TextSpan(
+                                            text:
+                                                "${snapshot.data!.docs[i]['email']}",
+                                            style: const TextStyle(
+                                              fontSize: 19,
+                                            )),
+                                      ],
+                                    ),
+                                  ),
+                                  const Align(
+                                    alignment: Alignment.center,
+                                    child: Icon(Icons.arrow_forward_ios),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            const Divider(
+                              color: Color.fromARGB(
+                                  255, 0, 0, 0), //color of divider
+                              height: 1, //height spacing of divider
+                              thickness: 1, //thickness of divier line
+                              indent: 22, //spacing at the start of divider
+                              endIndent: 22, //spacing at the end of divider
+                            ),
+                            // country
+                            Container(
+                              margin: const EdgeInsets.symmetric(
+                                  horizontal: 10, vertical: 10),
+                              width: 300,
+                              height: 74,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: const [
+                                  Text.rich(
+                                    TextSpan(
+                                      children: <TextSpan>[
+                                        TextSpan(
+                                            text:
+                                                'COUNTRY                                     \n\n',
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 19,
+                                            )),
+                                        TextSpan(
+                                            text: "Tunisia",
+                                            // "${snapshot.data!.docs[i]['name']}",
+                                            style: TextStyle(
+                                              fontSize: 19,
+                                            )),
+                                      ],
+                                    ),
+                                  ),
+                                  Align(
+                                    alignment: Alignment.center,
+                                    child: Icon(Icons.arrow_forward_ios),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ]),
+                        );
+                      }
+                    }
+                    return const Text("there is no user");
+                  } else {
+                    return const Text("none");
+                  }
+                }),
 
             SingleChildScrollView(
               child: Stack(
@@ -270,21 +302,16 @@ class _WelcomeState extends State<Welcome> {
                     ),
                     margin: const EdgeInsets.only(left: 20, right: 20, top: 70),
                     width: w,
-
-           child: Column(
-                     
-           children: [
-                       
-
-
-
+                    child: Column(
+                      children: [
                         // button container
                         GestureDetector(
                           onTap: () {
                             AuthController.instance.logOut();
                           },
                           child: Container(
-                            margin: const EdgeInsets.only(left: 20, right: 20, bottom: 20, top: 500),
+                            margin: const EdgeInsets.only(
+                                left: 20, right: 20, bottom: 20, top: 500),
                             width: 150,
                             height: 60,
                             decoration: const BoxDecoration(
@@ -313,6 +340,6 @@ class _WelcomeState extends State<Welcome> {
               ),
             ),
           ],
-        ));
+        )));
   }
 }
