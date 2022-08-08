@@ -15,7 +15,6 @@ class KampyEvent extends StatefulWidget {
 
 class _KampyEventState extends State<KampyEvent> {
   CrudMethods crudMethods = CrudMethods();
-  
 
 // get the data event from cloud firestore
   QuerySnapshot? eventsSnapshot;
@@ -62,7 +61,6 @@ class _KampyEventState extends State<KampyEvent> {
               ),
       ),
     );
-    
   }
 
   @override
@@ -125,16 +123,13 @@ class _KampyEventState extends State<KampyEvent> {
   }
 }
 
-class EventsTile extends StatelessWidget {
+class EventsTile extends StatefulWidget {
 // const   EventsTile({Key? key}) : super(key: key);
   String id;
   final dynamic imgUrl;
   final dynamic eventName;
   final dynamic place;
   final dynamic time;
-  // final dynamic info;
-  bool _isFavorited = true;
-  int _favoriteCount = 41;
 
   EventsTile({
     Key? key,
@@ -145,6 +140,17 @@ class EventsTile extends StatelessWidget {
     required this.time,
     // required this.info,
   }) : super(key: key);
+
+  @override
+  State<EventsTile> createState() => _EventsTileState();
+}
+
+class _EventsTileState extends State<EventsTile> {
+  // final dynamic info;
+  bool _isFavorited = true;
+
+  int _favoriteCount = 41;
+
 //show the data event
   @override
   Widget build(BuildContext context) {
@@ -156,7 +162,7 @@ class EventsTile extends StatelessWidget {
           ClipRRect(
               borderRadius: BorderRadius.circular(8),
               child: Image.network(
-                imgUrl,
+                widget.imgUrl,
                 width: MediaQuery.of(context).size.width,
                 fit: BoxFit.cover,
               )),
@@ -191,28 +197,46 @@ class EventsTile extends StatelessWidget {
           ),
           // Rating icon
           Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Container(
-          padding: const EdgeInsets.symmetric(vertical: 155),
-          child: IconButton(
-            padding: const EdgeInsets.all(0),
-            alignment: Alignment.centerRight,
-            icon: (_isFavorited
-                ? const Icon(Icons.star)
-                : const Icon(Icons.star_border)),
-            color: Color.fromARGB(255, 230, 211, 43), onPressed: () {  },
-            
+            // mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                padding: const EdgeInsets.symmetric(vertical: 155),
+                child: IconButton(
+                  padding: const EdgeInsets.all(0),
+                  alignment: Alignment.centerRight,
+                  icon: (_isFavorited
+                      ? const Icon(Icons.star)
+                      : const Icon(Icons.star_border)),
+                  color: Color.fromARGB(255, 230, 211, 43),
+                  onPressed: () {
+                    _toggleFavorite();
+                  },
+                ),
+              ),
+
+              Column(
+                children: [
+                  Container(
+                    margin: const EdgeInsets.only(top: 155),
+                    child: SizedBox(
+                      child: Text('$_favoriteCount',
+                          style: const TextStyle(
+                              fontSize: 17, color: Colors.black)),
+                    ),
+                  ),
+                ],
+              ),
+
+              // Container(
+              // margin: const EdgeInsets.only(top: 150),
+              //   child: SizedBox(
+              //     child: Text('$_favoriteCount',
+              //         style:
+              //             const TextStyle(fontSize: 17, color: Colors.black)),
+              //   ),
+              // ),
+            ],
           ),
-        ),
-        SizedBox(
-          width: 10,
-          child: SizedBox(
-            child: Text('$_favoriteCount', style: const TextStyle(fontSize: 17, color: Colors.black)),
-          ),
-        ),
-      ],
-    ),
           Container(
             width: MediaQuery.of(context).size.width,
             child: Column(
@@ -220,7 +244,7 @@ class EventsTile extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 Text(
-                  eventName,
+                  widget.eventName,
                   style: const TextStyle(
                       fontSize: 25,
                       fontWeight: FontWeight.w500,
@@ -230,7 +254,7 @@ class EventsTile extends StatelessWidget {
                   height: 4,
                 ),
                 Text(
-                  place,
+                  widget.place,
                   style: const TextStyle(
                       fontSize: 17,
                       fontWeight: FontWeight.w400,
@@ -262,5 +286,17 @@ class EventsTile extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  void _toggleFavorite() {
+    setState(() {
+      if (_isFavorited) {
+        _favoriteCount -= 1;
+        _isFavorited = false;
+      } else {
+        _favoriteCount += 1;
+        _isFavorited = true;
+      }
+    });
   }
 }
