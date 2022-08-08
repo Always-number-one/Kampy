@@ -123,13 +123,16 @@ class _KampyEventState extends State<KampyEvent> {
   }
 }
 
-class EventsTile extends StatefulWidget {
+class EventsTile extends StatelessWidget {
 // const   EventsTile({Key? key}) : super(key: key);
   String id;
   final dynamic imgUrl;
   final dynamic eventName;
   final dynamic place;
   final dynamic time;
+  // final dynamic info;
+  bool _isFavorited = true;
+  int _favoriteCount = 41;
 
   EventsTile({
     Key? key,
@@ -140,17 +143,6 @@ class EventsTile extends StatefulWidget {
     required this.time,
     // required this.info,
   }) : super(key: key);
-
-  @override
-  State<EventsTile> createState() => _EventsTileState();
-}
-
-class _EventsTileState extends State<EventsTile> {
-  // final dynamic info;
-  bool _isFavorited = true;
-
-  int _favoriteCount = 41;
-
 //show the data event
   @override
   Widget build(BuildContext context) {
@@ -162,7 +154,7 @@ class _EventsTileState extends State<EventsTile> {
           ClipRRect(
               borderRadius: BorderRadius.circular(8),
               child: Image.network(
-                widget.imgUrl,
+                imgUrl,
                 width: MediaQuery.of(context).size.width,
                 fit: BoxFit.cover,
               )),
@@ -197,7 +189,7 @@ class _EventsTileState extends State<EventsTile> {
           ),
           // Rating icon
           Row(
-            // mainAxisSize: MainAxisSize.min,
+            mainAxisSize: MainAxisSize.min,
             children: [
               Container(
                 padding: const EdgeInsets.symmetric(vertical: 155),
@@ -208,33 +200,17 @@ class _EventsTileState extends State<EventsTile> {
                       ? const Icon(Icons.star)
                       : const Icon(Icons.star_border)),
                   color: Color.fromARGB(255, 230, 211, 43),
-                  onPressed: () {
-                    _toggleFavorite();
-                  },
+                  onPressed: () {},
                 ),
               ),
-
-              Column(
-                children: [
-                  Container(
-                    margin: const EdgeInsets.only(top: 155),
-                    child: SizedBox(
-                      child: Text('$_favoriteCount',
-                          style: const TextStyle(
-                              fontSize: 17, color: Colors.black)),
-                    ),
-                  ),
-                ],
+              Container(
+              margin: const EdgeInsets.only(top: 150),
+                child: SizedBox(
+                  child: Text('$_favoriteCount',
+                      style:
+                          const TextStyle(fontSize: 17, color: Colors.black)),
+                ),
               ),
-
-              // Container(
-              // margin: const EdgeInsets.only(top: 150),
-              //   child: SizedBox(
-              //     child: Text('$_favoriteCount',
-              //         style:
-              //             const TextStyle(fontSize: 17, color: Colors.black)),
-              //   ),
-              // ),
             ],
           ),
           Container(
@@ -244,7 +220,7 @@ class _EventsTileState extends State<EventsTile> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 Text(
-                  widget.eventName,
+                  eventName,
                   style: const TextStyle(
                       fontSize: 25,
                       fontWeight: FontWeight.w500,
@@ -254,7 +230,7 @@ class _EventsTileState extends State<EventsTile> {
                   height: 4,
                 ),
                 Text(
-                  widget.place,
+                  place,
                   style: const TextStyle(
                       fontSize: 17,
                       fontWeight: FontWeight.w400,
@@ -286,17 +262,5 @@ class _EventsTileState extends State<EventsTile> {
         ],
       ),
     );
-  }
-
-  void _toggleFavorite() {
-    setState(() {
-      if (_isFavorited) {
-        _favoriteCount -= 1;
-        _isFavorited = false;
-      } else {
-        _favoriteCount += 1;
-        _isFavorited = true;
-      }
-    });
   }
 }
