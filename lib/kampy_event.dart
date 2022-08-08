@@ -230,6 +230,7 @@ class EventsTile extends StatelessWidget {
                   height: 4,
                 ),
                 Text(
+                
                   place,
                   style: const TextStyle(
                       fontSize: 17,
