@@ -130,7 +130,7 @@ class _WelcomeState extends State<Welcome> {
                             //the picture
                             Container(
                               margin: const EdgeInsets.only(
-                                  left: 20, right: 20, bottom: 10, top: 100),
+                                  left: 20, right: 20, bottom: 10, top: 50),
                               child: Container(
                                 decoration: const BoxDecoration(
                                   color: Color.fromARGB(255, 255, 255, 255),
