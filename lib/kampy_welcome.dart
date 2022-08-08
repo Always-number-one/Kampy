@@ -45,7 +45,7 @@ class _WelcomeState extends State<Welcome> {
     double h = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      //appbar
+        //appbar
         appBar: AppBar(
           title: Text("Proflie"),
           centerTitle: true,
@@ -126,6 +126,8 @@ class _WelcomeState extends State<Welcome> {
                           color: Color.fromARGB(255, 255, 255, 255),
                           margin: const EdgeInsets.all(10),
                           child: Column(children: [
+
+                            //the picture
                             Container(
                               margin: const EdgeInsets.only(
                                   left: 20, right: 20, bottom: 10, top: 100),
@@ -142,6 +144,7 @@ class _WelcomeState extends State<Welcome> {
                                 ),
                               ),
                             ),
+
                             //icon after the picture
                             const Align(
                               alignment: Alignment.center,
@@ -149,6 +152,7 @@ class _WelcomeState extends State<Welcome> {
                                 Icons.mode_outlined,
                               ),
                             ),
+
                             //profile photo text
                             const Padding(
                                 padding: EdgeInsets.only(
@@ -159,6 +163,8 @@ class _WelcomeState extends State<Welcome> {
                                         fontWeight: FontWeight.bold,
                                         fontSize: 15))),
 
+
+                            //name
                             Container(
                               margin: EdgeInsets.only(
                                   left: 20, top: 10, right: 20, bottom: 00),
@@ -195,6 +201,8 @@ class _WelcomeState extends State<Welcome> {
                                 ],
                               ),
                             ),
+
+                            //line between them
                             const Divider(
                               color: Color.fromARGB(
                                   255, 0, 0, 0), //color of divider
@@ -203,6 +211,9 @@ class _WelcomeState extends State<Welcome> {
                               indent: 22, //spacing at the start of divider
                               endIndent: 22, //spacing at the end of divider
                             ),
+
+
+                            //email
                             Container(
                               margin: const EdgeInsets.symmetric(
                                   horizontal: 10, vertical: 10),
@@ -238,6 +249,8 @@ class _WelcomeState extends State<Welcome> {
                                 ],
                               ),
                             ),
+
+                            //line between them
                             const Divider(
                               color: Color.fromARGB(
                                   255, 0, 0, 0), //color of divider
@@ -246,6 +259,8 @@ class _WelcomeState extends State<Welcome> {
                               indent: 22, //spacing at the start of divider
                               endIndent: 22, //spacing at the end of divider
                             ),
+
+
                             // country
                             Container(
                               margin: const EdgeInsets.symmetric(
