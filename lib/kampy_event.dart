@@ -1,6 +1,5 @@
 import 'dart:ffi';
 
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/create_event.dart';
@@ -32,7 +31,7 @@ class _KampyEventState extends State<KampyEvent> {
 
   CrudMethods crudMethods = CrudMethods();
 
-   eventList() {
+  eventList() {
     //  create firestore instance
     FirebaseFirestore firestore = FirebaseFirestore.instance;
     // grab the collection
@@ -51,14 +50,14 @@ class _KampyEventState extends State<KampyEvent> {
             return SingleChildScrollView(
                 padding: const EdgeInsets.only(top: 70),
                 child: Column(children: [
-                  const Text(
-                    "KAMPY EVENTS",
-                    style: TextStyle(
-                      fontSize: 30,
-                      fontFamily: 'MuseoModerno',
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+                  // const Text(
+                  //   "KAMPY EVENTS",
+                  //   style: TextStyle(
+                  //     fontSize: 30,
+                  //     fontFamily: 'MuseoModerno',
+                  //     fontWeight: FontWeight.bold,
+                  //   ),
+                  // ),
                   const SizedBox(
                     height: 50,
                   ),
@@ -100,7 +99,7 @@ class _KampyEventState extends State<KampyEvent> {
                                   height: 10,
                                 ),
                                 //  post image
-                                ClipRRect(
+                                 ClipRRect(
                                     borderRadius: BorderRadius.circular(5),
                                     child: Container(
                                       height:
@@ -148,7 +147,6 @@ class _KampyEventState extends State<KampyEvent> {
                                                   ),
                                                 ],
                                               )),
-                                              
                                         ]),
                                       ),
                                     )),
@@ -173,6 +171,11 @@ class _KampyEventState extends State<KampyEvent> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text("Kampy Events"),
+        centerTitle: true,
+        backgroundColor: const Color.fromARGB(255, 2, 2, 41),
+      ),
 
       body: eventList(),
 
@@ -224,13 +227,13 @@ class EventTile extends StatelessWidget {
 
   String id;
   final dynamic eventName;
-  final dynamic place;
+  // final dynamic place;
   final dynamic imgUrl;
   EventTile({
     Key? key,
     this.id = '',
     required this.eventName,
-    required this.place,
+    // required this.place,
     required this.imgUrl,
   }) : super(key: key);
 
@@ -272,28 +275,28 @@ class EventTile extends StatelessWidget {
                       style: const TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.w500,
-                          color: Color.fromARGB(255, 0, 0, 0)),
+                          color: Colors.white),
                     ),
                   ])),
-          Container(
-            margin: const EdgeInsets.fromLTRB(190, 30, 00, 10),
-            width: MediaQuery.of(context).size.width,
-            child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Text(
-                    place,
-                    style: const TextStyle(
-                        fontSize: 17,
-                        fontWeight: FontWeight.w400,
-                        color: Colors.white),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                ]),
-          ),
+          // Container(
+          //   margin: const EdgeInsets.fromLTRB(190, 30, 00, 10),
+          //   width: MediaQuery.of(context).size.width,
+          //   child: Column(
+          //       mainAxisAlignment: MainAxisAlignment.center,
+          //       crossAxisAlignment: CrossAxisAlignment.center,
+          //       children: <Widget>[
+          //         Text(
+          //           place,
+          //           style: const TextStyle(
+          //               fontSize: 17,
+          //               fontWeight: FontWeight.w400,
+          //               color: Colors.white),
+          //         ),
+          //         const SizedBox(
+          //           height: 10,
+          //         ),
+          //       ]),
+          // ),
         ],
       ),
     );
