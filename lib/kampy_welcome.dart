@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/auth_controller.dart';
 
 
-// circular animater
-import 'package:widget_circular_animator/widget_circular_animator.dart';
+// // circular animater
+// import 'package:widget_circular_animator/widget_circular_animator.dart';
 
 // hex color
 import 'package:hexcolor/hexcolor.dart';
