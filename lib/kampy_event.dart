@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/create_event.dart';
@@ -21,7 +23,7 @@ class KampyEvent extends StatefulWidget {
 }
 
 class _KampyEventState extends State<KampyEvent> {
-  // navbar 
+  // navbar
   final List<Widget> _pages = [KampyEvent(), Posts(), Welcome(), Chat()];
 // plus button array of pages
   final List<Widget> _views = [KampyEvent(), Posts(), Chat(), Welcome()];
@@ -86,73 +88,73 @@ class _KampyEventState extends State<KampyEvent> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(180),
-        child: AppBar(
-          centerTitle: true,
-          flexibleSpace: ClipRRect(
-            // borderRadius: const BorderRadius.only(
-            //     bottomRight: Radius.circular(60),
-            //     bottomLeft: Radius.circular(0)),
-            child: Container(
-                decoration: const BoxDecoration(
-                    image: DecorationImage(
-                        image: AssetImage(
-                            "images/88257fc06f6e674a8ffc2a39bd3de33a.gif"),
-                        fit: BoxFit.fill))),
-          ),
-          // title: Row(
-          //   mainAxisAlignment: MainAxisAlignment.center,
-          //   children: const [
-          //     Text("Kampy", style: TextStyle(fontSize: 22)),
-          //     Text("Events", style: TextStyle(fontSize: 22, color: Colors.orange))
-          //   ],
-          // ),
-          backgroundColor: Colors.transparent,
-          elevation: 0.0,
-        ),
-      ),
+      // appBar: PreferredSize(
+      //   preferredSize: const Size.fromHeight(180),
+      //   child: AppBar(
+      //     centerTitle: true,
+      //     flexibleSpace: ClipRRect(
+      //       // borderRadius: const BorderRadius.only(
+      //       //     bottomRight: Radius.circular(60),
+      //       //     bottomLeft: Radius.circular(0)),
+      //       child: Container(
+      //           decoration: const BoxDecoration(
+      //               image: DecorationImage(
+      //                   image: AssetImage(
+      //                       "images/88257fc06f6e674a8ffc2a39bd3de33a.gif"),
+      //                   fit: BoxFit.fill))),
+      //     ),
+      //     // title: Row(
+      //     //   mainAxisAlignment: MainAxisAlignment.center,
+      //     //   children: const [
+      //     //     Text("Kampy", style: TextStyle(fontSize: 22)),
+      //     //     Text("Events", style: TextStyle(fontSize: 22, color: Colors.orange))
+      //     //   ],
+      //     // ),
+      //     backgroundColor: Colors.transparent,
+      //     elevation: 0.0,
+      //   ),
+      // ),
 
-       // navbar bottom
-        backgroundColor: Colors.white,
-        bottomNavigationBar: Builder(
-            builder: (context) => AnimatedBottomBar(
-                  defaultIconColor: Colors.black,
-                  activatedIconColor: const Color.fromARGB(255, 56, 3, 33),
-                  background: Colors.white,
-                  buttonsIcons: const [
-                    Icons.sunny_snowing,
-                    Icons.explore_sharp,
-                    Icons.messenger_outlined,
-                    Icons.person
-                  ],
-                  buttonsHiddenIcons: const [
-                    Icons.campaign_rounded,
-                    Icons.shopping_bag,
-                    Icons.image_rounded,
-                    Icons.post_add_rounded
-                  ],
-                  backgroundColorMiddleIcon:
-                      const Color.fromARGB(255, 56, 3, 33),
-                  onTapButton: (i) {
-                    setState(() {
-                      index = i;
-                    });
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => _views[i]),
-                    );
-                  },
-                  // navigate between pages
-                  onTapButtonHidden: (i) {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => _pages[i]),
-                    );
-                  },
-                )),
+      // navbar bottom
+      backgroundColor: Colors.white,
+      bottomNavigationBar: Builder(
+          builder: (context) => AnimatedBottomBar(
+                defaultIconColor: Colors.black,
+                activatedIconColor: const Color.fromARGB(255, 56, 3, 33),
+                background: Colors.white,
+                buttonsIcons: const [
+                  Icons.sunny_snowing,
+                  Icons.explore_sharp,
+                  Icons.messenger_outlined,
+                  Icons.person
+                ],
+                buttonsHiddenIcons: const [
+                  Icons.campaign_rounded,
+                  Icons.shopping_bag,
+                  Icons.image_rounded,
+                  Icons.post_add_rounded
+                ],
+                backgroundColorMiddleIcon: const Color.fromARGB(255, 56, 3, 33),
+                onTapButton: (i) {
+                  setState(() {
+                    index = i;
+                  });
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => _views[i]),
+                  );
+                },
+                // navigate between pages
+                onTapButtonHidden: (i) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => _pages[i]),
+                  );
+                },
+              )),
 
       body: eventsList(),
+
       // backgroundColor: HexColor("#332052"),
       floatingActionButton: Container(
         padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -160,8 +162,8 @@ class _KampyEventState extends State<KampyEvent> {
           mainAxisAlignment: MainAxisAlignment.end,
           children: <Widget>[
             FloatingActionButton(
-               // this hero tag for the navbar 
-                heroTag: "navbar",
+              // this hero tag for the navbar
+              heroTag: "navbar",
               onPressed: () {
                 Navigator.push(
                     context,
@@ -170,6 +172,7 @@ class _KampyEventState extends State<KampyEvent> {
               },
               backgroundColor: const Color.fromARGB(255, 34, 3, 39),
               child: const Icon(Icons.add),
+              
             ),
           ],
         ),
@@ -178,13 +181,16 @@ class _KampyEventState extends State<KampyEvent> {
   }
 }
 
-class EventsTile extends StatefulWidget {
+class EventsTile extends StatelessWidget {
 // const   EventsTile({Key? key}) : super(key: key);
   String id;
   final dynamic imgUrl;
   final dynamic eventName;
   final dynamic place;
   final dynamic time;
+  // final dynamic info;
+  bool _isFavorited = true;
+  int _favoriteCount = 41;
 
   EventsTile({
     Key? key,
@@ -195,17 +201,6 @@ class EventsTile extends StatefulWidget {
     required this.time,
     // required this.info,
   }) : super(key: key);
-
-  @override
-  State<EventsTile> createState() => _EventsTileState();
-}
-
-class _EventsTileState extends State<EventsTile> {
-  // final dynamic info;
-  bool _isFavorited = true;
-
-  int _favoriteCount = 41;
-
 //show the data event
   @override
   Widget build(BuildContext context) {
@@ -216,11 +211,23 @@ class _EventsTileState extends State<EventsTile> {
         children: <Widget>[
           ClipRRect(
               borderRadius: BorderRadius.circular(8),
-              child: Image.network(
-                widget.imgUrl,
-                width: MediaQuery.of(context).size.width,
-                fit: BoxFit.cover,
-              )),
+              child: SizedBox.fromSize(
+              
+                  child: GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (BuildContext context) =>
+                            const EventDetails()),
+                  );
+                },
+                child: Image.network(
+                  imgUrl,
+                  width: MediaQuery.of(context).size.width,
+                  fit: BoxFit.cover,
+                ),
+              ))),
           Container(
             height: 150,
             decoration: BoxDecoration(
@@ -239,20 +246,22 @@ class _EventsTileState extends State<EventsTile> {
             // ),
           ),
           // show details button
-          Container(
-            child: ElevatedButton(
-              child: const Text('Open Details'),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const EventDetails()),
-                );
-              },
-            ),
-          ),
+          // Container(
+          //   margin: const EdgeInsets.only(top: 80, left: 120),
+          //   child: ElevatedButton(
+          //     style: ElevatedButton.styleFrom(primary: Colors.transparent),
+          //     child: const Text('Open Details'),
+          //     onPressed: () {
+          //       Navigator.push(
+          //         context,
+          //         MaterialPageRoute(builder: (context) => const EventDetails()),
+          //       );
+          //     },
+          //   ),
+          // ),
           // Rating icon
           Row(
-            // mainAxisSize: MainAxisSize.min,
+            mainAxisSize: MainAxisSize.min,
             children: [
               Container(
                 padding: const EdgeInsets.symmetric(vertical: 155),
@@ -263,25 +272,9 @@ class _EventsTileState extends State<EventsTile> {
                       ? const Icon(Icons.star)
                       : const Icon(Icons.star_border)),
                   color: Color.fromARGB(255, 230, 211, 43),
-                  onPressed: () {
-                    _toggleFavorite();
-                  },
+                  onPressed: () {},
                 ),
               ),
-
-              Column(
-                children: [
-                  Container(
-                    margin: const EdgeInsets.only(top: 155),
-                    child: SizedBox(
-                      child: Text('$_favoriteCount',
-                          style: const TextStyle(
-                              fontSize: 17, color: Colors.black)),
-                    ),
-                  ),
-                ],
-              ),
-
               // Container(
               // margin: const EdgeInsets.only(top: 150),
               //   child: SizedBox(
@@ -299,22 +292,23 @@ class _EventsTileState extends State<EventsTile> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 Text(
-                  widget.eventName,
+                  eventName,
                   style: const TextStyle(
                       fontSize: 25,
                       fontWeight: FontWeight.w500,
                       color: Colors.white),
                 ),
-                const SizedBox(
-                  height: 4,
-                ),
-                Text(
-                  widget.place,
-                  style: const TextStyle(
-                      fontSize: 17,
-                      fontWeight: FontWeight.w400,
-                      color: Colors.white),
-                ),
+                // const SizedBox(
+                //   height: 4,
+                // ),
+                // Text(
+
+                //   place,
+                //   style: const TextStyle(
+                //       fontSize: 17,
+                //       fontWeight: FontWeight.w400,
+                //       color: Colors.white),
+                // ),
                 // const SizedBox(
                 //   height: 4,
                 // ),
@@ -341,17 +335,5 @@ class _EventsTileState extends State<EventsTile> {
         ],
       ),
     );
-  }
-
-  void _toggleFavorite() {
-    setState(() {
-      if (_isFavorited) {
-        _favoriteCount -= 1;
-        _isFavorited = false;
-      } else {
-        _favoriteCount += 1;
-        _isFavorited = true;
-      }
-    });
   }
 }
