@@ -1,4 +1,4 @@
-import 'dart:html';
+
 
 import 'auth_controller.dart';
 import 'package:flutter/material.dart';
@@ -19,8 +19,8 @@ import 'chat/chat_main.dart';
 
 import 'package:firebase_storage/firebase_storage.dart' as fStorage;
 
-import 'dart:io';
-import 'dart:html';
+
+
 
 
 
@@ -58,18 +58,25 @@ class _WelcomeState extends State<Welcome> {
 
     return Scaffold(
         //appbar
-        appBar: AppBar(
-          title: Text("Proflie"),
+         appBar: AppBar(
+       title: const Text("Proflie"),
           centerTitle: true,
-          backgroundColor: Color.fromARGB(255, 20, 6, 29),
+        flexibleSpace: Container(
+          decoration:  BoxDecoration(
+            gradient: LinearGradient(
+                begin: Alignment.centerLeft,
+                end: Alignment.centerRight,
+                colors: [HexColor('#675975'), HexColor('#7b94c4')]),
+          ),
         ),
-
+      ),
+     
         // navbar bottom
         backgroundColor: Colors.white,
         bottomNavigationBar: Builder(
             builder: (context) => AnimatedBottomBar(
                   defaultIconColor: Colors.black,
-                  activatedIconColor: const Color.fromARGB(255, 56, 3, 33),
+                  activatedIconColor: const Color.fromARGB(255, 2, 2, 41),
                   background: Colors.white,
                   buttonsIcons: const [
                     Icons.sunny_snowing,
@@ -84,7 +91,7 @@ class _WelcomeState extends State<Welcome> {
                     Icons.post_add_rounded
                   ],
                   backgroundColorMiddleIcon:
-                      const Color.fromARGB(255, 56, 3, 33),
+                      const Color.fromARGB(255, 2, 2, 41),
                   onTapButton: (i) {
                     setState(() {
                       index = i;
@@ -135,7 +142,7 @@ class _WelcomeState extends State<Welcome> {
                     for (var i = 0; i < snapshot.data!.docs.length; i++) {
                       if (snapshot.data!.docs[i]['uid'] == uid) {
                         return Card(
-                          color: Color.fromARGB(255, 255, 255, 255),
+                          color: const Color.fromARGB(255, 255, 255, 255),
                           margin: const EdgeInsets.all(10),
                           child: Column(children: [
 
@@ -152,7 +159,7 @@ class _WelcomeState extends State<Welcome> {
                                   minRadius: 90,
                                   maxRadius: 90,
                                   backgroundImage: NetworkImage(
-                                      snapshot.data!.docs[i]["photoUrl"]),
+                                    snapshot.data!.docs[i]['photoUrl']),
                                 ),
                               ),
                             ),
