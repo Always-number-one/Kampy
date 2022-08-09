@@ -1,3 +1,5 @@
+import 'dart:html';
+
 import 'auth_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/auth_controller.dart';
@@ -15,6 +17,14 @@ import 'kampy_posts.dart';
 import 'kampy_event.dart';
 import 'chat/chat_main.dart';
 
+import 'package:firebase_storage/firebase_storage.dart' as fStorage;
+
+import 'dart:io';
+import 'dart:html';
+
+
+
+
 class Welcome extends StatefulWidget {
   Welcome({Key? key}) : super(key: key);
 
@@ -27,6 +37,8 @@ class _WelcomeState extends State<Welcome> {
 // plus button array of pages
   final List<Widget> _views = [KampyEvent(), Posts(), Chat(), Welcome()];
   int index = 0;
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -168,7 +180,7 @@ class _WelcomeState extends State<Welcome> {
                             Container(
                               margin: const EdgeInsets.only(
                                   left: 20, top: 10, right: 20, bottom: 00),
-                              width: 300,
+                              width: 400,
                               height: 74,
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
@@ -194,10 +206,7 @@ class _WelcomeState extends State<Welcome> {
                                       ],
                                     ),
                                   ),
-                                  const Align(
-                                    alignment: Alignment.center,
-                                    child: Icon(Icons.arrow_forward_ios),
-                                  ),
+                                  IconButton(onPressed: (){}, icon: const Icon(Icons.arrow_forward_ios),tooltip: 'Update the name',)
                                 ],
                               ),
                             ),
@@ -215,9 +224,9 @@ class _WelcomeState extends State<Welcome> {
 
                             //email
                             Container(
-                              margin: const EdgeInsets.symmetric(
-                                  horizontal: 10, vertical: 10),
-                              width: 300,
+                                margin: const EdgeInsets.only(
+                                  left: 20, top: 10, right: 20, bottom: 00),
+                              width: 400,
                               height: 74,
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
@@ -228,7 +237,7 @@ class _WelcomeState extends State<Welcome> {
                                       children: <TextSpan>[
                                         const TextSpan(
                                             text:
-                                                'EMAIL                                            \n\n',
+                                                'EMAIL                                             \n\n',
                                             style: TextStyle(
                                               fontWeight: FontWeight.bold,
                                               fontSize: 19,
@@ -242,10 +251,7 @@ class _WelcomeState extends State<Welcome> {
                                       ],
                                     ),
                                   ),
-                                  const Align(
-                                    alignment: Alignment.center,
-                                    child: Icon(Icons.arrow_forward_ios),
-                                  ),
+                                  IconButton(onPressed: (){}, icon: const Icon(Icons.arrow_forward_ios),tooltip: 'Update the email',)
                                 ],
                               ),
                             ),
@@ -263,20 +269,20 @@ class _WelcomeState extends State<Welcome> {
 
                             // country
                             Container(
-                              margin: const EdgeInsets.symmetric(
-                                  horizontal: 10, vertical: 10),
-                              width: 300,
+                                margin: const EdgeInsets.only(
+                                  left: 20, top: 10, right: 20, bottom: 00),
+                              width: 400,
                               height: 74,
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
-                                children: const [
-                                  Text.rich(
+                                children: [
+                                  const Text.rich(
                                     TextSpan(
                                       children: <TextSpan>[
                                         TextSpan(
                                             text:
-                                                'COUNTRY                                     \n\n',
+                                                'COUNTRY                                       \n\n',
                                             style: TextStyle(
                                               fontWeight: FontWeight.bold,
                                               fontSize: 19,
@@ -290,10 +296,12 @@ class _WelcomeState extends State<Welcome> {
                                       ],
                                     ),
                                   ),
-                                  Align(
-                                    alignment: Alignment.center,
-                                    child: Icon(Icons.arrow_forward_ios),
-                                  ),
+                                  IconButton(onPressed: (){
+                                    setState(() {
+                                      
+                                    });
+                                  }, icon: const Icon(Icons.arrow_forward_ios),tooltip: 'Update the country',)
+
                                 ],
                               ),
                             ),
