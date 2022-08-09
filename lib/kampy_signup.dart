@@ -77,7 +77,7 @@ Future getFromCamera() async {
               
             decoration: const BoxDecoration(
               image:  DecorationImage(
-              image:  AssetImage("images/background5.jpg"),
+              image:  AssetImage("images/background889.jpg"),
              fit: BoxFit.fill,
            )),
           ),
@@ -156,7 +156,7 @@ child: Stack(
                       controller: nameController,
                       decoration: InputDecoration(      
                         hintText: "Name", 
-                   prefixIcon:const Icon(Icons.account_circle,color:Color.fromARGB(255, 132, 31, 120)) ,         
+                   prefixIcon:const Icon(Icons.account_circle,color:Color.fromARGB(255, 2, 2, 41)) ,         
 
                         focusedBorder: const OutlineInputBorder(
                      
@@ -200,7 +200,7 @@ child: Stack(
                      controller: emailController,
                       decoration: InputDecoration(   
                            hintText: "Email",  
-                       prefixIcon:const Icon(Icons.email,color:Color.fromARGB(255, 132, 31, 120)) ,         
+                       prefixIcon:const Icon(Icons.email,color:Color.fromARGB(255, 2, 2, 41)) ,         
                
                         focusedBorder: const OutlineInputBorder(
                      
@@ -243,7 +243,7 @@ child: Stack(
                      obscureText: true,
                       decoration: InputDecoration(  
                            hintText: "Password",      
-                        prefixIcon:const Icon(Icons.password,color:Color.fromARGB(255, 132, 31, 120)) ,         
+                        prefixIcon:const Icon(Icons.password,color:Color.fromARGB(255, 2, 2, 41)) ,         
             
                         focusedBorder: const OutlineInputBorder(
                      
@@ -288,7 +288,7 @@ GestureDetector(
                 topRight:  Radius.circular(700.0),
               ),
 
-           color: Color.fromARGB(255, 33, 1, 34),
+           color: Color.fromARGB(255, 2, 2, 41),
             
               
           ), child: const Center(

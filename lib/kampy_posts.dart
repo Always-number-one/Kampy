@@ -150,13 +150,13 @@ class _PostsState extends State<Posts> {
                                         ]),
                                       ),
                                     )),
-
+                                   Padding(
+                                    padding:const  EdgeInsets.only(left: 280),
+                                  child :Text( snapshot.data!.docs[i]['localisation']),  ),
                                 const SizedBox(
                                   height: 20,
                                 ),
-                                const SizedBox(
-                                  height: 10,
-                                ),
+                              
                               ]),
                         ),
                       ],
@@ -279,7 +279,7 @@ class PostsTitle extends StatelessWidget {
                     ),
                   ])),
           Container(
-            margin: EdgeInsets.fromLTRB(190, 30, 00, 10),
+            margin: const EdgeInsets.fromLTRB(190, 30, 00, 10),
             width: MediaQuery.of(context).size.width,
             child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -387,3 +387,5 @@ class PostsTitle extends StatelessWidget {
 //     );
 //   }
 // }
+
+
