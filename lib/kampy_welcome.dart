@@ -166,7 +166,7 @@ class _WelcomeState extends State<Welcome> {
 
                             //name
                             Container(
-                              margin: EdgeInsets.only(
+                              margin: const EdgeInsets.only(
                                   left: 20, top: 10, right: 20, bottom: 00),
                               width: 300,
                               height: 74,
