@@ -58,17 +58,9 @@ class _PostsState extends State<Posts> {
             return SingleChildScrollView(
                 padding: const EdgeInsets.only(top: 70),
                 child: Column(children: [
-                  const Text(
-                    "KAMPY",
-                    style: TextStyle(
-                      fontSize: 30,
-                      fontFamily: 'MuseoModerno',
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 50,
-                  ),
+                 
+                
+                
                   for (int i = 0; i < snapshot.data!.docs.length; i++)
                     Column(
                       children: [
@@ -98,7 +90,7 @@ class _PostsState extends State<Posts> {
                                     Container(
                                       margin: const EdgeInsets.only(left: 240),
                                       child: const Icon(
-                                          Icons.control_point_rounded),
+                                          Icons.more_vert),
                                     ),
                                   ],
                                 ),
