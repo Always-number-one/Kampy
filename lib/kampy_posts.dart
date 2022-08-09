@@ -179,7 +179,9 @@ class _PostsState extends State<Posts> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
       body: postsList(),
+
       // navbar bottom
       bottomNavigationBar: Builder(
           builder: (context) => AnimatedBottomBar(
