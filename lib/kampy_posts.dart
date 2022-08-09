@@ -179,7 +179,12 @@ class _PostsState extends State<Posts> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
+// appp bar
+ appBar: AppBar(
+          title: const Text("Posts"),
+          centerTitle: true,
+          backgroundColor: const Color.fromARGB(255, 20, 6, 29),
+        ),
       body: postsList(),
 
       // navbar bottom
