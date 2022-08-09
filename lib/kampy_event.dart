@@ -4,6 +4,14 @@ import 'package:flutter_application_1/create_event.dart';
 import 'package:flutter_application_1/services/crud.dart';
 import 'package:path/path.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:flutter_application_1/event_details.dart';
+
+// navbar
+import 'navbar_animated.dart';
+import 'kampy_posts.dart';
+import 'kampy_event.dart';
+import 'chat/chat_main.dart';
+import 'kampy_welcome.dart';
 
 class KampyEvent extends StatefulWidget {
   const KampyEvent({Key? key}) : super(key: key);
@@ -13,8 +21,15 @@ class KampyEvent extends StatefulWidget {
 }
 
 class _KampyEventState extends State<KampyEvent> {
+  // navbar 
+  final List<Widget> _pages = [KampyEvent(), Posts(), Welcome(), Chat()];
+// plus button array of pages
+  final List<Widget> _views = [KampyEvent(), Posts(), Chat(), Welcome()];
+  int index = 0;
+
   CrudMethods crudMethods = CrudMethods();
 
+// get the data event from cloud firestore
   QuerySnapshot? eventsSnapshot;
 
   Widget eventsList() {
@@ -43,9 +58,11 @@ class _KampyEventState extends State<KampyEvent> {
                       shrinkWrap: true,
                       itemBuilder: (context, index) {
                         return EventsTile(
+                          //  info: eventsSnapshot?.docs[index]['info'],
                           eventName: eventsSnapshot?.docs[index]['eventName'],
                           place: eventsSnapshot?.docs[index]['place'],
                           time: eventsSnapshot?.docs[index]['time'],
+
                           imgUrl: eventsSnapshot?.docs[index]['imgUrl'],
                         );
                       })
@@ -65,6 +82,7 @@ class _KampyEventState extends State<KampyEvent> {
     crudMethods.getData().then((result) => {eventsSnapshot = result});
   }
 
+//create appBar and button to redirect from kampy event widget to create event widget
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -94,14 +112,56 @@ class _KampyEventState extends State<KampyEvent> {
           elevation: 0.0,
         ),
       ),
+
+       // navbar bottom
+        backgroundColor: Colors.white,
+        bottomNavigationBar: Builder(
+            builder: (context) => AnimatedBottomBar(
+                  defaultIconColor: Colors.black,
+                  activatedIconColor: const Color.fromARGB(255, 56, 3, 33),
+                  background: Colors.white,
+                  buttonsIcons: const [
+                    Icons.sunny_snowing,
+                    Icons.explore_sharp,
+                    Icons.messenger_outlined,
+                    Icons.person
+                  ],
+                  buttonsHiddenIcons: const [
+                    Icons.campaign_rounded,
+                    Icons.shopping_bag,
+                    Icons.image_rounded,
+                    Icons.post_add_rounded
+                  ],
+                  backgroundColorMiddleIcon:
+                      const Color.fromARGB(255, 56, 3, 33),
+                  onTapButton: (i) {
+                    setState(() {
+                      index = i;
+                    });
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => _views[i]),
+                    );
+                  },
+                  // navigate between pages
+                  onTapButtonHidden: (i) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => _pages[i]),
+                    );
+                  },
+                )),
+
       body: eventsList(),
-      backgroundColor: HexColor("#332052"),
+      // backgroundColor: HexColor("#332052"),
       floatingActionButton: Container(
         padding: const EdgeInsets.symmetric(horizontal: 10),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: <Widget>[
             FloatingActionButton(
+               // this hero tag for the navbar 
+                heroTag: "navbar",
               onPressed: () {
                 Navigator.push(
                     context,
@@ -110,7 +170,7 @@ class _KampyEventState extends State<KampyEvent> {
               },
               backgroundColor: const Color.fromARGB(255, 34, 3, 39),
               child: const Icon(Icons.add),
-            )
+            ),
           ],
         ),
       ),
@@ -118,7 +178,7 @@ class _KampyEventState extends State<KampyEvent> {
   }
 }
 
-class EventsTile extends StatelessWidget {
+class EventsTile extends StatefulWidget {
 // const   EventsTile({Key? key}) : super(key: key);
   String id;
   final dynamic imgUrl;
@@ -133,19 +193,31 @@ class EventsTile extends StatelessWidget {
     required this.eventName,
     required this.place,
     required this.time,
+    // required this.info,
   }) : super(key: key);
 
   @override
+  State<EventsTile> createState() => _EventsTileState();
+}
+
+class _EventsTileState extends State<EventsTile> {
+  // final dynamic info;
+  bool _isFavorited = true;
+
+  int _favoriteCount = 41;
+
+//show the data event
+  @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 16),
+      margin: const EdgeInsets.only(bottom: 50),
       height: 150,
       child: Stack(
         children: <Widget>[
           ClipRRect(
               borderRadius: BorderRadius.circular(8),
               child: Image.network(
-                imgUrl,
+                widget.imgUrl,
                 width: MediaQuery.of(context).size.width,
                 fit: BoxFit.cover,
               )),
@@ -154,6 +226,71 @@ class EventsTile extends StatelessWidget {
             decoration: BoxDecoration(
                 color: Colors.black45.withOpacity(0.3),
                 borderRadius: BorderRadius.circular(8)),
+            // child: Container(
+            //   child: ElevatedButton(
+            //     child: const Text('Open Details'),
+            //     onPressed: () {
+            //       Navigator.push(
+            //         context,
+            //         MaterialPageRoute(builder: (context) => const EventDetails()),
+            //       );
+            //     },
+            //   ),
+            // ),
+          ),
+          // show details button
+          Container(
+            child: ElevatedButton(
+              child: const Text('Open Details'),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const EventDetails()),
+                );
+              },
+            ),
+          ),
+          // Rating icon
+          Row(
+            // mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                padding: const EdgeInsets.symmetric(vertical: 155),
+                child: IconButton(
+                  padding: const EdgeInsets.all(0),
+                  alignment: Alignment.centerRight,
+                  icon: (_isFavorited
+                      ? const Icon(Icons.star)
+                      : const Icon(Icons.star_border)),
+                  color: Color.fromARGB(255, 230, 211, 43),
+                  onPressed: () {
+                    _toggleFavorite();
+                  },
+                ),
+              ),
+
+              Column(
+                children: [
+                  Container(
+                    margin: const EdgeInsets.only(top: 155),
+                    child: SizedBox(
+                      child: Text('$_favoriteCount',
+                          style: const TextStyle(
+                              fontSize: 17, color: Colors.black)),
+                    ),
+                  ),
+                ],
+              ),
+
+              // Container(
+              // margin: const EdgeInsets.only(top: 150),
+              //   child: SizedBox(
+              //     child: Text('$_favoriteCount',
+              //         style:
+              //             const TextStyle(fontSize: 17, color: Colors.black)),
+              //   ),
+              // ),
+            ],
           ),
           Container(
             width: MediaQuery.of(context).size.width,
@@ -162,7 +299,7 @@ class EventsTile extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 Text(
-                  eventName,
+                  widget.eventName,
                   style: const TextStyle(
                       fontSize: 25,
                       fontWeight: FontWeight.w500,
@@ -172,27 +309,49 @@ class EventsTile extends StatelessWidget {
                   height: 4,
                 ),
                 Text(
-                  place,
+                  widget.place,
                   style: const TextStyle(
                       fontSize: 17,
                       fontWeight: FontWeight.w400,
                       color: Colors.white),
                 ),
-                const SizedBox(
-                  height: 4,
-                ),
+                // const SizedBox(
+                //   height: 4,
+                // ),
                 // Text(
                 //   time,
                 //   style: const TextStyle(
                 //       fontSize: 17,
                 //       fontWeight: FontWeight.w400,
                 //       color: Colors.white),
-                // )
+                // ),
+                // const SizedBox(
+                //   height: 4,
+                // ),
+                // Text(
+                //   info,
+                //   style: const TextStyle(
+                //       fontSize: 17,
+                //       fontWeight: FontWeight.w400,
+                //       color: Colors.white),
+                // ),
               ],
             ),
           )
         ],
       ),
     );
+  }
+
+  void _toggleFavorite() {
+    setState(() {
+      if (_isFavorited) {
+        _favoriteCount -= 1;
+        _isFavorited = false;
+      } else {
+        _favoriteCount += 1;
+        _isFavorited = true;
+      }
+    });
   }
 }

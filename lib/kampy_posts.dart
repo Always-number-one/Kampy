@@ -34,14 +34,10 @@ class _PostsState extends State<Posts> {
   //crud method
   CrudMethodsP crudMethodsP = CrudMethodsP();
   QuerySnapshot? postsSnapshot;
-//navbar
-  final List<Widget>   _pages = [
- Posts(),Posts(),Posts(),Posts()
-  ];
+ // navbar
+  final List<Widget> _pages = [KampyEvent(), Posts(), Welcome(), Chat()];
 // plus button array of pages
-  final List<Widget>   _views = [
- Posts(),Posts(),Posts(),Posts()
-  ];
+  final List<Widget> _views = [KampyEvent(), Posts(), Chat(), Welcome()];
   int index = 0;
   
   Widget postsList() {
@@ -95,52 +91,52 @@ class _PostsState extends State<Posts> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(100),
-        child: AppBar(
-          centerTitle: true,
-          flexibleSpace: ClipRRect(
-            child: Container(
-                decoration: const BoxDecoration(
-                    image: DecorationImage(
-                        image: AssetImage(
-                            "images/88257fc06f6e674a8ffc2a39bd3de33a.gif"),
-                        fit: BoxFit.fill))),
-          ),
-          backgroundColor: Colors.transparent,
-          elevation: 0.0,
-        ),
-      ),
+      // appBar: PreferredSize(
+      //   preferredSize: const Size.fromHeight(100),
+      //   child: AppBar(
+      //     centerTitle: true,
+      //     flexibleSpace: ClipRRect(
+      //       child: Container(
+      //           decoration: const BoxDecoration(
+      //               image: DecorationImage(
+      //                   image: AssetImage(
+      //                       "images/88257fc06f6e674a8ffc2a39bd3de33a.gif"),
+      //                   fit: BoxFit.fill))),
+      //     ),
+      //     backgroundColor: Colors.transparent,
+      //     elevation: 0.0,
+      //   ),
+      // ),
 
 
       body: postsList() ,
       // navbar bottom
-        // bottomNavigationBar:  Builder(builder: (context) =>
-        // AnimatedBottomBar(
-        //     defaultIconColor: Colors.black,
-        //     activatedIconColor: const Color.fromARGB(255, 56, 3, 33),
-        //     background: Colors.white,
-        //     buttonsIcons:const  [Icons.sunny_snowing, Icons.explore_sharp, Icons.messenger_outlined, Icons.person],
-        //     buttonsHiddenIcons:const  [Icons.campaign_rounded, Icons.shopping_bag, Icons.image_rounded ,Icons.post_add_rounded],
-        //     backgroundColorMiddleIcon: const Color.fromARGB(255, 56, 3, 33),
-        //     onTapButton: (i){
-        //       setState(() {
-        //         index = i;
-        //       });
-        //       Navigator.push(
-        //       context,
-        //  MaterialPageRoute(builder: (context) => _views[i]),
-        //         );
-        //     },
-        //     // navigate between pages
-        //     onTapButtonHidden: (i){
-        //        Navigator.push(
-        //       context,
-        //  MaterialPageRoute(builder: (context) => _pages[i]),
-        //         );
-        //     },
-        //   )
-        // ),
+        bottomNavigationBar:  Builder(builder: (context) =>
+        AnimatedBottomBar(
+            defaultIconColor: Colors.black,
+            activatedIconColor: const Color.fromARGB(255, 56, 3, 33),
+            background: Colors.white,
+            buttonsIcons:const  [Icons.sunny_snowing, Icons.explore_sharp, Icons.messenger_outlined, Icons.person],
+            buttonsHiddenIcons:const  [Icons.campaign_rounded, Icons.shopping_bag, Icons.image_rounded ,Icons.post_add_rounded],
+            backgroundColorMiddleIcon: const Color.fromARGB(255, 56, 3, 33),
+            onTapButton: (i){
+              setState(() {
+                index = i;
+              });
+              Navigator.push(
+              context,
+         MaterialPageRoute(builder: (context) => _views[i]),
+                );
+            },
+            // navigate between pages
+            onTapButtonHidden: (i){
+               Navigator.push(
+              context,
+         MaterialPageRoute(builder: (context) => _pages[i]),
+                );
+            },
+          )
+        ),
 // navbar bottom ends here
       backgroundColor: Color.fromARGB(240, 255, 255, 255),
       floatingActionButton: Container(
@@ -149,7 +145,8 @@ class _PostsState extends State<Posts> {
           mainAxisAlignment: MainAxisAlignment.end,
           children: <Widget>[
             FloatingActionButton(
-              
+                  heroTag: "navbar",
+
               onPressed: () {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => CreatePost()));
