@@ -18,8 +18,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'navbar_animated.dart';
 import 'kampy_posts.dart';
 import 'kampy_event.dart';
-
-
 import 'chat/chat_main.dart';
 
 class Welcome extends StatefulWidget {
@@ -53,9 +51,10 @@ class _WelcomeState extends State<Welcome> {
 
     return Scaffold(
         // navbar bottom
-        backgroundColor: HexColor("#170B31"),
+        backgroundColor: Colors.white,
         bottomNavigationBar: Builder(
             builder: (context) => AnimatedBottomBar(
+         
                   defaultIconColor: Colors.black,
                   activatedIconColor: const Color.fromARGB(255, 56, 3, 33),
                   background: Colors.white,
@@ -98,10 +97,12 @@ class _WelcomeState extends State<Welcome> {
           children: <Widget>[
             Container(
               decoration: const BoxDecoration(
-                  image: DecorationImage(
-                image: AssetImage("images/background5.jpg"),
-                fit: BoxFit.fill,
-              )),
+                color: Colors.white,
+              //     image: DecorationImage(
+              //   image: AssetImage("images/background5.jpg"),
+              //   fit: BoxFit.fill,
+              // )
+              ),
             ),
 
             // read data from firestore 
@@ -117,20 +118,27 @@ class _WelcomeState extends State<Welcome> {
                     return const Text("loading");
                   }if (snapshot.hasData){
                  
-           for (var i= 0 ;i<snapshot.data!.docs.length ;i++){//number of rows
+           for (var i= 0 ;i<snapshot.data!.docs.length ;i++){
           
                if (snapshot.data!.docs[i]['uid']==uid){
                 return Card(
+                      color:const Color.fromARGB(255, 255, 255, 255),
                   margin: const EdgeInsets.all(10),
                 child:  Column(
                      
            children: [ 
-            Container(                        
+            Container( 
+          
+                                    
           margin: const EdgeInsets.only(left: 20, right: 20, bottom: 20, top: 70),
 
             child: Container(
-              decoration: BoxDecoration(
-                  shape: BoxShape.circle, color: Colors.grey[200]),
+            
+              decoration: const BoxDecoration(
+                color:Colors.white,
+                  shape: BoxShape.circle, 
+                
+                ),
               child: CircleAvatar(
                        minRadius: 50,
                         maxRadius: 50,
@@ -138,17 +146,105 @@ class _WelcomeState extends State<Welcome> {
                               )
             ),
         ),
-               
+          //     Container(
+          //     child: Align(
+          // alignment: Alignment.center,
+          // child: Text(snapshot.data!.docs[i]['name'].toString()),
+         
+          // ),),
+        
                   // diplay current user if exists
-                 ListTile(
-                 
-                    title: Text(snapshot.data!.docs[i]['name']),
-                    subtitle: Text(snapshot.data!.docs[i]['email'].toString()),
+    //              ListTile(
+    //                tileColor: Colors.white,
+                
+    //               &  title: Text(snapshot.data!.docs[i]['name']),
+    //                 subtitle: Text(snapshot.data!.docs[i]['email'].toString()),
+    //         ),
+
+    // name
+                     SizedBox( 
+                      height: 70,
+                      child: Material(
+                       
+            elevation: 5.0,
+              shadowColor: const Color.fromARGB(255, 0, 6, 10),
+                          child: TextFormField(
+                            
+                obscureText: true,
+                autofocus: false,
+                decoration: InputDecoration(
+                  
+                    icon: const Icon(Icons.person ,color: Color.fromARGB(255, 1, 5, 13)),
+                    hintText:" name : ${snapshot.data!.docs[i]['name']} ",
+                    fillColor: const Color.fromARGB(0, 255, 255, 255),
+                    filled: true,
+                    contentPadding: const EdgeInsets.fromLTRB(20.0, 40.0, 20.0, 10.0),
+                    enabledBorder: OutlineInputBorder(borderRadius:BorderRadius.circular(5.0),
+                    borderSide: const BorderSide(color: Color.fromARGB(0, 228, 225, 225), width: 3.0)
+                    )
+                ),
+              ),
+            )  ,
             ),
-            
-            
-            
-            
+            // email
+
+            Container( 
+                   margin: const EdgeInsets.only(top:10),
+                      height: 70,
+                      child: Material(
+                       
+              elevation: 5.0,
+              shadowColor: const Color.fromARGB(255, 0, 6, 10),
+                          child: TextFormField(
+                            
+                obscureText: true,
+                autofocus: false,
+                decoration: InputDecoration(
+                  
+                    icon: const Icon(Icons.email ,color: Color.fromARGB(255, 1, 5, 13)),
+                    hintText:" email : ${snapshot.data!.docs[i]['email']} ",
+                    fillColor: const Color.fromARGB(0, 255, 255, 255),
+                    filled: true,
+                    contentPadding: const EdgeInsets.fromLTRB(20.0, 40.0, 20.0, 10.0),
+                    enabledBorder: OutlineInputBorder(borderRadius:BorderRadius.circular(5.0),
+                    borderSide: const BorderSide(color: Color.fromARGB(0, 228, 225, 225), width: 3.0)
+                    )
+                ),
+                
+              ),
+            ) , 
+            ),
+
+            // country
+             Container( 
+                   margin: const EdgeInsets.only(top:5),
+                      height: 70,
+                      child: Material(
+                       
+              elevation: 5.0,
+              // shadowColor: const Color.fromARGB(255, 0, 6, 10),
+                          child: TextFormField(
+                            
+                obscureText: true,
+                autofocus: false,
+                decoration: InputDecoration(
+                  
+                    icon: const Icon(Icons.place ,color: Color.fromARGB(255, 1, 5, 13)),
+                    hintText:" country : Tunisia ",
+                    fillColor: const Color.fromARGB(0, 255, 255, 255),
+                    filled: true,
+                    contentPadding: const EdgeInsets.fromLTRB(20.0, 40.0, 20.0, 10.0),
+                    enabledBorder: OutlineInputBorder(borderRadius:BorderRadius.circular(5.0),
+                    borderSide: const BorderSide(color: Color.fromARGB(0, 228, 225, 225), width: 3.0)
+                    )
+                ),
+                
+              ),
+            )  
+            ),
+  
+
+
             ]),
                 );
                 }
@@ -169,7 +265,7 @@ class _WelcomeState extends State<Welcome> {
                 children: <Widget>[
                   Container(
                     decoration: BoxDecoration(
-                      color: const Color.fromARGB(0, 224, 224, 228),
+                      color: Color.fromARGB(0, 247, 247, 251),
                       borderRadius: BorderRadius.circular(120),
                     ),
                     margin: const EdgeInsets.only(left: 20, right: 20, top: 70),
