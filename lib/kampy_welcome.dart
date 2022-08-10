@@ -1,5 +1,7 @@
 
 
+import 'package:flutter_application_1/kampy_create_posts.dart';
+
 import 'auth_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/auth_controller.dart';
@@ -33,7 +35,7 @@ class Welcome extends StatefulWidget {
 }
 
 class _WelcomeState extends State<Welcome> {
-  final List<Widget> _pages = [Shops(), Posts(), Welcome(), Chat()];
+  final List<Widget> _pages = [Shops(), Posts(), Welcome(), CreatePost()];
 // plus button array of pages
   final List<Widget> _views = [Shops(), Posts(), Chat(), Welcome()];
   int index = 0;
