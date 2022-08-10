@@ -19,6 +19,7 @@ import 'kampy_posts.dart';
 import 'kampy_event.dart';
 import 'chat/chat_main.dart';
 import 'kampy_shops.dart' ;
+import 'kamp_create_shop.dart';
 
 import 'package:firebase_storage/firebase_storage.dart' as fStorage;
 
@@ -35,9 +36,9 @@ class Welcome extends StatefulWidget {
 }
 
 class _WelcomeState extends State<Welcome> {
-  final List<Widget> _pages = [Shops(), Posts(), Welcome(), CreatePost()];
+  final List<Widget> _pages = [Shops(), CreateShop(), Welcome(), CreatePost()];
 // plus button array of pages
-  final List<Widget> _views = [Shops(), Posts(), Chat(), Welcome()];
+  final List<Widget> _views = [Shops(), CreateShop(), Chat(), Welcome()];
   int index = 0;
 
 
