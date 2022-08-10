@@ -37,7 +37,7 @@ class _KampyEventState extends State<KampyEvent> {
     // grab the collection
     CollectionReference events = firestore.collection('events');
     return StreamBuilder<QuerySnapshot>(
-        // build dnapshot using users collection
+        // build snapshot using users collection
         stream: events.snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasError) {
@@ -99,57 +99,62 @@ class _KampyEventState extends State<KampyEvent> {
                                   height: 10,
                                 ),
                                 //  post image
-                                 ClipRRect(
-                                    borderRadius: BorderRadius.circular(5),
-                                    child: Container(
-                                      height:
-                                          MediaQuery.of(context).size.height *
-                                              0.4,
-                                      child: GestureDetector(
-                                        child: Column(children: [
-                                          Container(
-                                              height: 300,
-                                              width: MediaQuery.of(context)
-                                                  .size
-                                                  .width,
-                                              decoration: BoxDecoration(
-                                                  image: DecorationImage(
-                                                image: NetworkImage(
-                                                  snapshot.data!.docs[i]
-                                                      ['imgUrl'],
-                                                ),
-                                                fit: BoxFit.fill,
-                                              )),
-                                              //change photo arrows :
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceAround,
-                                                children: <Widget>[
-                                                  IconButton(
-                                                    icon: const Icon(Icons
-                                                        .arrow_back_ios_new_outlined),
-                                                    color: const Color.fromARGB(
-                                                        138, 255, 255, 255),
-                                                    iconSize: 36.0,
-                                                    //  next photo
-                                                    onPressed: () {},
-                                                  ),
-                                                  const SizedBox(width: 265),
-                                                  IconButton(
-                                                    icon: const Icon(Icons
-                                                        .arrow_forward_ios_rounded),
-                                                    color: const Color.fromARGB(
-                                                        138, 255, 255, 255),
-                                                    iconSize: 36.0,
-                                                    // previous photo
-                                                    onPressed: () {},
-                                                  ),
-                                                ],
-                                              )),
-                                        ]),
+                                Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  height: 250,
+                                  color: Colors.transparent,
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(12),
+                                    child: InkWell(
+                                      onTap: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  EventDetails()),
+                                        );
+                                      },
+                                      child: GridTile(
+                                        footer: Container(
+                                          padding: const EdgeInsets.all(8),
+                                          color: Colors.blue.withOpacity(.5),
+                                          child: Text(
+                                            snapshot.data!.docs[i]['eventName'],
+                                            style: const TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.white,
+                                              fontSize: 24,
+                                            ),
+                                          ),
+                                        ),
+                                        child: Image.network(
+                                          snapshot.data!.docs[i]['imgUrl'],
+                                          fit: BoxFit.cover,
+                                        ),
                                       ),
-                                    )),
+                                    ),
+                                  ),
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  children: const <Widget>[
+                                    Icon(
+                                      Icons.favorite,
+                                      color: Colors.pink,
+                                      size: 24.0,
+                                      semanticLabel:
+                                          'Text to announce in accessibility modes',
+                                    ),
+                                    Icon(
+                                      Icons.favorite,
+                                      color: Colors.black45,
+                                      size: 24.0,
+                                      semanticLabel:
+                                          'Text to announce in accessibility modes',
+                                    ),
+                                  ],
+                                ),
 
                                 const SizedBox(
                                   height: 20,
@@ -227,14 +232,16 @@ class EventTile extends StatelessWidget {
 
   String id;
   final dynamic eventName;
-  // final dynamic place;
+  final dynamic place;
   final dynamic imgUrl;
+  final dynamic username;
   EventTile({
     Key? key,
     this.id = '',
     required this.eventName,
-    // required this.place,
+    required this.place,
     required this.imgUrl,
+    required this.username,
   }) : super(key: key);
 
   @override
@@ -287,6 +294,25 @@ class EventTile extends StatelessWidget {
           //       children: <Widget>[
           //         Text(
           //           place,
+          //           style: const TextStyle(
+          //               fontSize: 17,
+          //               fontWeight: FontWeight.w400,
+          //               color: Colors.white),
+          //         ),
+          //         const SizedBox(
+          //           height: 10,
+          //         ),
+          //       ]),
+          // ),
+          //  Container(
+          //   margin: const EdgeInsets.fromLTRB(190, 30, 00, 10),
+          //   width: MediaQuery.of(context).size.width,
+          //   child: Column(
+          //       mainAxisAlignment: MainAxisAlignment.center,
+          //       crossAxisAlignment: CrossAxisAlignment.center,
+          //       children: <Widget>[
+          //         Text(
+          //           username,
           //           style: const TextStyle(
           //               fontSize: 17,
           //               fontWeight: FontWeight.w400,
