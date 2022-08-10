@@ -1,7 +1,7 @@
 import 'dart:ffi';
 
-
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/create_event.dart';
 import 'package:flutter_application_1/services/crud.dart';
@@ -60,7 +60,6 @@ class _KampyEventState extends State<KampyEvent> {
     return StreamBuilder<QuerySnapshot>(
         // build snapshot using users collection
         stream: events.snapshots(),
-         
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasError) {
             return const Text("Something went wrong");
@@ -110,18 +109,18 @@ class _KampyEventState extends State<KampyEvent> {
                                     ),
                                     // plus button to delete and update
                                     Container(
-                                      margin: const EdgeInsets.only(left: 200),
+                                      margin: const EdgeInsets.only(left: 220),
                                       child: IconButton(
                                         icon: const Icon(Icons.delete_outlined),
-                                        color: const Color.fromARGB(
-                                            251, 255, 255, 255),
-                                        iconSize: 36.0,
+                                        color: Colors.black45,
+                                        iconSize: 30.0,
                                         onPressed: () async {
-                                          if (snapshot.data!.docs[i]
-                                              ['userName']) {
-                                            snapshot.data!.docs[i].reference
-                                                .delete();
-                                          }
+                                          var collection = FirebaseFirestore
+                                              .instance
+                                              .collection('events');
+                                          await collection
+                                              .doc('document_id')
+                                              .delete();
                                         },
                                       ),
                                     ),
