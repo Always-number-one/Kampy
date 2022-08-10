@@ -14,6 +14,7 @@ import 'kampy_posts.dart';
 import 'kampy_event.dart';
 import 'chat/chat_main.dart';
 import 'kampy_welcome.dart';
+import 'kampy_shops.dart';
 
 class KampyEvent extends StatefulWidget {
   const KampyEvent({Key? key}) : super(key: key);
@@ -24,9 +25,9 @@ class KampyEvent extends StatefulWidget {
 
 class _KampyEventState extends State<KampyEvent> {
   // navbar
-  final List<Widget> _pages = [KampyEvent(), Posts(), Welcome(), CreateEvent()];
+  final List<Widget> _pages = [Shops(), Posts(), Welcome(), Chat()];
 // plus button array of pages
-  final List<Widget> _views = [KampyEvent(), Posts(), Chat(), Welcome()];
+  final List<Widget> _views = [Shops(), Posts(), Chat(), Welcome()];
   int index = 0;
 
   CrudMethods crudMethods = CrudMethods();
