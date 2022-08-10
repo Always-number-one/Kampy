@@ -46,6 +46,7 @@ class _PostsState extends State<Posts> {
   final List<Widget> _views = [Shops(), Posts(), Chat(), Welcome()];
   int index = 0;
   bool? userCheck;
+
   // check user to delete post
   checkuser(name) async {
 // get current user connected
@@ -60,6 +61,7 @@ class _PostsState extends State<Posts> {
 
     for (var i = 0; i < querySnapshot.docs.length; i++) {
       if (querySnapshot.docs[i]['uid'] == uid) {
+      
         if (querySnapshot.docs[i]['name'] == name) {
           userCheck = true;
           break;
@@ -199,18 +201,35 @@ class _PostsState extends State<Posts> {
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                        children: [
                                   //  like button
-                                const LikeButton(
-                                 
+                                  ElevatedButton(
+                                    
+                                child:  LikeButton(
+                              
                                   mainAxisAlignment: MainAxisAlignment.start,
-                                  likeCount: 5,
-                                  circleColor: CircleColor(
+                                  likeCount: snapshot.data!.docs[i]["postLikes"].length,
+                                  circleColor: const CircleColor(
                                       start: Color(0xff00ddff),
                                       end: Color(0xff00ddff)),
-                                  bubblesColor: BubblesColor(
+                                  bubblesColor:const BubblesColor(
                                     dotPrimaryColor: Color(0xff33b5e5),
                                     dotSecondaryColor: Color(0xff0099cc),
                                   ),
-                               
+                          
+                                ),
+                                // update likes
+                                 onPressed: () async{
+                                  var arr=[];
+                                  for (var k=0; k<snapshot.data!.docs[i]["postLikes"].length;k++){
+                                  
+                                    arr.add(snapshot.data!.docs[i]["postLikes"][k]);
+                                  }
+                                    
+                                  arr.add(snapshot.data!.docs[i]['userName']);
+                                
+                        await snapshot.data!.docs[i].reference.update({
+                          "postLikes": arr
+                         });
+                                            },
                                 ),
       
                                Row(
