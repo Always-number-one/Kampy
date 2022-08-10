@@ -197,7 +197,17 @@ class _ShopsState extends State<Shops> {
                                                 ),
                                               ],
                                             )),
-                                      
+                                        const Divider(
+                                          color: Color.fromARGB(
+                                              255, 0, 0, 0), //color of divider
+                                          height: 1, //height spacing of divider
+                                          thickness:
+                                              1, //thickness of divier line
+                                          indent:
+                                              15, //spacing at the start of divider
+                                          endIndent:
+                                              15, //spacing at the end of divider
+                                        ),
                                         Container(
                                             decoration: const BoxDecoration(
                                               // color: Color.fromARGB(255, 228, 221, 221),
@@ -232,17 +242,6 @@ class _ShopsState extends State<Shops> {
                                                       TextStyle(fontSize: 15),
                                                   textAlign: TextAlign.center,
                                                 ),
-                                                  const Divider(
-                                          color: Color.fromARGB(
-                                              255, 0, 0, 0), //color of divider
-                                          height: 1, //height spacing of divider
-                                          thickness:
-                                              1, //thickness of divier line
-                                          indent:
-                                              22, //spacing at the start of divider
-                                          endIndent:
-                                              22, //spacing at the end of divider
-                                        ),
                                               ],
                                             )),
 
