@@ -97,7 +97,9 @@ class _PostsState extends State<Posts> {
        for (var j = 0; j <querySnapshotPosts.docs.length;j++) {
         for(var k = 0; k <querySnapshotPosts.docs[j]['postLikes'].length; k++) {
         if (querySnapshotPosts.docs[j]['postLikes'][k]==querySnapshot.docs[i]['name']){
+     
           likseCheck=true;
+      
           break;
          
         }
@@ -107,12 +109,16 @@ class _PostsState extends State<Posts> {
          break;
       }
     }
-  
+   
   }
 
 
   postsList()   {
-  checkLiked();
+
+ 
+ 
+      
+                  
     //  create firestore instance
     FirebaseFirestore firestore = FirebaseFirestore.instance;
     // grab the collection
@@ -128,7 +134,7 @@ class _PostsState extends State<Posts> {
             return const Text("loading");
           }
           if (snapshot.hasData) {
-           
+           checkLiked();
             return SingleChildScrollView(
               
                 padding: const EdgeInsets.only(top: 70),
