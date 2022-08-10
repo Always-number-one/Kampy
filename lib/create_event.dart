@@ -64,8 +64,10 @@ class _CreateEventState extends State<CreateEvent> {
         "eventName": eventName ?? "",
         "place": place ?? "",
         "description": description ?? "",
+
         "username": " ",
         
+
       };
       crudMethods.addData(eventMap).then((result) {
         Navigator.pop(context);
