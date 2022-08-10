@@ -111,7 +111,7 @@ class _KampyEventState extends State<KampyEvent> {
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) =>
-                                                   EventDetails()),
+                                                  EventDetails()),
                                         );
                                       },
                                       child: GridTile(
@@ -134,6 +134,26 @@ class _KampyEventState extends State<KampyEvent> {
                                       ),
                                     ),
                                   ),
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  children: const <Widget>[
+                                    Icon(
+                                      Icons.favorite,
+                                      color: Colors.pink,
+                                      size: 24.0,
+                                      semanticLabel:
+                                          'Text to announce in accessibility modes',
+                                    ),
+                                    Icon(
+                                      Icons.favorite,
+                                      color: Colors.black45,
+                                      size: 24.0,
+                                      semanticLabel:
+                                          'Text to announce in accessibility modes',
+                                    ),
+                                  ],
                                 ),
 
                                 const SizedBox(
