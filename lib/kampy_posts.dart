@@ -12,6 +12,8 @@ import 'kampy_create_posts.dart';
 
 // hex color
 import 'package:hexcolor/hexcolor.dart';
+// firebase auth
+import 'package:firebase_auth/firebase_auth.dart';
 // firestore
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -34,12 +36,33 @@ class Posts extends StatefulWidget {
 }
 
 class _PostsState extends State<Posts> {
+  // authonticaion
+final FirebaseAuth auth = FirebaseAuth.instance;
   // navbar
   final List<Widget> _pages = [KampyEvent(), Posts(), Welcome(), CreatePost()];
 // plus button array of pages
   final List<Widget> _views = [KampyEvent(), Posts(), Chat(), Welcome()];
   int index = 0;
-
+ checkuser (name)async {
+// get current user connected
+     final User? user = auth.currentUser;
+  final uid = user?.uid;
+   //  create firestore instance
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
+      // grab the collection
+    CollectionReference users = firestore.collection('users');
+        // get docs from user reference 
+        QuerySnapshot querySnapshot = await users.get();
+   
+        for (var i=0; i <querySnapshot.docs.length; i++){
+        if (querySnapshot.docs[i]['name']==name){
+     return true;
+          
+        
+       }
+       return false;
+          }
+ }
   postsList() {
     //  create firestore instance
     FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -93,8 +116,9 @@ class _PostsState extends State<Posts> {
                                               color: const Color.fromARGB(251, 255, 255, 255),
                                               iconSize: 36.0,
                                                 onPressed: () async   {
-                  
+                                                    if (checkuser (snapshot.data!.docs[i]['userName'])){
                                                  snapshot.data!.docs[i].reference.delete();
+                                                 }
                                                 },
                                           ),
                                     ),
@@ -402,5 +426,3 @@ class PostsTitle extends StatelessWidget {
 //     );
 //   }
 // }
-
-

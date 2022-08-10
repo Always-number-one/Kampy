@@ -8,8 +8,7 @@ import 'package:flutter/widgets.dart';
 import './services/crud_posts.dart';
 // hex color
 import 'package:hexcolor/hexcolor.dart';
-// firestore
-import 'package:cloud_firestore/cloud_firestore.dart';
+
 
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
@@ -18,7 +17,8 @@ import 'package:random_string/random_string.dart';
 
 // firebase auth
 import 'package:firebase_auth/firebase_auth.dart';
-
+// firestore
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 
 class CreatePost extends StatefulWidget {
