@@ -27,6 +27,7 @@ import 'kampy_signup.dart';
 import 'package:get/get.dart';
 import 'chat/chat_main.dart';
 import './kampy_welcome.dart';
+import 'kampy_shops.dart';
 
 class Posts extends StatefulWidget {
   Posts({Key? key}) : super(key: key);
@@ -39,9 +40,9 @@ class _PostsState extends State<Posts> {
   // authonticaion
 final FirebaseAuth auth = FirebaseAuth.instance;
   // navbar
-  final List<Widget> _pages = [KampyEvent(), Posts(), Welcome(), CreatePost()];
+  final List<Widget> _pages = [Shops(), Posts(), Welcome(), Chat()];
 // plus button array of pages
-  final List<Widget> _views = [KampyEvent(), Posts(), Chat(), Welcome()];
+  final List<Widget> _views = [Shops(), Posts(), Chat(), Welcome()];
   int index = 0;
  checkuser (name)async {
 // get current user connected
