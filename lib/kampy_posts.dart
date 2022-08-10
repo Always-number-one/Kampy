@@ -38,6 +38,8 @@ class Posts extends StatefulWidget {
 }
 
 class _PostsState extends State<Posts> {
+
+
   // authonticaion
   final FirebaseAuth auth = FirebaseAuth.instance;
   // navbar
@@ -45,7 +47,9 @@ class _PostsState extends State<Posts> {
 // plus button array of pages
   final List<Widget> _views = [Shops(), Posts(), Chat(), Welcome()];
   int index = 0;
+  // chek user delete and likes
   bool? userCheck;
+  bool? likseCheck;
 
   // check user to delete post
   checkuser(name) async {
@@ -72,8 +76,43 @@ class _PostsState extends State<Posts> {
       }
     }
   }
+  // check users who liked the post
+  checkLiked()async {
+    // get current user connected
+    final User? user = auth.currentUser;
+    final uid = user?.uid;
+    //  create firestore instance
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
+    // grab the collection users
+    CollectionReference users = firestore.collection('users');
+    // get docs from user reference users
+    QuerySnapshot querySnapshot = await users.get();
+     // grab the collection posts
+    CollectionReference posts = firestore.collection('posts');
+    // get docs from user reference posts
+    QuerySnapshot querySnapshotPosts = await posts.get();
+   for (var i = 0; i < querySnapshot.docs.length; i++) {
+      if (querySnapshot.docs[i]['uid'] == uid) {
+ 
+       for (var j = 0; j <querySnapshotPosts.docs.length;j++) {
+        for(var k = 0; k <querySnapshotPosts.docs[j]['postLikes'].length; k++) {
+        if (querySnapshotPosts.docs[j]['postLikes'][k]==querySnapshot.docs[i]['name']){
+          likseCheck=true;
+          break;
+         
+        }
+        }
+       }
+         likseCheck=false;
+         break;
+      }
+    }
+  
+  }
 
-  postsList() {
+
+  postsList()   {
+  checkLiked();
     //  create firestore instance
     FirebaseFirestore firestore = FirebaseFirestore.instance;
     // grab the collection
@@ -81,7 +120,7 @@ class _PostsState extends State<Posts> {
     return StreamBuilder<QuerySnapshot>(
         // build dnapshot using users collection
         stream: posts.snapshots(),
-        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot)  {
           if (snapshot.hasError) {
             return const Text("Something went wrong");
           }
@@ -89,9 +128,12 @@ class _PostsState extends State<Posts> {
             return const Text("loading");
           }
           if (snapshot.hasData) {
+           
             return SingleChildScrollView(
+              
                 padding: const EdgeInsets.only(top: 70),
                 child: Column(children: [
+                  
                   for (int i = 0; i < snapshot.data!.docs.length; i++)
                     Column(
                       children: [
@@ -204,7 +246,7 @@ class _PostsState extends State<Posts> {
                                   ElevatedButton(
                                     
                                 child:  LikeButton(
-                              
+                                   isLiked: likseCheck,
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   likeCount: snapshot.data!.docs[i]["postLikes"].length,
                                   circleColor: const CircleColor(
@@ -214,18 +256,30 @@ class _PostsState extends State<Posts> {
                                     dotPrimaryColor: Color(0xff33b5e5),
                                     dotSecondaryColor: Color(0xff0099cc),
                                   ),
-                          
+                                  // check if the user is already liked the post
+                              
                                 ),
                                 // update likes
                                  onPressed: () async{
+                               
                                   var arr=[];
+                                  // check if it's the same user 
+                                  bool checked=true;
                                   for (var k=0; k<snapshot.data!.docs[i]["postLikes"].length;k++){
                                   
                                     arr.add(snapshot.data!.docs[i]["postLikes"][k]);
+                                    // check if it's the same user 
+                                    print(snapshot.data!.docs[i]["postLikes"][k]==snapshot.data!.docs[i]['userName']);
+                                    if (snapshot.data!.docs[i]["postLikes"][k]==snapshot.data!.docs[i]['userName']){
+                                      
+                                      checked=false;
+                                    }
                                   }
-                                    
+                                  // if it's not the same user add like
+                                    if(checked==true){
                                   arr.add(snapshot.data!.docs[i]['userName']);
-                                
+                                }
+                              
                         await snapshot.data!.docs[i].reference.update({
                           "postLikes": arr
                          });
@@ -254,6 +308,7 @@ class _PostsState extends State<Posts> {
                       ],
                     )
                 ]));
+                
           }
           return const Text("none");
         });
@@ -276,7 +331,7 @@ class _PostsState extends State<Posts> {
           ),
         ),
       ),
-      body: postsList(),
+      body: postsList(), 
 
       // navbar bottom
       bottomNavigationBar: Builder(
