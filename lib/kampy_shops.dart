@@ -63,12 +63,13 @@ class _ShopsState extends State<Shops> {
                     Column(
                       children: [
                         Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 30),
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
                           child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 Row(
                                   children: <Widget>[
+                                    
                                     // user avatar
                                     const CircleAvatar(
                                       radius: 24.0,
@@ -109,43 +110,43 @@ class _ShopsState extends State<Shops> {
                                     //         0.4,
                                     child: GestureDetector(
                                       child: Column(children: [
-                                        Container(
-                                            decoration: const BoxDecoration(
-                                              // color: Color.fromARGB(255, 248, 248, 248),
-                                              borderRadius: BorderRadius.all(
-                                                Radius.circular(8),
-                                              ),
-                                            ),
-                                            height: 40,
-                                            width: double.infinity,
-                                            margin: const EdgeInsets.only(
-                                                left: 5.0,
-                                                right: 5.0,
-                                                top: 00,
-                                                bottom: 5),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                Align(
-                                                    alignment:
-                                                        Alignment.center),
-                                                Text(
-                                                    snapshot.data!.docs[i]
-                                                        ['title'],
-                                                    style: const TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontSize: 15,
-                                                    )),
-                                              ],
-                                            )),
-
+                                        
+                                        // Container(
+                                        //     decoration: const BoxDecoration(
+                                        //       // color: Color.fromARGB(255, 248, 248, 248),
+                                        //       borderRadius: BorderRadius.all(
+                                        //         Radius.circular(8),
+                                        //       ),
+                                        //     ),
+                                        //     height: 40,
+                                        //     width: double.infinity,
+                                        //     margin: const EdgeInsets.only(
+                                        //         left: 5.0,
+                                        //         right: 5.0,
+                                        //         top: 00,
+                                        //         bottom: 5),
+                                        //     child: Row(
+                                        //       mainAxisAlignment:
+                                        //           MainAxisAlignment.center,
+                                        //       // children: [
+                                        //       //   Align(
+                                        //       //       alignment:
+                                        //       //           Alignment.center),
+                                        //       //   Text(
+                                        //       //       snapshot.data!.docs[i]
+                                        //       //           ['title'],
+                                        //       //       style: const TextStyle(
+                                        //       //         fontWeight:
+                                        //       //             FontWeight.bold,
+                                        //       //         fontSize: 15,
+                                        //       //       )),
+                                        //       // ],
+                                        //     )),
                                         Container(
                                           margin: const EdgeInsets.only(
                                               left: 10,
                                               right: 10,
-                                              top: 5,
+                                              top: 10,
                                               bottom: 5),
                                           height: 190,
                                           width:
@@ -166,6 +167,57 @@ class _ShopsState extends State<Shops> {
                                               right: 18,
                                               bottom: 00),
                                         ),
+
+                                            Container(
+                                            decoration: const BoxDecoration(
+                                              // color: Color.fromARGB(255, 228, 221, 221),
+                                              borderRadius: BorderRadius.all(
+                                                Radius.circular(8),
+                                              ),
+                                            ),
+                                            height: 40,
+                                            width: double.infinity,
+                                            margin: const EdgeInsets.only(
+                                                left: 10,
+                                                right: 10,
+                                                top: 5,
+                                                bottom: 5),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              children: [
+                                                
+                                              const  Align(
+                                                    alignment:
+                                                        Alignment.topLeft),
+                                                const Text("Name : ",
+                                                    style: TextStyle(
+                                                      backgroundColor: Color.fromARGB(255, 228, 221, 221),
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 17,
+                                                    )),
+                                                Text(
+                                                      snapshot.data!.docs[i]
+                                                          ['title'],
+                                                  style:
+                                                      TextStyle(fontSize: 15),
+                                                  textAlign: TextAlign.left,
+                                                ),
+                                              ],
+                                            )),
+                                        const Divider(
+                                          color: Color.fromARGB(
+                                              255, 0, 0, 0), //color of divider
+                                          height: 1, //height spacing of divider
+                                          thickness:
+                                              1, //thickness of divier line
+                                          indent:
+                                              15, //spacing at the start of divider
+                                          endIndent:
+                                              15, //spacing at the end of divider
+                                        ),
+
                                         Container(
                                             decoration: const BoxDecoration(
                                               // color: Color.fromARGB(255, 228, 221, 221),
@@ -184,11 +236,13 @@ class _ShopsState extends State<Shops> {
                                               mainAxisAlignment:
                                                   MainAxisAlignment.start,
                                               children: [
+                                                
                                               const  Align(
                                                     alignment:
                                                         Alignment.topLeft),
                                                 const Text("Description : ",
                                                     style: TextStyle(
+                                                      backgroundColor: Color.fromARGB(255, 228, 221, 221),
                                                       fontWeight:
                                                           FontWeight.bold,
                                                       fontSize: 17,
@@ -239,6 +293,7 @@ class _ShopsState extends State<Shops> {
                                                         Alignment.topLeft),
                                                 const Text("Price : " ,
                                                     style: TextStyle(
+                                                      backgroundColor: Color.fromARGB(255, 228, 221, 221),
                                                       fontWeight:
                                                           FontWeight.bold,
                                                       fontSize: 17,
@@ -267,7 +322,6 @@ class _ShopsState extends State<Shops> {
                                         Container(
                                             height: 40,
                                             decoration: const BoxDecoration(
-                                              // color: Color.fromARGB(255, 228, 221, 221),
                                               borderRadius: BorderRadius.all(
                                                 Radius.circular(8),
                                               ),
@@ -277,7 +331,7 @@ class _ShopsState extends State<Shops> {
                                                 left: 10,
                                                 right: 10,
                                                 top: 5,
-                                                bottom: 20),
+                                                bottom: 5),
                                             child: Row(
                                               mainAxisAlignment:
                                                   MainAxisAlignment.start,
@@ -287,6 +341,7 @@ class _ShopsState extends State<Shops> {
                                                         Alignment.topLeft),
                                                         const Text("Phone-N : ",
                                                     style: TextStyle(
+                                              backgroundColor: Color.fromARGB(255, 228, 221, 221),
                                                       fontWeight:
                                                           FontWeight.bold,
                                                       fontSize: 17,
@@ -300,34 +355,21 @@ class _ShopsState extends State<Shops> {
                                                 ),
                                               ],
                                             )),
-
-                                        // Container(
-                                        //    decoration: const BoxDecoration(
-                                        //       color: Color.fromARGB(255, 228, 221, 221),
-                                        //       borderRadius: BorderRadius.all(
-                                        //         Radius.circular(8),
-                                        //       ),
-                                        //     ),
-                                        //     height:40,
-                                        //     width: double.infinity,
-                                        //   margin: const EdgeInsets.only(
-                                        //       left: 10.0,
-                                        //       right: 10.0,
-                                        //       top: 00,
-                                        //       bottom: 10),
-                                        //   child: Row(
-                                        //       mainAxisAlignment: MainAxisAlignment.start,
-                                        //       children: [
-                                        //   Text(
-                                        //     "Phone Number : " +
-                                        //         snapshot.data!.docs[i]
-                                        //             ['phoneN'],
-                                        //     style: TextStyle(fontSize: 5),
-                                        //     textAlign: TextAlign.left,
-                                        //   ),
-                                        //       ],
-                                        //   )
-                                        // ),
+                                          Container(
+                                            height: 40,
+                                            decoration: const BoxDecoration(
+                                              // color: Color.fromARGB(255, 228, 221, 221),
+                                              borderRadius: BorderRadius.all(
+                                                Radius.circular(8),
+                                              ),
+                                            ),
+                                            width: double.infinity,
+                                            margin: const EdgeInsets.only(
+                                                left: 10,
+                                                right: 10,
+                                                top: 5,
+                                                bottom: 22
+                                            )),
                                       ]),
                                     ),
                                   ),
