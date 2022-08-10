@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'package:flutter/painting.dart';
 import 'package:flutter_application_1/kampy_create_posts.dart';
 import 'package:intl/intl.dart';
@@ -12,6 +12,7 @@ import 'kampy_create_posts.dart';
 
 // hex color
 import 'package:hexcolor/hexcolor.dart';
+// firestore
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 // navbar
@@ -72,15 +73,15 @@ class _PostsState extends State<Posts> {
                                     CircleAvatar(
                                       radius: 24.0,
                                       backgroundImage: NetworkImage(
-                                          snapshot.data!.docs[i]['imgUrl']),
+                                          snapshot.data!.docs[i]['userImage']),
                                       backgroundColor: Colors.transparent,
                                     ),
                                     // user name :
                                     Container(
                                       padding: const EdgeInsets.only(
                                           bottom: 5, left: 10),
-                                      child: const Text(
-                                        "sameh",
+                                      child:  Text(
+                                        snapshot.data!.docs[i]['userName'],
                                       ),
                                     ),
                                     // plus button to delete and update

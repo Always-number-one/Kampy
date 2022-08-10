@@ -8,7 +8,8 @@ import 'package:flutter/widgets.dart';
 import './services/crud_posts.dart';
 // hex color
 import 'package:hexcolor/hexcolor.dart';
-// import 'package:flutter_application_1/services/crud.dart';
+// firestore
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
@@ -55,6 +56,10 @@ final FirebaseAuth auth = FirebaseAuth.instance;
     // get current user connected
      final User? user = auth.currentUser;
   final uid = user?.uid;
+   //  create firestore instance
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
+    // grab the collection
+    CollectionReference users = firestore.collection('users');
 
     if(_photo !=null){
       setState(() {
@@ -67,7 +72,17 @@ final FirebaseAuth auth = FirebaseAuth.instance;
       .child("${randomAlphaNumeric(9)}.jpg}");
       UploadTask uploadTask=ref.putFile(_photo!);
 
+        // get docs from user reference 
+        QuerySnapshot querySnapshot = await users.get();
+     
+       for (var i=0; i <querySnapshot.docs.length; i++){
+        if (querySnapshot.docs[i]['uid']==uid){
+         userName= querySnapshot.docs[i]['name'];
+        userImage=querySnapshot.docs[i]['photoUrl'];
+          
         
+       }
+          }
       var downloadUrl = await(await uploadTask).ref.getDownloadURL();
       print("this is url $downloadUrl");
 
