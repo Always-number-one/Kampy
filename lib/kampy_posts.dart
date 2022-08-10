@@ -58,9 +58,6 @@ class _PostsState extends State<Posts> {
             return SingleChildScrollView(
                 padding: const EdgeInsets.only(top: 70),
                 child: Column(children: [
-                 
-                
-                
                   for (int i = 0; i < snapshot.data!.docs.length; i++)
                     Column(
                       children: [
@@ -88,9 +85,17 @@ class _PostsState extends State<Posts> {
                                     ),
                                     // plus button to delete and update
                                     Container(
-                                      margin: const EdgeInsets.only(left: 240),
-                                      child: const Icon(
-                                          Icons.more_vert),
+                                      margin: const EdgeInsets.only(left: 200),
+                                      child:         
+                                      IconButton(
+                              icon: const Icon(Icons.delete),
+                                              color: const Color.fromARGB(251, 255, 255, 255),
+                                              iconSize: 36.0,
+                                                onPressed: () async   {
+                  
+                                                 snapshot.data!.docs[i].reference.delete();
+                                                },
+                                          ),
                                     ),
                                   ],
                                 ),
@@ -126,6 +131,7 @@ class _PostsState extends State<Posts> {
                                                     MainAxisAlignment
                                                         .spaceAround,
                                                 children: <Widget>[
+                                                  // next photo
                                                   IconButton(
                                                     icon: const Icon(Icons
                                                         .arrow_back_ios_new_outlined),
@@ -136,6 +142,7 @@ class _PostsState extends State<Posts> {
                                                     onPressed: () {},
                                                   ),
                                                   const SizedBox(width: 265),
+                                                  // next photo
                                                   IconButton(
                                                     icon: const Icon(Icons
                                                         .arrow_forward_ios_rounded),
@@ -172,18 +179,25 @@ class _PostsState extends State<Posts> {
   Widget build(BuildContext context) {
     return Scaffold(
 // appp bar
- appBar: AppBar(
-          title: const Text("Posts"),
+  appBar: AppBar(
+       title: const Text("Posts"),
           centerTitle: true,
-          backgroundColor: const Color.fromARGB(255, 20, 6, 29),
+        flexibleSpace: Container(
+          decoration:  BoxDecoration(
+            gradient: LinearGradient(
+                begin: Alignment.centerLeft,
+                end: Alignment.centerRight,
+                colors: [HexColor('#675975'), HexColor('#7b94c4')]),
+          ),
         ),
+      ),
       body: postsList(),
 
       // navbar bottom
       bottomNavigationBar: Builder(
           builder: (context) => AnimatedBottomBar(
-                defaultIconColor: Colors.black,
-                activatedIconColor: const Color.fromARGB(255, 56, 3, 33),
+                defaultIconColor: HexColor('#7b94c4'),
+                activatedIconColor: HexColor('#675975'),
                 background: Colors.white,
                 buttonsIcons: const [
                   Icons.sunny_snowing,
@@ -197,7 +211,7 @@ class _PostsState extends State<Posts> {
                   Icons.image_rounded,
                   Icons.post_add_rounded
                 ],
-                backgroundColorMiddleIcon: const Color.fromARGB(255, 56, 3, 33),
+                backgroundColorMiddleIcon: HexColor('#675975'),
                 onTapButton: (i) {
                   setState(() {
                     index = i;
@@ -231,7 +245,7 @@ class PostsTitle extends StatelessWidget {
   final dynamic imgUrl;
   PostsTitle({
     Key? key,
-    this.id = '',
+    this.id ='',
     required this.localisation,
     required this.description,
     required this.imgUrl,

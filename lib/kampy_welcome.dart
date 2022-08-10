@@ -75,8 +75,8 @@ class _WelcomeState extends State<Welcome> {
         backgroundColor: Colors.white,
         bottomNavigationBar: Builder(
             builder: (context) => AnimatedBottomBar(
-                  defaultIconColor: Colors.black,
-                  activatedIconColor: const Color.fromARGB(255, 2, 2, 41),
+                  defaultIconColor: HexColor('#7b94c4'),
+                  activatedIconColor: HexColor('#7b94c4'),
                   background: Colors.white,
                   buttonsIcons: const [
                     Icons.sunny_snowing,
@@ -91,7 +91,7 @@ class _WelcomeState extends State<Welcome> {
                     Icons.post_add_rounded
                   ],
                   backgroundColorMiddleIcon:
-                      const Color.fromARGB(255, 2, 2, 41),
+                      HexColor('#7b94c4'),
                   onTapButton: (i) {
                     setState(() {
                       index = i;
