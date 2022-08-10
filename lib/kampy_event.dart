@@ -37,7 +37,7 @@ class _KampyEventState extends State<KampyEvent> {
     // grab the collection
     CollectionReference events = firestore.collection('events');
     return StreamBuilder<QuerySnapshot>(
-        // build dnapshot using users collection
+        // build snapshot using users collection
         stream: events.snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasError) {
@@ -111,7 +111,7 @@ class _KampyEventState extends State<KampyEvent> {
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) =>
-                                                  const EventDetails()),
+                                                   EventDetails()),
                                         );
                                       },
                                       child: GridTile(
