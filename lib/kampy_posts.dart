@@ -4,7 +4,8 @@ import 'package:flutter/painting.dart';
 import 'package:flutter_application_1/kampy_create_posts.dart';
 import 'package:intl/intl.dart';
 import 'package:path/path.dart';
-
+// like button
+import 'package:like_button/like_button.dart';
 //crud method
 import './services/crud_posts.dart';
 //import create blogs
@@ -38,40 +39,38 @@ class Posts extends StatefulWidget {
 
 class _PostsState extends State<Posts> {
   // authonticaion
-final FirebaseAuth auth = FirebaseAuth.instance;
+  final FirebaseAuth auth = FirebaseAuth.instance;
   // navbar
-  final List<Widget> _pages = [Shops(), Posts(), Welcome(), Chat()];
+  final List<Widget> _pages = [Shops(), Posts(), Welcome(), CreatePost()];
 // plus button array of pages
   final List<Widget> _views = [Shops(), Posts(), Chat(), Welcome()];
   int index = 0;
   bool? userCheck;
-  // check user to delete post 
-checkuser (name)async {
+  // check user to delete post
+  checkuser(name) async {
 // get current user connected
-     final User? user = auth.currentUser;
-  final uid = user?.uid;
-   //  create firestore instance
+    final User? user = auth.currentUser;
+    final uid = user?.uid;
+    //  create firestore instance
     FirebaseFirestore firestore = FirebaseFirestore.instance;
-      // grab the collection
+    // grab the collection
     CollectionReference users = firestore.collection('users');
-        // get docs from user reference 
-        QuerySnapshot querySnapshot = await users.get();
-   
-        for (var i=0; i <querySnapshot.docs.length; i++){
-            
-        if (querySnapshot.docs[i]['uid']==uid){
-if (querySnapshot.docs[i]['name']==name){
-     userCheck =true;
+    // get docs from user reference
+    QuerySnapshot querySnapshot = await users.get();
+
+    for (var i = 0; i < querySnapshot.docs.length; i++) {
+      if (querySnapshot.docs[i]['uid'] == uid) {
+        if (querySnapshot.docs[i]['name'] == name) {
+          userCheck = true;
           break;
-        
-       }else{
-       
-       userCheck= false;
-              break;
-       }
-       }
-          }
- }
+        } else {
+          userCheck = false;
+          break;
+        }
+      }
+    }
+  }
+
   postsList() {
     //  create firestore instance
     FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -112,25 +111,29 @@ if (querySnapshot.docs[i]['name']==name){
                                     Container(
                                       padding: const EdgeInsets.only(
                                           bottom: 5, left: 10),
-                                      child:  Text(
+                                      child: Text(
                                         snapshot.data!.docs[i]['userName'],
                                       ),
                                     ),
                                     // plus button to delete and update
                                     Container(
                                       margin: const EdgeInsets.only(left: 200),
-                                      child:         
-                                      IconButton(
-                              icon: const Icon(Icons.delete),
-                                              color: const Color.fromARGB(251, 255, 255, 255),
-                                              iconSize: 36.0,
-                                                onPressed: () async   {
-                                                 await  checkuser(snapshot.data!.docs[i]['userName']);
-                                                if(userCheck==true){
-                                                return await  snapshot.data!.docs[i].reference.delete();
-                                              }
-                                                },
-                                          ),
+                                      child: IconButton(
+                                        icon: const Icon(Icons.delete),
+                                        color: const Color.fromARGB(
+                                            251, 255, 255, 255),
+                                        iconSize: 36.0,
+                                        onPressed: () async {
+                                          // check if it's the same user
+                                          await checkuser(snapshot.data!.docs[i]
+                                              ['userName']);
+                                          if (userCheck == true) {
+                                            return await snapshot
+                                                .data!.docs[i].reference
+                                                .delete();
+                                          }
+                                        },
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -192,15 +195,43 @@ if (querySnapshot.docs[i]['name']==name){
                                         ]),
                                       ),
                                     )),
-                                   Padding(
-                                    padding:const  EdgeInsets.only(left: 280),
-                                  child :Text( snapshot.data!.docs[i]['localisation']),  ),
-                                const SizedBox(
-                                  height: 20,
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                       children: [
+                                  //  like button
+                                const LikeButton(
+                                 
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  likeCount: 5,
+                                  circleColor: CircleColor(
+                                      start: Color(0xff00ddff),
+                                      end: Color(0xff00ddff)),
+                                  bubblesColor: BubblesColor(
+                                    dotPrimaryColor: Color(0xff33b5e5),
+                                    dotSecondaryColor: Color(0xff0099cc),
+                                  ),
+                               
                                 ),
-                              
-                              ]),
-                        ),
+      
+                               Row(
+                                 mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                   const  Icon(
+                                    
+                             Icons.place_outlined,
+                         color: Colors.black,
+                             size:20.0,
+                                      ),
+                               Text(
+                                      snapshot.data!.docs[i]['localisation']
+                                      ),],)
+                               ] )
+
+                               ] ),
+                               
+                              ),
+                             const  SizedBox(height: 20),
+                        
                       ],
                     )
                 ]));
@@ -214,11 +245,11 @@ if (querySnapshot.docs[i]['name']==name){
   Widget build(BuildContext context) {
     return Scaffold(
 // appp bar
-  appBar: AppBar(
-       title: const Text("Posts"),
-          centerTitle: true,
+      appBar: AppBar(
+        title: const Text("Posts"),
+        centerTitle: true,
         flexibleSpace: Container(
-          decoration:  BoxDecoration(
+          decoration: BoxDecoration(
             gradient: LinearGradient(
                 begin: Alignment.centerLeft,
                 end: Alignment.centerRight,
@@ -280,7 +311,7 @@ class PostsTitle extends StatelessWidget {
   final dynamic imgUrl;
   PostsTitle({
     Key? key,
-    this.id ='',
+    this.id = '',
     required this.localisation,
     required this.description,
     required this.imgUrl,
