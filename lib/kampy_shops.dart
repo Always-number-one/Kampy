@@ -104,6 +104,8 @@ class _ShopsState extends State<Shops> {
                                       //         0.4,
                                       child: GestureDetector(
                                         child: Column(children: [
+                                            Text(snapshot.data!.docs[i]
+                                                ['title']),
                                           Container(
                                             margin: const EdgeInsets.only(
                                                 left: 20,
@@ -124,24 +126,24 @@ class _ShopsState extends State<Shops> {
                                               ),
                                               fit: BoxFit.fill,
                                             )),
+                                            child: 
+                                             
+                                            Text("Description : "+snapshot.data!.docs[i]['description'],)
                                           ),
-                                          Padding(
+                                          const Padding(
+                                            // ignore: unnecessary_const
                                             padding: const EdgeInsets.only(
                                                 left: 180,
                                                 top: 18,
                                                 right: 80,
                                                 bottom: 00),
-                                            child: 
-                                            Text(snapshot.data!.docs[i]
-                                                ['title']),
                                           ),
-                                            Text(snapshot.data!.docs[i]
-                                                ['description']),
+
                                           
-                        
-                                            Text(snapshot.data!.docs[i]
+                                            Text("Price : "+snapshot.data!.docs[i]
                                                 ['price']),
-                                            Text(snapshot.data!.docs[i]
+
+                                            Text("Phone Number : "+snapshot.data!.docs[i]
                                                 ['phoneN']),
                                         ]),
                                       ),
