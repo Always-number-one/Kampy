@@ -79,26 +79,26 @@ class _ShopsState extends State<Shops> {
                                     // user title :
                                     Container(
                                       margin: const EdgeInsets.only(
-                                                left: 5.0,
-                                                right: 5.0,
-                                                top: 25,
-                                                bottom: 5),
+                                          left: 5.0,
+                                          right: 5.0,
+                                          top: 25,
+                                          bottom: 5),
                                       padding: const EdgeInsets.only(
-                                          bottom: 5, left: 30),
+                                          bottom: 5, left: 10),
                                       child: const Text(
                                         "sameh",
                                       ),
                                     ),
-                                    // plus button to delete and update
-                                    // Container(
-                                    //   margin: const EdgeInsets.only(left: 200),
-                                    //   child: const Icon(Icons.delete),
-                                    // ),
+                                    //plus button to delete and update
+                                    Container(
+                                      margin: const EdgeInsets.only(left: 190),
+                                      child: const Icon(Icons.delete),
+                                    ),
                                   ],
                                 ),
 
                                 const SizedBox(
-                                  height: 7,
+                                  height: 5,
                                 ),
                                 //  post image
                                 ClipRRect(
@@ -131,13 +131,13 @@ class _ShopsState extends State<Shops> {
                                                     alignment:
                                                         Alignment.center),
                                                 Text(
-                                                  "Name : " +
-                                                      snapshot.data!.docs[i]
-                                                          ['title'],
-                                                  style:
-                                                      TextStyle(fontSize: 15),
-                                                  textAlign: TextAlign.left,
-                                                ),
+                                                    snapshot.data!.docs[i]
+                                                        ['title'],
+                                                    style: const TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 15,
+                                                    )),
                                               ],
                                             )),
 
@@ -184,13 +184,69 @@ class _ShopsState extends State<Shops> {
                                               mainAxisAlignment:
                                                   MainAxisAlignment.start,
                                               children: [
-                                                Align(
+                                              const  Align(
                                                     alignment:
                                                         Alignment.topLeft),
+                                                const Text("Description : ",
+                                                    style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 17,
+                                                    )),
                                                 Text(
-                                                  "Description : " +
                                                       snapshot.data!.docs[i]
                                                           ['description'],
+                                                  style:
+                                                      TextStyle(fontSize: 15),
+                                                  textAlign: TextAlign.left,
+                                                ),
+                                              ],
+                                            )),
+                                        const Divider(
+                                          color: Color.fromARGB(
+                                              255, 0, 0, 0), //color of divider
+                                          height: 1, //height spacing of divider
+                                          thickness:
+                                              1, //thickness of divier line
+                                          indent:
+                                              15, //spacing at the start of divider
+                                          endIndent:
+                                              15, //spacing at the end of divider
+                                        ),
+                                        Container(
+                                            height: 40,
+                                            decoration: const BoxDecoration(
+                                              // color: Color.fromARGB(255, 228, 221, 221),
+                                              borderRadius: BorderRadius.all(
+                                                Radius.circular(8),
+                                              ),
+                                            ),
+                                            width: double.infinity,
+                                            margin: const EdgeInsets.only(
+                                                left: 10,
+                                                right: 10,
+                                                top: 5,
+                                                bottom: 5),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              children: [
+                                                const Align(
+                                                    alignment:
+                                                        Alignment.topLeft),
+                                                        const  Align(
+                                                    alignment:
+                                                        Alignment.topLeft),
+                                                const Text("Price : " ,
+                                                    style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 17,
+                                                    )),
+                                                Text(
+                                                      snapshot.data!.docs[i]
+                                                          ['price'] +
+                                                      "DT",
                                                   style:
                                                       TextStyle(fontSize: 15),
                                                   textAlign: TextAlign.center,
@@ -209,33 +265,33 @@ class _ShopsState extends State<Shops> {
                                               15, //spacing at the end of divider
                                         ),
                                         Container(
+                                            height: 40,
                                             decoration: const BoxDecoration(
                                               // color: Color.fromARGB(255, 228, 221, 221),
                                               borderRadius: BorderRadius.all(
                                                 Radius.circular(8),
                                               ),
                                             ),
-                                            height: 40,
                                             width: double.infinity,
                                             margin: const EdgeInsets.only(
                                                 left: 10,
                                                 right: 10,
                                                 top: 5,
-                                                bottom: 30),
+                                                bottom: 20),
                                             child: Row(
                                               mainAxisAlignment:
                                                   MainAxisAlignment.start,
                                               children: [
-                                                Align(
+                                               const Align(
                                                     alignment:
                                                         Alignment.topLeft),
+                                                        const Text("Phone-N : ",
+                                                    style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 17,
+                                                    )),
                                                 Text(
-                                                  "Price : " +
-                                                      snapshot.data!.docs[i]
-                                                          ['price'] +
-                                                      "DT" +
-                                                      " || " +
-                                                      "Phone-N : " +
                                                       snapshot.data!.docs[i]
                                                           ['phoneN'],
                                                   style:
