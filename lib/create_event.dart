@@ -21,7 +21,7 @@ class _CreateEventState extends State<CreateEvent> {
   //     firebase_storage.FirebaseStorage.instance;
   final controller = TextEditingController();
 
-  String? eventName, place, time;
+  String? eventName, place, description;
 
   File? _photo;
   bool _isLoading = false;
@@ -63,8 +63,7 @@ class _CreateEventState extends State<CreateEvent> {
         "imgUrl": downloadUrl,
         "eventName": eventName ?? "",
         "place": place ?? "",
-        "time": time ?? "",
-        // "info": info ?? "",
+        "description": description ?? "",
       };
       crudMethods.addData(eventMap).then((result) {
         Navigator.pop(context);
@@ -181,9 +180,9 @@ class _CreateEventState extends State<CreateEvent> {
                           },
                         ),
                         TextField(
-                          decoration: const InputDecoration(hintText: "Time"),
+                          decoration: const InputDecoration(hintText: "Description"),
                           onChanged: (val) {
-                            time = val;
+                            description = val;
                           },
                         ),
                         // TextField(

@@ -24,6 +24,7 @@ import 'kampy_signup.dart';
 import 'package:get/get.dart';
 import 'chat/chat_main.dart';
 import './kampy_welcome.dart';
+import 'kampy_shops.dart';
 
 class Posts extends StatefulWidget {
   Posts({Key? key}) : super(key: key);
@@ -34,9 +35,9 @@ class Posts extends StatefulWidget {
 
 class _PostsState extends State<Posts> {
   // navbar
-  final List<Widget> _pages = [KampyEvent(), Posts(), Welcome(), CreatePost()];
+  final List<Widget> _pages = [Shops(), Posts(), Welcome(), Chat()];
 // plus button array of pages
-  final List<Widget> _views = [KampyEvent(), Posts(), Chat(), Welcome()];
+  final List<Widget> _views = [Shops(), Posts(), Chat(), Welcome()];
   int index = 0;
 
   postsList() {
@@ -58,17 +59,9 @@ class _PostsState extends State<Posts> {
             return SingleChildScrollView(
                 padding: const EdgeInsets.only(top: 70),
                 child: Column(children: [
-                  const Text(
-                    "KAMPY",
-                    style: TextStyle(
-                      fontSize: 30,
-                      fontFamily: 'MuseoModerno',
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 50,
-                  ),
+                 
+                
+                
                   for (int i = 0; i < snapshot.data!.docs.length; i++)
                     Column(
                       children: [
@@ -98,7 +91,7 @@ class _PostsState extends State<Posts> {
                                     Container(
                                       margin: const EdgeInsets.only(left: 240),
                                       child: const Icon(
-                                          Icons.control_point_rounded),
+                                          Icons.more_vert),
                                     ),
                                   ],
                                 ),
@@ -158,13 +151,13 @@ class _PostsState extends State<Posts> {
                                         ]),
                                       ),
                                     )),
-
+                                   Padding(
+                                    padding:const  EdgeInsets.only(left: 280),
+                                  child :Text( snapshot.data!.docs[i]['localisation']),  ),
                                 const SizedBox(
                                   height: 20,
                                 ),
-                                const SizedBox(
-                                  height: 10,
-                                ),
+                              
                               ]),
                         ),
                       ],
@@ -179,7 +172,12 @@ class _PostsState extends State<Posts> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
+// appp bar
+ appBar: AppBar(
+          title: const Text("Posts"),
+          centerTitle: true,
+          backgroundColor: const Color.fromARGB(255, 20, 6, 29),
+        ),
       body: postsList(),
 
       // navbar bottom
@@ -282,7 +280,7 @@ class PostsTitle extends StatelessWidget {
                     ),
                   ])),
           Container(
-            margin: EdgeInsets.fromLTRB(190, 30, 00, 10),
+            margin: const EdgeInsets.fromLTRB(190, 30, 00, 10),
             width: MediaQuery.of(context).size.width,
             child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -390,3 +388,5 @@ class PostsTitle extends StatelessWidget {
 //     );
 //   }
 // }
+
+
