@@ -105,7 +105,7 @@ class _ShopsState extends State<Shops> {
                                       child: GestureDetector(
                                         child: Column(children: [
                                             Text(snapshot.data!.docs[i]
-                                                ['title']),
+                                                ['title'],style: TextStyle(fontSize: 27),),
                                           Container(
                                             margin: const EdgeInsets.only(
                                                 left: 20,
@@ -125,10 +125,7 @@ class _ShopsState extends State<Shops> {
                                                     ['imgUrl'],
                                               ),
                                               fit: BoxFit.fill,
-                                            )),
-                                            child: 
-                                             
-                                            Text("Description : "+snapshot.data!.docs[i]['description'],)
+                                            )),                                             
                                           ),
                                           const Padding(
                                             // ignore: unnecessary_const
@@ -139,12 +136,13 @@ class _ShopsState extends State<Shops> {
                                                 bottom: 00),
                                           ),
 
+                                            Text("Description : "+snapshot.data!.docs[i]['description'],style: TextStyle(fontSize: 20),),
                                           
                                             Text("Price : "+snapshot.data!.docs[i]
-                                                ['price']),
+                                                ['price'],style: TextStyle(fontSize: 20),),
 
                                             Text("Phone Number : "+snapshot.data!.docs[i]
-                                                ['phoneN']),
+                                                ['phoneN'],style: TextStyle(fontSize: 20),),
                                         ]),
                                       ),
                                     )),
