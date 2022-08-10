@@ -44,7 +44,9 @@ final FirebaseAuth auth = FirebaseAuth.instance;
 // plus button array of pages
   final List<Widget> _views = [Shops(), Posts(), Chat(), Welcome()];
   int index = 0;
- checkuser (name)async {
+  bool? userCheck;
+  // check user to delete post 
+checkuser (name)async {
 // get current user connected
      final User? user = auth.currentUser;
   final uid = user?.uid;
@@ -56,12 +58,18 @@ final FirebaseAuth auth = FirebaseAuth.instance;
         QuerySnapshot querySnapshot = await users.get();
    
         for (var i=0; i <querySnapshot.docs.length; i++){
-        if (querySnapshot.docs[i]['name']==name){
-     return true;
-          
+            
+        if (querySnapshot.docs[i]['uid']==uid){
+if (querySnapshot.docs[i]['name']==name){
+     userCheck =true;
+          break;
         
+       }else{
+       
+       userCheck= false;
+              break;
        }
-       return false;
+       }
           }
  }
   postsList() {
@@ -117,9 +125,10 @@ final FirebaseAuth auth = FirebaseAuth.instance;
                                               color: const Color.fromARGB(251, 255, 255, 255),
                                               iconSize: 36.0,
                                                 onPressed: () async   {
-                                                    if (checkuser (snapshot.data!.docs[i]['userName'])){
-                                                 snapshot.data!.docs[i].reference.delete();
-                                                 }
+                                                 await  checkuser(snapshot.data!.docs[i]['userName']);
+                                                if(userCheck==true){
+                                                return await  snapshot.data!.docs[i].reference.delete();
+                                              }
                                                 },
                                           ),
                                     ),
