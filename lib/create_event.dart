@@ -8,6 +8,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:path/path.dart' as path;
 import 'package:random_string/random_string.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class CreateEvent extends StatefulWidget {
   const CreateEvent({Key? key}) : super(key: key);
@@ -20,8 +22,9 @@ class _CreateEventState extends State<CreateEvent> {
   // firebase_storage.FirebaseStorage storage =
   //     firebase_storage.FirebaseStorage.instance;
   final controller = TextEditingController();
+  final FirebaseAuth auth = FirebaseAuth.instance;
 
-  String? eventName, place, description, username;
+  String? eventName, place, description, username,userImage;
 
   File? _photo;
   bool _isLoading = false;
@@ -41,18 +44,35 @@ class _CreateEventState extends State<CreateEvent> {
   }
 
   uploadEvent() async {
+    // get current user connected
+    final User? user = auth.currentUser;
+    final uid = user?.uid;
+    //  create firestore instance
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
+    // grab the collection for the users
+    CollectionReference users = firestore.collection('users');
+
     if (_photo != null) {
       setState(() {
         _isLoading = true;
       });
-      // await FirebaseAuth.instance.signInAnonymously();
-      // uploading image to firebase storage
+    
       FirebaseStorage _storage = FirebaseStorage.instance;
       Reference ref = _storage
           .ref()
           .child("eventImages")
           .child("${randomAlphaNumeric(9)}.jpg");
       UploadTask uploadTask = ref.putFile(_photo!);
+
+      // get docs from user reference
+      QuerySnapshot querySnapshot = await users.get();
+
+      for (var i = 0; i < querySnapshot.docs.length; i++) {
+        if (querySnapshot.docs[i]['uid'] == uid) {
+          username = querySnapshot.docs[i]['name'];
+          userImage = querySnapshot.docs[i]['photoUrl'];
+        }
+      }
 
       var downloadUrl = await (await uploadTask).ref.getDownloadURL();
       print("this is url $downloadUrl");
@@ -64,10 +84,8 @@ class _CreateEventState extends State<CreateEvent> {
         "eventName": eventName ?? "",
         "place": place ?? "",
         "description": description ?? "",
-
-        "username": " ",
-        
-
+        "username": username ?? "",
+        "userImage":userImage ?? "",
       };
       crudMethods.addData(eventMap).then((result) {
         Navigator.pop(context);
@@ -184,7 +202,8 @@ class _CreateEventState extends State<CreateEvent> {
                           },
                         ),
                         TextField(
-                          decoration: const InputDecoration(hintText: "Description"),
+                          decoration:
+                              const InputDecoration(hintText: "Description"),
                           onChanged: (val) {
                             description = val;
                           },
