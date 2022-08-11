@@ -111,7 +111,6 @@ class _ShopsState extends State<Shops> {
                                     //         0.4,
                                     child: GestureDetector(
                                       child: Column(children: [
-                                        
                                         // Container(
                                         //     decoration: const BoxDecoration(
                                         //       // color: Color.fromARGB(255, 248, 248, 248),
@@ -143,7 +142,7 @@ class _ShopsState extends State<Shops> {
                                         //       //       )),
                                         //       // ],
                                         //     )),
-                                                
+
                                         Container(
                                           margin: const EdgeInsets.only(
                                               left: 10,
@@ -153,7 +152,6 @@ class _ShopsState extends State<Shops> {
                                           height: 190,
                                           width:
                                               MediaQuery.of(context).size.width,
-                                              
                                           decoration: BoxDecoration(
                                               image: DecorationImage(
                                             image: NetworkImage(
@@ -170,8 +168,26 @@ class _ShopsState extends State<Shops> {
                                               right: 18,
                                               bottom: 00),
                                         ),
+                                        ElevatedButton(
+                                          onPressed: () {
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(SnackBar(
+                                              content:
+                                                  Text("Description "+": " +snapshot.data!.docs[i]['description']+"\n"+
+                                                          "Price :" +snapshot.data!.docs[i]['price'] +"DT \n"+
+                                                          "Phone-N :" +snapshot.data!.docs[i]['phoneN'] +"DT \n",
+                                                    style: TextStyle(
+                                                      // backgroundColor: Color.fromARGB(255, 183, 180, 185),
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 17,
+                                                    )),
+                                            ));
+                                          },
+                                          child: Text("More"),
+                                        ),
 
-                                            Container(
+                                        Container(
                                             decoration: const BoxDecoration(
                                               // color: Color.fromARGB(255, 228, 221, 221),
                                               borderRadius: BorderRadius.all(
@@ -189,18 +205,18 @@ class _ShopsState extends State<Shops> {
                                               mainAxisAlignment:
                                                   MainAxisAlignment.start,
                                               children: [
-                                                
-                                              const  Align(
+                                                const Align(
                                                     alignment:
                                                         Alignment.topLeft),
                                                 const Text("Name ",
                                                     style: TextStyle(
-                                                      backgroundColor: Color.fromARGB(255, 183, 180, 185),
+                                                      // backgroundColor: Color.fromARGB(255, 183, 180, 185),
                                                       fontWeight:
                                                           FontWeight.bold,
                                                       fontSize: 17,
                                                     )),
-                                                Text(": "+
+                                                Text(
+                                                  ": " +
                                                       snapshot.data!.docs[i]
                                                           ['title'],
                                                   style:
@@ -239,18 +255,18 @@ class _ShopsState extends State<Shops> {
                                               mainAxisAlignment:
                                                   MainAxisAlignment.start,
                                               children: [
-                                                
-                                              const  Align(
+                                                const Align(
                                                     alignment:
                                                         Alignment.topLeft),
                                                 const Text("Description ",
                                                     style: TextStyle(
-                                                      backgroundColor: Color.fromARGB(255, 183, 180, 185),
+                                                      // backgroundColor: Color.fromARGB(255, 183, 180, 185),
                                                       fontWeight:
                                                           FontWeight.bold,
                                                       fontSize: 17,
                                                     )),
-                                                Text(": "+
+                                                Text(
+                                                  ": " +
                                                       snapshot.data!.docs[i]
                                                           ['description'],
                                                   style:
@@ -291,17 +307,18 @@ class _ShopsState extends State<Shops> {
                                                 const Align(
                                                     alignment:
                                                         Alignment.topLeft),
-                                                        const  Align(
+                                                const Align(
                                                     alignment:
                                                         Alignment.topLeft),
-                                                const Text("Price " ,
+                                                const Text("Price ",
                                                     style: TextStyle(
-                                                      backgroundColor: Color.fromARGB(255, 183, 180, 185),
+                                                      // backgroundColor: Color.fromARGB(255, 183, 180, 185),
                                                       fontWeight:
                                                           FontWeight.bold,
                                                       fontSize: 17,
                                                     )),
-                                                Text(": "+
+                                                Text(
+                                                  ": " +
                                                       snapshot.data!.docs[i]
                                                           ['price'] +
                                                       "DT",
@@ -339,17 +356,18 @@ class _ShopsState extends State<Shops> {
                                               mainAxisAlignment:
                                                   MainAxisAlignment.start,
                                               children: [
-                                               const Align(
+                                                const Align(
                                                     alignment:
                                                         Alignment.topLeft),
-                                                        const Text("P-Number ",
+                                                const Text("P-Number ",
                                                     style: TextStyle(
-                                              backgroundColor: Color.fromARGB(255, 183, 180, 185),
+                                                      // backgroundColor: Color.fromARGB(255, 183, 180, 185),
                                                       fontWeight:
                                                           FontWeight.bold,
                                                       fontSize: 17,
                                                     )),
-                                                Text(": "+
+                                                Text(
+                                                  ": " +
                                                       snapshot.data!.docs[i]
                                                           ['phoneN'],
                                                   style:
@@ -358,7 +376,7 @@ class _ShopsState extends State<Shops> {
                                                 ),
                                               ],
                                             )),
-                                          Container(
+                                        Container(
                                             height: 40,
                                             decoration: const BoxDecoration(
                                               // color: Color.fromARGB(255, 228, 221, 221),
@@ -371,8 +389,7 @@ class _ShopsState extends State<Shops> {
                                                 left: 10,
                                                 right: 10,
                                                 top: 5,
-                                                bottom: 22
-                                            )),
+                                                bottom: 22)),
                                       ]),
                                     ),
                                   ),
