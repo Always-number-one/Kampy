@@ -1,5 +1,7 @@
 
 
+import 'package:flutter_application_1/kampy_create_posts.dart';
+
 import 'auth_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/auth_controller.dart';
@@ -17,6 +19,7 @@ import 'kampy_posts.dart';
 import 'kampy_event.dart';
 import 'chat/chat_main.dart';
 import 'kampy_shops.dart' ;
+import 'kamp_create_shop.dart';
 
 import 'package:firebase_storage/firebase_storage.dart' as fStorage;
 
@@ -33,9 +36,9 @@ class Welcome extends StatefulWidget {
 }
 
 class _WelcomeState extends State<Welcome> {
-  final List<Widget> _pages = [Shops(), Posts(), Welcome(), Chat()];
+  final List<Widget> _pages = [Shops(), CreateShop(), Welcome(), CreatePost()];
 // plus button array of pages
-  final List<Widget> _views = [Shops(), Posts(), Chat(), Welcome()];
+  final List<Widget> _views = [Shops(), CreateShop(), Chat(), Welcome()];
   int index = 0;
 
 
@@ -75,8 +78,8 @@ class _WelcomeState extends State<Welcome> {
         backgroundColor: Colors.white,
         bottomNavigationBar: Builder(
             builder: (context) => AnimatedBottomBar(
-                  defaultIconColor: Colors.black,
-                  activatedIconColor: const Color.fromARGB(255, 2, 2, 41),
+                  defaultIconColor: HexColor('#7b94c4'),
+                  activatedIconColor: HexColor('#7b94c4'),
                   background: Colors.white,
                   buttonsIcons: const [
                     Icons.sunny_snowing,
@@ -91,7 +94,7 @@ class _WelcomeState extends State<Welcome> {
                     Icons.post_add_rounded
                   ],
                   backgroundColorMiddleIcon:
-                      const Color.fromARGB(255, 2, 2, 41),
+                      HexColor('#7b94c4'),
                   onTapButton: (i) {
                     setState(() {
                       index = i;
