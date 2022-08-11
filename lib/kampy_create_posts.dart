@@ -6,19 +6,23 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter/widgets.dart';
 import './services/crud_posts.dart';
+// hex color
+import 'package:hexcolor/hexcolor.dart';
 
-// import 'package:flutter_application_1/services/crud.dart';
 
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:path/path.dart' as path;
 import 'package:random_string/random_string.dart';
 
-
+// firebase auth
+import 'package:firebase_auth/firebase_auth.dart';
+// firestore
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 
 class CreatePost extends StatefulWidget {
-  CreatePost({Key? key}) : super(key: key);
+  const CreatePost({Key? key}) : super(key: key);
 
   @override
   State<CreatePost> createState() => _CreatePostState();
@@ -26,14 +30,16 @@ class CreatePost extends StatefulWidget {
 
 class _CreatePostState extends State<CreatePost> {
   final controller =TextEditingController();
+// authonticaion
+final FirebaseAuth auth = FirebaseAuth.instance;
 
-  String? localisation,description;
+  String? localisation,description,userName,userImage;
 
   File? _photo;
   bool _isLoading=false;
   final ImagePicker _picker=ImagePicker();
 
-  CrudMethodsP crudMethodsP= new CrudMethodsP();
+  CrudMethodsP crudMethodsP=  CrudMethodsP();
   //pick image from galleryimage 
   Future imgFromGallery() async{
     final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
@@ -41,33 +47,52 @@ class _CreatePostState extends State<CreatePost> {
     setState(() {
       if(pickedFile!= null){
         _photo=File(pickedFile.path);
-      }else{
-        print("No image selected,sorry");
       }
     });
   }
 
   //uploading data
   uploadPost()async{
+    // get current user connected
+     final User? user = auth.currentUser;
+  final uid = user?.uid;
+   //  create firestore instance
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
+    // grab the collection
+    CollectionReference users = firestore.collection('users');
+
     if(_photo !=null){
       setState(() {
         _isLoading=true;
       });
-      FirebaseStorage _storage=FirebaseStorage.instance;
-      Reference ref=_storage
+      FirebaseStorage storage=FirebaseStorage.instance;
+      Reference ref=storage
       .ref()
       .child("postImages")
       .child("${randomAlphaNumeric(9)}.jpg}");
       UploadTask uploadTask=ref.putFile(_photo!);
 
-
+        // get docs from user reference 
+        QuerySnapshot querySnapshot = await users.get();
+     
+       for (var i=0; i <querySnapshot.docs.length; i++){
+        if (querySnapshot.docs[i]['uid']==uid){
+         userName= querySnapshot.docs[i]['name'];
+        userImage=querySnapshot.docs[i]['photoUrl'];
+          
+        
+       }
+          }
       var downloadUrl = await(await uploadTask).ref.getDownloadURL();
       print("this is url $downloadUrl");
 
       Map<String,dynamic> postMap={
         "localisation":localisation??"",
         "description":description??"",
-        "imgUrl":downloadUrl
+        "imgUrl":downloadUrl,
+         "userName":userName??"",
+         "userImage":userImage??"",
+         "postLikes":[],
       };
       crudMethodsP.addData(postMap).then((result){
         Navigator.pop(context);
@@ -78,27 +103,19 @@ class _CreatePostState extends State<CreatePost> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-       appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(80.0),
-          child: SingleChildScrollView(
-        child: AppBar(
+    
+      appBar: AppBar(
           centerTitle: true,
-          flexibleSpace: ClipRRect(
-            child: Container(
-                decoration: const BoxDecoration(
-              color: Color.fromARGB(255, 42, 8, 48),
-            )),
+          flexibleSpace:   Container(
+          decoration:  BoxDecoration(
+            gradient: LinearGradient(
+                begin: Alignment.centerLeft,
+                end: Alignment.centerRight,
+                colors: [HexColor('#675975'), HexColor('#7b94c4')]),
           ),
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
-              Text("Add", style: TextStyle(fontSize: 22)),
-              Text(" Post",
-                  style: TextStyle(
-                      fontSize: 22, color: Color.fromARGB(255, 255, 255, 255)))
-            ],
-          ),
-          backgroundColor: Colors.transparent,
+        ),
+              title: const Text("Add Post"),
+ 
           elevation: 0.0,
           actions:<Widget> [
             GestureDetector(
@@ -111,17 +128,34 @@ class _CreatePostState extends State<CreatePost> {
               ),
             )
           ],
-    ))),
-    body: _isLoading
+    ),
+    body: 
+    
+    
+    _isLoading
     ?Container(
+        decoration:  const BoxDecoration(
+              image:  DecorationImage(
+              image:  AssetImage("images/background889.jpg"),
+             fit: BoxFit.fill,
+           )),
       alignment: Alignment.center,
       child: const CircularProgressIndicator(),
     )
-    :Container(
-      child: Column(
+    :SingleChildScrollView( 
+      
+      child :Container(
+      height: MediaQuery.of(context).size.height,
+      decoration:  const BoxDecoration(
+              image:  DecorationImage(
+              image:  AssetImage("images/background889.jpg"),
+             fit: BoxFit.fill,
+           )),
+    
+        child: Column(
         children: <Widget>[
           const SizedBox(
-            height: 10,
+            height: 250,
           ),
           GestureDetector(
             onTap: (){
@@ -181,10 +215,11 @@ class _CreatePostState extends State<CreatePost> {
                 ),
               ],
             )
-          )
+          ),
+           
         ],),
-    ),
-          backgroundColor: const Color.fromARGB(255, 42, 8, 48),
+
+    ), )     
     );
   }
 }

@@ -21,7 +21,7 @@ class _CreateEventState extends State<CreateEvent> {
   //     firebase_storage.FirebaseStorage.instance;
   final controller = TextEditingController();
 
-  String? eventName, place, description;
+  String? eventName, place, description, username;
 
   File? _photo;
   bool _isLoading = false;
@@ -64,7 +64,10 @@ class _CreateEventState extends State<CreateEvent> {
         "eventName": eventName ?? "",
         "place": place ?? "",
         "description": description ?? "",
-        // "info": info ?? "",
+
+        "username": " ",
+        
+
       };
       crudMethods.addData(eventMap).then((result) {
         Navigator.pop(context);
@@ -85,7 +88,7 @@ class _CreateEventState extends State<CreateEvent> {
             //     bottomLeft: Radius.circular(60)),
             child: Container(
                 decoration: const BoxDecoration(
-              color: Color.fromARGB(255, 42, 8, 48),
+              color: Color.fromARGB(255, 2, 2, 41),
             )),
           ),
           title: Row(
@@ -204,7 +207,7 @@ class _CreateEventState extends State<CreateEvent> {
                 ],
               ),
             ),
-      backgroundColor: const Color.fromARGB(255, 42, 8, 48),
+      backgroundColor: const Color.fromARGB(255, 2, 2, 41),
     );
   }
 }
