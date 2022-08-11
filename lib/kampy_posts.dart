@@ -254,7 +254,7 @@ class _PostsState extends State<Posts> {
                                 child:  LikeButton(
                                    isLiked: likseCheck,
                                   mainAxisAlignment: MainAxisAlignment.start,
-                                  likeCount: snapshot.data!.docs[i]["postLikes"].length,
+                                  // likeCount: snapshot.data!.docs[i]["postLikes"].length,
                                   circleColor: const CircleColor(
                                       start: Color(0xff00ddff),
                                       end: Color(0xff00ddff)),
