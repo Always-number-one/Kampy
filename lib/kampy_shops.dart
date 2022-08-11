@@ -35,7 +35,9 @@ class Shops extends StatefulWidget {
 
 class _ShopsState extends State<Shops> {
   // navbar
+
   final List<Widget> _pages = [Shops(), CreateShop(), Welcome(), CreateShop()];
+
 // plus button array of pages
   final List<Widget> _views = [Shops(), Posts(), Chat(), Welcome()];
   int index = 0;

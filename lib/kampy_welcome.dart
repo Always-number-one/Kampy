@@ -37,6 +37,7 @@ class Welcome extends StatefulWidget {
 
 class _WelcomeState extends State<Welcome> {
   final List<Widget> _pages = [Shops(), CreateShop(), Welcome(), CreatePost()];
+
 // plus button array of pages
   final List<Widget> _views = [Shops(), CreateShop(), Chat(), Welcome()];
   int index = 0;
