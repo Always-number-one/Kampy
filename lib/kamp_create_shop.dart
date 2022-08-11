@@ -123,7 +123,7 @@ String? title,description,price,phoneN,userName,userImage;
                 colors: [HexColor('#675975'), HexColor('#7b94c4')]),
           ),
         ),
-              title: const Text("Add Post"),
+              title: const Text("Add to Shop"),
  
           elevation: 0.0,
           actions:<Widget> [
@@ -164,7 +164,7 @@ String? title,description,price,phoneN,userName,userImage;
         child: Column(
         children: <Widget>[
           const SizedBox(
-            height: 250,
+            height: 200,
           ),
           GestureDetector(
             onTap: (){

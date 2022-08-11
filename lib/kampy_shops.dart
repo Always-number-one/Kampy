@@ -26,6 +26,8 @@ import 'chat/chat_main.dart';
 import './kampy_welcome.dart';
 import './kamp_create_shop.dart';
 
+
+
 class Shops extends StatefulWidget {
   Shops({Key? key}) : super(key: key);
 
@@ -34,13 +36,87 @@ class Shops extends StatefulWidget {
 }
 
 class _ShopsState extends State<Shops> {
+
+
+  // authonticaion
+  final FirebaseAuth auth = FirebaseAuth.instance;
   // navbar
   final List<Widget> _pages = [Shops(), CreateShop(), Welcome(), CreateShop()];
 // plus button array of pages
-  final List<Widget> _views = [Shops(), Posts(), Chat(), Welcome()];
+  final List<Widget> _views = [Shops(), CreateShop(), Chat(), Welcome()];
   int index = 0;
+  // chek user delete and likes
+  bool? userCheck;
+  bool? likseCheck;
 
-  shopsList() {
+  // check user to delete post
+  checkuser(name) async {
+// get current user connected
+    final User? user = auth.currentUser;
+    final uid = user?.uid;
+    //  create firestore instance
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
+    // grab the collection
+    CollectionReference users = firestore.collection('users');
+    // get docs from user reference
+    QuerySnapshot querySnapshot = await users.get();
+
+    for (var i = 0; i < querySnapshot.docs.length; i++) {
+      if (querySnapshot.docs[i]['uid'] == uid) {
+      
+        if (querySnapshot.docs[i]['name'] == name) {
+          userCheck = true;
+          break;
+        } else {
+          userCheck = false;
+          break;
+        }
+      }
+    }
+  }
+  // check users who liked the post
+  checkLiked()async {
+    // get current user connected
+    final User? user = auth.currentUser;
+    final uid = user?.uid;
+    //  create firestore instance
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
+    // grab the collection users
+    CollectionReference users = firestore.collection('users');
+    // get docs from user reference users
+    QuerySnapshot querySnapshot = await users.get();
+     // grab the collection Shop
+    CollectionReference shops = firestore.collection('shops');
+    // get docs from user reference posts
+    QuerySnapshot querySnapshotShops = await shops.get();
+   for (var i = 0; i < querySnapshot.docs.length; i++) {
+      if (querySnapshot.docs[i]['uid'] == uid) {
+ 
+       for (var j = 0; j <querySnapshotShops .docs.length;j++) {
+        for(var k = 0; k <querySnapshotShops .docs[j]['postLikes'].length; k++) {
+        if (querySnapshotShops .docs[j]['postLikes'][k]==querySnapshot.docs[i]['name']){
+     
+          likseCheck=true;
+      
+          break;
+         
+        }
+        }
+       }
+         likseCheck=false;
+         break;
+      }
+    }
+   
+  }
+
+
+  shopsList()   {
+
+ 
+ 
+      
+                  
     //  create firestore instance
     FirebaseFirestore firestore = FirebaseFirestore.instance;
     // grab the collection
@@ -48,7 +124,7 @@ class _ShopsState extends State<Shops> {
     return StreamBuilder<QuerySnapshot>(
         // build dnapshot using users collection
         stream: shops.snapshots(),
-        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot)  {
           if (snapshot.hasError) {
             return const Text("Something went wrong");
           }
@@ -56,9 +132,12 @@ class _ShopsState extends State<Shops> {
             return const Text("loading");
           }
           if (snapshot.hasData) {
+           checkLiked();
             return SingleChildScrollView(
+              
                 padding: const EdgeInsets.only(top: 70),
                 child: Column(children: [
+                  
                   for (int i = 0; i < snapshot.data!.docs.length; i++)
                     Column(
                       children: [
@@ -66,323 +145,174 @@ class _ShopsState extends State<Shops> {
                           padding: const EdgeInsets.symmetric(horizontal: 10),
                           child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
+                              children: <Widget>[
                                 Row(
                                   children: <Widget>[
                                     // user avatar
-                                    const CircleAvatar(
+                                    CircleAvatar(
                                       radius: 24.0,
-                                      // backgroundImage: NetworkImage(
-                                      //     snapshot.data!.docs[i]['imgUrl']),
-                                      // backgroundColor: Colors.transparent,
+                                      backgroundImage: NetworkImage(
+                                          snapshot.data!.docs[i]['userImage']),
+                                      backgroundColor: Colors.transparent,
                                     ),
-                                    // user title :
+                                    // user name :
                                     Container(
-                                      margin: const EdgeInsets.only(
-                                          left: 5.0,
-                                          right: 5.0,
-                                          top: 25,
-                                          bottom: 5),
                                       padding: const EdgeInsets.only(
                                           bottom: 5, left: 10),
-                                      child: const Text(
-                                        "sameh",
+                                      child: Text(
+                                        snapshot.data!.docs[i]['userName'],
                                       ),
                                     ),
-                                    //plus button to delete and update
+                                    // plus button to delete and update
                                     Container(
-                                      margin: const EdgeInsets.only(left: 230),
-                                      child: const Icon(Icons.delete),
+                                      margin: const EdgeInsets.only(left: 200),
+                                      child: IconButton(
+                                        icon: const Icon(Icons.delete),
+                                        color: const Color.fromARGB(
+                                            251, 255, 255, 255),
+                                        iconSize: 36.0,
+                                        onPressed: () async {
+                                          // check if it's the same user
+                                          await checkuser(snapshot.data!.docs[i]
+                                              ['userName']);
+                                          if (userCheck == true) {
+                                            return await snapshot
+                                                .data!.docs[i].reference
+                                                .delete();
+                                          }
+                                        },
+                                      ),
                                     ),
                                   ],
                                 ),
 
                                 const SizedBox(
-                                  height: 5,
+                                  height: 10,
                                 ),
                                 //  post image
                                 ClipRRect(
-                                  borderRadius: BorderRadius.circular(5),
-                                  child: Container(
-                                    // height:
-                                    //     MediaQuery.of(context).size.height *
-                                    //         0.4,
-                                    child: GestureDetector(
-                                      child: Column(children: [
-                                        
-                                        // Container(
-                                        //     decoration: const BoxDecoration(
-                                        //       // color: Color.fromARGB(255, 248, 248, 248),
-                                        //       borderRadius: BorderRadius.all(
-                                        //         Radius.circular(8),
-                                        //       ),
-                                        //     ),
-                                        //     height: 40,
-                                        //     width: double.infinity,
-                                        //     margin: const EdgeInsets.only(
-                                        //         left: 5.0,
-                                        //         right: 5.0,
-                                        //         top: 00,
-                                        //         bottom: 5),
-                                        //     child: Row(
-                                        //       mainAxisAlignment:
-                                        //           MainAxisAlignment.center,
-                                        //       // children: [
-                                        //       //   Align(
-                                        //       //       alignment:
-                                        //       //           Alignment.center),
-                                        //       //   Text(
-                                        //       //       snapshot.data!.docs[i]
-                                        //       //           ['title'],
-                                        //       //       style: const TextStyle(
-                                        //       //         fontWeight:
-                                        //       //             FontWeight.bold,
-                                        //       //         fontSize: 15,
-                                        //       //       )),
-                                        //       // ],
-                                        //     )),
-                                                
-                                        Container(
-                                          margin: const EdgeInsets.only(
-                                              left: 10,
-                                              right: 10,
-                                              top: 10,
-                                              bottom: 5),
-                                          height: 190,
-                                          width:
-                                              MediaQuery.of(context).size.width,
-                                              
-                                          decoration: BoxDecoration(
-                                              image: DecorationImage(
-                                            image: NetworkImage(
-                                              snapshot.data!.docs[i]['imgUrl'],
-                                            ),
-                                            fit: BoxFit.fill,
-                                          )),
-                                        ),
-                                        const Padding(
-                                          // ignore: unnecessary_const
-                                          padding: const EdgeInsets.only(
-                                              left: 18,
-                                              top: 00,
-                                              right: 18,
-                                              bottom: 00),
-                                        ),
-
-                                            Container(
-                                            decoration: const BoxDecoration(
-                                              // color: Color.fromARGB(255, 228, 221, 221),
-                                              borderRadius: BorderRadius.all(
-                                                Radius.circular(8),
-                                              ),
-                                            ),
-                                            height: 40,
-                                            width: double.infinity,
-                                            margin: const EdgeInsets.only(
-                                                left: 10,
-                                                right: 10,
-                                                top: 5,
-                                                bottom: 5),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              children: [
-                                                
-                                              const  Align(
-                                                    alignment:
-                                                        Alignment.topLeft),
-                                                const Text("Name ",
-                                                    style: TextStyle(
-                                                      backgroundColor: Color.fromARGB(255, 183, 180, 185),
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontSize: 17,
-                                                    )),
-                                                Text(": "+
-                                                      snapshot.data!.docs[i]
-                                                          ['title'],
-                                                  style:
-                                                      TextStyle(fontSize: 15),
-                                                  textAlign: TextAlign.left,
-                                                ),
-                                              ],
-                                            )),
-                                        const Divider(
-                                          color: Color.fromARGB(
-                                              255, 0, 0, 0), //color of divider
-                                          height: 1, //height spacing of divider
-                                          thickness:
-                                              1, //thickness of divier line
-                                          indent:
-                                              15, //spacing at the start of divider
-                                          endIndent:
-                                              15, //spacing at the end of divider
-                                        ),
-
-                                        Container(
-                                            decoration: const BoxDecoration(
-                                              // color: Color.fromARGB(255, 228, 221, 221),
-                                              borderRadius: BorderRadius.all(
-                                                Radius.circular(8),
-                                              ),
-                                            ),
-                                            height: 40,
-                                            width: double.infinity,
-                                            margin: const EdgeInsets.only(
-                                                left: 10,
-                                                right: 10,
-                                                top: 5,
-                                                bottom: 5),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              children: [
-                                                
-                                              const  Align(
-                                                    alignment:
-                                                        Alignment.topLeft),
-                                                const Text("Description ",
-                                                    style: TextStyle(
-                                                      backgroundColor: Color.fromARGB(255, 183, 180, 185),
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontSize: 17,
-                                                    )),
-                                                Text(": "+
-                                                      snapshot.data!.docs[i]
-                                                          ['description'],
-                                                  style:
-                                                      TextStyle(fontSize: 15),
-                                                  textAlign: TextAlign.left,
-                                                ),
-                                              ],
-                                            )),
-                                        const Divider(
-                                          color: Color.fromARGB(
-                                              255, 0, 0, 0), //color of divider
-                                          height: 1, //height spacing of divider
-                                          thickness:
-                                              1, //thickness of divier line
-                                          indent:
-                                              15, //spacing at the start of divider
-                                          endIndent:
-                                              15, //spacing at the end of divider
-                                        ),
-                                        Container(
-                                            height: 40,
-                                            decoration: const BoxDecoration(
-                                              // color: Color.fromARGB(255, 228, 221, 221),
-                                              borderRadius: BorderRadius.all(
-                                                Radius.circular(8),
-                                              ),
-                                            ),
-                                            width: double.infinity,
-                                            margin: const EdgeInsets.only(
-                                                left: 10,
-                                                right: 10,
-                                                top: 5,
-                                                bottom: 5),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              children: [
-                                                const Align(
-                                                    alignment:
-                                                        Alignment.topLeft),
-                                                        const  Align(
-                                                    alignment:
-                                                        Alignment.topLeft),
-                                                const Text("Price " ,
-                                                    style: TextStyle(
-                                                      backgroundColor: Color.fromARGB(255, 183, 180, 185),
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontSize: 17,
-                                                    )),
-                                                Text(": "+
-                                                      snapshot.data!.docs[i]
-                                                          ['price'] +
-                                                      "DT",
-                                                  style:
-                                                      TextStyle(fontSize: 15),
-                                                  textAlign: TextAlign.center,
-                                                ),
-                                              ],
-                                            )),
-                                        const Divider(
-                                          color: Color.fromARGB(
-                                              255, 0, 0, 0), //color of divider
-                                          height: 1, //height spacing of divider
-                                          thickness:
-                                              1, //thickness of divier line
-                                          indent:
-                                              15, //spacing at the start of divider
-                                          endIndent:
-                                              15, //spacing at the end of divider
-                                        ),
-                                        Container(
-                                            height: 40,
-                                            decoration: const BoxDecoration(
-                                              borderRadius: BorderRadius.all(
-                                                Radius.circular(8),
-                                              ),
-                                            ),
-                                            width: double.infinity,
-                                            margin: const EdgeInsets.only(
-                                                left: 10,
-                                                right: 10,
-                                                top: 5,
-                                                bottom: 5),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              children: [
-                                               const Align(
-                                                    alignment:
-                                                        Alignment.topLeft),
-                                                        const Text("P-Number ",
-                                                    style: TextStyle(
-                                              backgroundColor: Color.fromARGB(255, 183, 180, 185),
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontSize: 17,
-                                                    )),
-                                                Text(": "+
-                                                      snapshot.data!.docs[i]
-                                                          ['phoneN'],
-                                                  style:
-                                                      TextStyle(fontSize: 15),
-                                                  textAlign: TextAlign.center,
-                                                ),
-                                              ],
-                                            )),
+                                    borderRadius: BorderRadius.circular(5),
+                                    child: Container(
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              0.4,
+                                      child: GestureDetector(
+                                        child: Column(children: [
                                           Container(
-                                            height: 40,
-                                            decoration: const BoxDecoration(
-                                              // color: Color.fromARGB(255, 228, 221, 221),
-                                              borderRadius: BorderRadius.all(
-                                                Radius.circular(8),
-                                              ),
-                                            ),
-                                            width: double.infinity,
-                                            margin: const EdgeInsets.only(
-                                                left: 10,
-                                                right: 10,
-                                                top: 5,
-                                                bottom: 22
-                                            )),
-                                      ]),
-                                    ),
+                                              height: 300,
+                                              width: MediaQuery.of(context)
+                                                  .size
+                                                  .width,
+                                              decoration: BoxDecoration(
+                                                  image: DecorationImage(
+                                                image: NetworkImage(
+                                                  snapshot.data!.docs[i]
+                                                      ['imgUrl'],
+                                                ),
+                                                fit: BoxFit.fill,
+                                              )),
+                                              //change photo arrows :
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceAround,
+                                                children: <Widget>[
+                                                  // next photo
+                                                  IconButton(
+                                                    icon: const Icon(Icons
+                                                        .arrow_back_ios_new_outlined),
+                                                    color: const Color.fromARGB(
+                                                        138, 255, 255, 255),
+                                                    iconSize: 36.0,
+                                                    //  next photo
+                                                    onPressed: () {},
+                                                  ),
+                                                  const SizedBox(width: 265),
+                                                  // next photo
+                                                  IconButton(
+                                                    icon: const Icon(Icons
+                                                        .arrow_forward_ios_rounded),
+                                                    color: const Color.fromARGB(
+                                                        138, 255, 255, 255),
+                                                    iconSize: 36.0,
+                                                    // previous photo
+                                                    onPressed: () {},
+                                                  ),
+                                                ],
+                                              )),
+                                        ]),
+                                      ),
+                                    )),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                       children: [
+                                  //  like button
+                                  ElevatedButton(
+                                    
+                                child:  LikeButton(
+                                   isLiked: likseCheck,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  likeCount: snapshot.data!.docs[i]["postLikes"].length,
+                                  circleColor: const CircleColor(
+                                      start: Color(0xff00ddff),
+                                      end: Color(0xff00ddff)),
+                                  bubblesColor:const BubblesColor(
+                                    dotPrimaryColor: Color(0xff33b5e5),
+                                    dotSecondaryColor: Color(0xff0099cc),
                                   ),
+                                  // check if the user is already liked the post
+                              
                                 ),
-                                const SizedBox(
-                                  height: 10,
+                                // update likes
+                                 onPressed: () async{
+                               
+                                  var arr=[];
+                                  // check if it's the same user 
+                                  bool checked=true;
+                                  for (var k=0; k<snapshot.data!.docs[i]["postLikes"].length;k++){
+                                  
+                                    arr.add(snapshot.data!.docs[i]["postLikes"][k]);
+                                    // check if it's the same user 
+                                    print(snapshot.data!.docs[i]["postLikes"][k]==snapshot.data!.docs[i]['userName']);
+                                    if (snapshot.data!.docs[i]["postLikes"][k]==snapshot.data!.docs[i]['userName']){
+                                      
+                                      checked=false;
+                                    }
+                                  }
+                                  // if it's not the same user add like
+                                    if(checked==true){
+                                  arr.add(snapshot.data!.docs[i]['userName']);
+                                }
+                              
+                        await snapshot.data!.docs[i].reference.update({
+                          "postLikes": arr
+                         });
+                                            },
                                 ),
-                              ]),
-                        ),
+      
+                               Row(
+                                 mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                   const  Icon(
+                                    
+                             Icons.place_outlined,
+                         color: Colors.black,
+                             size:20.0,
+                                      ),
+                               Text(
+                                      snapshot.data!.docs[i]['localisation']
+                                      ),],)
+                               ] )
+
+                               ] ),
+                               
+                              ),
+                             const  SizedBox(height: 20),
+                        
                       ],
                     )
                 ]));
+                
           }
           return const Text("none");
         });
@@ -396,15 +326,22 @@ class _ShopsState extends State<Shops> {
       appBar: AppBar(
         title: const Text("Shops"),
         centerTitle: true,
-        backgroundColor: const Color.fromARGB(255, 20, 6, 29),
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+                begin: Alignment.centerLeft,
+                end: Alignment.centerRight,
+                colors: [HexColor('#675975'), HexColor('#7b94c4')]),
+          ),
+        ),
       ),
-      body: shopsList(),
+      body: shopsList(), 
 
       // navbar bottom
       bottomNavigationBar: Builder(
           builder: (context) => AnimatedBottomBar(
-                defaultIconColor: Colors.black,
-                activatedIconColor: const Color.fromARGB(255, 56, 3, 33),
+                defaultIconColor: HexColor('#7b94c4'),
+                activatedIconColor: HexColor('#675975'),
                 background: Colors.white,
                 buttonsIcons: const [
                   Icons.sunny_snowing,
@@ -418,7 +355,7 @@ class _ShopsState extends State<Shops> {
                   Icons.image_rounded,
                   Icons.post_add_rounded
                 ],
-                backgroundColorMiddleIcon: const Color.fromARGB(255, 56, 3, 33),
+                backgroundColorMiddleIcon: HexColor('#675975'),
                 onTapButton: (i) {
                   setState(() {
                     index = i;
@@ -438,37 +375,33 @@ class _ShopsState extends State<Shops> {
               )),
 // navbar bottom ends here
 
-      backgroundColor: Color.fromARGB(255, 255, 255, 255),
+      backgroundColor: const Color.fromARGB(240, 255, 255, 255),
     );
   }
 }
 
 class ShopsTitle extends StatelessWidget {
-  // const ShopsTitle({Key? key}) : super(key: key);
+  // const PostsTitle({Key? key}) : super(key: key);
 
   String id;
-  final dynamic title;
+  final dynamic localisation;
   final dynamic description;
-  final dynamic price;
-  final dynamic phoneN;
   final dynamic imgUrl;
   ShopsTitle({
     Key? key,
     this.id = '',
-    required this.title,
+    required this.localisation,
     required this.description,
-    required this.price,
-    required this.phoneN,
     required this.imgUrl,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.fromLTRB(0, 0, 0, 10),
+      margin: const EdgeInsets.fromLTRB(0, 0, 0, 16),
       // margin: const EdgeInsets.only(bottom: 16),
 
-      height: 150,
+      height: 190,
       width: MediaQuery.of(context).size.width,
       child: Stack(
         children: <Widget>[
@@ -489,76 +422,585 @@ class ShopsTitle extends StatelessWidget {
             ),
           ),
           Container(
-              margin: const EdgeInsets.fromLTRB(20, 20, 10, 10),
+              margin: const EdgeInsets.fromLTRB(150, 20, 00, 140),
               width: MediaQuery.of(context).size.width,
               child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     Text(
-                      title,
-                      style: const TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w500,
-                          color: Color.fromARGB(255, 0, 0, 0)),
-                    ),
-                    Text(
-                      description,
-                      style: const TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w500,
-                          color: Color.fromARGB(255, 0, 0, 0)),
-                    ),
-                    Text(
-                      price,
-                      style: const TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w500,
-                          color: Color.fromARGB(255, 0, 0, 0)),
-                    ),
-                    Text(
-                      phoneN,
+                      localisation,
                       style: const TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.w500,
                           color: Color.fromARGB(255, 0, 0, 0)),
                     ),
                   ])),
-          // Container(
-          //   margin: const EdgeInsets.fromLTRB(190, 30, 00, 10),
-          //   width: MediaQuery.of(context).size.width,
-          //   child: Column(
-          //       mainAxisAlignment: MainAxisAlignment.center,
-          //       crossAxisAlignment: CrossAxisAlignment.center,
-          //       children: <Widget>[
-          //         Text(
-          //           title,
-          //           style: const TextStyle(
-          //               fontSize: 17,
-          //               fontWeight: FontWeight.w400,
-          //               color: Colors.white),
-          //         ),
-          //          Text(
-          //           description,
-          //           style: const TextStyle(
-          //               fontSize: 17,
-          //               fontWeight: FontWeight.w400,
-          //               color: Colors.white),
-          //         ),
-          //          Text(
-          //           price,
-          //           style: const TextStyle(
-          //               fontSize: 17,
-          //               fontWeight: FontWeight.w400,
-          //               color: Colors.white),
-          //         ),
-          //         const SizedBox(
-          //           height: 10,
-          //         ),
-          //       ]),
-          // ),
+          Container(
+            margin: const EdgeInsets.fromLTRB(190, 30, 00, 10),
+            width: MediaQuery.of(context).size.width,
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Text(
+                    description,
+                    style: const TextStyle(
+                        fontSize: 17,
+                        fontWeight: FontWeight.w400,
+                        color: Colors.white),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                ]),
+          ),
         ],
       ),
     );
   }
 }
+
+
+
+
+
+
+
+
+// class Shops extends StatefulWidget {
+//   Shops({Key? key}) : super(key: key);
+
+//   @override
+//   State<Shops> createState() => _ShopsState();
+// }
+
+// class _ShopsState extends State<Shops> {
+//   // navbar
+//   final List<Widget> _pages = [Shops(), CreateShop(), Welcome(), CreateShop()];
+// // plus button array of pages
+//   final List<Widget> _views = [Shops(), Posts(), Chat(), Welcome()];
+//   int index = 0;
+
+//   shopsList() {
+//     //  create firestore instance
+//     FirebaseFirestore firestore = FirebaseFirestore.instance;
+//     // grab the collection
+//     CollectionReference shops = firestore.collection('shops');
+//     return StreamBuilder<QuerySnapshot>(
+//         // build dnapshot using users collection
+//         stream: shops.snapshots(),
+//         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+//           if (snapshot.hasError) {
+//             return const Text("Something went wrong");
+//           }
+//           if (snapshot.connectionState == ConnectionState.waiting) {
+//             return const Text("loading");
+//           }
+//           if (snapshot.hasData) {
+//             return SingleChildScrollView(
+//                 padding: const EdgeInsets.only(top: 70),
+//                 child: Column(children: [
+//                   for (int i = 0; i < snapshot.data!.docs.length; i++)
+//                     Column(
+//                       children: [
+//                         Padding(
+//                           padding: const EdgeInsets.symmetric(horizontal: 10),
+//                           child: Column(
+//                               crossAxisAlignment: CrossAxisAlignment.start,
+//                               children: [
+//                                 Row(
+//                                   children: <Widget>[
+//                                     // user avatar
+//                                     const CircleAvatar(
+//                                       radius: 24.0,
+//                                       // backgroundImage: NetworkImage(
+//                                       //     snapshot.data!.docs[i]['imgUrl']),
+//                                       // backgroundColor: Colors.transparent,
+//                                     ),
+//                                     // user title :
+//                                     Container(
+//                                       margin: const EdgeInsets.only(
+//                                           left: 5.0,
+//                                           right: 5.0,
+//                                           top: 25,
+//                                           bottom: 5),
+//                                       padding: const EdgeInsets.only(
+//                                           bottom: 5, left: 10),
+//                                       child: const Text(
+//                                         "sameh",
+//                                       ),
+//                                     ),
+//                                     //plus button to delete and update
+//                                     Container(
+//                                       margin: const EdgeInsets.only(left: 230),
+//                                       child: const Icon(Icons.delete),
+//                                     ),
+//                                   ],
+//                                 ),
+
+//                                 const SizedBox(
+//                                   height: 5,
+//                                 ),
+//                                 //  post image
+//                                 ClipRRect(
+//                                   borderRadius: BorderRadius.circular(5),
+//                                   child: Container(
+//                                     // height:
+//                                     //     MediaQuery.of(context).size.height *
+//                                     //         0.4,
+//                                     child: GestureDetector(
+//                                       child: Column(children: [
+                                        
+//                                         // Container(
+//                                         //     decoration: const BoxDecoration(
+//                                         //       // color: Color.fromARGB(255, 248, 248, 248),
+//                                         //       borderRadius: BorderRadius.all(
+//                                         //         Radius.circular(8),
+//                                         //       ),
+//                                         //     ),
+//                                         //     height: 40,
+//                                         //     width: double.infinity,
+//                                         //     margin: const EdgeInsets.only(
+//                                         //         left: 5.0,
+//                                         //         right: 5.0,
+//                                         //         top: 00,
+//                                         //         bottom: 5),
+//                                         //     child: Row(
+//                                         //       mainAxisAlignment:
+//                                         //           MainAxisAlignment.center,
+//                                         //       // children: [
+//                                         //       //   Align(
+//                                         //       //       alignment:
+//                                         //       //           Alignment.center),
+//                                         //       //   Text(
+//                                         //       //       snapshot.data!.docs[i]
+//                                         //       //           ['title'],
+//                                         //       //       style: const TextStyle(
+//                                         //       //         fontWeight:
+//                                         //       //             FontWeight.bold,
+//                                         //       //         fontSize: 15,
+//                                         //       //       )),
+//                                         //       // ],
+//                                         //     )),
+                                                
+//                                         Container(
+//                                           margin: const EdgeInsets.only(
+//                                               left: 10,
+//                                               right: 10,
+//                                               top: 10,
+//                                               bottom: 5),
+//                                           height: 190,
+//                                           width:
+//                                               MediaQuery.of(context).size.width,
+                                              
+//                                           decoration: BoxDecoration(
+//                                               image: DecorationImage(
+//                                             image: NetworkImage(
+//                                               snapshot.data!.docs[i]['imgUrl'],
+//                                             ),
+//                                             fit: BoxFit.fill,
+//                                           )),
+//                                         ),
+//                                         const Padding(
+//                                           // ignore: unnecessary_const
+//                                           padding: const EdgeInsets.only(
+//                                               left: 18,
+//                                               top: 00,
+//                                               right: 18,
+//                                               bottom: 00),
+//                                         ),
+
+//                                             Container(
+//                                             decoration: const BoxDecoration(
+//                                               // color: Color.fromARGB(255, 228, 221, 221),
+//                                               borderRadius: BorderRadius.all(
+//                                                 Radius.circular(8),
+//                                               ),
+//                                             ),
+//                                             height: 40,
+//                                             width: double.infinity,
+//                                             margin: const EdgeInsets.only(
+//                                                 left: 10,
+//                                                 right: 10,
+//                                                 top: 5,
+//                                                 bottom: 5),
+//                                             child: Row(
+//                                               mainAxisAlignment:
+//                                                   MainAxisAlignment.start,
+//                                               children: [
+                                                
+//                                               const  Align(
+//                                                     alignment:
+//                                                         Alignment.topLeft),
+//                                                 const Text("Name ",
+//                                                     style: TextStyle(
+//                                                       backgroundColor: Color.fromARGB(255, 183, 180, 185),
+//                                                       fontWeight:
+//                                                           FontWeight.bold,
+//                                                       fontSize: 17,
+//                                                     )),
+//                                                 Text(": "+
+//                                                       snapshot.data!.docs[i]
+//                                                           ['title'],
+//                                                   style:
+//                                                       TextStyle(fontSize: 15),
+//                                                   textAlign: TextAlign.left,
+//                                                 ),
+//                                               ],
+//                                             )),
+//                                         const Divider(
+//                                           color: Color.fromARGB(
+//                                               255, 0, 0, 0), //color of divider
+//                                           height: 1, //height spacing of divider
+//                                           thickness:
+//                                               1, //thickness of divier line
+//                                           indent:
+//                                               15, //spacing at the start of divider
+//                                           endIndent:
+//                                               15, //spacing at the end of divider
+//                                         ),
+
+//                                         Container(
+//                                             decoration: const BoxDecoration(
+//                                               // color: Color.fromARGB(255, 228, 221, 221),
+//                                               borderRadius: BorderRadius.all(
+//                                                 Radius.circular(8),
+//                                               ),
+//                                             ),
+//                                             height: 40,
+//                                             width: double.infinity,
+//                                             margin: const EdgeInsets.only(
+//                                                 left: 10,
+//                                                 right: 10,
+//                                                 top: 5,
+//                                                 bottom: 5),
+//                                             child: Row(
+//                                               mainAxisAlignment:
+//                                                   MainAxisAlignment.start,
+//                                               children: [
+                                                
+//                                               const  Align(
+//                                                     alignment:
+//                                                         Alignment.topLeft),
+//                                                 const Text("Description ",
+//                                                     style: TextStyle(
+//                                                       backgroundColor: Color.fromARGB(255, 183, 180, 185),
+//                                                       fontWeight:
+//                                                           FontWeight.bold,
+//                                                       fontSize: 17,
+//                                                     )),
+//                                                 Text(": "+
+//                                                       snapshot.data!.docs[i]
+//                                                           ['description'],
+//                                                   style:
+//                                                       TextStyle(fontSize: 15),
+//                                                   textAlign: TextAlign.left,
+//                                                 ),
+//                                               ],
+//                                             )),
+//                                         const Divider(
+//                                           color: Color.fromARGB(
+//                                               255, 0, 0, 0), //color of divider
+//                                           height: 1, //height spacing of divider
+//                                           thickness:
+//                                               1, //thickness of divier line
+//                                           indent:
+//                                               15, //spacing at the start of divider
+//                                           endIndent:
+//                                               15, //spacing at the end of divider
+//                                         ),
+//                                         Container(
+//                                             height: 40,
+//                                             decoration: const BoxDecoration(
+//                                               // color: Color.fromARGB(255, 228, 221, 221),
+//                                               borderRadius: BorderRadius.all(
+//                                                 Radius.circular(8),
+//                                               ),
+//                                             ),
+//                                             width: double.infinity,
+//                                             margin: const EdgeInsets.only(
+//                                                 left: 10,
+//                                                 right: 10,
+//                                                 top: 5,
+//                                                 bottom: 5),
+//                                             child: Row(
+//                                               mainAxisAlignment:
+//                                                   MainAxisAlignment.start,
+//                                               children: [
+//                                                 const Align(
+//                                                     alignment:
+//                                                         Alignment.topLeft),
+//                                                         const  Align(
+//                                                     alignment:
+//                                                         Alignment.topLeft),
+//                                                 const Text("Price " ,
+//                                                     style: TextStyle(
+//                                                       backgroundColor: Color.fromARGB(255, 183, 180, 185),
+//                                                       fontWeight:
+//                                                           FontWeight.bold,
+//                                                       fontSize: 17,
+//                                                     )),
+//                                                 Text(": "+
+//                                                       snapshot.data!.docs[i]
+//                                                           ['price'] +
+//                                                       "DT",
+//                                                   style:
+//                                                       TextStyle(fontSize: 15),
+//                                                   textAlign: TextAlign.center,
+//                                                 ),
+//                                               ],
+//                                             )),
+//                                         const Divider(
+//                                           color: Color.fromARGB(
+//                                               255, 0, 0, 0), //color of divider
+//                                           height: 1, //height spacing of divider
+//                                           thickness:
+//                                               1, //thickness of divier line
+//                                           indent:
+//                                               15, //spacing at the start of divider
+//                                           endIndent:
+//                                               15, //spacing at the end of divider
+//                                         ),
+//                                         Container(
+//                                             height: 40,
+//                                             decoration: const BoxDecoration(
+//                                               borderRadius: BorderRadius.all(
+//                                                 Radius.circular(8),
+//                                               ),
+//                                             ),
+//                                             width: double.infinity,
+//                                             margin: const EdgeInsets.only(
+//                                                 left: 10,
+//                                                 right: 10,
+//                                                 top: 5,
+//                                                 bottom: 5),
+//                                             child: Row(
+//                                               mainAxisAlignment:
+//                                                   MainAxisAlignment.start,
+//                                               children: [
+//                                                const Align(
+//                                                     alignment:
+//                                                         Alignment.topLeft),
+//                                                         const Text("P-Number ",
+//                                                     style: TextStyle(
+//                                               backgroundColor: Color.fromARGB(255, 183, 180, 185),
+//                                                       fontWeight:
+//                                                           FontWeight.bold,
+//                                                       fontSize: 17,
+//                                                     )),
+//                                                 Text(": "+
+//                                                       snapshot.data!.docs[i]
+//                                                           ['phoneN'],
+//                                                   style:
+//                                                       TextStyle(fontSize: 15),
+//                                                   textAlign: TextAlign.center,
+//                                                 ),
+//                                               ],
+//                                             )),
+//                                           Container(
+//                                             height: 40,
+//                                             decoration: const BoxDecoration(
+//                                               // color: Color.fromARGB(255, 228, 221, 221),
+//                                               borderRadius: BorderRadius.all(
+//                                                 Radius.circular(8),
+//                                               ),
+//                                             ),
+//                                             width: double.infinity,
+//                                             margin: const EdgeInsets.only(
+//                                                 left: 10,
+//                                                 right: 10,
+//                                                 top: 5,
+//                                                 bottom: 22
+//                                             )),
+//                                       ]),
+//                                     ),
+//                                   ),
+//                                 ),
+//                                 const SizedBox(
+//                                   height: 10,
+//                                 ),
+//                               ]),
+//                         ),
+//                       ],
+//                     )
+//                 ]));
+//           }
+//           return const Text("none");
+//         });
+//   }
+
+//   @override
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+// // appp bar
+//       appBar: AppBar(
+//         title: const Text("Shops"),
+//         centerTitle: true,
+//         backgroundColor: const Color.fromARGB(255, 20, 6, 29),
+//       ),
+//       body: shopsList(),
+
+//       // navbar bottom
+//       bottomNavigationBar: Builder(
+//           builder: (context) => AnimatedBottomBar(
+//                 defaultIconColor: Colors.black,
+//                 activatedIconColor: const Color.fromARGB(255, 56, 3, 33),
+//                 background: Colors.white,
+//                 buttonsIcons: const [
+//                   Icons.sunny_snowing,
+//                   Icons.explore_sharp,
+//                   Icons.messenger_outlined,
+//                   Icons.person
+//                 ],
+//                 buttonsHiddenIcons: const [
+//                   Icons.campaign_rounded,
+//                   Icons.shopping_bag,
+//                   Icons.image_rounded,
+//                   Icons.post_add_rounded
+//                 ],
+//                 backgroundColorMiddleIcon: const Color.fromARGB(255, 56, 3, 33),
+//                 onTapButton: (i) {
+//                   setState(() {
+//                     index = i;
+//                   });
+//                   Navigator.push(
+//                     context,
+//                     MaterialPageRoute(builder: (context) => _views[i]),
+//                   );
+//                 },
+//                 // navigate between pages
+//                 onTapButtonHidden: (i) {
+//                   Navigator.push(
+//                     context,
+//                     MaterialPageRoute(builder: (context) => _pages[i]),
+//                   );
+//                 },
+//               )),
+// // navbar bottom ends here
+
+//       backgroundColor: Color.fromARGB(255, 255, 255, 255),
+//     );
+//   }
+// }
+
+// class ShopsTitle extends StatelessWidget {
+//   // const ShopsTitle({Key? key}) : super(key: key);
+
+//   String id;
+//   final dynamic title;
+//   final dynamic description;
+//   final dynamic price;
+//   final dynamic phoneN;
+//   final dynamic imgUrl;
+//   ShopsTitle({
+//     Key? key,
+//     this.id = '',
+//     required this.title,
+//     required this.description,
+//     required this.price,
+//     required this.phoneN,
+//     required this.imgUrl,
+//   }) : super(key: key);
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Container(
+//       margin: const EdgeInsets.fromLTRB(0, 0, 0, 10),
+//       // margin: const EdgeInsets.only(bottom: 16),
+
+//       height: 150,
+//       width: MediaQuery.of(context).size.width,
+//       child: Stack(
+//         children: <Widget>[
+//           ClipRRect(
+//             borderRadius: BorderRadius.circular(8),
+//             child: Image.network(
+//               imgUrl,
+//               width: 170,
+//               height: 170,
+//               fit: BoxFit.cover,
+//             ),
+//           ),
+//           Container(
+//             height: 170,
+//             decoration: BoxDecoration(
+//               color: Colors.black45.withOpacity(0.3),
+//               borderRadius: BorderRadius.circular(8),
+//             ),
+//           ),
+//           Container(
+//               margin: const EdgeInsets.fromLTRB(20, 20, 10, 10),
+//               width: MediaQuery.of(context).size.width,
+//               child: Column(
+//                   mainAxisAlignment: MainAxisAlignment.center,
+//                   crossAxisAlignment: CrossAxisAlignment.center,
+//                   children: <Widget>[
+//                     Text(
+//                       title,
+//                       style: const TextStyle(
+//                           fontSize: 18,
+//                           fontWeight: FontWeight.w500,
+//                           color: Color.fromARGB(255, 0, 0, 0)),
+//                     ),
+//                     Text(
+//                       description,
+//                       style: const TextStyle(
+//                           fontSize: 18,
+//                           fontWeight: FontWeight.w500,
+//                           color: Color.fromARGB(255, 0, 0, 0)),
+//                     ),
+//                     Text(
+//                       price,
+//                       style: const TextStyle(
+//                           fontSize: 18,
+//                           fontWeight: FontWeight.w500,
+//                           color: Color.fromARGB(255, 0, 0, 0)),
+//                     ),
+//                     Text(
+//                       phoneN,
+//                       style: const TextStyle(
+//                           fontSize: 18,
+//                           fontWeight: FontWeight.w500,
+//                           color: Color.fromARGB(255, 0, 0, 0)),
+//                     ),
+//                   ])),
+//           // Container(
+//           //   margin: const EdgeInsets.fromLTRB(190, 30, 00, 10),
+//           //   width: MediaQuery.of(context).size.width,
+//           //   child: Column(
+//           //       mainAxisAlignment: MainAxisAlignment.center,
+//           //       crossAxisAlignment: CrossAxisAlignment.center,
+//           //       children: <Widget>[
+//           //         Text(
+//           //           title,
+//           //           style: const TextStyle(
+//           //               fontSize: 17,
+//           //               fontWeight: FontWeight.w400,
+//           //               color: Colors.white),
+//           //         ),
+//           //          Text(
+//           //           description,
+//           //           style: const TextStyle(
+//           //               fontSize: 17,
+//           //               fontWeight: FontWeight.w400,
+//           //               color: Colors.white),
+//           //         ),
+//           //          Text(
+//           //           price,
+//           //           style: const TextStyle(
+//           //               fontSize: 17,
+//           //               fontWeight: FontWeight.w400,
+//           //               color: Colors.white),
+//           //         ),
+//           //         const SizedBox(
+//           //           height: 10,
+//           //         ),
+//           //       ]),
+//           // ),
+//         ],
+//       ),
+//     );
+//   }
+// }
