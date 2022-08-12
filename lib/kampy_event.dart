@@ -5,6 +5,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/create_event.dart';
 import 'package:flutter_application_1/services/crud.dart';
+import 'package:like_button/like_button.dart';
 import 'package:path/path.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:flutter_application_1/event_details.dart';
@@ -27,11 +28,14 @@ class KampyEvent extends StatefulWidget {
 
 class _KampyEventState extends State<KampyEvent> {
   final FirebaseAuth auth = FirebaseAuth.instance;
-  // navbar
-  final List<Widget> _pages = [KampyEvent(), Posts(), Welcome(), CreateEvent()];
-// plus button array of pages
+  // plus button array of pages
+  final List<Widget> _pages = [KampyEvent(), Shops(), Posts(), CreateEvent()];
+
+// original navbar
   final List<Widget> _views = [KampyEvent(), Posts(), Chat(), Welcome()];
   int index = 0;
+  bool? participiteCheck;
+  bool? checkUser;
 
   checkuser(name) async {
 // get current user connected
@@ -52,6 +56,40 @@ class _KampyEventState extends State<KampyEvent> {
     }
   }
 
+  // checkParticipate() async {
+  //   // get current user connected
+  //   final User? user = auth.currentUser;
+  //   final uid = user?.uid;
+  //   //  create firestore instance
+  //   FirebaseFirestore firestore = FirebaseFirestore.instance;
+  //   // grab the collection users
+  //   CollectionReference users = firestore.collection('users');
+  //   // get docs from user reference users
+  //   QuerySnapshot querySnapshot = await users.get();
+  //   // grab the collection events
+  //   CollectionReference events = firestore.collection('events');
+  //   // get docs from user reference events
+  //   QuerySnapshot querySnapshotEvents = await events.get();
+  //   for (var i = 0; i < querySnapshot.docs.length; i++) {
+  //     if (querySnapshot.docs[i]['uid'] == uid) {
+  //       for (var j = 0; j < querySnapshotEvents.docs.length; j++) {
+  //         for (var k = 0;
+  //             k < querySnapshotEvents.docs[j]['eventUsersList'].length;
+  //             k++) {
+  //           if (querySnapshotEvents.docs[j]['eventUsersList'][k] ==
+  //               querySnapshot.docs[i]['name']) {
+  //             participiteCheck = true;
+
+  //             break;
+  //           }
+  //         }
+  //       }
+  //       participiteCheck = false;
+  //       break;
+  //     }
+  //   }
+  // }
+
   eventList() {
     //  create firestore instance
     FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -68,17 +106,10 @@ class _KampyEventState extends State<KampyEvent> {
             return const Text("loading");
           }
           if (snapshot.hasData) {
+            // checkParticipate();
             return SingleChildScrollView(
                 padding: const EdgeInsets.only(top: 70),
                 child: Column(children: [
-                  // const Text(
-                  //   "KAMPY EVENTS",
-                  //   style: TextStyle(
-                  //     fontSize: 30,
-                  //     fontFamily: 'MuseoModerno',
-                  //     fontWeight: FontWeight.bold,
-                  //   ),
-                  // ),
                   const SizedBox(
                     height: 50,
                   ),
@@ -93,11 +124,15 @@ class _KampyEventState extends State<KampyEvent> {
                                 Row(
                                   children: <Widget>[
                                     // user avatar
-                                    CircleAvatar(
-                                      radius: 24.0,
-                                      backgroundImage: NetworkImage(
-                                          snapshot.data!.docs[i]['userImage']),
-                                      backgroundColor: Colors.transparent,
+                                    Row(
+                                      children: [
+                                        CircleAvatar(
+                                          radius: 24.0,
+                                          backgroundImage: NetworkImage(snapshot
+                                              .data!.docs[i]['userImage']),
+                                          backgroundColor: Colors.transparent,
+                                        ),
+                                      ],
                                     ),
                                     // user name :
                                     Container(
@@ -115,12 +150,14 @@ class _KampyEventState extends State<KampyEvent> {
                                         color: Colors.black45,
                                         iconSize: 30.0,
                                         onPressed: () async {
-                                          var collection = FirebaseFirestore
-                                              .instance
-                                              .collection('events');
-                                          await collection
-                                              .doc('document_id')
-                                              .delete();
+                                         
+                                          await checkuser(snapshot.data!.docs[i]
+                                              ['username']);
+                                          if (checkUser == true) {
+                                            return await snapshot
+                                                .data!.docs[i].reference
+                                                .delete();
+                                          }
                                         },
                                       ),
                                     ),
@@ -131,63 +168,108 @@ class _KampyEventState extends State<KampyEvent> {
                                   height: 10,
                                 ),
                                 //  post image
-                                Container(
-                                  width: MediaQuery.of(context).size.width,
-                                  height: 250,
-                                  color: Colors.transparent,
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(12),
-                                    child: InkWell(
-                                      onTap: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  EventDetails()),
-                                        );
-                                      },
-                                      child: GridTile(
-                                        footer: Container(
-                                          padding: const EdgeInsets.all(8),
-                                          color: Colors.blue.withOpacity(.5),
-                                          child: Text(
-                                            snapshot.data!.docs[i]['eventName'],
-                                            style: const TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.white,
-                                              fontSize: 24,
+                                SingleChildScrollView(
+                                  child: Container(
+                                    width: MediaQuery.of(context).size.width,
+                                    height: 250,
+                                    color: Colors.transparent,
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(12),
+                                      child: InkWell(
+                                        onTap: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    EventDetails()),
+                                          );
+                                        },
+                                        child: GridTile(
+                                          footer: Container(
+                                            padding: const EdgeInsets.all(8),
+                                            color:
+                                                Colors.blue.withOpacity(.5),
+                                            child: Text(
+                                              snapshot.data!.docs[i]
+                                                  ['eventName'],
+                                              style: const TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.white,
+                                                fontSize: 24,
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                        child: Image.network(
-                                          snapshot.data!.docs[i]['imgUrl'],
-                                          fit: BoxFit.cover,
+                                          child: Image.network(
+                                            snapshot.data!.docs[i]['imgUrl'],
+                                            fit: BoxFit.cover,
+                                          ),
                                         ),
                                       ),
                                     ),
                                   ),
                                 ),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
-                                  children: const <Widget>[
-                                    Icon(
-                                      Icons.favorite,
-                                      color: Colors.pink,
-                                      size: 24.0,
-                                      semanticLabel:
-                                          'Text to announce in accessibility modes',
-                                    ),
-                                    Icon(
-                                      Icons.favorite,
-                                      color: Colors.black45,
-                                      size: 24.0,
-                                      semanticLabel:
-                                          'Text to announce in accessibility modes',
-                                    ),
-                                  ],
-                                ),
+                                 // Row(
+                                    //     mainAxisAlignment:
+                                    //         MainAxisAlignment.spaceBetween,
+                                    //     children: [
+                                    //       //  like button
+                                    //       ElevatedButton(
+                                    //         child: LikeButton(
+                                    //           isLiked: likesCheck,
+                                    //           mainAxisAlignment:
+                                    //               MainAxisAlignment.start,
+                                    //           likeCount: snapshot.data!
+                                    //               .docs[i]["eventLikes"].length,
+                                    //           circleColor: const CircleColor(
+                                    //               start: Color(0xff00ddff),
+                                    //               end: Color(0xff00ddff)),
+                                    //           bubblesColor: const BubblesColor(
+                                    //             dotPrimaryColor:
+                                    //                 Color(0xff33b5e5),
+                                    //             dotSecondaryColor:
+                                    //                 Color(0xff0099cc),
+                                    //           ),
+                                    //           // check if the user is already liked the event
+                                    //         ),
+                                    //         // update likes
+                                    //         onPressed: () async {
+                                    //           var arr = [];
+                                    //           // check if it's the same user
+                                    //           bool checked = true;
+                                    //           for (var k = 0;
+                                    //               k <
+                                    //                   snapshot
+                                    //                       .data!
+                                    //                       .docs[i]["eventLikes"]
+                                    //                       .length;
+                                    //               k++) {
+                                    //             arr.add(snapshot.data!.docs[i]
+                                    //                 ["eventLikes"][k]);
+                                    //             // check if it's the same user
+                                    //             print(snapshot.data!.docs[i]
+                                    //                     ["eventLikes"][k] ==
+                                    //                 snapshot.data!.docs[i]
+                                    //                     ['username']);
+                                    //             if (snapshot.data!.docs[i]
+                                    //                     ["eventLikes"][k] ==
+                                    //                 snapshot.data!.docs[i]
+                                    //                     ['username']) {
+                                    //               checked = false;
+                                    //             }
+                                    //           }
+                                    //           // if it's not the same user add like
+                                    //           if (checked == true) {
+                                    //             arr.add(snapshot.data!.docs[i]
+                                    //                 ['username']);
+                                    //           }
 
+                                    //           await snapshot
+                                    //               .data!.docs[i].reference
+                                    //               .update({"eventLikes": arr});
+                                    //         },
+                                    //       ),
+
+                                    //     ])
                                 const SizedBox(
                                   height: 20,
                                 ),
@@ -488,28 +570,28 @@ class EventTile extends StatelessWidget {
 //       body: eventsList(),
 
 //       // backgroundColor: HexColor("#332052"),
-//       floatingActionButton: Container(
-//         padding: const EdgeInsets.symmetric(horizontal: 10),
-//         child: Row(
-//           mainAxisAlignment: MainAxisAlignment.end,
-//           children: <Widget>[
-//             FloatingActionButton(
-//               // this hero tag for the navbar
-//               heroTag: "navbar",
-//               onPressed: () {
-//                 Navigator.push(
-//                     context,
-//                     MaterialPageRoute(
-//                         builder: (context) => const CreateEvent()));
-//               },
-//               backgroundColor: const Color.fromARGB(255, 34, 3, 39),
-//               child: const Icon(Icons.add),
+// floatingActionButton: Container(
+//   padding: const EdgeInsets.symmetric(horizontal: 10),
+//   child: Row(
+//     mainAxisAlignment: MainAxisAlignment.end,
+//     children: <Widget>[
+//       FloatingActionButton(
+//         // this hero tag for the navbar
+//         heroTag: "navbar",
+//         onPressed: () {
+//           Navigator.push(
+//               context,
+//               MaterialPageRoute(
+//                   builder: (context) => const CreateEvent()));
+//         },
+//         backgroundColor: const Color.fromARGB(255, 34, 3, 39),
+//         child: const Icon(Icons.add),
 
-//             ),
-//           ],
-//         ),
 //       ),
-//     );
+//     ],
+//   ),
+// ),
+// );
 //   }
 // }
 

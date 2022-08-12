@@ -67,7 +67,7 @@ _initialScreen(User? user)async {
   }
   else{
 
-   await  Get.offAll(()=> Welcome());
+   await  Get.offAll(()=> Posts());
 
 }
 }

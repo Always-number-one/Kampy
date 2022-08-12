@@ -24,7 +24,7 @@ class _CreateEventState extends State<CreateEvent> {
   final controller = TextEditingController();
   final FirebaseAuth auth = FirebaseAuth.instance;
 
-  String? eventName, place, description, username,userImage;
+  String? eventName, place, description, username,userImage, eventLikes, eventUsersList;
 
   File? _photo;
   bool _isLoading = false;
@@ -86,6 +86,8 @@ class _CreateEventState extends State<CreateEvent> {
         "description": description ?? "",
         "username": username ?? "",
         "userImage":userImage ?? "",
+        "eventLikes": [],
+        "eventUsersList": [],
       };
       crudMethods.addData(eventMap).then((result) {
         Navigator.pop(context);
@@ -136,7 +138,7 @@ class _CreateEventState extends State<CreateEvent> {
               alignment: Alignment.center,
               child: const CircularProgressIndicator(),
             )
-          : Container(
+          :  SingleChildScrollView(
               child: Column(
                 children: <Widget>[
                   const SizedBox(
@@ -178,49 +180,59 @@ class _CreateEventState extends State<CreateEvent> {
                     height: 8,
                   ),
                   //create a form input to write data
-                  Container(
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(8)),
-                    margin: const EdgeInsets.symmetric(
-                        horizontal: 10, vertical: 15),
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 10, vertical: 8.0),
-                    child: Column(
-                      children: <Widget>[
-                        TextField(
-                          decoration:
-                              const InputDecoration(hintText: "Event Name"),
-                          onChanged: (val) {
-                            eventName = val;
-                          },
-                        ),
-                        TextField(
-                          decoration: const InputDecoration(hintText: "Place"),
-                          onChanged: (val) {
-                            place = val;
-                          },
-                        ),
-                        TextField(
-                          decoration:
-                              const InputDecoration(hintText: "Description"),
-                          onChanged: (val) {
-                            description = val;
-                          },
-                        ),
-                        // TextField(
-                        //   decoration: const InputDecoration(
-                        //       hintText: "info",
-                        //       border: InputBorder.none,
-                        //       contentPadding: EdgeInsets.only(
-                        //           left: 10, top: 10, bottom: 10)
-                        //           ),
-                        //           maxLines: 4,
-                        //   onChanged: (val) {
-                        //     info = val;
-                        //   },
-                        // ),
-                      ],
+                 SingleChildScrollView(
+                    child: Container(
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(8)),
+                      margin: const EdgeInsets.symmetric(
+                          horizontal: 10, vertical: 15),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 10, vertical: 8.0),
+                        
+                      child: Column(
+                        children: <Widget>[
+                          TextField(
+                            decoration:
+                                const InputDecoration(hintText: "Event Name"),
+                            onChanged: (val) {
+                              eventName = val;
+                            },
+                          ),
+                          TextField(
+                            decoration: const InputDecoration(hintText: "Place"),
+                            onChanged: (val) {
+                              place = val;
+                            },
+                          ),
+                          SingleChildScrollView(
+                            child: TextField(
+                                       decoration: const InputDecoration(
+                                  hintText: "Description",
+                                  border: InputBorder.none,
+                                  contentPadding: EdgeInsets.only(
+                                      left: 10, top: 10, bottom: 10)
+                                      ),
+                                      maxLines: 4,
+                              onChanged: (val) {
+                                description = val;
+                              },
+                            ),
+                          ),
+                          // TextField(
+                          //   decoration: const InputDecoration(
+                          //       hintText: "info",
+                          //       border: InputBorder.none,
+                          //       contentPadding: EdgeInsets.only(
+                          //           left: 10, top: 10, bottom: 10)
+                          //           ),
+                          //           maxLines: 4,
+                          //   onChanged: (val) {
+                          //     info = val;
+                          //   },
+                          // ),
+                        ],
+                      ),
                     ),
                   )
                 ],
