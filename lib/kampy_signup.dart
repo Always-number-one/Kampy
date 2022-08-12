@@ -112,17 +112,19 @@ child: Stack(
 
                 children:  <Widget>[
                   // sign up title
-                  Container(
-        padding: const EdgeInsets.only(left: 120, top: 150 ),
+              Container(
+                    margin: const EdgeInsets.only(top:10),
+        padding: const EdgeInsets.only(left: 100  ),
            child: Row( 
             children: const <Widget> [
             Text( 
-           " ",
+           "Kampy",
             style: TextStyle(
-              color: Color.fromARGB(255, 14, 14, 14),
+              color: Color.fromARGB(255, 245, 240, 240),
                fontWeight: FontWeight.bold,
-              fontSize: 30,
-            ), 
+              fontSize: 50,
+            ),
+             
             
           )
           
@@ -380,7 +382,8 @@ GestureDetector(
 // image picker function
   Widget imageProfile(){
 
-      return Center(
+      return Container(
+        margin: EdgeInsets.only(top: 130),
        child: Stack(
         children: <Widget> [
          

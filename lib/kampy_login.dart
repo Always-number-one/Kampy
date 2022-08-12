@@ -55,31 +55,40 @@ child: Stack(
                         borderRadius: BorderRadius.circular(120),
                      
                       ),
-              margin:  const EdgeInsets.only(left: 20,right: 20,top: 70),
+              margin:  const EdgeInsets.only(left: 20,right: 20,top: 20),
              
 
              width: w,
 // child log in
               child:Column(
-                //  crossAxisAlignment: CrossAxisAlignment.start,
 
                 children:  [
                   // sign up title
                   Container(
-                    margin: const EdgeInsets.only(top:250),
-        padding: const EdgeInsets.only(left: 130 ),
+                    margin: const EdgeInsets.only(top:70,left: 100 ),
+        // padding: const EdgeInsets.only(left: 100  ),
            child: Row( 
-            children: const <Widget> [
+            children: const  <Widget> [
             Text( 
-           " ",
+           "Kampy",
             style: TextStyle(
-              color: Color.fromARGB(255, 14, 14, 14),
+              color: Color.fromARGB(255, 245, 240, 240),
                fontWeight: FontWeight.bold,
-              fontSize: 30,
+              fontSize: 50,
             ),
              
             
-          )
+          ),
+          //  Container(
+             
+          //     width: 80,
+          //     height: 80,
+          //   decoration: const BoxDecoration(
+          //     image:  DecorationImage(
+          //     image:  AssetImage("images/lg11.png"),
+          //    fit: BoxFit.fill,
+          //  )),
+          // ),
           
             ],
        
@@ -97,7 +106,7 @@ child: Stack(
             Container(
              height: 50,
                    width: 230,
-              margin:   const EdgeInsets.only(top:20,right:20,left:20),
+              margin:   const EdgeInsets.only(top:200,right:20,left:20),
                       decoration: BoxDecoration(
                         color: const Color.fromARGB(151, 255, 255, 255),
                         borderRadius: BorderRadius.circular(50),

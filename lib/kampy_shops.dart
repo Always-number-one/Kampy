@@ -49,10 +49,11 @@ class _ShopsState extends State<Shops> {
 
   // authonticaion
   final FirebaseAuth auth = FirebaseAuth.instance;
-  // navbar
-  final List<Widget> _pages = [Shops(), Posts(), Welcome(), CreateShop()];
-// plus button array of pages
-  final List<Widget> _views = [Shops(), Posts(), Chat(), Welcome()];
+  // plus button array of pages
+  final List<Widget> _pages = [KampyEvent(), Shops(), Posts(), CreateShop()];
+
+// original navbar
+  final List<Widget> _views = [KampyEvent(), Posts(), Chat(), Welcome()];
   int index = 0;
   // chek user delete and likes
   bool? userCheck;
@@ -153,10 +154,10 @@ class _ShopsState extends State<Shops> {
                                     ),
                                     // plus button to delete and update
                                     Container(
-                                      margin: const EdgeInsets.only(left: 230),
+                                      margin: const EdgeInsets.only(left: 200),
                                       child: IconButton(
                                         icon: const Icon(Icons.delete),
-                                        color: Color.fromARGB(250, 235, 0, 0),
+                                        color: Color.fromARGB(249, 255, 250, 250),
                                         iconSize: 29.0,
                                         onPressed: () async {
                                           // check if it's the same user
