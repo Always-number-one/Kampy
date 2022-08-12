@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 
-import 'package:flutter/painting.dart';
+
 import 'package:flutter_application_1/kampy_create_posts.dart';
-import 'package:intl/intl.dart';
-import 'package:path/path.dart';
-// like button
-import 'package:like_button/like_button.dart';
-//crud method
-import './services/crud_posts.dart';
+
+import 'kampy_map.dart';
+import 'kampy_event.dart';
+
 //import create blogs
 import 'kampy_create_posts.dart';
 
@@ -19,19 +17,15 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 // navbar
-import 'package:flutter/services.dart';
+
 import 'navbar_animated.dart';
-import 'kampy_posts.dart';
-import 'kampy_event.dart';
-import 'kampy_login.dart';
-import 'kampy_signup.dart';
-import 'package:get/get.dart';
+
 import 'chat/chat_main.dart';
 import './kampy_welcome.dart';
 import 'kampy_shops.dart';
 
 class Posts extends StatefulWidget {
-  Posts({Key? key}) : super(key: key);
+ const  Posts({Key? key}) : super(key: key);
 
   @override
   State<Posts> createState() => _PostsState();
@@ -43,9 +37,9 @@ class _PostsState extends State<Posts> {
   // authonticaion
   final FirebaseAuth auth = FirebaseAuth.instance;
   // navbar
-  final List<Widget> _pages = [Shops(), Posts(), Welcome(), CreatePost()];
+  final List<Widget> _pages = [Shops(),const Posts(), Welcome(),const CreatePost()];
 // plus button array of pages
-  final List<Widget> _views = [Shops(), Posts(), Chat(), Welcome()];
+  final List<Widget> _views = [KampyEvent(), MapKampy(), Chat(), Welcome()];
   int index = 0;
   // chek user delete and likes
   bool? userCheck;
@@ -194,7 +188,7 @@ class _PostsState extends State<Posts> {
                                 //  post image
                                 ClipRRect(
                                     borderRadius: BorderRadius.circular(5),
-                                    child: Container(
+                                    child: SizedBox(
                                       height:
                                           MediaQuery.of(context).size.height *
                                               0.4,
@@ -310,7 +304,6 @@ class _PostsState extends State<Posts> {
                                   
                                     arr.add(snapshot.data!.docs[i]["postLikes"][k]);
                                     // check if it's the same user 
-                                    print(snapshot.data!.docs[i]["postLikes"][k]==snapshot.data!.docs[i]['userName']);
                                     if (snapshot.data!.docs[i]["postLikes"][k]==snapshot.data!.docs[i]['userName']){
                                       
                                       checked=false;
