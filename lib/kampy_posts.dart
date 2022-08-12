@@ -251,6 +251,7 @@ class _PostsState extends State<Posts> {
                                   //  like button
                         //           ElevatedButton(
                                     
+
                         //         child:  LikeButton(
                                   
                         //            isLiked: likseCheck,
@@ -264,6 +265,7 @@ class _PostsState extends State<Posts> {
                         //             dotSecondaryColor: Color(0xff0099cc),
                         //           ),
                         //           // check if the user is already liked the post
+
                               
                         //         ),
                         //         // update likes

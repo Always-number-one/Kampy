@@ -2,22 +2,21 @@
 // import firestore 
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/kampy_posts.dart';
 
 import 'package:flutter_application_1/kampy_event.dart';
 
 import 'package:get/get.dart';
-import 'chat/chat_main.dart';
+
 import 'kampy_login.dart';
-import 'kampy_welcome.dart';
+
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'dart:io';
 
-
+// import home page
+import 'kampy_home.dart';
 
 //flutter toast
 import 'package:fluttertoast/fluttertoast.dart';
@@ -63,11 +62,11 @@ _initialScreen(User? user)async {
    
   if (user==null){
 
-    Get.offAll(()=>  LogIn());
+    Get.offAll(()=>  Home());
   }
   else{
 
-   await  Get.offAll(()=> Welcome());
+   await  Get.offAll(()=> Posts());
 
 }
 }
