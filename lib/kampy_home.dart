@@ -32,8 +32,7 @@ class _HomeState extends State<Home> {
         
 child: Stack(
         children:<Widget> [
-         
-    // log in up 
+
             Container(
 
                         decoration: BoxDecoration(
@@ -43,18 +42,14 @@ child: Stack(
                       ),
               margin:  const EdgeInsets.only(left: 20,right: 20,top: 20),
              
-
-     
-// child log in
               child:Column(
-                //  crossAxisAlignment: CrossAxisAlignment.start,
-
-                children:  [
-                  // sign up title
-                  Container(
-                    margin: const EdgeInsets.only(top:70,left: 100 ),
-        // padding: const EdgeInsets.only(left: 100  ),
-           child: Row( 
+                           children:  [
+                  // welcoming text
+                  Center(
+          child :Container( 
+            margin: const EdgeInsets.only(top:220),
+            child: Column( 
+           
             children: const  <Widget> [
             Text( 
            "Welcome",
@@ -66,11 +61,23 @@ child: Stack(
              
             
           ),
+         
+          Text( 
+           "To Kampy",
+            style: TextStyle(
+              color: Color.fromARGB(255, 245, 240, 240),
+               fontWeight: FontWeight.bold,
+              fontSize: 50,
+            ),
+             
+            
+          ),
+          
         
           
             ],
        
-          )
+          )),
         
           
           ),
@@ -79,13 +86,26 @@ child: Stack(
          
          
             //  Button here
-          
-           
+const SizedBox(height: 50),
 
-
-
-            
-
+TextButton(
+  
+  style: TextButton.styleFrom(
+   
+    primary: const Color.fromARGB(255, 231, 232, 232),
+    backgroundColor: Colors.blue,
+  ),
+  onPressed: () { },
+  child: const Text('Create account'),
+),
+TextButton(
+  style: TextButton.styleFrom(
+    primary: const Color.fromARGB(255, 6, 30, 87),
+    backgroundColor: Colors.white,
+  ),
+  onPressed: () { },
+  child: const Text('Log In'),
+)
 
 
 
