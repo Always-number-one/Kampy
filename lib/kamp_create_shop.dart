@@ -15,6 +15,17 @@ import 'package:path/path.dart' as path;
 import 'package:random_string/random_string.dart';
 
 
+import 'package:flutter/widgets.dart';
+import './services/crud_posts.dart';
+// hex color
+import 'package:hexcolor/hexcolor.dart';
+
+// firebase auth
+import 'package:firebase_auth/firebase_auth.dart';
+// firestore
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+
 
 
 class CreateShop extends StatefulWidget {
