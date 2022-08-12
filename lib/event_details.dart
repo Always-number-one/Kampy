@@ -127,10 +127,12 @@ class _EventDetailsState extends State<EventDetails> {
                                       child: GridTile(
                                         footer: Container(
                                           padding: const EdgeInsets.all(8),
-                                          color: Colors.blue.withOpacity(.5),
+                                          color: Colors.black.withOpacity(.5),
                                           child: Text(
                                             snapshot.data!.docs[i]['eventName'],
+                                            textAlign: TextAlign.center,
                                             style: const TextStyle(
+                                              
                                               fontWeight: FontWeight.bold,
                                               color: Colors.white,
                                               fontSize: 24,

@@ -116,7 +116,7 @@ class _CreateEventState extends State<CreateEvent> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(80.0),
+        preferredSize: const Size.fromHeight(55.0),
         child: AppBar(
           centerTitle: true,
           flexibleSpace: Container(
@@ -318,7 +318,7 @@ class _CreateEventState extends State<CreateEvent> {
                 ],
               ),
             ),
-      backgroundColor: const Color.fromARGB(255, 2, 2, 41),
+      backgroundColor: HexColor('#7b94c4'),
     );
   }
 }
