@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/painting.dart';
 import 'package:intl/intl.dart';
 import 'package:path/path.dart';
+import 'kampy_map.dart';
 
 //crud method
 import './services/crud_shop.dart';
@@ -53,7 +54,7 @@ class _ShopsState extends State<Shops> {
   final List<Widget> _pages = [KampyEvent(), Shops(), Posts(), CreateShop()];
 
 // original navbar
-  final List<Widget> _views = [KampyEvent(), Posts(), Chat(), Welcome()];
+  final List<Widget> _views = [KampyEvent(), MapKampy(), Chat(), Welcome()];
   int index = 0;
   // chek user delete and likes
   bool? userCheck;

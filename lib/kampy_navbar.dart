@@ -1,14 +1,12 @@
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+
 import 'navbar_animated.dart';
 
 
 import 'kampy_posts.dart';
 import 'kampy_event.dart';
-import 'kampy_login.dart';
-import 'kampy_signup.dart';
-import 'package:get/get.dart';
+
 
 import 'kampy_welcome.dart';
 import 'chat/chat_main.dart';
@@ -20,6 +18,8 @@ void main() {
 }
 
 class NavBar extends StatelessWidget {
+  const NavBar({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -28,12 +28,14 @@ class NavBar extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(),
+      home: const MyHomePage(),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
+  const MyHomePage({Key? key}) : super(key: key);
+
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
@@ -47,11 +49,11 @@ class _MyHomePageState extends State<MyHomePage> {
 //     Container(child: const Center(child: Text("profile", style: TextStyle(color: Color.fromARGB(255, 56, 3, 33), fontWeight: FontWeight.bold))))
 //   ];
  final List<Widget>   _pages = [
- KampyEvent(),Posts(),Welcome(),Chat()
+const  KampyEvent(),const Posts(),Welcome(),const Chat()
   ];
 // plus button array of pages
   final List<Widget>   _views = [
- KampyEvent(),Posts(),Chat(),Welcome()
+ const KampyEvent(),const Posts(),const Chat(),Welcome()
   ];
   int index = 0;
 
@@ -78,7 +80,7 @@ class _MyHomePageState extends State<MyHomePage> {
             },
             // navigate between pages
             onTapButtonHidden: (i){
-              print(i);
+    
               // _alertExample("You touched at button of index $i");
                Navigator.push(
               context,
@@ -91,25 +93,4 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  Future<void> _alertExample(String message) async {
-    return showDialog<void>(
-      context: context,
-      barrierDismissible: false, // user must tap button!
-      builder: (BuildContext context) {
-       
-        return AlertDialog(
-          title: const Text('Alert example'),
-          content: Container(child: Text(message)),
-          actions: <Widget>[
-            TextButton(
-              child: const Text('OK'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
 }

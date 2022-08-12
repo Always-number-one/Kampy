@@ -1,13 +1,9 @@
 import 'dart:io';
 
 // hex color
-import 'package:hexcolor/hexcolor.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/gestures.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/auth_controller.dart';
-import 'package:hexcolor/hexcolor.dart';
 import 'kampy_login.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -37,11 +33,9 @@ String file="";
       if (pickedFile != null) {
         _photo = File(pickedFile.path);
         file=pickedFile.path;
-        print(pickedFile.path);
+   
 
-      } else {
-        print('No image selected.');
-      }
+      } 
     });
   }
 // get image from gallery
@@ -52,10 +46,8 @@ Future getFromCamera() async {
       if (pickedFile != null) {
         _photo = File(pickedFile.path);
         file=pickedFile.path;
-        print(pickedFile.path);
-      } else {
-        print('No image selected.');
-      }
+      
+      } 
     });
 }
   @override
@@ -352,7 +344,7 @@ GestureDetector(
 ,onTap: () { 
           Navigator.push(
               context,
-         MaterialPageRoute(builder: (context) => LogIn()),
+         MaterialPageRoute(builder: (context) => const LogIn()),
                 );
               },),
             
@@ -383,7 +375,7 @@ GestureDetector(
   Widget imageProfile(){
 
       return Container(
-        margin: EdgeInsets.only(top: 130),
+        margin: const EdgeInsets.only(top: 130),
        child: Stack(
         children: <Widget> [
          
