@@ -249,27 +249,60 @@ class _PostsState extends State<Posts> {
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                        children: [
                                   //  like button
-                                  ElevatedButton(
+                        //           ElevatedButton(
                                     
-                                child:  LikeButton(
-                                   isLiked: likseCheck,
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  likeCount: snapshot.data!.docs[i]["postLikes"].length,
-                                  circleColor: const CircleColor(
-                                      start: Color(0xff00ddff),
-                                      end: Color(0xff00ddff)),
-                                  bubblesColor:const BubblesColor(
-                                    dotPrimaryColor: Color(0xff33b5e5),
-                                    dotSecondaryColor: Color(0xff0099cc),
-                                  ),
-                                  // check if the user is already liked the post
+                        //         child:  LikeButton(
+                                  
+                        //            isLiked: likseCheck,
+                        //           mainAxisAlignment: MainAxisAlignment.start,
+                        //           likeCount: snapshot.data!.docs[i]["postLikes"].length,
+                        //           circleColor: const CircleColor(
+                        //               start: Color(0xff00ddff),
+                        //               end: Color(0xff00ddff)),
+                        //           bubblesColor:const BubblesColor(
+                        //             dotPrimaryColor: Color(0xff33b5e5),
+                        //             dotSecondaryColor: Color(0xff0099cc),
+                        //           ),
+                        //           // check if the user is already liked the post
                               
-                                ),
-                                // update likes
-                                 onPressed: () async{
+                        //         ),
+                        //         // update likes
+                        //          onPressed: () async{
                                
-                                  var arr=[];
-                                  // check if it's the same user 
+                        //           var arr=[];
+                        //           // check if it's the same user 
+                        //           bool checked=true;
+                        //           for (var k=0; k<snapshot.data!.docs[i]["postLikes"].length;k++){
+                                  
+                        //             arr.add(snapshot.data!.docs[i]["postLikes"][k]);
+                        //             // check if it's the same user 
+                        //             print(snapshot.data!.docs[i]["postLikes"][k]==snapshot.data!.docs[i]['userName']);
+                        //             if (snapshot.data!.docs[i]["postLikes"][k]==snapshot.data!.docs[i]['userName']){
+                                      
+                        //               checked=false;
+                        //             }
+                        //           }
+                        //           // if it's not the same user add like
+                        //             if(checked==true){
+                        //           arr.add(snapshot.data!.docs[i]['userName']);
+                        //         }
+                              
+                        // await snapshot.data!.docs[i].reference.update({
+                        //   "postLikes": arr
+                        //  });
+                        //                     },
+                        //         ),
+
+
+                        FittedBox(
+          fit: BoxFit.fitWidth,
+           child: Row(
+            children:  <Widget>[
+          IconButton(
+            icon:const Icon(Icons.favorite)
+          ,onPressed: ()async{
+            var arr=[];
+                        //           // check if it's the same user 
                                   bool checked=true;
                                   for (var k=0; k<snapshot.data!.docs[i]["postLikes"].length;k++){
                                   
@@ -289,8 +322,13 @@ class _PostsState extends State<Posts> {
                         await snapshot.data!.docs[i].reference.update({
                           "postLikes": arr
                          });
-                                            },
-                                ),
+          },),
+            Text( snapshot.data!.docs[i]["postLikes"].length.toString()),
+
+                 ],
+                 
+                ),
+            ),
       
                                Row(
                                  mainAxisAlignment: MainAxisAlignment.end,
