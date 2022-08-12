@@ -1,34 +1,33 @@
 {
   "project_info": {
-    "project_number": "510280400227",
-    "firebase_url":"https://kampytest-5fc4d-default-rtdb.europe-west1.firebasedatabase.app",
-    "project_id": "kampytest-5fc4d",
-    "storage_bucket": "kampytest-5fc4d.appspot.com"
+    "project_number": "860256847653",
+    "project_id": "kampy-2",
+    "storage_bucket": "kampy-2.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:510280400227:android:5bb8555fb1366b2eb9a756",
+        "mobilesdk_app_id": "1:860256847653:android:ef3508b26eaff3ff0c7ccc",
         "android_client_info": {
           "package_name": "com.example.kampy"
         }
       },
       "oauth_client": [
         {
-          "client_id": "510280400227-e946rg6nvbci42pms5v3od3asbmed0jb.apps.googleusercontent.com",
+          "client_id": "860256847653-cs3cotg962na1fsk8jb46cd0a0q74cfs.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDuUoqLteGWejvMJ1dBjQhg3WJUTLcH0OM"
+          "current_key": "AIzaSyAlw4d-UilV5IZONiZaLfMxlfhrJuiNK-E"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "510280400227-e946rg6nvbci42pms5v3od3asbmed0jb.apps.googleusercontent.com",
+              "client_id": "860256847653-cs3cotg962na1fsk8jb46cd0a0q74cfs.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

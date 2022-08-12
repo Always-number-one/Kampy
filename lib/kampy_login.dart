@@ -1,4 +1,3 @@
-import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/auth_controller.dart';
@@ -33,7 +32,7 @@ class _LogInState extends State<LogIn> {
               
             decoration: const BoxDecoration(
               image:  DecorationImage(
-              image:  AssetImage("images/background5.jpg"),
+              image:  AssetImage("images/background889.jpg"),
              fit: BoxFit.fill,
            )),
           ),
@@ -50,8 +49,9 @@ child: Stack(
          
     // log in up 
             Container(
+
                         decoration: BoxDecoration(
-                        color: Color.fromARGB(0, 224, 224, 228),
+                        color: const Color.fromARGB(0, 224, 224, 228),
                         borderRadius: BorderRadius.circular(120),
                      
                       ),
@@ -66,11 +66,12 @@ child: Stack(
                 children:  [
                   // sign up title
                   Container(
+                    margin: const EdgeInsets.only(top:250),
         padding: const EdgeInsets.only(left: 130 ),
            child: Row( 
             children: const <Widget> [
             Text( 
-           "Log In",
+           " ",
             style: TextStyle(
               color: Color.fromARGB(255, 14, 14, 14),
                fontWeight: FontWeight.bold,
@@ -94,7 +95,8 @@ child: Stack(
             //  first input
              
             Container(
-              width: 300,
+             height: 50,
+                   width: 230,
               margin:   const EdgeInsets.only(top:20,right:20,left:20),
                       decoration: BoxDecoration(
                         color: const Color.fromARGB(151, 255, 255, 255),
@@ -110,7 +112,7 @@ child: Stack(
                      controller: emailController,
                       decoration: InputDecoration(   
                            hintText: "Email",  
-                       prefixIcon:const Icon(Icons.email,color:Color.fromARGB(255, 132, 31, 120)) ,         
+                       prefixIcon:const Icon(Icons.email,color: Color.fromARGB(255, 2, 2, 41),) ,         
                
                         focusedBorder: const OutlineInputBorder(
                      
@@ -135,7 +137,8 @@ child: Stack(
              ),
             //  second input
            Container(
-            width: 300,
+            height: 50,
+                   width: 230,
               margin:   const EdgeInsets.only(top:20,right:20,left:20,bottom: 10),
                       decoration: BoxDecoration(
                         color: const Color.fromARGB(151, 255, 255, 255),
@@ -152,7 +155,7 @@ child: Stack(
                      obscureText: true,
                       decoration: InputDecoration(  
                            hintText: "Password",      
-                        prefixIcon:const Icon(Icons.password,color:Color.fromARGB(255, 132, 31, 120)) ,         
+                        prefixIcon:const Icon(Icons.password,color:Color.fromARGB(255, 2, 2, 41)) ,         
             
                         focusedBorder: const OutlineInputBorder(
                      
@@ -185,18 +188,18 @@ GestureDetector(
                  child:Container(
           margin:  const EdgeInsets.only(left: 20,right: 20,bottom: 20),
 
-            width: 150,
-            height: 60,
+             width: 170,
+            height: 50,
             
-           decoration: const BoxDecoration(
+          decoration: const BoxDecoration(
                 borderRadius:   BorderRadius.only(
-               bottomLeft:  Radius.circular(700.0),
-                bottomRight:  Radius.circular(700.0),
-                topLeft:  Radius.circular(700.0),
-                topRight:  Radius.circular(700.0),
+               bottomLeft:  Radius.circular(500.0),
+                bottomRight:  Radius.circular(300.0),
+                topLeft:  Radius.circular(400.0),
+                topRight:  Radius.circular(400.0),
               ),
 
-           color: Color.fromARGB(255, 33, 1, 34),
+          color: Color.fromARGB(64, 2, 2, 41),
             
               
           ), child: const Center(
@@ -215,13 +218,14 @@ GestureDetector(
             GestureDetector(
  
      child: Container(
-        padding: const EdgeInsets.only(left: 30,bottom: 40),
+
+        padding: const EdgeInsets.only(left: 30,bottom: 40,top: 110),
            child: Row( 
             children:const <Widget> [
             Text( 
            "Don't have an account?",
             style: TextStyle(
-              color: Color.fromARGB(255, 14, 14, 14),
+              color: Colors.white,
               fontSize: 20,
             ), 
             
@@ -230,7 +234,7 @@ GestureDetector(
         
            " Sign Up",
             style:  TextStyle(
-              color: Color.fromARGB(255, 25, 26, 25),
+              color: Colors.amber,
               fontSize: 20,
               fontWeight: FontWeight.bold,
               

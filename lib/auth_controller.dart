@@ -18,6 +18,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'dart:io';
 
 
+
 //flutter toast
 import 'package:fluttertoast/fluttertoast.dart';
 //firebase storage
@@ -84,11 +85,13 @@ User? user =res.user;
 final saveStorage = await FirebaseStorage.instance.ref().child(name).putFile(File(image));
   //  save the link of the storage image in firestore
     final String downloadUrl = await saveStorage.ref.getDownloadURL();
+    print(downloadUrl);
     await FirebaseFirestore.instance.collection('users').doc(user!.uid).set({
     "email":email,
     "uid":user.uid,
     "name":name,
     "photoUrl":downloadUrl,
+    "eventName":" ",
   });
 
     return _user(user);
