@@ -28,9 +28,10 @@ class KampyEvent extends StatefulWidget {
 
 class _KampyEventState extends State<KampyEvent> {
   final FirebaseAuth auth = FirebaseAuth.instance;
-  // navbar
-  final List<Widget> _pages = [KampyEvent(), Posts(), Welcome(), CreateEvent()];
-// plus button array of pages
+  // plus button array of pages
+  final List<Widget> _pages = [KampyEvent(), Shops(), Posts(), CreateEvent()];
+
+// original navbar
   final List<Widget> _views = [KampyEvent(), Posts(), Chat(), Welcome()];
   int index = 0;
   bool? participiteCheck;
@@ -290,9 +291,16 @@ class _KampyEventState extends State<KampyEvent> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Kampy Events"),
-        centerTitle: true,
-        backgroundColor: const Color.fromARGB(255, 2, 2, 41),
+        title: const Text("Events"),
+          centerTitle: true,
+        flexibleSpace: Container(
+          decoration:  BoxDecoration(
+            gradient: LinearGradient(
+                begin: Alignment.centerLeft,
+                end: Alignment.centerRight,
+                colors: [HexColor('#675975'), HexColor('#7b94c4')]),
+          ),
+        ),
       ),
 
       body: eventList(),

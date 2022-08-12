@@ -134,11 +134,7 @@ final FirebaseAuth auth = FirebaseAuth.instance;
     
     _isLoading
     ?Container(
-        decoration:  const BoxDecoration(
-              image:  DecorationImage(
-              image:  AssetImage("images/background889.jpg"),
-             fit: BoxFit.fill,
-           )),
+       
       alignment: Alignment.center,
       child: const CircularProgressIndicator(),
     )
@@ -146,11 +142,7 @@ final FirebaseAuth auth = FirebaseAuth.instance;
       
       child :Container(
       height: MediaQuery.of(context).size.height,
-      decoration:  const BoxDecoration(
-              image:  DecorationImage(
-              image:  AssetImage("images/background889.jpg"),
-             fit: BoxFit.fill,
-           )),
+     
     
         child: Column(
         children: <Widget>[

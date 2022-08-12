@@ -11,7 +11,6 @@ import './kamp_create_shop.dart';
 
 // hex color
 import 'package:hexcolor/hexcolor.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 // navbar
 import 'package:flutter/services.dart';
@@ -26,6 +25,18 @@ import 'chat/chat_main.dart';
 import './kampy_welcome.dart';
 import './kamp_create_shop.dart';
 
+// like button
+import 'package:like_button/like_button.dart';
+
+// firebase auth
+import 'package:firebase_auth/firebase_auth.dart';
+
+// firestore
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+
+
+
 class Shops extends StatefulWidget {
   Shops({Key? key}) : super(key: key);
 
@@ -34,15 +45,70 @@ class Shops extends StatefulWidget {
 }
 
 class _ShopsState extends State<Shops> {
-  // navbar
 
-  final List<Widget> _pages = [Shops(), CreateShop(), Welcome(), CreateShop()];
 
-// plus button array of pages
-  final List<Widget> _views = [Shops(), Posts(), Chat(), Welcome()];
+  // authonticaion
+  final FirebaseAuth auth = FirebaseAuth.instance;
+  // plus button array of pages
+  final List<Widget> _pages = [KampyEvent(), Shops(), Posts(), CreateShop()];
+
+// original navbar
+  final List<Widget> _views = [KampyEvent(), Posts(), Chat(), Welcome()];
   int index = 0;
+  // chek user delete and likes
+  bool? userCheck;
+  bool? likseCheck;
 
-  shopsList() {
+  // check user to delete shop
+  checkuser(name) async {
+// get current user connected
+    final User? user = auth.currentUser;
+    final uid = user?.uid;
+    //  create firestore instance
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
+    // grab the collection
+    CollectionReference users = firestore.collection('users');
+    // get docs from user reference
+    QuerySnapshot querySnapshot = await users.get();
+
+    for (var i = 0; i < querySnapshot.docs.length; i++) {
+      if (querySnapshot.docs[i]['uid'] == uid) {
+      
+        if (querySnapshot.docs[i]['name'] == name) {
+          userCheck = true;
+          break;
+        } else {
+          userCheck = false;
+          break;
+        }
+      }
+    }
+  }
+  // check users who liked the shop
+  checkLiked()async {
+    // get current user connected
+    final User? user = auth.currentUser;
+    final uid = user?.uid;
+    //  create firestore instance
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
+    // grab the collection users
+    CollectionReference users = firestore.collection('users');
+    // get docs from user reference users
+    QuerySnapshot querySnapshot = await users.get();
+     // grab the collection shops
+    CollectionReference shops = firestore.collection('shops');
+    // get docs from user reference shops
+    QuerySnapshot querySnapshotShops = await shops.get();
+   
+  }
+
+
+  shopsList()   {
+
+ 
+ 
+      
+                  
     //  create firestore instance
     FirebaseFirestore firestore = FirebaseFirestore.instance;
     // grab the collection
@@ -50,7 +116,7 @@ class _ShopsState extends State<Shops> {
     return StreamBuilder<QuerySnapshot>(
         // build dnapshot using users collection
         stream: shops.snapshots(),
-        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot)  {
           if (snapshot.hasError) {
             return const Text("Something went wrong");
           }
@@ -58,9 +124,12 @@ class _ShopsState extends State<Shops> {
             return const Text("loading");
           }
           if (snapshot.hasData) {
+           checkLiked();
             return SingleChildScrollView(
+              
                 padding: const EdgeInsets.only(top: 70),
                 child: Column(children: [
+                  
                   for (int i = 0; i < snapshot.data!.docs.length; i++)
                     Column(
                       children: [
@@ -68,83 +137,54 @@ class _ShopsState extends State<Shops> {
                           padding: const EdgeInsets.symmetric(horizontal: 10),
                           child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
+                              children: <Widget>[
                                 Row(
                                   children: <Widget>[
                                     // user avatar
-                                    const CircleAvatar(
+                                    CircleAvatar(
                                       radius: 24.0,
-                                      // backgroundImage: NetworkImage(
-                                      //     snapshot.data!.docs[i]['imgUrl']),
-                                      // backgroundColor: Colors.transparent,
+                                      backgroundImage: NetworkImage(
+                                          snapshot.data!.docs[i]['userImage']),
+                                      backgroundColor: Colors.transparent,
                                     ),
-                                    // user title :
+                                    // user name :
                                     Container(
-                                      margin: const EdgeInsets.only(
-                                          left: 5.0,
-                                          right: 5.0,
-                                          top: 25,
-                                          bottom: 5),
                                       padding: const EdgeInsets.only(
                                           bottom: 5, left: 10),
-                                      child: const Text(
-                                        "sameh",
+                                      child: Text(
+                                        snapshot.data!.docs[i]['userName'], style: TextStyle(
+                                                      fontSize: 20,)
                                       ),
                                     ),
-                                    //plus button to delete and update
+                                    // plus button to delete and update
                                     Container(
-                                      margin: const EdgeInsets.only(left: 230),
-                                      child: const Icon(Icons.delete),
+                                      margin: const EdgeInsets.only(left: 200),
+                                      child: IconButton(
+                                        icon: const Icon(Icons.delete),
+                                        color: Color.fromARGB(249, 255, 250, 250),
+                                        iconSize: 29.0,
+                                        onPressed: () async {
+                                          // check if it's the same user
+                                          await checkuser(snapshot.data!.docs[i]
+                                              ['userName']);
+                                          if (userCheck == true) {
+                                            return await snapshot
+                                                .data!.docs[i].reference
+                                                .delete();
+                                          }
+                                        },
+                                      ),
                                     ),
                                   ],
                                 ),
 
                                 const SizedBox(
-                                  height: 5,
+                                  height: 10,
                                 ),
-                                //  post image
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(5),
-                                  child: Container(
-                                    // height:
-                                    //     MediaQuery.of(context).size.height *
-                                    //         0.4,
-                                    child: GestureDetector(
-                                      child: Column(children: [
-                                        
-                                        // Container(
-                                        //     decoration: const BoxDecoration(
-                                        //       // color: Color.fromARGB(255, 248, 248, 248),
-                                        //       borderRadius: BorderRadius.all(
-                                        //         Radius.circular(8),
-                                        //       ),
-                                        //     ),
-                                        //     height: 40,
-                                        //     width: double.infinity,
-                                        //     margin: const EdgeInsets.only(
-                                        //         left: 5.0,
-                                        //         right: 5.0,
-                                        //         top: 00,
-                                        //         bottom: 5),
-                                        //     child: Row(
-                                        //       mainAxisAlignment:
-                                        //           MainAxisAlignment.center,
-                                        //       // children: [
-                                        //       //   Align(
-                                        //       //       alignment:
-                                        //       //           Alignment.center),
-                                        //       //   Text(
-                                        //       //       snapshot.data!.docs[i]
-                                        //       //           ['title'],
-                                        //       //       style: const TextStyle(
-                                        //       //         fontWeight:
-                                        //       //             FontWeight.bold,
-                                        //       //         fontSize: 15,
-                                        //       //       )),
-                                        //       // ],
-                                        //     )),
-                                                
-                                        Container(
+                                //  shop image
+
+                                              
+                                                Container(
                                           margin: const EdgeInsets.only(
                                               left: 10,
                                               right: 10,
@@ -195,7 +235,7 @@ class _ShopsState extends State<Shops> {
                                                         Alignment.topLeft),
                                                 const Text("Name ",
                                                     style: TextStyle(
-                                                      backgroundColor: Color.fromARGB(255, 183, 180, 185),
+                                                      // backgroundColor: Color.fromARGB(255, 183, 180, 185),
                                                       fontWeight:
                                                           FontWeight.bold,
                                                       fontSize: 17,
@@ -245,7 +285,7 @@ class _ShopsState extends State<Shops> {
                                                         Alignment.topLeft),
                                                 const Text("Description ",
                                                     style: TextStyle(
-                                                      backgroundColor: Color.fromARGB(255, 183, 180, 185),
+                                                      // backgroundColor: Color.fromARGB(255, 183, 180, 185),
                                                       fontWeight:
                                                           FontWeight.bold,
                                                       fontSize: 17,
@@ -296,7 +336,7 @@ class _ShopsState extends State<Shops> {
                                                         Alignment.topLeft),
                                                 const Text("Price " ,
                                                     style: TextStyle(
-                                                      backgroundColor: Color.fromARGB(255, 183, 180, 185),
+                                                      // backgroundColor: Color.fromARGB(255, 183, 180, 185),
                                                       fontWeight:
                                                           FontWeight.bold,
                                                       fontSize: 17,
@@ -344,7 +384,7 @@ class _ShopsState extends State<Shops> {
                                                         Alignment.topLeft),
                                                         const Text("P-Number ",
                                                     style: TextStyle(
-                                              backgroundColor: Color.fromARGB(255, 183, 180, 185),
+                                              // backgroundColor: Color.fromARGB(255, 183, 180, 185),
                                                       fontWeight:
                                                           FontWeight.bold,
                                                       fontSize: 17,
@@ -372,19 +412,15 @@ class _ShopsState extends State<Shops> {
                                                 right: 10,
                                                 top: 5,
                                                 bottom: 22
-                                            )),
-                                      ]),
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(
-                                  height: 10,
-                                ),
-                              ]),
-                        ),
+                                            )),] ),
+                               
+                              ),
+                             const  SizedBox(height: 20),
+                        
                       ],
                     )
                 ]));
+                
           }
           return const Text("none");
         });
@@ -396,17 +432,24 @@ class _ShopsState extends State<Shops> {
     return Scaffold(
 // appp bar
       appBar: AppBar(
-        title: const Text("Shops"),
+        title: const Text("Shop"),
         centerTitle: true,
-        backgroundColor: const Color.fromARGB(255, 20, 6, 29),
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+                begin: Alignment.centerLeft,
+                end: Alignment.centerRight,
+                colors: [HexColor('#675975'), HexColor('#7b94c4')]),
+          ),
+        ),
       ),
-      body: shopsList(),
+      body: shopsList(), 
 
       // navbar bottom
       bottomNavigationBar: Builder(
           builder: (context) => AnimatedBottomBar(
-                defaultIconColor: Colors.black,
-                activatedIconColor: const Color.fromARGB(255, 56, 3, 33),
+                defaultIconColor: HexColor('#7b94c4'),
+                activatedIconColor: HexColor('#675975'),
                 background: Colors.white,
                 buttonsIcons: const [
                   Icons.sunny_snowing,
@@ -420,7 +463,7 @@ class _ShopsState extends State<Shops> {
                   Icons.image_rounded,
                   Icons.post_add_rounded
                 ],
-                backgroundColorMiddleIcon: const Color.fromARGB(255, 56, 3, 33),
+                backgroundColorMiddleIcon: HexColor('#675975'),
                 onTapButton: (i) {
                   setState(() {
                     index = i;
@@ -440,7 +483,7 @@ class _ShopsState extends State<Shops> {
               )),
 // navbar bottom ends here
 
-      backgroundColor: Color.fromARGB(255, 255, 255, 255),
+      backgroundColor: const Color.fromARGB(240, 255, 255, 255),
     );
   }
 }
@@ -467,10 +510,10 @@ class ShopsTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.fromLTRB(0, 0, 0, 10),
+      margin: const EdgeInsets.fromLTRB(0, 0, 0, 16),
       // margin: const EdgeInsets.only(bottom: 16),
 
-      height: 150,
+      height: 190,
       width: MediaQuery.of(context).size.width,
       child: Stack(
         children: <Widget>[
@@ -491,7 +534,7 @@ class ShopsTitle extends StatelessWidget {
             ),
           ),
           Container(
-              margin: const EdgeInsets.fromLTRB(20, 20, 10, 10),
+              margin: const EdgeInsets.fromLTRB(150, 20, 00, 140),
               width: MediaQuery.of(context).size.width,
               child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -526,41 +569,49 @@ class ShopsTitle extends StatelessWidget {
                           color: Color.fromARGB(255, 0, 0, 0)),
                     ),
                   ])),
-          // Container(
-          //   margin: const EdgeInsets.fromLTRB(190, 30, 00, 10),
-          //   width: MediaQuery.of(context).size.width,
-          //   child: Column(
-          //       mainAxisAlignment: MainAxisAlignment.center,
-          //       crossAxisAlignment: CrossAxisAlignment.center,
-          //       children: <Widget>[
-          //         Text(
-          //           title,
-          //           style: const TextStyle(
-          //               fontSize: 17,
-          //               fontWeight: FontWeight.w400,
-          //               color: Colors.white),
-          //         ),
-          //          Text(
-          //           description,
-          //           style: const TextStyle(
-          //               fontSize: 17,
-          //               fontWeight: FontWeight.w400,
-          //               color: Colors.white),
-          //         ),
-          //          Text(
-          //           price,
-          //           style: const TextStyle(
-          //               fontSize: 17,
-          //               fontWeight: FontWeight.w400,
-          //               color: Colors.white),
-          //         ),
-          //         const SizedBox(
-          //           height: 10,
-          //         ),
-          //       ]),
-          // ),
+          Container(
+            margin: const EdgeInsets.fromLTRB(190, 30, 00, 10),
+            width: MediaQuery.of(context).size.width,
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Text(
+                    title,
+                    style: const TextStyle(
+                        fontSize: 17,
+                        fontWeight: FontWeight.w400,
+                        color: Colors.white),
+                  ),
+                  Text(
+                    description,
+                    style: const TextStyle(
+                        fontSize: 17,
+                        fontWeight: FontWeight.w400,
+                        color: Colors.white),
+                  ),
+                  Text(
+                    price,
+                    style: const TextStyle(
+                        fontSize: 17,
+                        fontWeight: FontWeight.w400,
+                        color: Colors.white),
+                  ),
+                  Text(
+                    phoneN,
+                    style: const TextStyle(
+                        fontSize: 17,
+                        fontWeight: FontWeight.w400,
+                        color: Colors.white),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                ]),
+          ),
         ],
       ),
     );
   }
 }
+
