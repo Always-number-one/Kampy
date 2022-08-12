@@ -61,7 +61,6 @@ child: Stack(
              width: w,
 // child log in
               child:Column(
-                //  crossAxisAlignment: CrossAxisAlignment.start,
 
                 children:  [
                   // sign up title
