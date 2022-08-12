@@ -9,7 +9,6 @@ import 'package:flutter_application_1/kampy_event.dart';
 
 import 'package:get/get.dart';
 
-import 'kampy_login.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -62,11 +61,11 @@ _initialScreen(User? user)async {
    
   if (user==null){
 
-    Get.offAll(()=>  Home());
+    Get.offAll(()=>  const Home());
   }
   else{
 
-   await  Get.offAll(()=> Posts());
+   await  Get.offAll(()=> const Posts());
 
 }
 }
@@ -84,7 +83,7 @@ User? user =res.user;
 final saveStorage = await FirebaseStorage.instance.ref().child(name).putFile(File(image));
   //  save the link of the storage image in firestore
     final String downloadUrl = await saveStorage.ref.getDownloadURL();
-    print(downloadUrl);
+   
     await FirebaseFirestore.instance.collection('users').doc(user!.uid).set({
     "email":email,
     "uid":user.uid,
@@ -96,7 +95,7 @@ final saveStorage = await FirebaseStorage.instance.ref().child(name).putFile(Fil
     return _user(user);
 
   } catch(e){
-    print(e);
+   
     Get.snackbar(
               "error in creating user:", e.toString(),
                icon: const Icon(Icons.person, color: Color.fromARGB(255, 25, 1, 22)),
@@ -155,33 +154,32 @@ void logOut() async{
 ///
 
  static Future updateProfile({name ,context,image}) async {
-    final _auth = FirebaseAuth.instance;
+    final auth = FirebaseAuth.instance;
 
     try {
-      await _auth.currentUser!.updateDisplayName(name);
-      await _auth.currentUser!.updatePhotoURL(image);
+      await auth.currentUser!.updateDisplayName(name);
+      await auth.currentUser!.updatePhotoURL(image);
 
     //Navigator.push(context, MaterialPageRoute(builder: (context) =>Posts()));
 
-     Navigator.push(context, MaterialPageRoute(builder: (context) =>KampyEvent()));
+     Navigator.push(context, MaterialPageRoute(builder: (context) =>const KampyEvent()));
 
     } catch (e) {
       Fluttertoast.showToast(msg: e.toString());
-      print(e);
+  
     }
   }
 
   static Future uploadPick() async {
-    final _storage = FirebaseStorage.instance;
+    final storage = FirebaseStorage.instance;
     var url;
     try {
       var image = await ImagePicker().pickImage(source: ImageSource.gallery);
-      await _storage.ref(image!.name).putFile(File(image.path)).then((p0) {
+      await storage.ref(image!.name).putFile(File(image.path)).then((p0) {
         url = p0.ref.getDownloadURL();
       });
     } catch (e) {
       Fluttertoast.showToast(msg: e.toString());
-      print(e);
     }
 
     return url;

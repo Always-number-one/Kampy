@@ -4,6 +4,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter_application_1/kampy_event.dart';
 import 'package:flutter_application_1/create_event.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:hexcolor/hexcolor.dart';
 
 class EventDetails extends StatefulWidget {
   final String? events;
@@ -152,15 +153,85 @@ class _EventDetailsState extends State<EventDetails> {
                                       padding: const EdgeInsets.only(
                                         bottom: 5,
                                       ),
-                                      child:
-                                          Text(snapshot.data!.docs[i]['place'],
-                                              style: const TextStyle(
-                                                fontSize: 18,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.black,
-                                              )),
+                                      child: Text(
+                                          "Destination:  ${snapshot.data!.docs[i]['destination']}",
+                                          style: const TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.w500,
+                                            color:  Color.fromARGB(255, 2, 2, 41),
+                                          )),
                                     ),
                                   ],
+                                ),
+                                Container(
+                                  margin:
+                                      const EdgeInsets.symmetric(vertical: 10),
+                                  padding: const EdgeInsets.only(
+                                    bottom: 5,
+                                  ),
+                                  child: Text(
+                                      "Starting date:  ${snapshot.data!.docs[i]['startingDate']}",
+                                      style: const TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w500,
+                                        color: Color.fromARGB(255, 2, 2, 41),
+                                      )),
+                                ),
+                                Container(
+                                  margin:
+                                      const EdgeInsets.symmetric(vertical: 10),
+                                  padding: const EdgeInsets.only(
+                                    bottom: 5,
+                                  ),
+                                  child: Text(
+                                      "Ending date:  ${snapshot.data!.docs[i]['endingDate']}",
+                                      style: const TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w500,
+                                        color: Color.fromARGB(255, 2, 2, 41),
+                                      )),
+                                ),
+                                Container(
+                                  margin:
+                                      const EdgeInsets.symmetric(vertical: 10),
+                                  padding: const EdgeInsets.only(
+                                    bottom: 5,
+                                  ),
+                                  child: Text(
+                                      "Number of places:  ${snapshot.data!.docs[i]['nbrPlace']}",
+                                      style: const TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w500,
+                                        color: Color.fromARGB(255, 2, 2, 41),
+                                      )),
+                                ),
+                                Container(
+                                  margin:
+                                      const EdgeInsets.symmetric(vertical: 10),
+                                  padding: const EdgeInsets.only(
+                                    bottom: 5,
+                                  ),
+                                  child: Text(
+                                      "Required equipment:  ${snapshot.data!.docs[i]['requiredEquipment']}",
+                                      style: const TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w500,
+                                        color: Color.fromARGB(255, 2, 2, 41),
+                                      )),
+                                ),
+                                Container(
+                                  margin:
+                                      const EdgeInsets.symmetric(vertical: 10),
+                                  padding: const EdgeInsets.only(
+                                    bottom: 5,
+                                  ),
+                                  child: Text(
+                                      "Group:  ${snapshot.data!.docs[i]['group']}",
+                                      style: const TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w500,
+                                        color: Color.fromARGB(255, 2, 2, 41),
+                                      )),
                                 ),
                                 SingleChildScrollView(
                                   child: Column(
@@ -168,11 +239,11 @@ class _EventDetailsState extends State<EventDetails> {
                                     //     bottom: 5, left: 10),
                                     children: [
                                       Text(
-                                          snapshot.data!.docs[i]['description'],
+                                          "Description:  ${snapshot.data!.docs[i]['description']}",
                                           style: const TextStyle(
                                             fontSize: 18,
                                             fontWeight: FontWeight.w500,
-                                            color: Colors.black,
+                                            color: Color.fromARGB(255, 2, 2, 41),
                                           )),
                                     ],
                                   ),
@@ -180,7 +251,11 @@ class _EventDetailsState extends State<EventDetails> {
                                 Row(
                                   children: [
                                     const Text(
-                                      "Participate :", style: TextStyle(fontSize: 18, color: Color.fromARGB(255, 2, 14, 24)),
+                                      "Participate :",
+                                      style: TextStyle(
+                                          fontSize: 18,
+                                          color:
+                                              Color.fromARGB(255, 2, 14, 24)),
                                     ),
                                     IconButton(
                                       icon: const Icon(Icons.remove),
@@ -192,16 +267,15 @@ class _EventDetailsState extends State<EventDetails> {
                                         });
                                       },
                                     ),
-                                   Text(
+                                    Text(
                                       "$count /10",
                                       style: const TextStyle(fontSize: 18),
                                     ),
                                     IconButton(
                                       icon: const Icon(Icons.person_add),
-                                      onPressed: ()  {
+                                      onPressed: () {
                                         setState(() {
-                                           count++;
-                                           
+                                          count++;
                                         });
                                       },
                                     )
@@ -224,9 +298,16 @@ class _EventDetailsState extends State<EventDetails> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Kampy Details"),
-        centerTitle: true,
-        backgroundColor: const Color.fromARGB(255, 2, 2, 41),
+       title: const Text("Event details"),
+          centerTitle: true,
+        flexibleSpace: Container(
+          decoration:  BoxDecoration(
+            gradient: LinearGradient(
+                begin: Alignment.centerLeft,
+                end: Alignment.centerRight,
+                colors: [HexColor('#675975'), HexColor('#7b94c4')]),
+          ),
+        ),
       ),
       body: eventList(),
     );
