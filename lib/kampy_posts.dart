@@ -39,11 +39,12 @@ class _PostsState extends State<Posts> {
   // navbar
   final List<Widget> _pages = [Shops(),const Posts(), Welcome(),const CreatePost()];
 // plus button array of pages
-  final List<Widget> _views = [KampyEvent(), MapKampy(), Chat(), Welcome()];
+  final List<Widget> _views = [const KampyEvent(), MapKampy(),const  Chat(), Welcome()];
   int index = 0;
   // chek user delete and likes
   bool? userCheck;
   bool? likseCheck;
+  
 
   // check user to delete post
   checkuser(name) async {
@@ -85,22 +86,24 @@ class _PostsState extends State<Posts> {
     CollectionReference posts = firestore.collection('posts');
     // get docs from user reference posts
     QuerySnapshot querySnapshotPosts = await posts.get();
+    String? name;
    for (var i = 0; i < querySnapshot.docs.length; i++) {
       if (querySnapshot.docs[i]['uid'] == uid) {
- 
+      name=querySnapshot.docs[i]['name'];
        for (var j = 0; j <querySnapshotPosts.docs.length;j++) {
+        
         for(var k = 0; k <querySnapshotPosts.docs[j]['postLikes'].length; k++) {
-        if (querySnapshotPosts.docs[j]['postLikes'][k]==querySnapshot.docs[i]['name']){
+         
+        if (querySnapshotPosts.docs[j]['postLikes'][k]==name){
+          
      
-          likseCheck=true;
+       return   likseCheck=false;
       
-          break;
          
         }
         }
        }
-         likseCheck=false;
-         break;
+        return likseCheck=true;
       }
     }
    
@@ -128,7 +131,7 @@ class _PostsState extends State<Posts> {
             return const Text("loading");
           }
           if (snapshot.hasData) {
-           checkLiked();
+         
             return SingleChildScrollView(
               
                 padding: const EdgeInsets.only(top: 70),
@@ -208,117 +211,104 @@ class _PostsState extends State<Posts> {
                                                 fit: BoxFit.fill,
                                               )),
                                               //change photo arrows :
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceAround,
-                                                children: <Widget>[
-                                                  // next photo
-                                                  IconButton(
-                                                    icon: const Icon(Icons
-                                                        .arrow_back_ios_new_outlined),
-                                                    color: const Color.fromARGB(
-                                                        138, 255, 255, 255),
-                                                    iconSize: 36.0,
-                                                    //  next photo
-                                                    onPressed: () {},
-                                                  ),
-                                                  const SizedBox(width: 265),
-                                                  // next photo
-                                                  IconButton(
-                                                    icon: const Icon(Icons
-                                                        .arrow_forward_ios_rounded),
-                                                    color: const Color.fromARGB(
-                                                        138, 255, 255, 255),
-                                                    iconSize: 36.0,
-                                                    // previous photo
-                                                    onPressed: () {},
-                                                  ),
-                                                ],
-                                              )),
+                                              // child: Row(
+                                              //   mainAxisAlignment:
+                                              //       MainAxisAlignment
+                                              //           .spaceAround,
+                                              //   children: <Widget>[
+                                              //     // next photo
+                                              //     IconButton(
+                                              //       icon: const Icon(Icons
+                                              //           .arrow_back_ios_new_outlined),
+                                              //       color: const Color.fromARGB(
+                                              //           138, 255, 255, 255),
+                                              //       iconSize: 36.0,
+                                              //       //  next photo
+                                              //       onPressed: () {},
+                                              //     ),
+                                              //     const SizedBox(width: 265),
+                                              //     // next photo
+                                              //     IconButton(
+                                              //       icon: const Icon(Icons
+                                              //           .arrow_forward_ios_rounded),
+                                              //       color: const Color.fromARGB(
+                                              //           138, 255, 255, 255),
+                                              //       iconSize: 36.0,
+                                              //       // previous photo
+                                              //       onPressed: () {},
+                                              //     ),
+                                              //   ],
+                                              // )
+                                              ),
                                         ]),
                                       ),
                                     )),
                                     Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                        children: [
-                                  //  like button
-                        //           ElevatedButton(
-                                    
-
-                        //         child:  LikeButton(
-                                  
-                        //            isLiked: likseCheck,
-                        //           mainAxisAlignment: MainAxisAlignment.start,
-                        //           likeCount: snapshot.data!.docs[i]["postLikes"].length,
-                        //           circleColor: const CircleColor(
-                        //               start: Color(0xff00ddff),
-                        //               end: Color(0xff00ddff)),
-                        //           bubblesColor:const BubblesColor(
-                        //             dotPrimaryColor: Color(0xff33b5e5),
-                        //             dotSecondaryColor: Color(0xff0099cc),
-                        //           ),
-                        //           // check if the user is already liked the post
-
-                              
-                        //         ),
-                        //         // update likes
-                        //          onPressed: () async{
-                               
-                        //           var arr=[];
-                        //           // check if it's the same user 
-                        //           bool checked=true;
-                        //           for (var k=0; k<snapshot.data!.docs[i]["postLikes"].length;k++){
-                                  
-                        //             arr.add(snapshot.data!.docs[i]["postLikes"][k]);
-                        //             // check if it's the same user 
-                        //             print(snapshot.data!.docs[i]["postLikes"][k]==snapshot.data!.docs[i]['userName']);
-                        //             if (snapshot.data!.docs[i]["postLikes"][k]==snapshot.data!.docs[i]['userName']){
-                                      
-                        //               checked=false;
-                        //             }
-                        //           }
-                        //           // if it's not the same user add like
-                        //             if(checked==true){
-                        //           arr.add(snapshot.data!.docs[i]['userName']);
-                        //         }
-                              
-                        // await snapshot.data!.docs[i].reference.update({
-                        //   "postLikes": arr
-                        //  });
-                        //                     },
-                        //         ),
+                                 
+                           
 
 
                         FittedBox(
-          fit: BoxFit.fitWidth,
-           child: Row(
-            children:  <Widget>[
-          IconButton(
-            icon:const Icon(Icons.favorite)
-          ,onPressed: ()async{
-            var arr=[];
-                        //           // check if it's the same user 
-                                  bool checked=true;
-                                  for (var k=0; k<snapshot.data!.docs[i]["postLikes"].length;k++){
-                                  
-                                    arr.add(snapshot.data!.docs[i]["postLikes"][k]);
-                                    // check if it's the same user 
-                                    if (snapshot.data!.docs[i]["postLikes"][k]==snapshot.data!.docs[i]['userName']){
-                                      
-                                      checked=false;
-                                    }
-                                  }
-                                  // if it's not the same user add like
-                                    if(checked==true){
-                                  arr.add(snapshot.data!.docs[i]['userName']);
-                                }
-                              
-                        await snapshot.data!.docs[i].reference.update({
-                          "postLikes": arr
+                     fit: BoxFit.fitWidth,
+                  child: Row(
+                     children:  <Widget>[
+                      // like button posts
+                    IconButton(
+                        icon:const Icon(Icons.favorite)
+                  ,onPressed: ()async{
+                  
+                  // get current user connected
+    final User? user = auth.currentUser;
+    final id = user?.uid;
+    //  create firestore instance
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
+    // grab the collection
+    CollectionReference users = firestore.collection('users');
+    // get docs from user reference
+    QuerySnapshot querySnapshot = await users.get();
+         for (var s = 0; s < querySnapshot.docs.length; s++) {
+      if (querySnapshot.docs[s]['uid'] == id) {
+        if(querySnapshot.docs[s]['likes'].length>0){
+      for (var j=0;j<querySnapshot.docs[s]['likes'].length;j++){
+        print(querySnapshot.docs[s]["likes"][j]);
+        if(snapshot.data!.docs[i].reference.id==querySnapshot.docs[s]["likes"][j]){
+         var counter = snapshot.data!.docs[i]["likesCount"];
+         counter--;
+          await snapshot.data!.docs[i].reference.update({
+                          "likesCount": counter ??0,
                          });
+          var arr=querySnapshot.docs[s]["likes"];
+          arr.removeAt(j);
+         
+         print("heryou are");
+       return   await querySnapshot.docs[s].reference.update({
+                          "likes": arr
+                         });
+        }
+      }
+       var count = snapshot.data!.docs[i]["likesCount"];
+         count++;
+
+          await snapshot.data!.docs[i].reference.update({
+                          "likesCount": count
+                         });
+          var arr=querySnapshot.docs[s]["likes"];
+          arr.add(snapshot.data!.docs[i].reference.id);
+        return  await querySnapshot.docs[s].reference.update({
+                          "likes":arr ??[]});
+      }
+         
+      
+      }else{
+        print("no user matched");
+      }
+    }
+
+            
           },),
-            Text( snapshot.data!.docs[i]["postLikes"].length.toString()),
+            Text( snapshot.data!.docs[i]["likesCount"].toString()),
 
                  ],
                  
@@ -330,12 +320,12 @@ class _PostsState extends State<Posts> {
                                 children: [
                                    const  Icon(
                                     
-                             Icons.place_outlined,
-                         color: Colors.black,
+                             Icons.place_sharp,
+                         color: Color.fromARGB(255, 125, 2, 2),
                              size:20.0,
                                       ),
                                Text(
-                                      snapshot.data!.docs[i]['localisation']
+                                snapshot.data!.docs[i]['localisation']
                                       ),],)
                                ] )
 
@@ -434,8 +424,6 @@ class PostsTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.fromLTRB(0, 0, 0, 16),
-      // margin: const EdgeInsets.only(bottom: 16),
-
       height: 190,
       width: MediaQuery.of(context).size.width,
       child: Stack(
@@ -496,87 +484,3 @@ class PostsTitle extends StatelessWidget {
   }
 }
 
-// class Posts extends StatefulWidget {
-//   Posts({Key? key}) : super(key: key);
-
-//   @override
-//   State<Posts> createState() => _PostsState();
-// }
-
-// class _PostsState extends State<Posts> {
-// int currentIndex=0;
-// // final screens=[
-
-// //   // CreateBlog(),
-
-// // ];
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar:PreferredSize(
-//         preferredSize:const Size.fromHeight(200),
-//       child: AppBar(
-//         centerTitle: true,
-//         actions: [
-//           InkWell(
-//             onTap: () {
-//                Navigator.push(context, MaterialPageRoute(builder: (context) => CreateBlog()));
-
-//             },
-//             child: Icon(Icons.add)
-//             ),
-//           SizedBox(width: 22,)
-//         ],
-//         flexibleSpace: ClipRRect(
-//           child:Container(
-//           decoration: const BoxDecoration(
-//             image: DecorationImage(
-//               image: AssetImage('images/88257fc06f6e674a8ffc2a39bd3de33a.gif'),
-//               fit:BoxFit.fill
-//             )
-//           )
-//         ),),
-//       ),),
-//       body:Container(),
-//       // screens[currentIndex],
-//             bottomNavigationBar: BottomNavigationBar(
-//               type: BottomNavigationBarType.fixed,
-//               backgroundColor:Colors.grey.shade400,
-//               unselectedItemColor: Colors.black,
-//               showSelectedLabels: true,
-//               showUnselectedLabels: false,
-//               currentIndex:currentIndex,
-//               onTap:(index)=>setState(() => currentIndex=index),
-//         items: const <BottomNavigationBarItem>[
-//           BottomNavigationBarItem(
-//             icon: Icon(Icons.home),
-//             label: 'Home',
-//                        backgroundColor: Color.fromARGB(255, 79, 36, 90),
-//           ),
-//           BottomNavigationBarItem(
-//             icon: Icon(Icons.search),
-//             label: 'Serach',
-//                         backgroundColor: Color.fromARGB(255, 79, 36, 90),
-//           ),
-//           BottomNavigationBarItem(
-//             icon: Icon(Icons.add),
-//             label: 'Add post',
-//                        backgroundColor: Color.fromARGB(255, 79, 36, 90),
-//           ),
-//           BottomNavigationBarItem(
-//             icon: Icon(Icons.save),
-//             label: 'x',
-//                        backgroundColor: Color.fromARGB(255, 79, 36, 90),
-//           ),
-//              BottomNavigationBarItem(
-//             icon: Icon(Icons.account_circle),
-//             label: 'Profile',
-//             backgroundColor: Color.fromARGB(255, 79, 36, 90),
-
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }
