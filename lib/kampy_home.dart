@@ -3,7 +3,7 @@ import 'package:flutter_application_1/kampy_login.dart';
 import 'kampy_signup.dart';
 
 class Home extends StatefulWidget {
- Home({Key? key}) : super(key: key);
+const Home({Key? key}) : super(key: key);
 
   @override
   State<Home> createState() => _HomeState();
@@ -99,7 +99,7 @@ TextButton(
   onPressed: () {
       Navigator.push(
               context,
-         MaterialPageRoute(builder: (context) => SignUp()),
+         MaterialPageRoute(builder: (context) => const SignUp()),
                 );
    },
   child: const Text('Create account',style: TextStyle(fontSize: 15)),
@@ -115,7 +115,7 @@ TextButton(
   onPressed: () { 
       Navigator.push(
               context,
-         MaterialPageRoute(builder: (context) => LogIn()),
+         MaterialPageRoute(builder: (context) => const LogIn()),
                 );
   },
   child: const Text('Log In',style: TextStyle(fontSize: 15),),
