@@ -36,9 +36,10 @@ class Welcome extends StatefulWidget {
 }
 
 class _WelcomeState extends State<Welcome> {
-  final List<Widget> _pages = [Shops(), Posts(), Welcome(), CreatePost()];
+  // plus button array of pages
+  final List<Widget> _pages = [KampyEvent(), Shops(), Posts(), CreatePost()];
 
-// plus button array of pages
+// original navbar
   final List<Widget> _views = [KampyEvent(), Posts(), Chat(), Welcome()];
   int index = 0;
 
