@@ -291,9 +291,16 @@ class _KampyEventState extends State<KampyEvent> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Kampy Events"),
-        centerTitle: true,
-        backgroundColor: const Color.fromARGB(255, 2, 2, 41),
+        title: const Text("Events"),
+          centerTitle: true,
+        flexibleSpace: Container(
+          decoration:  BoxDecoration(
+            gradient: LinearGradient(
+                begin: Alignment.centerLeft,
+                end: Alignment.centerRight,
+                colors: [HexColor('#675975'), HexColor('#7b94c4')]),
+          ),
+        ),
       ),
 
       body: eventList(),
