@@ -4,7 +4,8 @@ import 'package:flutter/painting.dart';
 import 'package:flutter_application_1/kampy_create_posts.dart';
 import 'package:intl/intl.dart';
 import 'package:path/path.dart';
-
+// like button
+import 'package:like_button/like_button.dart';
 //crud method
 import './services/crud_posts.dart';
 //import create blogs
@@ -37,34 +38,87 @@ class Posts extends StatefulWidget {
 }
 
 class _PostsState extends State<Posts> {
+
+
   // authonticaion
-final FirebaseAuth auth = FirebaseAuth.instance;
+  final FirebaseAuth auth = FirebaseAuth.instance;
   // navbar
-  final List<Widget> _pages = [Shops(), Posts(), Welcome(), Chat()];
+  final List<Widget> _pages = [Shops(), Posts(), Welcome(), CreatePost()];
 // plus button array of pages
   final List<Widget> _views = [Shops(), Posts(), Chat(), Welcome()];
   int index = 0;
- checkuser (name)async {
+  // chek user delete and likes
+  bool? userCheck;
+  bool? likseCheck;
+
+  // check user to delete post
+  checkuser(name) async {
 // get current user connected
-     final User? user = auth.currentUser;
-  final uid = user?.uid;
-   //  create firestore instance
+    final User? user = auth.currentUser;
+    final uid = user?.uid;
+    //  create firestore instance
     FirebaseFirestore firestore = FirebaseFirestore.instance;
-      // grab the collection
+    // grab the collection
     CollectionReference users = firestore.collection('users');
-        // get docs from user reference 
-        QuerySnapshot querySnapshot = await users.get();
-   
-        for (var i=0; i <querySnapshot.docs.length; i++){
-        if (querySnapshot.docs[i]['name']==name){
-     return true;
-          
-        
+    // get docs from user reference
+    QuerySnapshot querySnapshot = await users.get();
+
+    for (var i = 0; i < querySnapshot.docs.length; i++) {
+      if (querySnapshot.docs[i]['uid'] == uid) {
+      
+        if (querySnapshot.docs[i]['name'] == name) {
+          userCheck = true;
+          break;
+        } else {
+          userCheck = false;
+          break;
+        }
+      }
+    }
+  }
+  // check users who liked the post
+  checkLiked()async {
+    // get current user connected
+    final User? user = auth.currentUser;
+    final uid = user?.uid;
+    //  create firestore instance
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
+    // grab the collection users
+    CollectionReference users = firestore.collection('users');
+    // get docs from user reference users
+    QuerySnapshot querySnapshot = await users.get();
+     // grab the collection posts
+    CollectionReference posts = firestore.collection('posts');
+    // get docs from user reference posts
+    QuerySnapshot querySnapshotPosts = await posts.get();
+   for (var i = 0; i < querySnapshot.docs.length; i++) {
+      if (querySnapshot.docs[i]['uid'] == uid) {
+ 
+       for (var j = 0; j <querySnapshotPosts.docs.length;j++) {
+        for(var k = 0; k <querySnapshotPosts.docs[j]['postLikes'].length; k++) {
+        if (querySnapshotPosts.docs[j]['postLikes'][k]==querySnapshot.docs[i]['name']){
+     
+          likseCheck=true;
+      
+          break;
+         
+        }
+        }
        }
-       return false;
-          }
- }
-  postsList() {
+         likseCheck=false;
+         break;
+      }
+    }
+   
+  }
+
+
+  postsList()   {
+
+ 
+ 
+      
+                  
     //  create firestore instance
     FirebaseFirestore firestore = FirebaseFirestore.instance;
     // grab the collection
@@ -72,7 +126,7 @@ final FirebaseAuth auth = FirebaseAuth.instance;
     return StreamBuilder<QuerySnapshot>(
         // build dnapshot using users collection
         stream: posts.snapshots(),
-        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot)  {
           if (snapshot.hasError) {
             return const Text("Something went wrong");
           }
@@ -80,9 +134,12 @@ final FirebaseAuth auth = FirebaseAuth.instance;
             return const Text("loading");
           }
           if (snapshot.hasData) {
+           checkLiked();
             return SingleChildScrollView(
+              
                 padding: const EdgeInsets.only(top: 70),
                 child: Column(children: [
+                  
                   for (int i = 0; i < snapshot.data!.docs.length; i++)
                     Column(
                       children: [
@@ -104,24 +161,29 @@ final FirebaseAuth auth = FirebaseAuth.instance;
                                     Container(
                                       padding: const EdgeInsets.only(
                                           bottom: 5, left: 10),
-                                      child:  Text(
+                                      child: Text(
                                         snapshot.data!.docs[i]['userName'],
                                       ),
                                     ),
                                     // plus button to delete and update
                                     Container(
                                       margin: const EdgeInsets.only(left: 200),
-                                      child:         
-                                      IconButton(
-                              icon: const Icon(Icons.delete),
-                                              color: const Color.fromARGB(251, 255, 255, 255),
-                                              iconSize: 36.0,
-                                                onPressed: () async   {
-                                                    if (checkuser (snapshot.data!.docs[i]['userName'])){
-                                                 snapshot.data!.docs[i].reference.delete();
-                                                 }
-                                                },
-                                          ),
+                                      child: IconButton(
+                                        icon: const Icon(Icons.delete),
+                                        color: const Color.fromARGB(
+                                            251, 255, 255, 255),
+                                        iconSize: 36.0,
+                                        onPressed: () async {
+                                          // check if it's the same user
+                                          await checkuser(snapshot.data!.docs[i]
+                                              ['userName']);
+                                          if (userCheck == true) {
+                                            return await snapshot
+                                                .data!.docs[i].reference
+                                                .delete();
+                                          }
+                                        },
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -183,18 +245,76 @@ final FirebaseAuth auth = FirebaseAuth.instance;
                                         ]),
                                       ),
                                     )),
-                                   Padding(
-                                    padding:const  EdgeInsets.only(left: 280),
-                                  child :Text( snapshot.data!.docs[i]['localisation']),  ),
-                                const SizedBox(
-                                  height: 20,
-                                ),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                       children: [
+                                  //  like button
+                                  ElevatedButton(
+                                    
+                                child:  LikeButton(
+                                   isLiked: likseCheck,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  likeCount: snapshot.data!.docs[i]["postLikes"].length,
+                                  circleColor: const CircleColor(
+                                      start: Color(0xff00ddff),
+                                      end: Color(0xff00ddff)),
+                                  bubblesColor:const BubblesColor(
+                                    dotPrimaryColor: Color(0xff33b5e5),
+                                    dotSecondaryColor: Color(0xff0099cc),
+                                  ),
+                                  // check if the user is already liked the post
                               
-                              ]),
-                        ),
+                                ),
+                                // update likes
+                                 onPressed: () async{
+                               
+                                  var arr=[];
+                                  // check if it's the same user 
+                                  bool checked=true;
+                                  for (var k=0; k<snapshot.data!.docs[i]["postLikes"].length;k++){
+                                  
+                                    arr.add(snapshot.data!.docs[i]["postLikes"][k]);
+                                    // check if it's the same user 
+                                    print(snapshot.data!.docs[i]["postLikes"][k]==snapshot.data!.docs[i]['userName']);
+                                    if (snapshot.data!.docs[i]["postLikes"][k]==snapshot.data!.docs[i]['userName']){
+                                      
+                                      checked=false;
+                                    }
+                                  }
+                                  // if it's not the same user add like
+                                    if(checked==true){
+                                  arr.add(snapshot.data!.docs[i]['userName']);
+                                }
+                              
+                        await snapshot.data!.docs[i].reference.update({
+                          "postLikes": arr
+                         });
+                                            },
+                                ),
+      
+                               Row(
+                                 mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                   const  Icon(
+                                    
+                             Icons.place_outlined,
+                         color: Colors.black,
+                             size:20.0,
+                                      ),
+                               Text(
+                                      snapshot.data!.docs[i]['localisation']
+                                      ),],)
+                               ] )
+
+                               ] ),
+                               
+                              ),
+                             const  SizedBox(height: 20),
+                        
                       ],
                     )
                 ]));
+                
           }
           return const Text("none");
         });
@@ -205,11 +325,11 @@ final FirebaseAuth auth = FirebaseAuth.instance;
   Widget build(BuildContext context) {
     return Scaffold(
 // appp bar
-  appBar: AppBar(
-       title: const Text("Posts"),
-          centerTitle: true,
+      appBar: AppBar(
+        title: const Text("Posts"),
+        centerTitle: true,
         flexibleSpace: Container(
-          decoration:  BoxDecoration(
+          decoration: BoxDecoration(
             gradient: LinearGradient(
                 begin: Alignment.centerLeft,
                 end: Alignment.centerRight,
@@ -217,7 +337,7 @@ final FirebaseAuth auth = FirebaseAuth.instance;
           ),
         ),
       ),
-      body: postsList(),
+      body: postsList(), 
 
       // navbar bottom
       bottomNavigationBar: Builder(
@@ -271,7 +391,7 @@ class PostsTitle extends StatelessWidget {
   final dynamic imgUrl;
   PostsTitle({
     Key? key,
-    this.id ='',
+    this.id = '',
     required this.localisation,
     required this.description,
     required this.imgUrl,
