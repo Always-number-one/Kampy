@@ -103,10 +103,6 @@ class _ShopsState extends State<Shops> {
 
 
   shopsList()   {
-
- 
- 
-      
                   
     //  create firestore instance
     FirebaseFirestore firestore = FirebaseFirestore.instance;
