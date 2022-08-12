@@ -1,10 +1,13 @@
 import 'dart:io';
 
-
+// hex color
+import 'package:hexcolor/hexcolor.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/auth_controller.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'kampy_login.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -77,7 +80,7 @@ Future getFromCamera() async {
               
             decoration: const BoxDecoration(
               image:  DecorationImage(
-              image:  AssetImage("images/background5.jpg"),
+              image:  AssetImage("images/background889.jpg"),
              fit: BoxFit.fill,
            )),
           ),
@@ -109,17 +112,19 @@ child: Stack(
 
                 children:  <Widget>[
                   // sign up title
-                  Container(
-        padding: const EdgeInsets.only(left: 120 ),
+              Container(
+                    margin: const EdgeInsets.only(top:10),
+        padding: const EdgeInsets.only(left: 100  ),
            child: Row( 
             children: const <Widget> [
             Text( 
-           "Sign Up",
+           "Kampy",
             style: TextStyle(
-              color: Color.fromARGB(255, 14, 14, 14),
+              color: Color.fromARGB(255, 245, 240, 240),
                fontWeight: FontWeight.bold,
-              fontSize: 30,
-            ), 
+              fontSize: 50,
+            ),
+             
             
           )
           
@@ -141,6 +146,8 @@ child: Stack(
 
                     // first input
                Container(
+                   height: 50,
+                   width: 230,
               margin:   const EdgeInsets.only(top:10,right:20,left:20),
                       decoration: BoxDecoration(
                         color: const Color.fromARGB(151, 255, 255, 255),
@@ -156,7 +163,7 @@ child: Stack(
                       controller: nameController,
                       decoration: InputDecoration(      
                         hintText: "Name", 
-                   prefixIcon:const Icon(Icons.account_circle,color:Color.fromARGB(255, 132, 31, 120)) ,         
+                   prefixIcon:const Icon(Icons.account_circle,color:Color.fromARGB(255, 2, 2, 41)) ,         
 
                         focusedBorder: const OutlineInputBorder(
                      
@@ -184,7 +191,8 @@ child: Stack(
             //  second input
              
             Container(
-              width: 300,
+                height: 50,
+                   width: 230,
               margin:   const EdgeInsets.only(top:20,right:20,left:20),
                       decoration: BoxDecoration(
                         color: const Color.fromARGB(151, 255, 255, 255),
@@ -200,7 +208,7 @@ child: Stack(
                      controller: emailController,
                       decoration: InputDecoration(   
                            hintText: "Email",  
-                       prefixIcon:const Icon(Icons.email,color:Color.fromARGB(255, 132, 31, 120)) ,         
+                       prefixIcon:const Icon(Icons.email,color:Color.fromARGB(255, 2, 2, 41)) ,         
                
                         focusedBorder: const OutlineInputBorder(
                      
@@ -223,9 +231,11 @@ child: Stack(
                       ),
                      )  
              ),
+             
             //  third input
            Container(
-            width: 300,
+             height: 50,
+                   width: 230,
               margin:   const EdgeInsets.only(top:20,right:20,left:20,bottom: 10),
                       decoration: BoxDecoration(
                         color: const Color.fromARGB(151, 255, 255, 255),
@@ -242,7 +252,7 @@ child: Stack(
                      obscureText: true,
                       decoration: InputDecoration(  
                            hintText: "Password",      
-                        prefixIcon:const Icon(Icons.password,color:Color.fromARGB(255, 132, 31, 120)) ,         
+                        prefixIcon:const Icon(Icons.password,color:Color.fromARGB(255, 2, 2, 41)) ,         
             
                         focusedBorder: const OutlineInputBorder(
                      
@@ -276,18 +286,18 @@ GestureDetector(
           child: Container(
           margin:  const EdgeInsets.only(left: 20,right: 20,bottom: 20),
 
-            width: 150,
-            height: 60,
+            width: 170,
+            height: 50,
             
            decoration: const BoxDecoration(
                 borderRadius:   BorderRadius.only(
-               bottomLeft:  Radius.circular(700.0),
-                bottomRight:  Radius.circular(700.0),
-                topLeft:  Radius.circular(700.0),
-                topRight:  Radius.circular(700.0),
+               bottomLeft:  Radius.circular(500.0),
+                bottomRight:  Radius.circular(300.0),
+                topLeft:  Radius.circular(400.0),
+                topRight:  Radius.circular(400.0),
               ),
 
-           color: Color.fromARGB(255, 33, 1, 34),
+           color: Color.fromARGB(64, 2, 2, 41),
             
               
           ), child: const Center(
@@ -295,7 +305,7 @@ GestureDetector(
             "Sign Up",
                     textAlign: TextAlign.center,
                        style:  TextStyle(
-                        fontSize: 20,
+                        fontSize: 17,
                         fontWeight: FontWeight.bold,
                         color: Colors.white
                       
@@ -308,14 +318,14 @@ GestureDetector(
           GestureDetector(
  
      child: Container(
-      
+      margin:const  EdgeInsets.only(top: 100),
         padding: const EdgeInsets.only(left: 60,bottom: 40),
            child: Row( 
             children:const <Widget> [
             Text( 
            "Have an account?",
             style: TextStyle(
-              color: Color.fromARGB(255, 14, 14, 14),
+              color: Colors.white,
               fontSize: 20,
             ), 
             
@@ -324,7 +334,7 @@ GestureDetector(
         
            " Log in",
             style:  TextStyle(
-              color: Color.fromARGB(255, 25, 26, 25),
+              color: Colors.amber,
               fontSize: 20,
               fontWeight: FontWeight.bold,
               
@@ -372,15 +382,16 @@ GestureDetector(
 // image picker function
   Widget imageProfile(){
 
-      return Center(
+      return Container(
+        margin: EdgeInsets.only(top: 130),
        child: Stack(
         children: <Widget> [
          
 
 
  CircleAvatar(
-      minRadius: 50,
-         maxRadius: 50,
+      minRadius: 30,
+         maxRadius: 30,
       backgroundColor: Color.fromARGB(0, 255, 255, 255),
       child: ClipOval(
          child: (_photo == null)

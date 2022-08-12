@@ -1,15 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter_application_1/kampy_create_posts.dart';
-import 'package:path/path.dart';
 
+import 'package:flutter/painting.dart';
+import 'package:flutter_application_1/kampy_create_posts.dart';
+import 'package:intl/intl.dart';
+import 'package:path/path.dart';
+// like button
+import 'package:like_button/like_button.dart';
 //crud method
 import './services/crud_posts.dart';
 //import create blogs
 import 'kampy_create_posts.dart';
 
-// hex color 
+// hex color
 import 'package:hexcolor/hexcolor.dart';
+// firebase auth
+import 'package:firebase_auth/firebase_auth.dart';
+// firestore
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 // navbar
@@ -22,6 +28,7 @@ import 'kampy_signup.dart';
 import 'package:get/get.dart';
 import 'chat/chat_main.dart';
 import './kampy_welcome.dart';
+import 'kampy_shops.dart';
 
 class Posts extends StatefulWidget {
   Posts({Key? key}) : super(key: key);
@@ -31,135 +38,386 @@ class Posts extends StatefulWidget {
 }
 
 class _PostsState extends State<Posts> {
-  //crud method
-  CrudMethodsP crudMethodsP = CrudMethodsP();
-  QuerySnapshot? postsSnapshot;
-//navbar
-  final List<Widget>   _pages = [
- Posts(),Posts(),Posts(),Posts()
-  ];
+
+
+  // authonticaion
+  final FirebaseAuth auth = FirebaseAuth.instance;
+  // navbar
+  final List<Widget> _pages = [Shops(), Posts(), Welcome(), CreatePost()];
 // plus button array of pages
-  final List<Widget>   _views = [
- Posts(),Posts(),Posts(),Posts()
-  ];
+  final List<Widget> _views = [Shops(), Posts(), Chat(), Welcome()];
   int index = 0;
-  
-  Widget postsList() {
-    return Container(
+  // chek user delete and likes
+  bool? userCheck;
+  bool? likseCheck;
+
+  // check user to delete post
+  checkuser(name) async {
+// get current user connected
+    final User? user = auth.currentUser;
+    final uid = user?.uid;
+    //  create firestore instance
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
+    // grab the collection
+    CollectionReference users = firestore.collection('users');
+    // get docs from user reference
+    QuerySnapshot querySnapshot = await users.get();
+
+    for (var i = 0; i < querySnapshot.docs.length; i++) {
+      if (querySnapshot.docs[i]['uid'] == uid) {
       
-      decoration: const BoxDecoration(
-        borderRadius: BorderRadius.only(
-          topRight: Radius.circular(60),
-          topLeft: Radius.circular(60),
-        ),
-        color: Colors.white,
-        boxShadow: [
-          BoxShadow(
-            blurRadius: 15,
-            offset: Offset(1, 1),
-            color: Color.fromARGB(75, 198, 202, 218),
-          )
-        ],
-      ),
-      child: SingleChildScrollView(
-          child: postsSnapshot != null
-              ? Column(children: <Widget>[
-                  ListView.builder(
-                      padding:
-                          const EdgeInsets.only(top: 30, left: 20, right: 20),
-                      itemCount: postsSnapshot?.docs.length,
-                      shrinkWrap: true,
-                      itemBuilder: (context, index) {
-                        return PostsTitle(
-                          localisation: postsSnapshot?.docs[index]
-                              ['localisation'],
-                          description: postsSnapshot?.docs[index]
-                              ['description'],
-                          imgUrl: postsSnapshot?.docs[index]['imgUrl'],
-                        );
-                      }),
-                ])
-              : Container(
-                  alignment: Alignment.center,
-                  child: const CircularProgressIndicator(),
-                )),
-    );
+        if (querySnapshot.docs[i]['name'] == name) {
+          userCheck = true;
+          break;
+        } else {
+          userCheck = false;
+          break;
+        }
+      }
+    }
+  }
+  // check users who liked the post
+  checkLiked()async {
+    // get current user connected
+    final User? user = auth.currentUser;
+    final uid = user?.uid;
+    //  create firestore instance
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
+    // grab the collection users
+    CollectionReference users = firestore.collection('users');
+    // get docs from user reference users
+    QuerySnapshot querySnapshot = await users.get();
+     // grab the collection posts
+    CollectionReference posts = firestore.collection('posts');
+    // get docs from user reference posts
+    QuerySnapshot querySnapshotPosts = await posts.get();
+   for (var i = 0; i < querySnapshot.docs.length; i++) {
+      if (querySnapshot.docs[i]['uid'] == uid) {
+ 
+       for (var j = 0; j <querySnapshotPosts.docs.length;j++) {
+        for(var k = 0; k <querySnapshotPosts.docs[j]['postLikes'].length; k++) {
+        if (querySnapshotPosts.docs[j]['postLikes'][k]==querySnapshot.docs[i]['name']){
+     
+          likseCheck=true;
+      
+          break;
+         
+        }
+        }
+       }
+         likseCheck=false;
+         break;
+      }
+    }
+   
+  }
+
+
+  postsList()   {
+
+ 
+ 
+      
+                  
+    //  create firestore instance
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
+    // grab the collection
+    CollectionReference posts = firestore.collection('posts');
+    return StreamBuilder<QuerySnapshot>(
+        // build dnapshot using users collection
+        stream: posts.snapshots(),
+        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot)  {
+          if (snapshot.hasError) {
+            return const Text("Something went wrong");
+          }
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Text("loading");
+          }
+          if (snapshot.hasData) {
+           checkLiked();
+            return SingleChildScrollView(
+              
+                padding: const EdgeInsets.only(top: 70),
+                child: Column(children: [
+                  
+                  for (int i = 0; i < snapshot.data!.docs.length; i++)
+                    Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                          child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Row(
+                                  children: <Widget>[
+                                    // user avatar
+                                    CircleAvatar(
+                                      radius: 24.0,
+                                      backgroundImage: NetworkImage(
+                                          snapshot.data!.docs[i]['userImage']),
+                                      backgroundColor: Colors.transparent,
+                                    ),
+                                    // user name :
+                                    Container(
+                                      padding: const EdgeInsets.only(
+                                          bottom: 5, left: 10),
+                                      child: Text(
+                                        snapshot.data!.docs[i]['userName'],
+                                      ),
+                                    ),
+                                    // plus button to delete and update
+                                    Container(
+                                      margin: const EdgeInsets.only(left: 200),
+                                      child: IconButton(
+                                        icon: const Icon(Icons.delete),
+                                        color: const Color.fromARGB(
+                                            251, 255, 255, 255),
+                                        iconSize: 36.0,
+                                        onPressed: () async {
+                                          // check if it's the same user
+                                          await checkuser(snapshot.data!.docs[i]
+                                              ['userName']);
+                                          if (userCheck == true) {
+                                            return await snapshot
+                                                .data!.docs[i].reference
+                                                .delete();
+                                          }
+                                        },
+                                      ),
+                                    ),
+                                  ],
+                                ),
+
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                //  post image
+                                ClipRRect(
+                                    borderRadius: BorderRadius.circular(5),
+                                    child: Container(
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              0.4,
+                                      child: GestureDetector(
+                                        child: Column(children: [
+                                          Container(
+                                              height: 300,
+                                              width: MediaQuery.of(context)
+                                                  .size
+                                                  .width,
+                                              decoration: BoxDecoration(
+                                                  image: DecorationImage(
+                                                image: NetworkImage(
+                                                  snapshot.data!.docs[i]
+                                                      ['imgUrl'],
+                                                ),
+                                                fit: BoxFit.fill,
+                                              )),
+                                              //change photo arrows :
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceAround,
+                                                children: <Widget>[
+                                                  // next photo
+                                                  IconButton(
+                                                    icon: const Icon(Icons
+                                                        .arrow_back_ios_new_outlined),
+                                                    color: const Color.fromARGB(
+                                                        138, 255, 255, 255),
+                                                    iconSize: 36.0,
+                                                    //  next photo
+                                                    onPressed: () {},
+                                                  ),
+                                                  const SizedBox(width: 265),
+                                                  // next photo
+                                                  IconButton(
+                                                    icon: const Icon(Icons
+                                                        .arrow_forward_ios_rounded),
+                                                    color: const Color.fromARGB(
+                                                        138, 255, 255, 255),
+                                                    iconSize: 36.0,
+                                                    // previous photo
+                                                    onPressed: () {},
+                                                  ),
+                                                ],
+                                              )),
+                                        ]),
+                                      ),
+                                    )),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                       children: [
+                                  //  like button
+                        //           ElevatedButton(
+                                    
+
+                        //         child:  LikeButton(
+                                  
+                        //            isLiked: likseCheck,
+                        //           mainAxisAlignment: MainAxisAlignment.start,
+                        //           likeCount: snapshot.data!.docs[i]["postLikes"].length,
+                        //           circleColor: const CircleColor(
+                        //               start: Color(0xff00ddff),
+                        //               end: Color(0xff00ddff)),
+                        //           bubblesColor:const BubblesColor(
+                        //             dotPrimaryColor: Color(0xff33b5e5),
+                        //             dotSecondaryColor: Color(0xff0099cc),
+                        //           ),
+                        //           // check if the user is already liked the post
+
+                              
+                        //         ),
+                        //         // update likes
+                        //          onPressed: () async{
+                               
+                        //           var arr=[];
+                        //           // check if it's the same user 
+                        //           bool checked=true;
+                        //           for (var k=0; k<snapshot.data!.docs[i]["postLikes"].length;k++){
+                                  
+                        //             arr.add(snapshot.data!.docs[i]["postLikes"][k]);
+                        //             // check if it's the same user 
+                        //             print(snapshot.data!.docs[i]["postLikes"][k]==snapshot.data!.docs[i]['userName']);
+                        //             if (snapshot.data!.docs[i]["postLikes"][k]==snapshot.data!.docs[i]['userName']){
+                                      
+                        //               checked=false;
+                        //             }
+                        //           }
+                        //           // if it's not the same user add like
+                        //             if(checked==true){
+                        //           arr.add(snapshot.data!.docs[i]['userName']);
+                        //         }
+                              
+                        // await snapshot.data!.docs[i].reference.update({
+                        //   "postLikes": arr
+                        //  });
+                        //                     },
+                        //         ),
+
+
+                        FittedBox(
+          fit: BoxFit.fitWidth,
+           child: Row(
+            children:  <Widget>[
+          IconButton(
+            icon:const Icon(Icons.favorite)
+          ,onPressed: ()async{
+            var arr=[];
+                        //           // check if it's the same user 
+                                  bool checked=true;
+                                  for (var k=0; k<snapshot.data!.docs[i]["postLikes"].length;k++){
+                                  
+                                    arr.add(snapshot.data!.docs[i]["postLikes"][k]);
+                                    // check if it's the same user 
+                                    print(snapshot.data!.docs[i]["postLikes"][k]==snapshot.data!.docs[i]['userName']);
+                                    if (snapshot.data!.docs[i]["postLikes"][k]==snapshot.data!.docs[i]['userName']){
+                                      
+                                      checked=false;
+                                    }
+                                  }
+                                  // if it's not the same user add like
+                                    if(checked==true){
+                                  arr.add(snapshot.data!.docs[i]['userName']);
+                                }
+                              
+                        await snapshot.data!.docs[i].reference.update({
+                          "postLikes": arr
+                         });
+          },),
+            Text( snapshot.data!.docs[i]["postLikes"].length.toString()),
+
+                 ],
+                 
+                ),
+            ),
+      
+                               Row(
+                                 mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                   const  Icon(
+                                    
+                             Icons.place_outlined,
+                         color: Colors.black,
+                             size:20.0,
+                                      ),
+                               Text(
+                                      snapshot.data!.docs[i]['localisation']
+                                      ),],)
+                               ] )
+
+                               ] ),
+                               
+                              ),
+                             const  SizedBox(height: 20),
+                        
+                      ],
+                    )
+                ]));
+                
+          }
+          return const Text("none");
+        });
   }
 
   @override
-  void initState() {
-    super.initState();
-    crudMethodsP.getData().then((result) => {postsSnapshot = result});
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(100),
-        child: AppBar(
-          centerTitle: true,
-          flexibleSpace: ClipRRect(
-            child: Container(
-                decoration: const BoxDecoration(
-                    image: DecorationImage(
-                        image: AssetImage(
-                            "images/88257fc06f6e674a8ffc2a39bd3de33a.gif"),
-                        fit: BoxFit.fill))),
+// appp bar
+      appBar: AppBar(
+        title: const Text("Posts"),
+        centerTitle: true,
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+                begin: Alignment.centerLeft,
+                end: Alignment.centerRight,
+                colors: [HexColor('#675975'), HexColor('#7b94c4')]),
           ),
-          backgroundColor: Colors.transparent,
-          elevation: 0.0,
         ),
       ),
+      body: postsList(), 
 
-
-      body: postsList() ,
       // navbar bottom
-        // bottomNavigationBar:  Builder(builder: (context) =>
-        // AnimatedBottomBar(
-        //     defaultIconColor: Colors.black,
-        //     activatedIconColor: const Color.fromARGB(255, 56, 3, 33),
-        //     background: Colors.white,
-        //     buttonsIcons:const  [Icons.sunny_snowing, Icons.explore_sharp, Icons.messenger_outlined, Icons.person],
-        //     buttonsHiddenIcons:const  [Icons.campaign_rounded, Icons.shopping_bag, Icons.image_rounded ,Icons.post_add_rounded],
-        //     backgroundColorMiddleIcon: const Color.fromARGB(255, 56, 3, 33),
-        //     onTapButton: (i){
-        //       setState(() {
-        //         index = i;
-        //       });
-        //       Navigator.push(
-        //       context,
-        //  MaterialPageRoute(builder: (context) => _views[i]),
-        //         );
-        //     },
-        //     // navigate between pages
-        //     onTapButtonHidden: (i){
-        //        Navigator.push(
-        //       context,
-        //  MaterialPageRoute(builder: (context) => _pages[i]),
-        //         );
-        //     },
-        //   )
-        // ),
+      bottomNavigationBar: Builder(
+          builder: (context) => AnimatedBottomBar(
+                defaultIconColor: HexColor('#7b94c4'),
+                activatedIconColor: HexColor('#675975'),
+                background: Colors.white,
+                buttonsIcons: const [
+                  Icons.sunny_snowing,
+                  Icons.explore_sharp,
+                  Icons.messenger_outlined,
+                  Icons.person
+                ],
+                buttonsHiddenIcons: const [
+                  Icons.campaign_rounded,
+                  Icons.shopping_bag,
+                  Icons.image_rounded,
+                  Icons.post_add_rounded
+                ],
+                backgroundColorMiddleIcon: HexColor('#675975'),
+                onTapButton: (i) {
+                  setState(() {
+                    index = i;
+                  });
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => _views[i]),
+                  );
+                },
+                // navigate between pages
+                onTapButtonHidden: (i) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => _pages[i]),
+                  );
+                },
+              )),
 // navbar bottom ends here
-      backgroundColor: Color.fromARGB(240, 255, 255, 255),
-      floatingActionButton: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 10),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: <Widget>[
-            FloatingActionButton(
-              
-              onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => CreatePost()));
-              },
-              backgroundColor: const Color.fromARGB(255, 34, 3, 39),
-              child: const Icon(Icons.add),
-            )
-          ],
-        ),
-      ),
+
+      backgroundColor: const Color.fromARGB(240, 255, 255, 255),
     );
   }
 }
@@ -182,7 +440,7 @@ class PostsTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.fromLTRB(0, 0, 0, 16),
+      margin: const EdgeInsets.fromLTRB(0, 0, 0, 16),
       // margin: const EdgeInsets.only(bottom: 16),
 
       height: 190,
@@ -201,50 +459,49 @@ class PostsTitle extends StatelessWidget {
           Container(
             height: 170,
             decoration: BoxDecoration(
-                color: Colors.black45.withOpacity(0.3),
-                borderRadius: BorderRadius.circular(8),
-                ),
+              color: Colors.black45.withOpacity(0.3),
+              borderRadius: BorderRadius.circular(8),
+            ),
           ),
           Container(
-            margin: EdgeInsets.fromLTRB(150, 20, 00, 140),
+              margin: const EdgeInsets.fromLTRB(150, 20, 00, 140),
+              width: MediaQuery.of(context).size.width,
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Text(
+                      localisation,
+                      style: const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w500,
+                          color: Color.fromARGB(255, 0, 0, 0)),
+                    ),
+                  ])),
+          Container(
+            margin: const EdgeInsets.fromLTRB(190, 30, 00, 10),
             width: MediaQuery.of(context).size.width,
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Text(
-                  localisation,
-                  style: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w500,
-                      color: Color.fromARGB(255, 0, 0, 0)),
-                      
-                ),])),
-                Container(
-            margin: EdgeInsets.fromLTRB(190, 30, 00, 10),
-            width: MediaQuery.of(context).size.width,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children:<Widget> [
-                Text(description,
-                  style: const TextStyle(
-                      fontSize: 17,
-                      fontWeight: FontWeight.w400,
-                      color: Colors.white),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                ),
-
-              ]),
-                ),
-              ],
-            ),
-          );
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Text(
+                    description,
+                    style: const TextStyle(
+                        fontSize: 17,
+                        fontWeight: FontWeight.w400,
+                        color: Colors.white),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                ]),
+          ),
+        ],
+      ),
+    );
   }
 }
-
 
 // class Posts extends StatefulWidget {
 //   Posts({Key? key}) : super(key: key);
@@ -323,7 +580,7 @@ class PostsTitle extends StatelessWidget {
 //             icon: Icon(Icons.account_circle),
 //             label: 'Profile',
 //             backgroundColor: Color.fromARGB(255, 79, 36, 90),
-            
+
 //           ),
 //         ],
 //       ),
