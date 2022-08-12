@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/services/crud.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:path/path.dart' as path;
@@ -24,7 +25,18 @@ class _CreateEventState extends State<CreateEvent> {
   final controller = TextEditingController();
   final FirebaseAuth auth = FirebaseAuth.instance;
 
-  String? eventName, place, description, username,userImage, eventLikes, eventUsersList;
+  String? eventName,
+      destination,
+      startingDate,
+      endingDate,
+      nbrPlace,
+      requiredEquipment,
+      group,
+      description,
+      username,
+      userImage,
+      eventLikes,
+      eventUsersList;
 
   File? _photo;
   bool _isLoading = false;
@@ -56,7 +68,7 @@ class _CreateEventState extends State<CreateEvent> {
       setState(() {
         _isLoading = true;
       });
-    
+
       FirebaseStorage _storage = FirebaseStorage.instance;
       Reference ref = _storage
           .ref()
@@ -82,10 +94,15 @@ class _CreateEventState extends State<CreateEvent> {
       Map<String, dynamic> eventMap = {
         "imgUrl": downloadUrl,
         "eventName": eventName ?? "",
-        "place": place ?? "",
+        "destination": destination ?? "",
+        "startingDate": startingDate ?? "",
+        "endingDate": endingDate ?? "",
+        "nbrPlace": nbrPlace ?? "",
+        "requiredEquipment": requiredEquipment ?? "",
+        "group": group ?? "",
         "description": description ?? "",
         "username": username ?? "",
-        "userImage":userImage ?? "",
+        "userImage": userImage ?? "",
         "eventLikes": [],
         "eventUsersList": [],
       };
@@ -102,14 +119,13 @@ class _CreateEventState extends State<CreateEvent> {
         preferredSize: const Size.fromHeight(80.0),
         child: AppBar(
           centerTitle: true,
-          flexibleSpace: ClipRRect(
-            // borderRadius: const BorderRadius.only(
-            //     bottomRight: Radius.circular(60),
-            //     bottomLeft: Radius.circular(60)),
-            child: Container(
-                decoration: const BoxDecoration(
-              color: Color.fromARGB(255, 2, 2, 41),
-            )),
+          flexibleSpace: Container(
+            decoration:  BoxDecoration(
+            gradient: LinearGradient(
+                begin: Alignment.centerLeft,
+                end: Alignment.centerRight,
+                colors: [HexColor('#675975'), HexColor('#7b94c4')]),
+          ),
           ),
           title: Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -138,7 +154,7 @@ class _CreateEventState extends State<CreateEvent> {
               alignment: Alignment.center,
               child: const CircularProgressIndicator(),
             )
-          :  SingleChildScrollView(
+          : SingleChildScrollView(
               child: Column(
                 children: <Widget>[
                   const SizedBox(
@@ -180,7 +196,7 @@ class _CreateEventState extends State<CreateEvent> {
                     height: 8,
                   ),
                   //create a form input to write data
-                 SingleChildScrollView(
+                  SingleChildScrollView(
                     child: Container(
                       decoration: BoxDecoration(
                           color: Colors.white,
@@ -189,48 +205,112 @@ class _CreateEventState extends State<CreateEvent> {
                           horizontal: 10, vertical: 15),
                       padding: const EdgeInsets.symmetric(
                           horizontal: 10, vertical: 8.0),
-                        
                       child: Column(
                         children: <Widget>[
-                          TextField(
-                            decoration:
-                                const InputDecoration(hintText: "Event Name"),
-                            onChanged: (val) {
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 8, vertical: 16),
+                            child: TextFormField(
+                              decoration: const InputDecoration(
+                                border: UnderlineInputBorder(),
+                                labelText: 'Enter your event name',
+                              ),
+                                 onChanged: (val) {
                               eventName = val;
                             },
+                            ),
                           ),
-                          TextField(
-                            decoration: const InputDecoration(hintText: "Place"),
-                            onChanged: (val) {
-                              place = val;
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 8, vertical: 16),
+                            child: TextFormField(
+                              decoration: const InputDecoration(
+                                border: UnderlineInputBorder(),
+                                labelText: 'Destination',
+                              ),
+                                 onChanged: (val) {
+                              destination = val;
                             },
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 8, vertical: 16),
+                            child: TextFormField(
+                              decoration: const InputDecoration(
+                                border: UnderlineInputBorder(),
+                                labelText: 'Starting date',
+                              ),
+                                 onChanged: (val) {
+                              startingDate = val;
+                            },
+                            ),
+                          ),
+                           Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 8, vertical: 16),
+                            child: TextFormField(
+                              decoration: const InputDecoration(
+                                border: UnderlineInputBorder(),
+                                labelText: 'Ending date',
+                              ),
+                                 onChanged: (val) {
+                              endingDate = val;
+                            },
+                            ),
+                          ),
+                        Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 8, vertical: 16),
+                            child: TextFormField(
+                              decoration: const InputDecoration(
+                                border: UnderlineInputBorder(),
+                                labelText: 'Number of places',
+                              ),
+                                 onChanged: (val) {
+                             nbrPlace = val;
+                            },
+                            ),
+                          ),
+                           Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 8, vertical: 16),
+                            child: TextFormField(
+                              decoration: const InputDecoration(
+                                border: UnderlineInputBorder(),
+                                labelText: 'Required equipment',
+                              ),
+                                 onChanged: (val) {
+                              requiredEquipment = val;
+                            },
+                            ),
+                          ),
+                         Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 8, vertical: 16),
+                            child: TextFormField(
+                              decoration: const InputDecoration(
+                                border: UnderlineInputBorder(),
+                                labelText: 'Group',
+                              ),
+                                 onChanged: (val) {
+                              group = val;
+                            },
+                            ),
                           ),
                           SingleChildScrollView(
                             child: TextField(
-                                       decoration: const InputDecoration(
+                              decoration: const InputDecoration(
                                   hintText: "Description",
                                   border: InputBorder.none,
                                   contentPadding: EdgeInsets.only(
-                                      left: 10, top: 10, bottom: 10)
-                                      ),
-                                      maxLines: 4,
+                                      left: 10, top: 10, bottom: 10)),
+                              maxLines: 4,
                               onChanged: (val) {
                                 description = val;
                               },
                             ),
                           ),
-                          // TextField(
-                          //   decoration: const InputDecoration(
-                          //       hintText: "info",
-                          //       border: InputBorder.none,
-                          //       contentPadding: EdgeInsets.only(
-                          //           left: 10, top: 10, bottom: 10)
-                          //           ),
-                          //           maxLines: 4,
-                          //   onChanged: (val) {
-                          //     info = val;
-                          //   },
-                          // ),
                         ],
                       ),
                     ),
@@ -242,32 +322,3 @@ class _CreateEventState extends State<CreateEvent> {
     );
   }
 }
-
-//   void _showPicker(context) {
-//     showModalBottomSheet(
-//         context: context,
-//         builder: (BuildContext bc) {
-//           return SafeArea(
-//             child: new Wrap(
-//               children: <Widget>[
-//                 new ListTile(
-//                     leading: const Icon(Icons.photo_library),
-//                     title: const Text('Gallery'),
-//                     onTap: () {
-//                       imgFromGallery();
-//                       Navigator.of(context).pop();
-//                     }),
-//                 new ListTile(
-//                   leading: const Icon(Icons.photo_camera),
-//                   title: const Text('Camera'),
-//                   onTap: () {
-//                     imgFromCamera();
-//                     Navigator.of(context).pop();
-//                   },
-//                 ),
-//               ],
-//             ),
-//           );
-//         });
-//   }
-// }
