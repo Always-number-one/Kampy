@@ -16,6 +16,62 @@ class EventDetails extends StatefulWidget {
 
 class _EventDetailsState extends State<EventDetails> {
   int count = 0;
+  bool? participiteCheck;
+  bool? checkUser;
+
+//  final FirebaseAuth auth = FirebaseAuth.instance;
+//   checkuser(name) async {
+// // get current user connected
+//     final User? user = auth.currentUser;
+//     final uid = user?.uid;
+//     //  create firestore instance
+//     FirebaseFirestore firestore = FirebaseFirestore.instance;
+//     // grab the collection
+//     CollectionReference users = firestore.collection('users');
+//     // get docs from user reference
+//     QuerySnapshot querySnapshot = await users.get();
+
+//     for (var i = 0; i < querySnapshot.docs.length; i++) {
+//       if (querySnapshot.docs[i]['name'] == name) {
+//         return true;
+//       }
+//       return false;
+//     }
+//   }
+
+//   checkParticipate() async {
+//     // get current user connected
+//     final User? user = auth.currentUser;
+//     final uid = user?.uid;
+//     //  create firestore instance
+//     FirebaseFirestore firestore = FirebaseFirestore.instance;
+//     // grab the collection users
+//     CollectionReference users = firestore.collection('users');
+//     // get docs from user reference users
+//     QuerySnapshot querySnapshot = await users.get();
+//     // grab the collection events
+//     CollectionReference events = firestore.collection('events');
+//     // get docs from user reference events
+//     QuerySnapshot querySnapshotEvents = await events.get();
+//     for (var i = 0; i < querySnapshot.docs.length; i++) {
+//       if (querySnapshot.docs[i]['uid'] == uid) {
+//         for (var j = 0; j < querySnapshotEvents.docs.length; j++) {
+//           for (var k = 0;
+//               k < querySnapshotEvents.docs[j]['eventUsersList'].length;
+//               k++) {
+//             if (querySnapshotEvents.docs[j]['eventUsersList'][k] ==
+//                 querySnapshot.docs[i]['name']) {
+//               participiteCheck = true;
+
+//               break;
+//             }
+//           }
+//         }
+//         participiteCheck = false;
+//         break;
+//       }
+//     }
+//   }
 
   eventList() {
     //  create firestore instance

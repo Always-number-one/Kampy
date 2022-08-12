@@ -33,7 +33,8 @@ class _KampyEventState extends State<KampyEvent> {
 // plus button array of pages
   final List<Widget> _views = [KampyEvent(), Posts(), Chat(), Welcome()];
   int index = 0;
-  bool? likesCheck;
+  bool? participiteCheck;
+  bool? checkUser;
 
   checkuser(name) async {
 // get current user connected
@@ -54,7 +55,7 @@ class _KampyEventState extends State<KampyEvent> {
     }
   }
 
-  // checkLiked() async {
+  // checkParticipate() async {
   //   // get current user connected
   //   final User? user = auth.currentUser;
   //   final uid = user?.uid;
@@ -72,17 +73,17 @@ class _KampyEventState extends State<KampyEvent> {
   //     if (querySnapshot.docs[i]['uid'] == uid) {
   //       for (var j = 0; j < querySnapshotEvents.docs.length; j++) {
   //         for (var k = 0;
-  //             k < querySnapshotEvents.docs[j]['eventLikes'].length;
+  //             k < querySnapshotEvents.docs[j]['eventUsersList'].length;
   //             k++) {
-  //           if (querySnapshotEvents.docs[j]['eventLikes'][k] ==
+  //           if (querySnapshotEvents.docs[j]['eventUsersList'][k] ==
   //               querySnapshot.docs[i]['name']) {
-  //             likesCheck = true;
+  //             participiteCheck = true;
 
   //             break;
   //           }
   //         }
   //       }
-  //       likesCheck = false;
+  //       participiteCheck = false;
   //       break;
   //     }
   //   }
@@ -104,7 +105,7 @@ class _KampyEventState extends State<KampyEvent> {
             return const Text("loading");
           }
           if (snapshot.hasData) {
-            // checkLiked();
+            // checkParticipate();
             return SingleChildScrollView(
                 padding: const EdgeInsets.only(top: 70),
                 child: Column(children: [
@@ -148,7 +149,7 @@ class _KampyEventState extends State<KampyEvent> {
                                         color: Colors.black45,
                                         iconSize: 30.0,
                                         onPressed: () async {
-                                          bool? checkUser;
+                                         
                                           await checkuser(snapshot.data!.docs[i]
                                               ['username']);
                                           if (checkUser == true) {
