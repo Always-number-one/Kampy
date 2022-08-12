@@ -39,7 +39,7 @@ class _WelcomeState extends State<Welcome> {
   final List<Widget> _pages = [Shops(), Posts(), Welcome(), CreatePost()];
 
 // plus button array of pages
-  final List<Widget> _views = [Shops(), CreateShop(), Chat(), Welcome()];
+  final List<Widget> _views = [KampyEvent(), Posts(), Chat(), Welcome()];
   int index = 0;
 
 
