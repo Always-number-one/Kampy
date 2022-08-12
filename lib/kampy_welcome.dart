@@ -12,7 +12,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 // firebase auth
 import 'package:firebase_auth/firebase_auth.dart';
+// map 
 
+import 'kampy_map.dart';
 // navbar
 import 'navbar_animated.dart';
 import 'kampy_posts.dart';
@@ -40,7 +42,7 @@ class _WelcomeState extends State<Welcome> {
   final List<Widget> _pages = [KampyEvent(), Shops(), Posts(), CreatePost()];
 
 // original navbar
-  final List<Widget> _views = [KampyEvent(), Posts(), Chat(), Welcome()];
+  final List<Widget> _views = [KampyEvent(), MapKampy(), Chat(), Welcome()];
   int index = 0;
 
 
