@@ -43,7 +43,7 @@ class _KampyEventState extends State<KampyEvent> {
     final uid = user?.uid;
    
     FirebaseFirestore firestore = FirebaseFirestore.instance;
-    // grab the collection
+    
     CollectionReference users = firestore.collection('users');
     // get docs from user reference
     QuerySnapshot querySnapshot = await users.get();
