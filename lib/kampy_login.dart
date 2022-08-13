@@ -61,7 +61,6 @@ child: Stack(
              width: w,
 // child log in
               child:Column(
-                //  crossAxisAlignment: CrossAxisAlignment.start,
 
                 children:  [
                   // sign up title
@@ -262,7 +261,7 @@ GestureDetector(
 ,onTap: () { 
           Navigator.push(
               context,
-         MaterialPageRoute(builder: (context) => SignUp()),
+         MaterialPageRoute(builder: (context) => const SignUp()),
                 );
               },),
             
