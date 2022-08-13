@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 
 // import firestore 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -144,6 +145,14 @@ void login(String email, password) async {
   }
   
 }
+// forget passworword
+void  resetPassword(String email) async {
+    await auth
+        .sendPasswordResetEmail(email: email)
+        .then((value) => print("value"))
+        .catchError((e) => print(e));
+ 
+  }
 
 void logOut() async{
  await auth.signOut();

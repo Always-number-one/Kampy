@@ -24,6 +24,7 @@ import 'ui/build_flavor.dart';
 import 'ui/themes/clima_theme.dart';
 
 Future<void> main({
+
   TransitionBuilder? builder,
   Widget Function(Widget widget)? topLevelBuilder,
   Locale? Function(BuildContext)? getLocale,
@@ -47,14 +48,15 @@ Future<void> main({
         Provider((ref) => ref.watch(fullWeatherRepoImplProvider)),
       ),
     ],
-    child: _App(builder: builder, getLocale: getLocale),
+    child: App(builder: builder, getLocale: getLocale),
   );
 
   runApp(topLevelBuilder?.call(widget) ?? widget);
 }
 
-class _App extends HookConsumerWidget {
-  const _App({this.builder, this.getLocale});
+class App extends HookConsumerWidget {
+  
+  const App({Key? key,this.builder, this.getLocale,}): super(key: key);
 
   final TransitionBuilder? builder;
 

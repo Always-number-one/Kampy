@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-
+import '../../weather/mai.dart';
 
 import 'package:flutter_application_1/kampy_create_posts.dart';
 
 import 'kampy_map.dart';
 import 'kampy_event.dart';
-
+import '../../weather/ui/screens/weather_screen.dart';
 //import create blogs
 import 'kampy_create_posts.dart';
 
@@ -23,6 +23,7 @@ import 'navbar_animated.dart';
 import 'chat/chat_main.dart';
 import './kampy_welcome.dart';
 import 'kampy_shops.dart';
+import 'auth_controller.dart';
 
 class Posts extends StatefulWidget {
  const  Posts({Key? key}) : super(key: key);
@@ -39,7 +40,7 @@ class _PostsState extends State<Posts> {
   // navbar
   final List<Widget> _pages = [Shops(),const Posts(), Welcome(),const CreatePost()];
 // plus button array of pages
-  final List<Widget> _views = [const KampyEvent(), MapKampy(),const  Chat(), Welcome()];
+  final List<Widget> _views = [ Shops(), MapKampy(),const  Chat(), Welcome()];
   int index = 0;
   // chek user delete and likes
   bool? userCheck;
