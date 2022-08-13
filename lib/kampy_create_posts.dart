@@ -1,18 +1,16 @@
 import 'dart:io';
-import 'dart:ui';
+
 
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 
-import 'package:flutter/widgets.dart';
+
 import './services/crud_posts.dart';
 // hex color
 import 'package:hexcolor/hexcolor.dart';
 
 
 import 'package:image_picker/image_picker.dart';
-import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
-import 'package:path/path.dart' as path;
 import 'package:random_string/random_string.dart';
 
 // firebase auth
@@ -84,7 +82,7 @@ final FirebaseAuth auth = FirebaseAuth.instance;
        }
           }
       var downloadUrl = await(await uploadTask).ref.getDownloadURL();
-      print("this is url $downloadUrl");
+  
 
       Map<String,dynamic> postMap={
         "localisation":localisation??"",
@@ -134,23 +132,15 @@ final FirebaseAuth auth = FirebaseAuth.instance;
     
     _isLoading
     ?Container(
-        decoration:  const BoxDecoration(
-              image:  DecorationImage(
-              image:  AssetImage("images/background889.jpg"),
-             fit: BoxFit.fill,
-           )),
+       
       alignment: Alignment.center,
       child: const CircularProgressIndicator(),
     )
     :SingleChildScrollView( 
       
-      child :Container(
+      child :SizedBox(
       height: MediaQuery.of(context).size.height,
-      decoration:  const BoxDecoration(
-              image:  DecorationImage(
-              image:  AssetImage("images/background889.jpg"),
-             fit: BoxFit.fill,
-           )),
+     
     
         child: Column(
         children: <Widget>[

@@ -67,9 +67,53 @@ dependencies:
   hexcolor: ^2.0.7
   html: ^0.15.0
   like_button: ^2.0.4
-  
+  google_maps_flutter: ^2.1.10
 
- 
+  equatable: ^2.0.3
+  shared_preferences: ^2.0.15
+  riverpod: ^1.0.3
+  open_weather_map_client: ^1.0.2
+
+  flutter_hooks: ^0.18.4
+  
+  flutter_riverpod: ^1.0.4
+
+  hooks_riverpod: ^1.0.4
+
+  material_floating_search_bar:
+    git:
+      url: https://github.com/Lacerte/material_floating_search_bar.git
+      ref: 07b2980ad304dacaa5688e56483adcec36fb08ab
+  
+  font_awesome_flutter: ^10.1.0
+
+  device_preview: ^1.1.0
+
+  url_launcher: ^6.1.2
+
+  sizer: ^2.0.15
+
+  flutter_svg: ^1.0.3
+  
+  meta: ^1.7.0
+
+  state_notifier: 0.7.2+1
+
+  connectivity_plus: ^2.3.0
+
+  collection: ^1.16.0
+
+  http: ^0.13.4
+  either_dart: 0.2.0
+
+
+  # The following adds the Cupertino Icons font to your application.
+  # Use with the CupertinoIcons class for iOS style icons.
+
+
+
+
+
 
 
 
@@ -77,7 +121,9 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
+  lint: 1.8.2
+  mockito: 5.2.0
+  build_runner: 2.1.11
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
   # activated in the `analysis_options.yaml` file located at the root of your

@@ -12,7 +12,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 // firebase auth
 import 'package:firebase_auth/firebase_auth.dart';
+// map 
 
+import 'kampy_map.dart';
 // navbar
 import 'navbar_animated.dart';
 import 'kampy_posts.dart';
@@ -22,6 +24,8 @@ import 'kampy_shops.dart' ;
 import 'kamp_create_shop.dart';
 
 import 'package:firebase_storage/firebase_storage.dart' as fStorage;
+
+import './weather/mai.dart';
 
 
 
@@ -36,10 +40,11 @@ class Welcome extends StatefulWidget {
 }
 
 class _WelcomeState extends State<Welcome> {
-  final List<Widget> _pages = [Shops(), Posts(), Welcome(), CreatePost()];
+  // plus button array of pages
+  final List<Widget> _pages = [KampyEvent(), Shops(), Posts(), CreatePost()];
 
-// plus button array of pages
-  final List<Widget> _views = [Shops(), CreateShop(), Chat(), Welcome()];
+// original navbar
+  final List<Widget> _views = [KampyEvent(), MapKampy(), Chat(), Welcome()];
   int index = 0;
 
 

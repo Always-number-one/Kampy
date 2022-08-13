@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/painting.dart';
 import 'package:intl/intl.dart';
 import 'package:path/path.dart';
+import 'kampy_map.dart';
 
 //crud method
 import './services/crud_shop.dart';
@@ -49,10 +50,11 @@ class _ShopsState extends State<Shops> {
 
   // authonticaion
   final FirebaseAuth auth = FirebaseAuth.instance;
-  // navbar
-  final List<Widget> _pages = [Shops(), Posts(), Welcome(), CreateShop()];
-// plus button array of pages
-  final List<Widget> _views = [Shops(), Posts(), Chat(), Welcome()];
+  // plus button array of pages
+  final List<Widget> _pages = [KampyEvent(), Shops(), Posts(), CreateShop()];
+
+// original navbar
+  final List<Widget> _views = [KampyEvent(), MapKampy(), Chat(), Welcome()];
   int index = 0;
   // chek user delete and likes
   bool? userCheck;
@@ -103,10 +105,6 @@ class _ShopsState extends State<Shops> {
 
 
   shopsList()   {
-
- 
- 
-      
                   
     //  create firestore instance
     FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -157,10 +155,10 @@ class _ShopsState extends State<Shops> {
                                     ),
                                     // plus button to delete and update
                                     Container(
-                                      margin: const EdgeInsets.only(left: 230),
+                                      margin: const EdgeInsets.only(left: 200),
                                       child: IconButton(
                                         icon: const Icon(Icons.delete),
-                                        color: Color.fromARGB(250, 235, 0, 0),
+                                        color: Color.fromARGB(249, 255, 250, 250),
                                         iconSize: 29.0,
                                         onPressed: () async {
                                           // check if it's the same user
