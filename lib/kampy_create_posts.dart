@@ -91,6 +91,8 @@ final FirebaseAuth auth = FirebaseAuth.instance;
          "userName":userName??"",
          "userImage":userImage??"",
          "postLikes":[],
+        
+          "likesCount":0,
       };
       crudMethodsP.addData(postMap).then((result){
         Navigator.pop(context);
