@@ -1,4 +1,4 @@
-import 'dart:ffi';
+
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -14,10 +14,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 // navbar
 import 'navbar_animated.dart';
 import 'kampy_posts.dart';
-import 'kampy_event.dart';
 import 'chat/chat_main.dart';
 import 'kampy_welcome.dart';
 import 'kampy_shops.dart';
+import 'kampy_map.dart';
 
 class KampyEvent extends StatefulWidget {
   const KampyEvent({Key? key}) : super(key: key);
@@ -32,7 +32,7 @@ class _KampyEventState extends State<KampyEvent> {
   final List<Widget> _pages = [KampyEvent(), Shops(), Posts(), CreateEvent()];
 
 // original navbar
-  final List<Widget> _views = [KampyEvent(), Posts(), Chat(), Welcome()];
+  final List<Widget> _views = [KampyEvent(), MapKampy(), Chat(), Welcome()];
   int index = 0;
   bool? participiteCheck;
   bool? checkUser;
@@ -41,7 +41,7 @@ class _KampyEventState extends State<KampyEvent> {
 // get current user connected
     final User? user = auth.currentUser;
     final uid = user?.uid;
-    //  create firestore instance
+   
     FirebaseFirestore firestore = FirebaseFirestore.instance;
     // grab the collection
     CollectionReference users = firestore.collection('users');
@@ -181,17 +181,18 @@ class _KampyEventState extends State<KampyEvent> {
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) =>
-                                                    EventDetails()),
+                                                    const EventDetails()),
                                           );
                                         },
                                         child: GridTile(
                                           footer: Container(
                                             padding: const EdgeInsets.all(8),
                                             color:
-                                                Colors.blue.withOpacity(.5),
+                                                Colors.black.withOpacity(.5),
                                             child: Text(
                                               snapshot.data!.docs[i]
                                                   ['eventName'],
+                                                  textAlign: TextAlign.center,
                                               style: const TextStyle(
                                                 fontWeight: FontWeight.bold,
                                                 color: Colors.white,
@@ -291,7 +292,7 @@ class _KampyEventState extends State<KampyEvent> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Events"),
+        title: const Text("Kampy Events"),
           centerTitle: true,
         flexibleSpace: Container(
           decoration:  BoxDecoration(
@@ -306,44 +307,46 @@ class _KampyEventState extends State<KampyEvent> {
       body: eventList(),
 
       // navbar bottom
-      bottomNavigationBar: Builder(
-          builder: (context) => AnimatedBottomBar(
-                defaultIconColor: Colors.black,
-                activatedIconColor: const Color.fromARGB(255, 56, 3, 33),
-                background: Colors.white,
-                buttonsIcons: const [
-                  Icons.sunny_snowing,
-                  Icons.explore_sharp,
-                  Icons.messenger_outlined,
-                  Icons.person
-                ],
-                buttonsHiddenIcons: const [
-                  Icons.event_outlined,
-                  Icons.shopping_bag,
-                  Icons.image_rounded,
-                  Icons.post_add_rounded
-                ],
-                backgroundColorMiddleIcon: const Color.fromARGB(255, 56, 3, 33),
-                onTapButton: (i) {
-                  setState(() {
-                    index = i;
-                  });
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => _views[i]),
-                  );
-                },
-                // navigate between pages
-                onTapButtonHidden: (i) {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => _pages[i]),
-                  );
-                },
-              )),
+       backgroundColor: Colors.white,
+        bottomNavigationBar: Builder(
+            builder: (context) => AnimatedBottomBar(
+                  defaultIconColor: HexColor('#7b94c4'),
+                  activatedIconColor: HexColor('#7b94c4'),
+                  background: Colors.white,
+                  buttonsIcons: const [
+                    Icons.sunny_snowing,
+                    Icons.explore_sharp,
+                    Icons.messenger_outlined,
+                    Icons.person
+                  ],
+                  buttonsHiddenIcons: const [
+                    Icons.campaign_rounded,
+                    Icons.shopping_bag,
+                    Icons.image_rounded,
+                    Icons.post_add_rounded
+                  ],
+                  backgroundColorMiddleIcon:
+                      HexColor('#7b94c4'),
+                  onTapButton: (i) {
+                    setState(() {
+                      index = i;
+                    });
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => _views[i]),
+                    );
+                  },
+                  // navigate between pages
+                  onTapButtonHidden: (i) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => _pages[i]),
+                    );
+                  },
+                )),
 // navbar bottom ends here
 
-      backgroundColor: const Color.fromARGB(240, 255, 255, 255),
+      // backgroundColor: const Color.fromARGB(240, 255, 255, 255),
     );
   }
 }

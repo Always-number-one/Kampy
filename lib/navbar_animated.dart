@@ -12,9 +12,11 @@ class AnimatedBottomBar extends StatefulWidget {
   final List<IconData> buttonsHiddenIcons;
   final Color backgroundColorMiddleIcon;
 
+ 
  AnimatedBottomBar({required this.defaultIconColor, required this.activatedIconColor, required this.background, required this.buttonsIcons, required this.buttonsHiddenIcons,required this.backgroundColorMiddleIcon, required this.onTapButton,required  this.onTapButtonHidden}):
         assert(buttonsIcons.length == buttonsHiddenIcons.length && buttonsIcons.length == 4);
 
+  @override
   _AnimatedBottomBar createState() =>  _AnimatedBottomBar();
 }
 
@@ -43,11 +45,11 @@ class _AnimatedBottomBar extends State<AnimatedBottomBar> with TickerProviderSta
   @override
   void initState() {
     super.initState();
-    _controllerButtonsChanging = AnimationController(vsync: this, duration: Duration(milliseconds: 200));
-    _controllerFloatButtonDropIn = AnimationController(vsync: this, duration: Duration(milliseconds: 100));
-    _controllerFloatButtonDropOut = AnimationController(vsync: this, duration: Duration(milliseconds: 200));
-    _controllerContainerDropIn = AnimationController(vsync: this, duration: Duration(milliseconds: 100));
-    _controllerContainerDropOut = AnimationController(vsync: this, duration: Duration(milliseconds: 150));
+    _controllerButtonsChanging = AnimationController(vsync: this, duration:const  Duration(milliseconds: 200));
+    _controllerFloatButtonDropIn = AnimationController(vsync: this, duration: const Duration(milliseconds: 100));
+    _controllerFloatButtonDropOut = AnimationController(vsync: this, duration:const  Duration(milliseconds: 200));
+    _controllerContainerDropIn = AnimationController(vsync: this, duration: const Duration(milliseconds: 100));
+    _controllerContainerDropOut = AnimationController(vsync: this, duration: const Duration(milliseconds: 150));
 
     _controllerButtonsChanging.addListener((){
       setState(() {});
@@ -104,8 +106,11 @@ class _AnimatedBottomBar extends State<AnimatedBottomBar> with TickerProviderSta
   }
 
   void doAnimation(double circular){
-    if(activated) _reverse();
-    else _forward();
+    if(activated) {
+      _reverse();
+    } else {
+      _forward();
+    }
     activated = !activated;
   }
 
@@ -118,13 +123,14 @@ class _AnimatedBottomBar extends State<AnimatedBottomBar> with TickerProviderSta
        Card(color: widget.background, elevation: _animationMargin[0].value, margin: EdgeInsets.only(bottom: _animationMargin[correspondMargin%2].value), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(_animationBorder.value)), child:
          StreamBuilder(stream: _streamController.stream, initialData: 0, builder: (context, AsyncSnapshot<int> snapshot) {
           return
-             Container(width: widgetScreen, height: widgetScreen, padding: EdgeInsets.symmetric(vertical: 10), child:
+             Container(width: widgetScreen, height: widgetScreen, padding: const EdgeInsets.symmetric(vertical: 10), child:
                Icon(activated ? widget.buttonsHiddenIcons[index] : widget.buttonsIcons[index], size: snapshot.data == index && !activated ? 30 : 25, color: snapshot.data == index && !activated ? widget.activatedIconColor : widget.defaultIconColor)
             );
         })
       ), onTap: (){
-      if(activated) widget.onTapButtonHidden(index);
-      else{
+      if(activated) {
+        widget.onTapButtonHidden(index);
+      } else{
         _streamController.sink.add(index);
         widget.onTapButton(index);
       }
@@ -139,7 +145,7 @@ class _AnimatedBottomBar extends State<AnimatedBottomBar> with TickerProviderSta
         )
       ),
        Padding(padding: EdgeInsets.only(bottom: _floatButtonPosition == 0 ? widgetScreen/1.8 : _floatButtonPosition), child:
-         Transform.rotate(angle: (_animationMargin[0].value/20)*2.3, child:  FloatingActionButton(backgroundColor: widget.backgroundColorMiddleIcon, onPressed:() => doAnimation(widgetScreen), child:  Icon(Icons.add, size: 30)))
+         Transform.rotate(angle: (_animationMargin[0].value/20)*2.3, child:  FloatingActionButton(backgroundColor: widget.backgroundColorMiddleIcon, onPressed:() => doAnimation(widgetScreen), child:  const Icon(Icons.add, size: 30)))
       )
     ]);
   }
@@ -148,8 +154,9 @@ class _AnimatedBottomBar extends State<AnimatedBottomBar> with TickerProviderSta
     List<Widget> content = [];
 
     for(var i=0; i<widget.buttonsHiddenIcons.length; i++){
-      if(i == widget.buttonsHiddenIcons.length/2)
+      if(i == widget.buttonsHiddenIcons.length/2) {
         content.add(_buildMiddleButton(widgetScreen));
+      }
 
       content.add(_buildNormalButton(i, widgetScreen));
     }
