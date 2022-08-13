@@ -41,7 +41,7 @@ class _KampyEventState extends State<KampyEvent> {
 // get current user connected
     final User? user = auth.currentUser;
     final uid = user?.uid;
-    //  create firestore instance
+   
     FirebaseFirestore firestore = FirebaseFirestore.instance;
     // grab the collection
     CollectionReference users = firestore.collection('users');
