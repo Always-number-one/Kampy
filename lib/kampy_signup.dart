@@ -269,7 +269,8 @@ child: Stack(
              ),
            
 
- // button container
+ // button container 
+  
 GestureDetector(
         onTap: () async {
      AuthController.instance.register(emailController.text.trim(), passwordController.text.trim(),nameController.text.trim(),file.toString().trim());

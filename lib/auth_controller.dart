@@ -91,6 +91,7 @@ final saveStorage = await FirebaseStorage.instance.ref().child(name).putFile(Fil
     "name":name,
     "photoUrl":downloadUrl,
     "eventName":" ",
+    "likes":[],
   });
 
     return _user(user);
@@ -148,9 +149,8 @@ void login(String email, password) async {
 // forget passworword
 void  resetPassword(String email) async {
     await auth
-        .sendPasswordResetEmail(email: email)
-        .then((value) => print("value"))
-        .catchError((e) => print(e));
+        .sendPasswordResetEmail(email: email);
+      
  
   }
 

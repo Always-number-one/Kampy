@@ -271,6 +271,7 @@ class _PostsState extends State<Posts> {
     QuerySnapshot querySnapshot = await users.get();
          for (var s = 0; s < querySnapshot.docs.length; s++) {
       if (querySnapshot.docs[s]['uid'] == id) {
+        print(querySnapshot.docs[s]['name']);
         if(querySnapshot.docs[s]['likes'].length>0){
       for (var j=0;j<querySnapshot.docs[s]['likes'].length;j++){
         print(querySnapshot.docs[s]["likes"][j]);
@@ -290,6 +291,17 @@ class _PostsState extends State<Posts> {
         }
       }
        var count = snapshot.data!.docs[i]["likesCount"];
+         count++;
+
+          await snapshot.data!.docs[i].reference.update({
+                          "likesCount": count
+                         });
+          var arr=querySnapshot.docs[s]["likes"];
+          arr.add(snapshot.data!.docs[i].reference.id);
+        return  await querySnapshot.docs[s].reference.update({
+                          "likes":arr ??[]});
+      }else{
+        var count = snapshot.data!.docs[i]["likesCount"];
          count++;
 
           await snapshot.data!.docs[i].reference.update({
