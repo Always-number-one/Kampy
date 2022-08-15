@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import '../../weather/mai.dart';
+
 
 import 'package:flutter_application_1/kampy_create_posts.dart';
 
 import 'kampy_map.dart';
 import 'kampy_event.dart';
-import '../../weather/ui/screens/weather_screen.dart';
 //import create blogs
 import 'kampy_create_posts.dart';
 
@@ -24,6 +23,9 @@ import 'chat/chat_main.dart';
 import './kampy_welcome.dart';
 import 'kampy_shops.dart';
 import 'auth_controller.dart';
+// import emoji
+import 'kampy_emoji.dart';
+
 
 class Posts extends StatefulWidget {
  const  Posts({Key? key}) : super(key: key);
@@ -32,15 +34,65 @@ class Posts extends StatefulWidget {
   State<Posts> createState() => _PostsState();
 }
 
-class _PostsState extends State<Posts> {
+class _PostsState extends State<Posts>   with SingleTickerProviderStateMixin{
+// Animation controller
+  late AnimationController _animationController;
 
+  // This is used to animate the icon of the main FAB
+  late Animation<double> _buttonAnimatedIcon;
+
+  // This is used for the child FABs
+ late Animation<double> _translateButton;
+
+  // This variable determnies whether the child FABs are visible or not
+  bool _isExpanded = false;
+
+  @override
+  initState() {
+    _animationController = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 60))
+      ..addListener(() {
+        setState(() {});
+      });
+
+    _buttonAnimatedIcon =
+        Tween<double>(begin: 0.0, end: 1.0).animate(_animationController);
+
+    _translateButton = Tween<double>(
+      begin: 100,
+      end: -20,
+    ).animate(CurvedAnimation(
+      parent: _animationController,
+      curve: Curves.easeInOut,
+    ));
+    super.initState();
+  }
+
+  // dispose the animation controller
+  @override
+  dispose() {
+    _animationController.dispose();
+    super.dispose();
+  }
+
+  // This function is used to expand/collapse the children floating buttons
+  // It will be called when the primary FAB (with menu icon) is pressed
+  _toggle() {
+    if (_isExpanded) {
+      _animationController.reverse();
+    } else {
+      _animationController.forward();
+    }
+
+    _isExpanded = !_isExpanded;
+  }
 
   // authonticaion
   final FirebaseAuth auth = FirebaseAuth.instance;
   // navbar
   final List<Widget> _pages = [Shops(),const Posts(), Welcome(),const CreatePost()];
 // plus button array of pages
-  final List<Widget> _views = [ Shops(), MapKampy(),const  Chat(), Welcome()];
+  final List<Widget> _views = [ const Emoji(), MapKampy(),const  Chat(), Welcome()];
   int index = 0;
   // chek user delete and likes
   bool? userCheck;
@@ -246,87 +298,148 @@ class _PostsState extends State<Posts> {
                                     )),
                                     Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      
                                        children: [
-                                 
-                           
-
-
-                        FittedBox(
-                     fit: BoxFit.fitWidth,
-                  child: Row(
-                     children:  <Widget>[
-                      // like button posts
-                    IconButton(
-                        icon:const Icon(Icons.favorite)
-                  ,onPressed: ()async{
+                                               
                   
-                  // get current user connected
-    final User? user = auth.currentUser;
-    final id = user?.uid;
-    //  create firestore instance
-    FirebaseFirestore firestore = FirebaseFirestore.instance;
-    // grab the collection
-    CollectionReference users = firestore.collection('users');
-    // get docs from user reference
-    QuerySnapshot querySnapshot = await users.get();
-         for (var s = 0; s < querySnapshot.docs.length; s++) {
-      if (querySnapshot.docs[s]['uid'] == id) {
-        print(querySnapshot.docs[s]['name']);
-        if(querySnapshot.docs[s]['likes'].length>0){
-      for (var j=0;j<querySnapshot.docs[s]['likes'].length;j++){
-        print(querySnapshot.docs[s]["likes"][j]);
-        if(snapshot.data!.docs[i].reference.id==querySnapshot.docs[s]["likes"][j]){
-         var counter = snapshot.data!.docs[i]["likesCount"];
-         counter--;
-          await snapshot.data!.docs[i].reference.update({
-                          "likesCount": counter ??0,
-                         });
-          var arr=querySnapshot.docs[s]["likes"];
-          arr.removeAt(j);
+            
+                        Row(
+              
+        // mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+
+          Transform(
+          
+            transform: Matrix4.translationValues(
+              0.0,
+              _translateButton.value * 4,
+              0.0,
+            ),
+            child: FloatingActionButton(
+              backgroundColor: const Color.fromARGB(24, 252, 250, 250),
+              onPressed: () {/* Do something */},
+              child: const Icon(
+                Icons.face_retouching_natural,
+              ),
+            ),
+          ),
+          Transform(
+            transform: Matrix4.translationValues(
+              0,
+              _translateButton.value * 3,
+              0,
+            ),
+            child: FloatingActionButton(
+              backgroundColor: const Color.fromARGB(24, 252, 250, 250),
+              onPressed: () {/* Do something */},
+              child: const Icon(
+                Icons.favorite
+              ),
+            ),
+          ),
+          Transform(
+            transform: Matrix4.translationValues(
+              0,
+              _translateButton.value * 2,
+              0,
+            ),
+            child: FloatingActionButton(
+              backgroundColor: const Color.fromARGB(24, 252, 250, 250),
+              onPressed: () {/* Do something */},
+              child: const Icon(Icons.face_outlined,)
+            ),
+          ),
+          // This is the primary FAB
+          FloatingActionButton(
+           backgroundColor: Color.fromARGB(23, 94, 11, 77),
+            onPressed: _toggle,
+            child: AnimatedIcon(
+               color:Colors.transparent,
+              icon: AnimatedIcons.play_pause,
+              progress: _buttonAnimatedIcon,
+            ),
+          ),
+        ],
+      ),
          
-         print("heryou are");
-       return   await querySnapshot.docs[s].reference.update({
-                          "likes": arr
-                         });
-        }
-      }
-       var count = snapshot.data!.docs[i]["likesCount"];
-         count++;
+          // SizedBox(width: 200,),
+            Text( snapshot.data!.docs[i]["likesCount"].toString()),
+                      // like button posts
+    //                 IconButton(
+    //                     icon:const Icon(Icons.favorite)
+    //               ,onPressed: ()async{
+                  
+    //               // get current user connected
+    // final User? user = auth.currentUser;
+    // final id = user?.uid;
+    // //  create firestore instance
+    // FirebaseFirestore firestore = FirebaseFirestore.instance;
+    // // grab the collection
+    // CollectionReference users = firestore.collection('users');
+    // // get docs from user reference
+    // QuerySnapshot querySnapshot = await users.get();
+    //      for (var s = 0; s < querySnapshot.docs.length; s++) {
+    //   if (querySnapshot.docs[s]['uid'] == id) {
+    //     print(querySnapshot.docs[s]['name']);
+    //     if(querySnapshot.docs[s]['likes'].length>0){
+    //   for (var j=0;j<querySnapshot.docs[s]['likes'].length;j++){
+    //     print(querySnapshot.docs[s]["likes"][j]);
+    //     if(snapshot.data!.docs[i].reference.id==querySnapshot.docs[s]["likes"][j]){
+    //      var counter = snapshot.data!.docs[i]["likesCount"];
+    //      counter--;
+    //       await snapshot.data!.docs[i].reference.update({
+    //                       "likesCount": counter ??0,
+    //                      });
+    //       var arr=querySnapshot.docs[s]["likes"];
+    //       arr.removeAt(j);
+         
+    //      print("heryou are");
+    //    return   await querySnapshot.docs[s].reference.update({
+    //                       "likes": arr
+    //                      });
+    //     }
+    //   }
+    //    var count = snapshot.data!.docs[i]["likesCount"];
+    //      count++;
 
-          await snapshot.data!.docs[i].reference.update({
-                          "likesCount": count
-                         });
-          var arr=querySnapshot.docs[s]["likes"];
-          arr.add(snapshot.data!.docs[i].reference.id);
-        return  await querySnapshot.docs[s].reference.update({
-                          "likes":arr ??[]});
-      }else{
-        var count = snapshot.data!.docs[i]["likesCount"];
-         count++;
+    //       await snapshot.data!.docs[i].reference.update({
+    //                       "likesCount": count
+    //                      });
+    //       var arr=querySnapshot.docs[s]["likes"];
+    //       arr.add(snapshot.data!.docs[i].reference.id);
+    //     return  await querySnapshot.docs[s].reference.update({
+    //                       "likes":arr ??[]});
+    //   }else{
+    //     var count = snapshot.data!.docs[i]["likesCount"];
+    //      count++;
 
-          await snapshot.data!.docs[i].reference.update({
-                          "likesCount": count
-                         });
-          var arr=querySnapshot.docs[s]["likes"];
-          arr.add(snapshot.data!.docs[i].reference.id);
-        return  await querySnapshot.docs[s].reference.update({
-                          "likes":arr ??[]});
-      }
+    //       await snapshot.data!.docs[i].reference.update({
+    //                       "likesCount": count
+    //                      });
+    //       var arr=querySnapshot.docs[s]["likes"];
+    //       arr.add(snapshot.data!.docs[i].reference.id);
+    //     return  await querySnapshot.docs[s].reference.update({
+    //                       "likes":arr ??[]});
+    //   }
          
       
-      }else{
-        print("no user matched");
-      }
-    }
+    //   }else{
+    //     print("no user matched");
+    //   }
+    // }
 
             
-          },),
-            Text( snapshot.data!.docs[i]["likesCount"].toString()),
+    //       },),
 
-                 ],
-                 
-                ),
-            ),
+          
+
+        
+         
+
+           
+          
+
+    
       
                                Row(
                                  mainAxisAlignment: MainAxisAlignment.end,
