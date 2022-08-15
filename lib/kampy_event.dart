@@ -43,7 +43,7 @@ class _KampyEventState extends State<KampyEvent> {
     final uid = user?.uid;
    
     FirebaseFirestore firestore = FirebaseFirestore.instance;
-    // grab the collection
+    
     CollectionReference users = firestore.collection('users');
     // get docs from user reference
     QuerySnapshot querySnapshot = await users.get();
@@ -146,7 +146,7 @@ class _KampyEventState extends State<KampyEvent> {
                                     Container(
                                       margin: const EdgeInsets.only(left: 220),
                                       child: IconButton(
-                                        icon: const Icon(Icons.delete_outlined),
+                                        icon: const Icon(Icons.delete),
                                         color: Colors.black45,
                                         iconSize: 30.0,
                                         onPressed: () async {

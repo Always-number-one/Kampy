@@ -250,39 +250,39 @@ class _EventDetailsState extends State<EventDetails> {
                                     ],
                                   ),
                                 ),
-                                Row(
-                                  children: [
-                                    const Text(
-                                      "Participate :",
-                                      style: TextStyle(
-                                          fontSize: 18,
-                                          color:
-                                              Color.fromARGB(255, 2, 14, 24)),
-                                    ),
-                                    IconButton(
-                                      icon: const Icon(Icons.remove),
-                                      color:
-                                          const Color.fromARGB(255, 5, 14, 29),
-                                      onPressed: () {
-                                        setState(() {
-                                          count != 0 ? count-- : count;
-                                        });
-                                      },
-                                    ),
-                                    Text(
-                                      "$count /10",
-                                      style: const TextStyle(fontSize: 18),
-                                    ),
-                                    IconButton(
-                                      icon: const Icon(Icons.person_add),
-                                      onPressed: () {
-                                        setState(() {
-                                          count++;
-                                        });
-                                      },
-                                    )
-                                  ],
-                                ),
+                                // Row(
+                                //   children: [
+                                //     const Text(
+                                //       "Participate :",
+                                //       style: TextStyle(
+                                //           fontSize: 18,
+                                //           color:
+                                //               Color.fromARGB(255, 2, 14, 24)),
+                                //     ),
+                                //     IconButton(
+                                //       icon: const Icon(Icons.remove),
+                                //       color:
+                                //           const Color.fromARGB(255, 5, 14, 29),
+                                //       onPressed: () {
+                                //         setState(() {
+                                //           count != 0 ? count-- : count;
+                                //         });
+                                //       },
+                                //     ),
+                                //     Text(
+                                //       "$count /10",
+                                //       style: const TextStyle(fontSize: 18),
+                                //     ),
+                                //     IconButton(
+                                //       icon: const Icon(Icons.person_add),
+                                //       onPressed: () {
+                                //         setState(() {
+                                //           count++;
+                                //         });
+                                //       },
+                                //     )
+                                //   ],
+                                // ),
                                 const SizedBox(
                                   height: 10,
                                 ),
