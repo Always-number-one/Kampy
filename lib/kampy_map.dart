@@ -126,6 +126,7 @@ class _MapKampyState extends State<MapKampy> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+           debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
           title: const Text('Kampy Map'),
@@ -135,7 +136,8 @@ class _MapKampyState extends State<MapKampy> {
               gradient: LinearGradient(
                   begin: Alignment.centerLeft,
                   end: Alignment.centerRight,
-                  colors: [HexColor('#675975'), HexColor('#7b94c4')]),
+                  colors: [HexColor('#675975'), HexColor('#7b94c4')]
+                  ),
             ),
           ),
         ),
