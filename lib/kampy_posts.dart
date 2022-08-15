@@ -57,7 +57,8 @@ class _PostsState extends State<Posts>   with SingleTickerProviderStateMixin{
   // chek user delete and likes
   bool? userCheck;
   bool? likseCheck;
-  
+  // check emoji
+  bool? checkEmoji=false;
 
   // check user to delete post
   checkuser(name) async {
@@ -260,7 +261,11 @@ class _PostsState extends State<Posts>   with SingleTickerProviderStateMixin{
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       
                                        children: [
-                                               
+    //opening emoji
+    //                                
+             checkEmoji!=false ? 
+          
+      //all emojis 
                 Container(
       width: 200,
       height: 40, 
@@ -274,7 +279,10 @@ class _PostsState extends State<Posts>   with SingleTickerProviderStateMixin{
              child :Image.asset('images/amoreux.gif',height: 30,width:30,),
             
               onTap: () { 
-        
+                setState(() {
+                   checkEmoji= false;
+                });
+          
               }
            ),
           //  second emoji
@@ -291,6 +299,7 @@ class _PostsState extends State<Posts>   with SingleTickerProviderStateMixin{
             Text( snapshot.data!.docs[i]["likesCount"].toString()),
              //  third emoji
              const  SizedBox(width: 5,),
+           
               GestureDetector(
              child :Image.asset('images/neutre.gif',height: 30,width:30,),
             
@@ -356,6 +365,8 @@ class _PostsState extends State<Posts>   with SingleTickerProviderStateMixin{
               }
            ),
            const  SizedBox(width: 5,),
+           
+                  Text( snapshot.data!.docs[i]["likesCount"].toString()),
               GestureDetector(
              child :Image.asset('images/fire.gif',height: 30,width:30,),
             
@@ -429,10 +440,29 @@ class _PostsState extends State<Posts>   with SingleTickerProviderStateMixin{
           )
         
          
-          ),
+          ):
              
 
-               
+               Row(
+            children: <Widget> [
+                 const  SizedBox(width:10,),
+           GestureDetector(
+             child :Image.asset('images/bonfire.png',height: 30,width:30,),
+            
+              onTap: () { 
+                
+         setState(() {
+
+           checkEmoji= true;
+           
+         });
+        
+              }
+           ),
+            Text("4"),
+        
+                 ]  ),
+        
             
             
          
