@@ -1,5 +1,5 @@
 import 'dart:io';
-
+import 'dart:async';
 // import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -29,12 +29,12 @@ class _CreateEventState extends State<CreateEvent> {
   // TextEditingController? endingDate = TextEditingController();
 
   final FirebaseAuth auth = FirebaseAuth.instance;
-  // DateTime date = DateTime.now();
+
+  DateTime startingDate = DateTime.now();
+  DateTime endingDate = DateTime.now();
 
   String? eventName,
       destination,
-      startingDate,
-      endingDate,
       nbrPlace,
       requiredEquipment,
       group,
@@ -101,8 +101,8 @@ class _CreateEventState extends State<CreateEvent> {
         "imgUrl": downloadUrl,
         "eventName": eventName ?? "",
         "destination": destination ?? "",
-        "startingDate": startingDate ?? "",
-        "endingDate": endingDate ?? "",
+        "startingDate": startingDate,
+        "endingDate": endingDate,
         "nbrPlace": nbrPlace ?? "",
         "requiredEquipment": requiredEquipment ?? "",
         "group": group ?? "",
@@ -118,12 +118,35 @@ class _CreateEventState extends State<CreateEvent> {
     } else {}
   }
 
-  // @override
-  // void initState() {
-  //   startingDate?.text = ""; //set the initial value of text field
-  //   endingDate?.text = ""; //set the initial value of text field
-  //   super.initState();
-  // }
+  //function to pick starting date from calender with showDatePicker()
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+        context: context,
+        initialDate: startingDate,
+        firstDate: DateTime(2015, 8),
+        lastDate: DateTime(2101));
+    if (picked != null && picked != startingDate) {
+      setState(() {
+        startingDate = picked;
+        endingDate = picked;
+      });
+    }
+  }
+
+   //function to pick ending date from calender with showDatePicker()
+  Future<void> _selectEndingDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+        context: context,
+        initialDate: endingDate,
+        firstDate: DateTime(2015, 8),
+        lastDate: DateTime(2101));
+    if (picked != null && picked != endingDate) {
+      setState(() {
+       
+        endingDate = picked;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -220,6 +243,7 @@ class _CreateEventState extends State<CreateEvent> {
                           horizontal: 10, vertical: 8.0),
                       child: Column(
                         children: <Widget>[
+                          //put event name
                           Padding(
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 8, vertical: 16),
@@ -233,6 +257,7 @@ class _CreateEventState extends State<CreateEvent> {
                               },
                             ),
                           ),
+                          //select destination
                           Padding(
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 8, vertical: 16),
@@ -247,75 +272,38 @@ class _CreateEventState extends State<CreateEvent> {
                               },
                             ),
                           ),
+                          //Select starting date from calender
                           Padding(
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 8, vertical: 16),
-                            child: TextFormField(
-                              // controller: startingDate,
-                              decoration: const InputDecoration(
-                                icon: Icon(Icons.calendar_today),
-                                border: UnderlineInputBorder(),
-                                labelText: 'Starting date',
-                              ),
-                              // readOnly: true,
-                              // onTap: () async {
-                              //   DateTime? pickedDate = await showDatePicker(
-                              //       context: context,
-                              //       initialDate: date,
-                              //       firstDate: DateTime(2022),
-                              //       lastDate: DateTime(2100));
-                              //   if (pickedDate != null) {
-                              //     print(
-                              //         pickedDate); //pickedDate output format 
-                              //     String formattedDate =
-                              //         DateFormat('yyyy-MM-dd')
-                              //             .format(pickedDate);
-                              //     print(
-                              //         formattedDate); //formatted date output using intl package 
-                              //     setState(() {
-                              //       startingDate?.text =
-                              //           formattedDate; //set output date to TextField value.
-                              //     });
-                              //   } else {}
-                              // },
-                                   onChanged: (val) {
-                                startingDate = val;
-                              },
+                            child: Column(
+                              children: [
+                                Text("${startingDate.toLocal()}".split(' ')[0]),
+                                const SizedBox(
+                                  height: 20.0,
+                                ),
+                                ElevatedButton(
+                                  onPressed: () => _selectDate(context),
+                                  child: const Text('Select Starting date'),
+                                ),
+                              ],
                             ),
                           ),
+                          //Select ending date from calender
                           Padding(
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 8, vertical: 16),
-                            child: TextFormField(
-                              // controller: endingDate,
-                              decoration: const InputDecoration(
-                                icon: Icon(Icons.calendar_today),
-                                // border: UnderlineInputBorder(),
-                                labelText: 'Ending date',
-                              ),
-                              // readOnly: true,
-                              // onTap: () async {
-                              //   DateTime? endDate = await showDatePicker(
-                              //       context: context,
-                              //       initialDate: date,
-                              //       firstDate: DateTime(2022),
-                              //       lastDate: DateTime(2100));
-                              //   if (endDate != null) {
-                              //     print(
-                              //         endDate); //endDate output format 
-                              //     String formatDate =
-                              //         DateFormat('yyyy-MM-dd').format(endDate);
-                              //     print(
-                              //         formatDate); //format date output using intl package 
-                              //     setState(() {
-                              //       endingDate?.text =
-                              //           formatDate; //set output date to TextField value.
-                              //     });
-                              //   } else {}
-                              // },
-                                   onChanged: (val) {
-                                endingDate = val;
-                              },
+                            child: Column(
+                              children: [
+                                Text("${endingDate.toLocal()}".split(' ')[0]),
+                                const SizedBox(
+                                  height: 20.0,
+                                ),
+                                ElevatedButton(
+                                  onPressed: () => _selectEndingDate(context),
+                                  child: const Text('Select Ending date'),
+                                ),
+                              ],
                             ),
                           ),
                           Padding(
