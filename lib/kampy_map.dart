@@ -136,7 +136,8 @@ class _MapKampyState extends State<MapKampy> {
               gradient: LinearGradient(
                   begin: Alignment.centerLeft,
                   end: Alignment.centerRight,
-                  colors: [HexColor('#675975'), HexColor('#7b94c4')]),
+                  colors: [HexColor('#675975'), HexColor('#7b94c4')]
+                  ),
             ),
           ),
         ),
