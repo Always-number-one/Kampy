@@ -4,9 +4,11 @@ import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/services/crud.dart';
+import 'package:get/get.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+import 'package:intl/intl.dart';
 import 'package:path/path.dart' as path;
 import 'package:random_string/random_string.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -22,8 +24,12 @@ class CreateEvent extends StatefulWidget {
 class _CreateEventState extends State<CreateEvent> {
   // firebase_storage.FirebaseStorage storage =
   //     firebase_storage.FirebaseStorage.instance;
-  final controller = TextEditingController();
+  // final controller = TextEditingController();
+  // TextEditingController? startingDate = TextEditingController();
+  // TextEditingController? endingDate = TextEditingController();
+
   final FirebaseAuth auth = FirebaseAuth.instance;
+  // DateTime date = DateTime.now();
 
   String? eventName,
       destination,
@@ -91,7 +97,7 @@ class _CreateEventState extends State<CreateEvent> {
       // uploadTask.then((res) {
       //   res.ref.getDownloadURL();
       // });
-      Map<String, dynamic> eventMap = {
+      Map<String, dynamic>? eventMap = {
         "imgUrl": downloadUrl,
         "eventName": eventName ?? "",
         "destination": destination ?? "",
@@ -112,6 +118,13 @@ class _CreateEventState extends State<CreateEvent> {
     } else {}
   }
 
+  // @override
+  // void initState() {
+  //   startingDate?.text = ""; //set the initial value of text field
+  //   endingDate?.text = ""; //set the initial value of text field
+  //   super.initState();
+  // }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -120,12 +133,12 @@ class _CreateEventState extends State<CreateEvent> {
         child: AppBar(
           centerTitle: true,
           flexibleSpace: Container(
-            decoration:  BoxDecoration(
-            gradient: LinearGradient(
-                begin: Alignment.centerLeft,
-                end: Alignment.centerRight,
-                colors: [HexColor('#675975'), HexColor('#7b94c4')]),
-          ),
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                  begin: Alignment.centerLeft,
+                  end: Alignment.centerRight,
+                  colors: [HexColor('#675975'), HexColor('#7b94c4')]),
+            ),
           ),
           title: Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -215,9 +228,9 @@ class _CreateEventState extends State<CreateEvent> {
                                 border: UnderlineInputBorder(),
                                 labelText: 'Enter your event name',
                               ),
-                                 onChanged: (val) {
-                              eventName = val;
-                            },
+                              onChanged: (val) {
+                                eventName = val;
+                              },
                             ),
                           ),
                           Padding(
@@ -225,41 +238,87 @@ class _CreateEventState extends State<CreateEvent> {
                                 horizontal: 8, vertical: 16),
                             child: TextFormField(
                               decoration: const InputDecoration(
+                                icon: Icon(Icons.map),
                                 border: UnderlineInputBorder(),
                                 labelText: 'Destination',
                               ),
-                                 onChanged: (val) {
-                              destination = val;
-                            },
+                              onChanged: (val) {
+                                destination = val;
+                              },
                             ),
                           ),
                           Padding(
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 8, vertical: 16),
                             child: TextFormField(
+                              // controller: startingDate,
                               decoration: const InputDecoration(
+                                icon: Icon(Icons.calendar_today),
                                 border: UnderlineInputBorder(),
                                 labelText: 'Starting date',
                               ),
-                                 onChanged: (val) {
-                              startingDate = val;
-                            },
+                              // readOnly: true,
+                              // onTap: () async {
+                              //   DateTime? pickedDate = await showDatePicker(
+                              //       context: context,
+                              //       initialDate: date,
+                              //       firstDate: DateTime(2022),
+                              //       lastDate: DateTime(2100));
+                              //   if (pickedDate != null) {
+                              //     print(
+                              //         pickedDate); //pickedDate output format 
+                              //     String formattedDate =
+                              //         DateFormat('yyyy-MM-dd')
+                              //             .format(pickedDate);
+                              //     print(
+                              //         formattedDate); //formatted date output using intl package 
+                              //     setState(() {
+                              //       startingDate?.text =
+                              //           formattedDate; //set output date to TextField value.
+                              //     });
+                              //   } else {}
+                              // },
+                                   onChanged: (val) {
+                                startingDate = val;
+                              },
                             ),
                           ),
-                           Padding(
+                          Padding(
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 8, vertical: 16),
                             child: TextFormField(
+                              // controller: endingDate,
                               decoration: const InputDecoration(
-                                border: UnderlineInputBorder(),
+                                icon: Icon(Icons.calendar_today),
+                                // border: UnderlineInputBorder(),
                                 labelText: 'Ending date',
                               ),
-                                 onChanged: (val) {
-                              endingDate = val;
-                            },
+                              // readOnly: true,
+                              // onTap: () async {
+                              //   DateTime? endDate = await showDatePicker(
+                              //       context: context,
+                              //       initialDate: date,
+                              //       firstDate: DateTime(2022),
+                              //       lastDate: DateTime(2100));
+                              //   if (endDate != null) {
+                              //     print(
+                              //         endDate); //endDate output format 
+                              //     String formatDate =
+                              //         DateFormat('yyyy-MM-dd').format(endDate);
+                              //     print(
+                              //         formatDate); //format date output using intl package 
+                              //     setState(() {
+                              //       endingDate?.text =
+                              //           formatDate; //set output date to TextField value.
+                              //     });
+                              //   } else {}
+                              // },
+                                   onChanged: (val) {
+                                endingDate = val;
+                              },
                             ),
                           ),
-                        Padding(
+                          Padding(
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 8, vertical: 16),
                             child: TextFormField(
@@ -267,12 +326,12 @@ class _CreateEventState extends State<CreateEvent> {
                                 border: UnderlineInputBorder(),
                                 labelText: 'Number of places',
                               ),
-                                 onChanged: (val) {
-                             nbrPlace = val;
-                            },
+                              onChanged: (val) {
+                                nbrPlace = val;
+                              },
                             ),
                           ),
-                           Padding(
+                          Padding(
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 8, vertical: 16),
                             child: TextFormField(
@@ -280,22 +339,23 @@ class _CreateEventState extends State<CreateEvent> {
                                 border: UnderlineInputBorder(),
                                 labelText: 'Required equipment',
                               ),
-                                 onChanged: (val) {
-                              requiredEquipment = val;
-                            },
+                              onChanged: (val) {
+                                requiredEquipment = val;
+                              },
                             ),
                           ),
-                         Padding(
+                          Padding(
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 8, vertical: 16),
                             child: TextFormField(
                               decoration: const InputDecoration(
+                                icon: Icon(Icons.people),
                                 border: UnderlineInputBorder(),
                                 labelText: 'Group',
                               ),
-                                 onChanged: (val) {
-                              group = val;
-                            },
+                              onChanged: (val) {
+                                group = val;
+                              },
                             ),
                           ),
                           SingleChildScrollView(
