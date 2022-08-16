@@ -111,6 +111,9 @@ dependencies:
   build_daemon: ^3.1.0
 
   stack_trace: ^1.10.0
+  weather: ^2.0.1
+  lottie: ^1.4.1
+  simple_shadow: ^0.3.0
 
 
   # The following adds the Cupertino Icons font to your application.
