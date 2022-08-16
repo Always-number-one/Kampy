@@ -308,57 +308,57 @@ class _PostsState extends State<Posts>   with SingleTickerProviderStateMixin{
         // mainAxisAlignment: MainAxisAlignment.start,
         children: [
 
-          Transform(
+          // Transform(
           
-            transform: Matrix4.translationValues(
-              0.0,
-              _translateButton.value * 4,
-              0.0,
-            ),
-            child: FloatingActionButton(
-              backgroundColor: const Color.fromARGB(24, 252, 250, 250),
-              onPressed: () {/* Do something */},
-              child: const Icon(
-                Icons.face_retouching_natural,
-              ),
-            ),
-          ),
-          Transform(
-            transform: Matrix4.translationValues(
-              0,
-              _translateButton.value * 3,
-              0,
-            ),
-            child: FloatingActionButton(
-              backgroundColor: const Color.fromARGB(24, 252, 250, 250),
-              onPressed: () {/* Do something */},
-              child: const Icon(
-                Icons.favorite
-              ),
-            ),
-          ),
-          Transform(
-            transform: Matrix4.translationValues(
-              0,
-              _translateButton.value * 2,
-              0,
-            ),
-            child: FloatingActionButton(
-              backgroundColor: const Color.fromARGB(24, 252, 250, 250),
-              onPressed: () {/* Do something */},
-              child: const Icon(Icons.face_outlined,)
-            ),
-          ),
-          // This is the primary FAB
-          FloatingActionButton(
-           backgroundColor: Color.fromARGB(23, 94, 11, 77),
-            onPressed: _toggle,
-            child: AnimatedIcon(
-               color:Colors.transparent,
-              icon: AnimatedIcons.play_pause,
-              progress: _buttonAnimatedIcon,
-            ),
-          ),
+          //   transform: Matrix4.translationValues(
+          //     0.0,
+          //     _translateButton.value * 4,
+          //     0.0,
+          //   ),
+          //   child: FloatingActionButton(
+          //     backgroundColor: const Color.fromARGB(24, 252, 250, 250),
+          //     onPressed: () {/* Do something */},
+          //     child: const Icon(
+          //       Icons.face_retouching_natural,
+          //     ),
+          //   ),
+          // ),
+          // Transform(
+          //   transform: Matrix4.translationValues(
+          //     0,
+          //     _translateButton.value * 3,
+          //     0,
+          //   ),
+          //   child: FloatingActionButton(
+          //     backgroundColor: const Color.fromARGB(24, 252, 250, 250),
+          //     onPressed: () {/* Do something */},
+          //     child: const Icon(
+          //       Icons.favorite
+          //     ),
+          //   ),
+          // ),
+          // Transform(
+          //   transform: Matrix4.translationValues(
+          //     0,
+          //     _translateButton.value * 2,
+          //     0,
+          //   ),
+          //   child: FloatingActionButton(
+          //     backgroundColor: const Color.fromARGB(24, 252, 250, 250),
+          //     onPressed: () {/* Do something */},
+          //     child: const Icon(Icons.face_outlined,)
+          //   ),
+          // ),
+          // // This is the primary FAB
+          // FloatingActionButton(
+          //  backgroundColor: Color.fromARGB(23, 94, 11, 77),
+          //   onPressed: _toggle,
+          //   child: AnimatedIcon(
+          //      color:Colors.transparent,
+          //     icon: AnimatedIcons.play_pause,
+          //     progress: _buttonAnimatedIcon,
+          //   ),
+          // ),
         ],
       ),
          
