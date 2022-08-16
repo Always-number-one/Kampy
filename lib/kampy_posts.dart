@@ -26,10 +26,8 @@ import 'auth_controller.dart';
 // import emoji
 import 'kampy_emoji.dart';
 
-// import reaction button
 
 
-import 'package:flutter_reaction_button/flutter_reaction_button.dart';
 
 
 class Posts extends StatefulWidget {
@@ -171,7 +169,7 @@ class _PostsState extends State<Posts>   with SingleTickerProviderStateMixin{
                                     // user name :
                                     Container(
                                       padding: const EdgeInsets.only(
-                                          bottom: 5, left: 10),
+                                          bottom: 5, left: 30),
                                       child: Text(
                                         snapshot.data!.docs[i]['userName'],
                                       ),
@@ -180,10 +178,9 @@ class _PostsState extends State<Posts>   with SingleTickerProviderStateMixin{
                                     Container(
                                       margin: const EdgeInsets.only(left: 200),
                                       child: IconButton(
-                                        icon: const Icon(Icons.delete),
-                                        color: const Color.fromARGB(
-                                            251, 255, 255, 255),
-                                        iconSize: 36.0,
+                                        icon: const Icon(Icons.delete_forever),
+                                        color: Color.fromARGB(140, 255, 255, 255),
+                                        iconSize: 20.0,
                                         onPressed: () async {
                                           // check if it's the same user
                                           await checkuser(snapshot.data!.docs[i]
@@ -267,7 +264,7 @@ class _PostsState extends State<Posts>   with SingleTickerProviderStateMixin{
           
       //all emojis 
                 Container(
-      width: 200,
+      width: 230,
       height: 40, 
        decoration: BoxDecoration(
     borderRadius: BorderRadius.circular(50),
@@ -553,7 +550,7 @@ class _PostsState extends State<Posts>   with SingleTickerProviderStateMixin{
                                    const  Icon(
                                     
                              Icons.place_sharp,
-                         color: Color.fromARGB(255, 125, 2, 2),
+                         color: Colors.orange,
                              size:20.0,
                                       ),
                                Text(
