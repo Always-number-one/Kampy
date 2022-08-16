@@ -278,6 +278,7 @@ class _PostsState extends State<Posts>   with SingleTickerProviderStateMixin{
            GestureDetector(
              child :Image.asset('images/amoreux.gif',height: 30,width:30,),
             
+
               onTap: () { 
                 setState(() {
                    checkEmoji= false;
@@ -423,6 +424,7 @@ class _PostsState extends State<Posts>   with SingleTickerProviderStateMixin{
         return  await querySnapshot.docs[s].reference.update({
                           "likes":arr ??[]});
       }
+
          
       
       }else{
