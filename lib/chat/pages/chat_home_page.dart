@@ -112,13 +112,25 @@ class _ChatHomeState extends State<ChatHome> {
     loggedUser();
     print(lastMessages);
     return Scaffold(
+         appBar: AppBar(
+          title: const Text('Kampy Chat'),
+          centerTitle: true,
+          flexibleSpace: Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                  begin: Alignment.centerLeft,
+                  end: Alignment.centerRight,
+                  colors: [HexColor('#675975'), HexColor('#7b94c4')]
+                  ),
+            ),
+          ),
+        ),
       drawer: Drawer(),
        // navbar bottom
-        backgroundColor: Colors.white,
         bottomNavigationBar: Builder(
             builder: (context) => AnimatedBottomBar(
-                  defaultIconColor: Colors.black,
-                  activatedIconColor: const Color.fromARGB(255, 56, 3, 33),
+                  defaultIconColor: HexColor('#7b94c4'),
+                  activatedIconColor: HexColor('#7b94c4'),
                   background: Colors.white,
                   buttonsIcons: const [
                     Icons.sunny_snowing,
@@ -127,13 +139,12 @@ class _ChatHomeState extends State<ChatHome> {
                     Icons.person
                   ],
                   buttonsHiddenIcons: const [
-                    Icons.campaign_rounded,
+                    Icons.event_outlined,
                     Icons.shopping_bag,
                     Icons.image_rounded,
                     Icons.post_add_rounded
                   ],
-                  backgroundColorMiddleIcon:
-                      const Color.fromARGB(255, 56, 3, 33),
+                  backgroundColorMiddleIcon: HexColor('#7b94c4'),
                   onTapButton: (i) {
                     setState(() {
                       index = i;
@@ -152,14 +163,14 @@ class _ChatHomeState extends State<ChatHome> {
                   },
                 )),
 // navbar bottom ends here
-
+      
       body: ListView(children: [
         Padding(
           padding: EdgeInsets.symmetric(vertical: 25, horizontal: 20),
           child: Text(
             "$_name",
             style: TextStyle(
-                color: Color.fromARGB(255, 57, 1, 59),
+                color: HexColor('#7b94c4'),
                 fontSize: 28,
                 fontWeight: FontWeight.bold),
           ),
@@ -193,7 +204,7 @@ class _ChatHomeState extends State<ChatHome> {
                     )),
                 Icon(
                   Icons.search,
-                  color: Colors.purple,
+                  color:HexColor('#7b94c4'),
                 )
               ],
             ),
@@ -209,7 +220,7 @@ class _ChatHomeState extends State<ChatHome> {
         heroTag: "navbar",
 
         onPressed: () {},
-        backgroundColor: Colors.purple,
+        backgroundColor: HexColor('#7b94c4'),
         child: Icon(Icons.message),
       ),
     );

@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 
 // import firestore 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -90,6 +91,7 @@ final saveStorage = await FirebaseStorage.instance.ref().child(name).putFile(Fil
     "name":name,
     "photoUrl":downloadUrl,
     "eventName":" ",
+    "likes":[],
   });
 
     return _user(user);
@@ -144,6 +146,13 @@ void login(String email, password) async {
   }
   
 }
+// forget passworword
+void  resetPassword(String email) async {
+    await auth
+        .sendPasswordResetEmail(email: email);
+      
+ 
+  }
 
 void logOut() async{
  await auth.signOut();
