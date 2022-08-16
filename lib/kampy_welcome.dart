@@ -25,7 +25,6 @@ import 'kamp_create_shop.dart';
 
 import 'package:firebase_storage/firebase_storage.dart' as fStorage;
 
-import './weather/mai.dart';
 
 
 
