@@ -5,6 +5,38 @@ import 'package:lottie/lottie.dart';
 import './controllers/weather_controller.dart';
 import 'package:simple_shadow/simple_shadow.dart';
 
+// hex color
+import 'package:hexcolor/hexcolor.dart';
+
+import 'package:flutter_application_1/kampy_create_posts.dart';
+
+import '../kampy_map.dart';
+import '../kampy_event.dart';
+//import create blogs
+import '../kampy_create_posts.dart';
+
+// hex color
+import 'package:hexcolor/hexcolor.dart';
+// firebase auth
+import 'package:firebase_auth/firebase_auth.dart';
+// firestore
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+// navbar
+
+import '../navbar_animated.dart';
+
+import '../chat/chat_main.dart';
+import '.././kampy_welcome.dart';
+import '../kampy_shops.dart';
+import '../auth_controller.dart';
+import '../kampy_posts.dart';
+
+
+// import reaction button
+
+
+
 class WeatherPage extends StatelessWidget {
   const WeatherPage({Key? key}) : super(key: key);
 
@@ -17,6 +49,11 @@ class WeatherPage extends StatelessWidget {
     var month = DateFormat.LLLL().format(DateTime.now());
     TextEditingController cityText = TextEditingController();
 
+  final List<Widget> _pages = [const KampyEvent(), Shops(),const  Posts(),const CreatePost()];
+// plus button array of pages
+  final List<Widget> _views = [  MapKampy(), MapKampy(),const  Chat(), Welcome()];
+  int index = 0;
+
      handleSearchCity() {
       c.fetchWeather(cityText.text);
       // Close keyboard after enter
@@ -25,56 +62,6 @@ class WeatherPage extends StatelessWidget {
         currentFocus.unfocus();
       }
     }
-
-    /*THIS IS DROPDOWN Widget pickCity() {
-      return Container(
-        margin: EdgeInsets.fromLTRB(30, 30, 30, 0),
-        child: Row(
-          children: [
-            Icon(
-              Icons.location_on_outlined,
-              color: Colors.white,
-            ),
-            SizedBox(width: 20),
-            Obx(
-              () => Container(
-                width: width * 0.35,
-                child: DropdownButton(
-                  items: c.city
-                      .map(
-                        (e) => DropdownMenuItem(
-                          value: e,
-                          child: Text(e),
-                        ),
-                      )
-                      .toList(),
-                  icon: Icon(
-                    Icons.arrow_drop_down_rounded,
-                    color: Colors.white,
-                  ),
-                  isExpanded: true,
-                  dropdownColor: Colors.lightBlue,
-                  underline: Container(
-                    height: 0,
-                  ),
-                  value: c.dropdownValue.value,
-                  style: TextStyle(
-                    fontSize: 20,
-                    color: Colors.white,
-                  ),
-                  onChanged: (String? value) {
-                    c.dropdownValue.value = value!;
-                    c.fetchWeather(value);
-                  },
-                ),
-              ),
-            ),
-          ],
-        ),
-      );
-    }
-*/
-
     Widget searchCity() {
       return Container(
         margin: EdgeInsets.fromLTRB(30, 30, 30, 0),
@@ -356,6 +343,55 @@ class WeatherPage extends StatelessWidget {
 
     return Obx(
       () => Scaffold(
+         appBar: AppBar(
+        title: const Text("Weather"),
+        centerTitle: true,
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+                begin: Alignment.centerLeft,
+                end: Alignment.centerRight,
+                colors: [HexColor('#675975'), HexColor('#7b94c4')]),
+          ),
+        ),
+      ),
+      
+      // navbar bottom
+      bottomNavigationBar: Builder(
+          builder: (context) => AnimatedBottomBar(
+                defaultIconColor: HexColor('#7b94c4'),
+                activatedIconColor: HexColor('#675975'),
+                background: Colors.white,
+                buttonsIcons: const [
+                  Icons.sunny_snowing,
+                  Icons.explore_sharp,
+                  Icons.messenger_outlined,
+                  Icons.person
+                ],
+                buttonsHiddenIcons: const [
+                  Icons.campaign_rounded,
+                  Icons.shopping_bag,
+                  Icons.image_rounded,
+                  Icons.post_add_rounded
+                ],
+                backgroundColorMiddleIcon: HexColor('#675975'),
+                onTapButton: (i) {
+  
+                    index = i;
+    
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => _views[i]),
+                  );
+                },
+                // navigate between pages
+                onTapButtonHidden: (i) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => _pages[i]),
+                  );
+                },
+              )),
         body: Container(
           height: height,
           decoration: BoxDecoration(
@@ -363,8 +399,8 @@ class WeatherPage extends StatelessWidget {
               begin: Alignment.bottomLeft,
               end: Alignment.topRight,
               colors: [
-                Color.fromRGBO(0, 70, 177, 1),
-                Color.fromRGBO(137, 230, 255, 1),
+                Color.fromARGB(255, 156, 152, 152),
+                Color.fromARGB(255, 128, 162, 172),
               ],
             ),
           ),
