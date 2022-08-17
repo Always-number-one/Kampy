@@ -41,39 +41,27 @@ child: Stack(
                         borderRadius: BorderRadius.circular(120),
                      
                       ),
-              margin:  const EdgeInsets.only(left: 20,right: 20,top: 20),
+              margin:  const EdgeInsets.only(left: 20,right: 20,top:0 ),
              
               child:Column(
                            children:  [
                   // welcoming text
                   Center(
           child :Container( 
-            margin: const EdgeInsets.only(top:220),
+            margin: const EdgeInsets.only(top:80),
             child: Column( 
            
-            children: const  <Widget> [
-            Text( 
-           "Welcome",
-            style: TextStyle(
-              color: Color.fromARGB(255, 245, 240, 240),
-               fontWeight: FontWeight.bold,
-              fontSize: 50,
-            ),
-             
-            
+            children:   <Widget> [
+        // kampy logo
+          Container(
+              height: 50,
+              width: 200,
+            decoration: const  BoxDecoration(
+              image:  DecorationImage(
+              image:  AssetImage("images/version44.png"),
+             fit: BoxFit.fill,
+           )),
           ),
-         
-          Text( 
-           "To Kampy",
-            style: TextStyle(
-              color: Color.fromARGB(255, 245, 240, 240),
-               fontWeight: FontWeight.bold,
-              fontSize: 50,
-            ),
-             
-            
-          ),
-          
         
           
             ],
@@ -82,19 +70,17 @@ child: Stack(
         
           
           ),
-                   
-                    const SizedBox(  height: 10,),
-         
-         
-            //  Button here
-const SizedBox(height: 50),
+
+            //  Button create account
+const SizedBox(height: 100),
 
 TextButton(
-  
+   
   style: TextButton.styleFrom(
    minimumSize: const Size(250,50),
     primary: const Color.fromARGB(255, 253, 253, 252),
-    backgroundColor: const Color.fromARGB(255, 7, 51, 78),
+    backgroundColor: const Color.fromARGB(93, 232, 237, 241),
+                     
   ),
   onPressed: () {
       Navigator.push(
@@ -104,13 +90,14 @@ TextButton(
    },
   child: const Text('Create account',style: TextStyle(fontSize: 15)),
 ),
+// button log in
 const SizedBox(height: 10),
 TextButton(
   
   style: TextButton.styleFrom(
        minimumSize: const Size(250,50),
-    primary: const Color.fromARGB(255, 10, 8, 0),
-    backgroundColor: const Color.fromARGB(255, 255, 255, 255),
+    primary: const Color.fromARGB(255, 255, 255, 254),
+    backgroundColor: const Color.fromARGB(93, 255, 255, 255),
   ),
   onPressed: () { 
       Navigator.push(

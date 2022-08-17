@@ -27,6 +27,7 @@ import 'auth_controller.dart';
 import 'kampy_emoji.dart';
 
 
+
 class Posts extends StatefulWidget {
  const  Posts({Key? key}) : super(key: key);
 
@@ -147,15 +148,20 @@ class _PostsState extends State<Posts>   with SingleTickerProviderStateMixin{
                 child: Column(children: [
                   
                   for (int i = 0; i < snapshot.data!.docs.length; i++)
-                    Column(
+                    Container(
+                    
+                      child:Column(
                       children: [
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 10),
                           child: Column(
+                            
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 Row(
+                                  
                                   children: <Widget>[
+                                 
                                     // user avatar
                                     CircleAvatar(
                                       radius: 24.0,
@@ -166,19 +172,19 @@ class _PostsState extends State<Posts>   with SingleTickerProviderStateMixin{
                                     // user name :
                                     Container(
                                       padding: const EdgeInsets.only(
-                                          bottom: 5, left: 10),
+                                          bottom: 5, left: 30),
                                       child: Text(
                                         snapshot.data!.docs[i]['userName'],
                                       ),
+                                      
                                     ),
                                     // plus button to delete and update
                                     Container(
                                       margin: const EdgeInsets.only(left: 200),
                                       child: IconButton(
-                                        icon: const Icon(Icons.delete),
-                                        color: const Color.fromARGB(
-                                            251, 255, 255, 255),
-                                        iconSize: 36.0,
+                                        icon: const Icon(Icons.delete_forever),
+                                        color: Color.fromARGB(140, 255, 255, 255),
+                                        iconSize: 20.0,
                                         onPressed: () async {
                                           // check if it's the same user
                                           await checkuser(snapshot.data!.docs[i]
@@ -212,6 +218,7 @@ class _PostsState extends State<Posts>   with SingleTickerProviderStateMixin{
                                                   .size
                                                   .width,
                                               decoration: BoxDecoration(
+                                           
                                                   image: DecorationImage(
                                                 image: NetworkImage(
                                                   snapshot.data!.docs[i]
@@ -262,7 +269,7 @@ class _PostsState extends State<Posts>   with SingleTickerProviderStateMixin{
           
       //all emojis 
                 Container(
-      width: 200,
+      width: 230,
       height: 40, 
        decoration: BoxDecoration(
     borderRadius: BorderRadius.circular(50),
@@ -532,23 +539,14 @@ class _PostsState extends State<Posts>   with SingleTickerProviderStateMixin{
             
     //       },),
 
-          
 
-        
-         
-
-           
-          
-
-    
-      
                                Row(
                                  mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
                                    const  Icon(
                                     
                              Icons.place_sharp,
-                         color: Color.fromARGB(255, 125, 2, 2),
+                         color: Colors.orange,
                              size:20.0,
                                       ),
                                Text(
@@ -560,9 +558,23 @@ class _PostsState extends State<Posts>   with SingleTickerProviderStateMixin{
                                
                               ),
                              const  SizedBox(height: 20),
+                             const Divider(
+                                          color: Color.fromARGB(82, 46, 45, 45), //color of divider
+                                          height: 1, //height spacing of divider
+                                          thickness:
+                                              1, //thickness of divier line
+                                          indent:
+                                              15, //spacing at the start of divider
+                                          endIndent:
+                                              15, //spacing at the end of divider
+                                        ),
                         
                       ],
-                    )
+                    ),
+                    // end container
+                     
+                ),
+                  
                 ]));
                 
           }

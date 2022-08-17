@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'dart:io';
 
 class ActiveChats extends StatelessWidget {
+
   final photos;
 
   const ActiveChats({key, required, required this.photos}) : super(key: key);
@@ -38,7 +39,8 @@ class ActiveChats extends StatelessWidget {
                       backgroundImage: NetworkImage(photos[i]['photoUrl']),
                     ),
                   ),
-                )
+                ),
+                // GestureDetector()
             ],
           )),
     );
