@@ -26,11 +26,6 @@ import 'auth_controller.dart';
 // import emoji
 import 'kampy_emoji.dart';
 
-// import reaction button
-
-
-import 'package:flutter_reaction_button/flutter_reaction_button.dart';
-
 
 class Posts extends StatefulWidget {
  const  Posts({Key? key}) : super(key: key);
