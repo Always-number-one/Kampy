@@ -150,15 +150,20 @@ class _PostsState extends State<Posts>   with SingleTickerProviderStateMixin{
                 child: Column(children: [
                   
                   for (int i = 0; i < snapshot.data!.docs.length; i++)
-                    Column(
+                    Container(
+                    
+                      child:Column(
                       children: [
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 10),
                           child: Column(
+                            
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 Row(
+                                  
                                   children: <Widget>[
+                                 
                                     // user avatar
                                     CircleAvatar(
                                       radius: 24.0,
@@ -173,6 +178,7 @@ class _PostsState extends State<Posts>   with SingleTickerProviderStateMixin{
                                       child: Text(
                                         snapshot.data!.docs[i]['userName'],
                                       ),
+                                      
                                     ),
                                     // plus button to delete and update
                                     Container(
@@ -214,6 +220,7 @@ class _PostsState extends State<Posts>   with SingleTickerProviderStateMixin{
                                                   .size
                                                   .width,
                                               decoration: BoxDecoration(
+                                           
                                                   image: DecorationImage(
                                                 image: NetworkImage(
                                                   snapshot.data!.docs[i]
@@ -534,16 +541,7 @@ class _PostsState extends State<Posts>   with SingleTickerProviderStateMixin{
             
     //       },),
 
-          
 
-        
-         
-
-           
-          
-
-    
-      
                                Row(
                                  mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
@@ -562,9 +560,23 @@ class _PostsState extends State<Posts>   with SingleTickerProviderStateMixin{
                                
                               ),
                              const  SizedBox(height: 20),
+                             const Divider(
+                                          color: Color.fromARGB(82, 46, 45, 45), //color of divider
+                                          height: 1, //height spacing of divider
+                                          thickness:
+                                              1, //thickness of divier line
+                                          indent:
+                                              15, //spacing at the start of divider
+                                          endIndent:
+                                              15, //spacing at the end of divider
+                                        ),
                         
                       ],
-                    )
+                    ),
+                    // end container
+                     
+                ),
+                  
                 ]));
                 
           }
