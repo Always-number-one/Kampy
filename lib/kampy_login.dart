@@ -65,30 +65,28 @@ child: Stack(
                 children:  [
                   // sign up title
                   Container(
-                    margin: const EdgeInsets.only(top:70,left: 100 ),
+                    margin: const EdgeInsets.only(top:80,left:70 ),
         // padding: const EdgeInsets.only(left: 100  ),
            child: Row( 
-            children: const  <Widget> [
-            Text( 
-           "Kampy",
-            style: TextStyle(
-              color: Color.fromARGB(255, 245, 240, 240),
-               fontWeight: FontWeight.bold,
-              fontSize: 50,
-            ),
-             
-            
+            children:   <Widget> [
+          //   Text( 
+          //  "Kampy",
+          //   style: TextStyle(
+          //     color: Color.fromARGB(255, 245, 240, 240),
+          //      fontWeight: FontWeight.bold,
+          //     fontSize: 50,
+          //   ),
+              Container(
+              height: 50,
+              width: 200,
+            decoration: const  BoxDecoration(
+              image:  DecorationImage(
+              image:  AssetImage("images/version44.png"),
+             fit: BoxFit.fill,
+           )),
           ),
-          //  Container(
-             
-          //     width: 80,
-          //     height: 80,
-          //   decoration: const BoxDecoration(
-          //     image:  DecorationImage(
-          //     image:  AssetImage("images/lg11.png"),
-          //    fit: BoxFit.fill,
-          //  )),
-          // ),
+            
+   
           
             ],
        
@@ -97,7 +95,7 @@ child: Stack(
           
           ),
                    
-                    const SizedBox(  height: 10,),
+                    const SizedBox(  height: 200,),
          
          
              
@@ -106,7 +104,7 @@ child: Stack(
             Container(
              height: 50,
                    width: 230,
-              margin:   const EdgeInsets.only(top:200,right:20,left:20),
+              margin:   const EdgeInsets.only(top:50,right:20,left:20),
                       decoration: BoxDecoration(
                         color: const Color.fromARGB(151, 255, 255, 255),
                         borderRadius: BorderRadius.circular(50),

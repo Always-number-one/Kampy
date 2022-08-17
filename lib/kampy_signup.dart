@@ -94,7 +94,7 @@ child: Stack(
                         borderRadius: BorderRadius.circular(120),
                      
                       ),
-              margin:  const EdgeInsets.only(left: 20,right: 20,top: 70),
+              margin:  const EdgeInsets.only(left: 20,right: 20,top: 0),
              
 
              width: w,
@@ -105,21 +105,29 @@ child: Stack(
                 children:  <Widget>[
                   // sign up title
               Container(
-                    margin: const EdgeInsets.only(top:10),
-        padding: const EdgeInsets.only(left: 100  ),
+                    margin: const EdgeInsets.only(top:60),
+        padding: const EdgeInsets.only(left:80  ),
            child: Row( 
-            children: const <Widget> [
-            Text( 
-           "Kampy",
-            style: TextStyle(
-              color: Color.fromARGB(255, 245, 240, 240),
-               fontWeight: FontWeight.bold,
-              fontSize: 50,
-            ),
+            children: <Widget> [
+          //   Text( 
+          //  "Kampy",
+          //   style: TextStyle(
+          //     color: Color.fromARGB(255, 245, 240, 240),
+          //      fontWeight: FontWeight.bold,
+          //     fontSize: 50,
+          //   ),
              
             
-          )
-          
+          // )
+         Container(
+              height: 50,
+              width: 200,
+            decoration: const  BoxDecoration(
+              image:  DecorationImage(
+              image:  AssetImage("images/version44.png"),
+             fit: BoxFit.fill,
+           )),
+          ),
             ],
        
           )
@@ -127,7 +135,7 @@ child: Stack(
           
           ),
                    
-          const SizedBox(  height: 10,),
+          const SizedBox(  height: 130,),
          
 
                
@@ -153,11 +161,11 @@ child: Stack(
                       ),
                      child:TextField(
                       controller: nameController,
-                      decoration: InputDecoration(      
+                      decoration:  InputDecoration(      
                         hintText: "Name", 
-                   prefixIcon:const Icon(Icons.account_circle,color:Color.fromARGB(255, 2, 2, 41)) ,         
+                   prefixIcon:const  Icon(Icons.account_circle,color:Color.fromARGB(255, 2, 2, 41)) ,         
 
-                        focusedBorder: const OutlineInputBorder(
+                        focusedBorder:const   OutlineInputBorder(
                      
                         borderSide: BorderSide(
                           color: Color.fromARGB(255, 255, 255, 255),
@@ -306,12 +314,12 @@ GestureDetector(
                        ),),
           ),),
 
-
+               
           // log in 
           GestureDetector(
  
      child: Container(
-      margin:const  EdgeInsets.only(top: 100),
+      margin:const  EdgeInsets.only(top:70),
         padding: const EdgeInsets.only(left: 60,bottom: 40),
            child: Row( 
             children:const <Widget> [
@@ -376,7 +384,7 @@ GestureDetector(
   Widget imageProfile(){
 
       return Container(
-        margin: const EdgeInsets.only(top: 130),
+        margin: const EdgeInsets.only(top: 0),
        child: Stack(
         children: <Widget> [
          
