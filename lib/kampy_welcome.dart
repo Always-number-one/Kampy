@@ -25,6 +25,8 @@ import 'kamp_create_shop.dart';
 
 import 'package:firebase_storage/firebase_storage.dart' as fStorage;
 
+import './weather/weather_page.dart';
+
 
 
 
@@ -41,10 +43,10 @@ class Welcome extends StatefulWidget {
 
 class _WelcomeState extends State<Welcome> {
   // plus button array of pages
-  final List<Widget> _pages = [KampyEvent(), Shops(), Posts(), CreatePost()];
+  final List<Widget> _pages = [WeatherPage(), Shops(), Posts(), CreatePost()];
 
 // original navbar
-  final List<Widget> _views = [KampyEvent(), MapKampy(), Chat(), Welcome()];
+  final List<Widget> _views = [WeatherPage(), MapKampy(), Chat(), Welcome()];
   int index = 0;
 
 
