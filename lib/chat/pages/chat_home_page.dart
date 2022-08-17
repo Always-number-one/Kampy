@@ -39,7 +39,7 @@ class _ChatHomeState extends State<ChatHome> {
   String? _name;
   String? _photoUrl;
   String? _uid;
-
+  
   loggedUser() async {
     final user = FirebaseAuth.instance.currentUser!;
     await FirebaseFirestore.instance
@@ -74,7 +74,7 @@ class _ChatHomeState extends State<ChatHome> {
     
     var dateFromTimeStamp =
         DateTime.fromMillisecondsSinceEpoch(timeStamp.seconds * 1000);
-    return DateFormat("dd-MM-yyyy hh:mm a").format(dateFromTimeStamp);
+    return DateFormat("hh:mm a").format(dateFromTimeStamp);
   }
 
   Future getUserbyID(id) async {
@@ -215,14 +215,6 @@ class _ChatHomeState extends State<ChatHome> {
         ),
         RecentChats(chats: lastMessages),
       ]),
-      floatingActionButton: FloatingActionButton(
-        // this hero tag for the navbar 
-        heroTag: "navbar",
-
-        onPressed: () {},
-        backgroundColor: HexColor('#7b94c4'),
-        child: Icon(Icons.message),
-      ),
     );
   }
 }
