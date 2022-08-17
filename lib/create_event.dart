@@ -1,12 +1,14 @@
 import 'dart:io';
-
+import 'dart:async';
 // import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/services/crud.dart';
+import 'package:get/get.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+import 'package:intl/intl.dart';
 import 'package:path/path.dart' as path;
 import 'package:random_string/random_string.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -22,13 +24,17 @@ class CreateEvent extends StatefulWidget {
 class _CreateEventState extends State<CreateEvent> {
   // firebase_storage.FirebaseStorage storage =
   //     firebase_storage.FirebaseStorage.instance;
-  final controller = TextEditingController();
+  // final controller = TextEditingController();
+  // TextEditingController? startingDate = TextEditingController();
+  // TextEditingController? endingDate = TextEditingController();
+
   final FirebaseAuth auth = FirebaseAuth.instance;
+
+  DateTime startingDate = DateTime.now();
+  DateTime endingDate = DateTime.now();
 
   String? eventName,
       destination,
-      startingDate,
-      endingDate,
       nbrPlace,
       requiredEquipment,
       group,
@@ -91,12 +97,12 @@ class _CreateEventState extends State<CreateEvent> {
       // uploadTask.then((res) {
       //   res.ref.getDownloadURL();
       // });
-      Map<String, dynamic> eventMap = {
+      Map<String, dynamic>? eventMap = {
         "imgUrl": downloadUrl,
         "eventName": eventName ?? "",
         "destination": destination ?? "",
-        "startingDate": startingDate ?? "",
-        "endingDate": endingDate ?? "",
+        "startingDate": startingDate,
+        "endingDate": endingDate,
         "nbrPlace": nbrPlace ?? "",
         "requiredEquipment": requiredEquipment ?? "",
         "group": group ?? "",
@@ -112,20 +118,50 @@ class _CreateEventState extends State<CreateEvent> {
     } else {}
   }
 
+  //function to pick starting date from calender with showDatePicker()
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+        context: context,
+        initialDate: startingDate,
+        firstDate: DateTime(2015, 8),
+        lastDate: DateTime(2101));
+    if (picked != null && picked != startingDate) {
+      setState(() {
+        startingDate = picked;
+        endingDate = picked;
+      });
+    }
+  }
+
+   //function to pick ending date from calender with showDatePicker()
+  Future<void> _selectEndingDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+        context: context,
+        initialDate: endingDate,
+        firstDate: DateTime(2015, 8),
+        lastDate: DateTime(2101));
+    if (picked != null && picked != endingDate) {
+      setState(() {
+       
+        endingDate = picked;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(80.0),
+        preferredSize: const Size.fromHeight(55.0),
         child: AppBar(
           centerTitle: true,
           flexibleSpace: Container(
-            decoration:  BoxDecoration(
-            gradient: LinearGradient(
-                begin: Alignment.centerLeft,
-                end: Alignment.centerRight,
-                colors: [HexColor('#675975'), HexColor('#7b94c4')]),
-          ),
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                  begin: Alignment.centerLeft,
+                  end: Alignment.centerRight,
+                  colors: [HexColor('#675975'), HexColor('#7b94c4')]),
+            ),
           ),
           title: Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -207,6 +243,7 @@ class _CreateEventState extends State<CreateEvent> {
                           horizontal: 10, vertical: 8.0),
                       child: Column(
                         children: <Widget>[
+                          //put event name
                           Padding(
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 8, vertical: 16),
@@ -215,51 +252,61 @@ class _CreateEventState extends State<CreateEvent> {
                                 border: UnderlineInputBorder(),
                                 labelText: 'Enter your event name',
                               ),
-                                 onChanged: (val) {
-                              eventName = val;
-                            },
+                              onChanged: (val) {
+                                eventName = val;
+                              },
                             ),
                           ),
+                          //select destination
                           Padding(
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 8, vertical: 16),
                             child: TextFormField(
                               decoration: const InputDecoration(
+                                icon: Icon(Icons.map),
                                 border: UnderlineInputBorder(),
                                 labelText: 'Destination',
                               ),
-                                 onChanged: (val) {
-                              destination = val;
-                            },
+                              onChanged: (val) {
+                                destination = val;
+                              },
                             ),
                           ),
+                          //Select starting date from calender
                           Padding(
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 8, vertical: 16),
-                            child: TextFormField(
-                              decoration: const InputDecoration(
-                                border: UnderlineInputBorder(),
-                                labelText: 'Starting date',
-                              ),
-                                 onChanged: (val) {
-                              startingDate = val;
-                            },
+                            child: Column(
+                              children: [
+                                Text("${startingDate.toLocal()}".split(' ')[0]),
+                                const SizedBox(
+                                  height: 20.0,
+                                ),
+                                ElevatedButton(
+                                  onPressed: () => _selectDate(context),
+                                  child: const Text('Select Starting date'),
+                                ),
+                              ],
                             ),
                           ),
-                           Padding(
+                          //Select ending date from calender
+                          Padding(
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 8, vertical: 16),
-                            child: TextFormField(
-                              decoration: const InputDecoration(
-                                border: UnderlineInputBorder(),
-                                labelText: 'Ending date',
-                              ),
-                                 onChanged: (val) {
-                              endingDate = val;
-                            },
+                            child: Column(
+                              children: [
+                                Text("${endingDate.toLocal()}".split(' ')[0]),
+                                const SizedBox(
+                                  height: 20.0,
+                                ),
+                                ElevatedButton(
+                                  onPressed: () => _selectEndingDate(context),
+                                  child: const Text('Select Ending date'),
+                                ),
+                              ],
                             ),
                           ),
-                        Padding(
+                          Padding(
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 8, vertical: 16),
                             child: TextFormField(
@@ -267,12 +314,12 @@ class _CreateEventState extends State<CreateEvent> {
                                 border: UnderlineInputBorder(),
                                 labelText: 'Number of places',
                               ),
-                                 onChanged: (val) {
-                             nbrPlace = val;
-                            },
+                              onChanged: (val) {
+                                nbrPlace = val;
+                              },
                             ),
                           ),
-                           Padding(
+                          Padding(
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 8, vertical: 16),
                             child: TextFormField(
@@ -280,22 +327,23 @@ class _CreateEventState extends State<CreateEvent> {
                                 border: UnderlineInputBorder(),
                                 labelText: 'Required equipment',
                               ),
-                                 onChanged: (val) {
-                              requiredEquipment = val;
-                            },
+                              onChanged: (val) {
+                                requiredEquipment = val;
+                              },
                             ),
                           ),
-                         Padding(
+                          Padding(
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 8, vertical: 16),
                             child: TextFormField(
                               decoration: const InputDecoration(
+                                icon: Icon(Icons.people),
                                 border: UnderlineInputBorder(),
                                 labelText: 'Group',
                               ),
-                                 onChanged: (val) {
-                              group = val;
-                            },
+                              onChanged: (val) {
+                                group = val;
+                              },
                             ),
                           ),
                           SingleChildScrollView(
@@ -318,7 +366,7 @@ class _CreateEventState extends State<CreateEvent> {
                 ],
               ),
             ),
-      backgroundColor: const Color.fromARGB(255, 2, 2, 41),
+      backgroundColor: HexColor('#7b94c4'),
     );
   }
 }
