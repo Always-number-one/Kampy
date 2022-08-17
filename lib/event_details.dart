@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -5,6 +7,7 @@ import 'package:flutter_application_1/kampy_event.dart';
 import 'package:flutter_application_1/create_event.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:intl/intl.dart';
 
 class EventDetails extends StatefulWidget {
   final String? events;
@@ -19,6 +22,14 @@ class _EventDetailsState extends State<EventDetails> {
   int count = 0;
   bool? participiteCheck;
   bool? checkUser;
+
+  // convert a TimeStamp into a string ;
+  // String formatteDate(timeStamp) {
+
+  //   var dateFromTimeStamp =
+  //       DateTime.fromMillisecondsSinceEpoch(timeStamp.seconds * 1000);
+  //   return DateFormat("dd-MM-yyyy hh:mm a").format(dateFromTimeStamp);
+  // }
 
 //  final FirebaseAuth auth = FirebaseAuth.instance;
 //   checkuser(name) async {
@@ -132,7 +143,6 @@ class _EventDetailsState extends State<EventDetails> {
                                             snapshot.data!.docs[i]['eventName'],
                                             textAlign: TextAlign.center,
                                             style: const TextStyle(
-                                              
                                               fontWeight: FontWeight.bold,
                                               color: Colors.white,
                                               fontSize: 24,
@@ -160,7 +170,8 @@ class _EventDetailsState extends State<EventDetails> {
                                           style: const TextStyle(
                                             fontSize: 18,
                                             fontWeight: FontWeight.w500,
-                                            color:  Color.fromARGB(255, 2, 2, 41),
+                                            color:
+                                                Color.fromARGB(255, 2, 2, 41),
                                           )),
                                     ),
                                   ],
@@ -172,7 +183,7 @@ class _EventDetailsState extends State<EventDetails> {
                                     bottom: 5,
                                   ),
                                   child: Text(
-                                      "Starting date:  ${snapshot.data!.docs[i]['startingDate']}",
+                                      "Starting Date: ${(snapshot.data!.docs[i]['startingDate'])}",
                                       style: const TextStyle(
                                         fontSize: 18,
                                         fontWeight: FontWeight.w500,
@@ -245,7 +256,8 @@ class _EventDetailsState extends State<EventDetails> {
                                           style: const TextStyle(
                                             fontSize: 18,
                                             fontWeight: FontWeight.w500,
-                                            color: Color.fromARGB(255, 2, 2, 41),
+                                            color:
+                                                Color.fromARGB(255, 2, 2, 41),
                                           )),
                                     ],
                                   ),
@@ -292,6 +304,7 @@ class _EventDetailsState extends State<EventDetails> {
                     )
                 ]));
           }
+
           return const Text("none");
         });
   }
@@ -300,10 +313,10 @@ class _EventDetailsState extends State<EventDetails> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-       title: const Text("Event details"),
-          centerTitle: true,
+        title: const Text("Event details"),
+        centerTitle: true,
         flexibleSpace: Container(
-          decoration:  BoxDecoration(
+          decoration: BoxDecoration(
             gradient: LinearGradient(
                 begin: Alignment.centerLeft,
                 end: Alignment.centerRight,
