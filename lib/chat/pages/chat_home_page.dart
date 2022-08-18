@@ -65,28 +65,28 @@ class _ChatHomeState extends State<ChatHome> {
     });
   }
 
-  Future getConversation() async {
-    List tmpmessages = [];
-    String idConversation = HelperFunctions.getConvoID(_uid!, peerID!);
+  // Future getConversation() async {
+  //   List tmpmessages = [];
+    // String idConversation = HelperFunctions.getConvoID(_uid!, peerID!);
 
-    await FirebaseFirestore.instance
-        .collection('chats')
-        .doc(idConversation)
-        .collection('messages')
-        .orderBy('date', descending: true)
-        .get()
-        .then((snapshot) => {
-              if (snapshot.docs.length==0) {
-                print('not found'),
-                addConversation(idConversation)
-              },
-              snapshot.docs.forEach((element) {
-                print(element.data()['content']);
-                tmpmessages.add({'message': element.data()['content']});
-              })
-            });
-    messages = tmpmessages;
-  }
+  //   await FirebaseFirestore.instance
+  //       .collection('chats')
+  //       .doc(idConversation)
+  //       .collection('messages')
+  //       .orderBy('date', descending: true)
+  //       .get()
+  //       .then((snapshot) => {
+  //             if (snapshot.docs.length==0) {
+  //               print('not found'),
+  //               addConversation(idConversation)
+  //             },
+  //             snapshot.docs.forEach((element) {
+  //               print(element.data()['content']);
+  //               tmpmessages.add({'message': element.data()['content']});
+  //             })
+  //           });
+  //   messages = tmpmessages;
+  // }
 
   Future getLastMessage() async {
     List tmpsLast = [];
@@ -174,12 +174,12 @@ class _ChatHomeState extends State<ChatHome> {
                           onTap: () {
                             print(snapshot.data!.docs[i]['uid']);
                             peerID = snapshot.data!.docs[i]['uid'];
-                            getConversation();
+                            // getConversation();
                             print(messages);
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => ChatPage(conversation:messages,user:peerID ,)));
+                                    builder: (context) => ChatPage()));
                           },
                           child: CircleAvatar(
                             radius: 50,

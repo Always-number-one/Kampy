@@ -25,7 +25,7 @@ class _ChatSampleState extends State<ChatSample> {
             decoration: BoxDecoration(
               color: Color(0xFFE1E1E2),
             ),
-            child: Text("recieved Message",
+            child: Text("Hello",
             style: TextStyle(fontSize: 16),),
           ) ,
         ),
@@ -38,10 +38,10 @@ class _ChatSampleState extends State<ChatSample> {
             child:Container(
               padding:  EdgeInsets.only(left: 20,top:10,bottom: 25,right: 20),
               decoration: BoxDecoration(
-                color: Color.fromARGB(255, 57, 1, 59), 
+                color: Color.fromARGB(255, 23, 54, 84), 
                
               ),
-              child: Text("Send Message",
+              child: Text("Hi",
               style: TextStyle(fontSize:  16,color: Colors.white),),
             ) ,
           ),
