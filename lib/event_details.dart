@@ -1,5 +1,7 @@
 // ignore_for_file: avoid_print
 
+import 'dart:core';
+
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -7,7 +9,9 @@ import 'package:flutter_application_1/kampy_event.dart';
 import 'package:flutter_application_1/create_event.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:hexcolor/hexcolor.dart';
+
 import 'package:intl/intl.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 class EventDetails extends StatefulWidget {
   final String? events;
@@ -24,12 +28,11 @@ class _EventDetailsState extends State<EventDetails> {
   bool? checkUser;
 
   // convert a TimeStamp into a string ;
-  // String formatteDate(timeStamp) {
-
-  //   var dateFromTimeStamp =
-  //       DateTime.fromMillisecondsSinceEpoch(timeStamp.seconds * 1000);
-  //   return DateFormat("dd-MM-yyyy hh:mm a").format(dateFromTimeStamp);
-  // }
+//  String formatTimestamp(int timestamp) {
+//       var format = new DateFormat('d MMM, hh:mm a');
+//       var date = new DateTime.fromMillisecondsSinceEpoch(timestamp * 1000);
+//       return format.format(date);
+//     }
 
 //  final FirebaseAuth auth = FirebaseAuth.instance;
 //   checkuser(name) async {
@@ -90,10 +93,12 @@ class _EventDetailsState extends State<EventDetails> {
     FirebaseFirestore firestore = FirebaseFirestore.instance;
     // grab the collection
     CollectionReference events = firestore.collection('events');
+
     return StreamBuilder<QuerySnapshot>(
         // build snapshot using users collection
         stream: events.snapshots(),
-        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        builder:
+            (BuildContext context, AsyncSnapshot<QuerySnapshot?> snapshot) {
           if (snapshot.hasError) {
             return const Text("Something went wrong");
           }
@@ -165,14 +170,26 @@ class _EventDetailsState extends State<EventDetails> {
                                       padding: const EdgeInsets.only(
                                         bottom: 5,
                                       ),
-                                      child: Text(
-                                          "Destination:  ${snapshot.data!.docs[i]['destination']}",
-                                          style: const TextStyle(
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.w500,
-                                            color:
-                                                Color.fromARGB(255, 2, 2, 41),
-                                          )),
+                                      child: Row(
+                                        children: [
+                                          const Text("Destination: ",
+                                              style: TextStyle(
+                                                fontSize: 17,
+                                                fontWeight: FontWeight.w500,
+                                                color: Color.fromARGB(
+                                                    255, 2, 2, 41),
+                                              )),
+                                          Text(
+                                              snapshot.data!.docs[i]
+                                                  ['destination'],
+                                              style: const TextStyle(
+                                                fontSize: 17,
+                                                fontWeight: FontWeight.w300,
+                                                color: Color.fromARGB(
+                                                    255, 2, 2, 41),
+                                              )),
+                                        ],
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -182,13 +199,28 @@ class _EventDetailsState extends State<EventDetails> {
                                   padding: const EdgeInsets.only(
                                     bottom: 5,
                                   ),
-                                  child: Text(
-                                      "Starting Date: ${(snapshot.data!.docs[i]['startingDate'])}",
-                                      style: const TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.w500,
-                                        color: Color.fromARGB(255, 2, 2, 41),
-                                      )),
+                                  child: Row(
+                                    children: [
+                                      const Text("Starting Date:",
+                                          style: TextStyle(
+                                            fontSize: 17,
+                                            fontWeight: FontWeight.w500,
+                                            color:
+                                                Color.fromARGB(255, 2, 2, 41),
+                                          )),
+                                      Text(
+                                          DateTime.fromMicrosecondsSinceEpoch(
+                                                  snapshot.data!.docs[i]
+                                                      ['startingDate'].microsecondsSinceEpoch)
+                                              .toString(),
+                                          style: const TextStyle(
+                                            fontSize: 17,
+                                            fontWeight: FontWeight.w300,
+                                            color:
+                                                Color.fromARGB(255, 2, 2, 41),
+                                          )),
+                                    ],
+                                  ),
                                 ),
                                 Container(
                                   margin:
@@ -196,13 +228,28 @@ class _EventDetailsState extends State<EventDetails> {
                                   padding: const EdgeInsets.only(
                                     bottom: 5,
                                   ),
-                                  child: Text(
-                                      "Ending date:  ${snapshot.data!.docs[i]['endingDate']}",
-                                      style: const TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.w500,
-                                        color: Color.fromARGB(255, 2, 2, 41),
-                                      )),
+                                  child: Row(
+                                    children: [
+                                      const Text("Ending date:",
+                                          style: TextStyle(
+                                            fontSize: 17,
+                                            fontWeight: FontWeight.w500,
+                                            color:
+                                                Color.fromARGB(255, 2, 2, 41),
+                                          )),
+                                      Text(
+                                          DateTime.fromMicrosecondsSinceEpoch(
+                                                  snapshot.data!.docs[i]
+                                                      ['endingDate'].microsecondsSinceEpoch)
+                                              .toString(),
+                                          style: const TextStyle(
+                                            fontSize: 17,
+                                            fontWeight: FontWeight.w300,
+                                            color:
+                                                Color.fromARGB(255, 2, 2, 41),
+                                          )),
+                                    ],
+                                  ),
                                 ),
                                 Container(
                                   margin:
@@ -210,13 +257,24 @@ class _EventDetailsState extends State<EventDetails> {
                                   padding: const EdgeInsets.only(
                                     bottom: 5,
                                   ),
-                                  child: Text(
-                                      "Number of places:  ${snapshot.data!.docs[i]['nbrPlace']}",
-                                      style: const TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.w500,
-                                        color: Color.fromARGB(255, 2, 2, 41),
-                                      )),
+                                  child: Row(
+                                    children: [
+                                      const Text("Number of places:",
+                                          style: TextStyle(
+                                            fontSize: 17,
+                                            fontWeight: FontWeight.w500,
+                                            color:
+                                                Color.fromARGB(255, 2, 2, 41),
+                                          )),
+                                      Text(snapshot.data!.docs[i]['nbrPlace'],
+                                          style: const TextStyle(
+                                            fontSize: 17,
+                                            fontWeight: FontWeight.w300,
+                                            color:
+                                                Color.fromARGB(255, 2, 2, 41),
+                                          )),
+                                    ],
+                                  ),
                                 ),
                                 Container(
                                   margin:
@@ -224,13 +282,26 @@ class _EventDetailsState extends State<EventDetails> {
                                   padding: const EdgeInsets.only(
                                     bottom: 5,
                                   ),
-                                  child: Text(
-                                      "Required equipment:  ${snapshot.data!.docs[i]['requiredEquipment']}",
-                                      style: const TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.w500,
-                                        color: Color.fromARGB(255, 2, 2, 41),
-                                      )),
+                                  child: Row(
+                                    children: [
+                                      const Text("Required equipment:",
+                                          style: TextStyle(
+                                            fontSize: 17,
+                                            fontWeight: FontWeight.w500,
+                                            color:
+                                                Color.fromARGB(255, 2, 2, 41),
+                                          )),
+                                      Text(
+                                          snapshot.data!.docs[i]
+                                              ['requiredEquipment'],
+                                          style: const TextStyle(
+                                            fontSize: 17,
+                                            fontWeight: FontWeight.w300,
+                                            color:
+                                                Color.fromARGB(255, 2, 2, 41),
+                                          )),
+                                    ],
+                                  ),
                                 ),
                                 Container(
                                   margin:
@@ -238,24 +309,42 @@ class _EventDetailsState extends State<EventDetails> {
                                   padding: const EdgeInsets.only(
                                     bottom: 5,
                                   ),
-                                  child: Text(
-                                      "Group:  ${snapshot.data!.docs[i]['group']}",
-                                      style: const TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.w500,
-                                        color: Color.fromARGB(255, 2, 2, 41),
-                                      )),
+                                  child: Row(
+                                    children: [
+                                      const Text("Group:",
+                                          style: TextStyle(
+                                            fontSize: 17,
+                                            fontWeight: FontWeight.w500,
+                                            color:
+                                                Color.fromARGB(255, 2, 2, 41),
+                                          )),
+                                      Text(snapshot.data!.docs[i]['group'],
+                                          style: const TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.w300,
+                                            color:
+                                                Color.fromARGB(255, 2, 2, 41),
+                                          )),
+                                    ],
+                                  ),
                                 ),
                                 SingleChildScrollView(
                                   child: Column(
                                     // padding: const EdgeInsets.only(
                                     //     bottom: 5, left: 10),
                                     children: [
-                                      Text(
-                                          "Description:  ${snapshot.data!.docs[i]['description']}",
-                                          style: const TextStyle(
-                                            fontSize: 18,
+                                      const Text("Description: ",
+                                          style: TextStyle(
+                                            fontSize: 17,
                                             fontWeight: FontWeight.w500,
+                                            color:
+                                                Color.fromARGB(255, 2, 2, 41),
+                                          )),
+                                      Text(
+                                          snapshot.data!.docs[i]['description'],
+                                          style: const TextStyle(
+                                            fontSize: 17,
+                                            fontWeight: FontWeight.w300,
                                             color:
                                                 Color.fromARGB(255, 2, 2, 41),
                                           )),
@@ -311,6 +400,7 @@ class _EventDetailsState extends State<EventDetails> {
 
   @override
   Widget build(BuildContext context) {
+    initializeDateFormatting('fr');
     return Scaffold(
       appBar: AppBar(
         title: const Text("Event details"),
