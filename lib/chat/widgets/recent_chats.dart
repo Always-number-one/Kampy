@@ -2,9 +2,11 @@
 
 import 'package:flutter/material.dart';
 
+import '../pages/chat_page.dart';
+
 class RecentChats extends StatelessWidget {
   final chats;
-  const RecentChats({key , required, required this.chats}) : super(key: key);
+  const RecentChats({key ,required this.chats}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -30,9 +32,10 @@ class RecentChats extends StatelessWidget {
             Padding(
               padding: EdgeInsets.symmetric(vertical: 15),
               child: InkWell(
-                onTap: () {
-                  Navigator.pushNamed(context, 'chatPage');
-                },
+                // onTap: () {
+                //  Navigator.push(context,
+                //         MaterialPageRoute(builder: (context)=>ChatPage()));
+                // },
                 child: Container(
                   height: 65,
                   child: Row(

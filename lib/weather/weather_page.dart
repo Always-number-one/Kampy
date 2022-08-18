@@ -154,7 +154,7 @@ class WeatherPage extends StatelessWidget {
                     child: Text(
                       'Today, $day $month',
                       style: TextStyle(
-                        fontSize: 18,
+                        fontSize: 20,
                         color: Colors.white,
                       ),
                     ),
@@ -198,7 +198,7 @@ class WeatherPage extends StatelessWidget {
                         // Icon
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
+                          children: const [
                             Icon(
                               Icons.flag_outlined,
                               color: Colors.white,
@@ -224,7 +224,7 @@ class WeatherPage extends StatelessWidget {
                         // Type
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
+                          children: const [
                             Text(
                               'Country',
                               style: TextStyle(
@@ -261,7 +261,7 @@ class WeatherPage extends StatelessWidget {
                         SizedBox(width: 20),
                         // Divider
                         Column(
-                          children: [
+                          children: const [
                             Text(
                               '|',
                               style: TextStyle(
@@ -374,7 +374,7 @@ class WeatherPage extends StatelessWidget {
                   Icons.image_rounded,
                   Icons.post_add_rounded
                 ],
-                backgroundColorMiddleIcon: HexColor('#675975'),
+                backgroundColorMiddleIcon: HexColor('#7b94c4'),
                 onTapButton: (i) {
   
                     index = i;
@@ -398,9 +398,9 @@ class WeatherPage extends StatelessWidget {
             gradient: LinearGradient(
               begin: Alignment.bottomLeft,
               end: Alignment.topRight,
-              colors: [
-                Color.fromARGB(255, 156, 152, 152),
-                Color.fromARGB(255, 128, 162, 172),
+              colors: const [
+                Color.fromARGB(255, 78, 111, 204),
+                Color.fromARGB(255, 255, 255, 255),
               ],
             ),
           ),
