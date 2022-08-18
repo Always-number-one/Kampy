@@ -146,12 +146,11 @@ class _ShopsState extends State<Shops> {
                                     ),
                                     // plus button to delete and update
                                     Container(
-                                      margin: const EdgeInsets.only(left: 200),
+                                      margin: const EdgeInsets.only(left: 212),
                                       child: IconButton(
                                         icon: const Icon(Icons.delete),
-                                        color:
-                                            Color.fromARGB(249, 255, 250, 250),
-                                        iconSize: 29.0,
+                                        color: Color.fromARGB(248, 211, 40, 40),
+                                        iconSize: 19.0,
                                         onPressed: () async {
                                           // check if it's the same user
                                           await checkuser(snapshot.data!.docs[i]
@@ -175,11 +174,11 @@ class _ShopsState extends State<Shops> {
                                   children: [
                                     Container(
                                       margin: const EdgeInsets.only(
-                                          left: 10,
+                                          left: 1,
                                           right: 10,
                                           top: 10,
                                           bottom: 5),
-                                      height: 150,
+                                      height: 170,
                                       width: 150,
                                       decoration: BoxDecoration(
                                           image: DecorationImage(
@@ -190,57 +189,146 @@ class _ShopsState extends State<Shops> {
                                       )),
                                     ),
                                     Container(
-                                       margin: const EdgeInsets.only(
-                                          left: 10,
-                                          right: 10,
-                                          top:10,
-                                          bottom: 5),
-                                        child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                            "Name :" +
-                                                snapshot.data!.docs[i]['title']+"\n",
-                                            style: const TextStyle(
-                                              // backgroundColor: Color.fromARGB(255, 183, 180, 185),
-                                              fontWeight: FontWeight.normal,
-                                              fontSize: 17,
-                                            ),
-                                            textAlign: TextAlign.center,
-                                            ),
-                                        Text(
-                                            "Description :" +
-                                                snapshot.data!.docs[i]
-                                                    ['description']+"\n",
-                                            style: const TextStyle(
-                                              // backgroundColor: Color.fromARGB(255, 183, 180, 185),
-                                              fontWeight: FontWeight.normal,
-                                              fontSize: 17,
-                                            ),
-                                            textAlign: TextAlign.center,
-                                            ),
-                                        Text(
-                                            "Price :" +
-                                                snapshot.data!.docs[i]['price']+"\n",
-                                            style: const TextStyle(
-                                              // backgroundColor: Color.fromARGB(255, 183, 180, 185),
-                                              fontWeight: FontWeight.normal,
-                                              fontSize: 17,
-                                            ),
-                                            textAlign: TextAlign.center,
-                                            ),
-                                        Text("Phone Number :" +snapshot.data!.docs[i]['phoneN'],
-                                            style: const TextStyle(
-                                              // backgroundColor: Color.fromARGB(255, 183, 180, 185),
-                                              fontWeight: FontWeight.normal,
-                                              fontSize: 17,
-                                            )),
-                                      ],
-                                    ),
+                                      margin: const EdgeInsets.only(
+                                          left: 1,
+                                          right: 1,
+                                          top: 10,
+                                          bottom: 10),
+                                      width: 200,
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        children: [
+                                          Container(
+                                              child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            children: [
+                                              Text("\n"),
+                                              const Icon(
+                                                Icons.circle,
+                                                color: Color.fromARGB(248, 0, 0, 0),
+                                                size: 19.0,
+                                              ),
+                                              // const Text("Name: ",
+                                              //     style: TextStyle(
+                                              //       // backgroundColor: Color.fromARGB(255, 183, 180, 185),
+                                              //       fontWeight:
+                                              //           FontWeight.bold,
+                                              //       fontSize: 17,
+                                              //       color: Color.fromARGB(255, 24, 38, 48)
+                                              //     )),
+                                              Text(
+                                                " " +
+                                                    snapshot.data!.docs[i]
+                                                        ['title'],
+                                                style: TextStyle(fontSize: 15),
+                                                textAlign: TextAlign.left,
+                                              ),
+                                            ],
+                                          )),
+                                          Container(
+                                              child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            children: [
+                                              const Text("\n" + "\n"),
+                                              const Icon(Icons.description_rounded,
+                                                color: Color.fromARGB(248, 0, 0, 0),
+                                                size: 19.0,),
+                                              // const Text("Dscr: ",
+                                              //     style: TextStyle(
+                                              //       // backgroundColor: Color.fromARGB(255, 183, 180, 185),
+                                              //       fontWeight:
+                                              //           FontWeight.bold,
+                                              //       fontSize: 17,
+                                              //       color: Color.fromARGB(255, 24, 38, 48)
+                                              //     )),
+                                              Text(
+                                                " " +
+                                                    snapshot.data!.docs[i]
+                                                        ['description'],
+                                                style: TextStyle(fontSize: 15),
+                                                textAlign: TextAlign.left,
+                                              ),
+                                            ],
+                                          )),
+                                          Container(
+                                              child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            children: [
+                                              const Text("\n" + "\n"),
+                                              const Icon(Icons.price_change_rounded,
+                                                color: Color.fromARGB(248, 0, 0, 0),
+                                                size: 19.0,),
+                                              // const Text("Price: ",
+                                              //     style: TextStyle(
+                                              //       // backgroundColor: Color.fromARGB(255, 183, 180, 185),
+                                              //       fontWeight:
+                                              //           FontWeight.bold,
+                                              //       fontSize: 17,
+                                              //       color: Color.fromARGB(255, 24, 38, 48)
+                                              //     )),
+                                              Text(
+                                                " " +
+                                                    snapshot.data!.docs[i]
+                                                        ['price'] +
+                                                    " Dinar Tun",
+                                                style: TextStyle(fontSize: 15),
+                                                textAlign: TextAlign.left,
+                                              ),
+                                            ],
+                                          )),
+                                          Container(
+                                              child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            children: [
+                                              const Text("\n"),
+                                              const Icon(Icons.phone,
+                                                color: Color.fromARGB(248, 0, 0, 0),
+                                                size: 19.0,),
+                                              // const Text("P-Number: ",
+                                              //     style: TextStyle(
+                                              //       // backgroundColor: Color.fromARGB(255, 183, 180, 185),
+                                              //       fontWeight:
+                                              //           FontWeight.bold,
+                                              //       fontSize: 17,
+                                              //       color: Color.fromARGB(255, 24, 38, 48)
+                                              //     )),
+                                              Text(
+                                                " " +
+                                                    snapshot.data!.docs[i]
+                                                        ['phoneN'],
+                                                style: TextStyle(fontSize: 15),
+                                                textAlign: TextAlign.left,
+                                              ),
+                                            ],
+                                          )),
+                                        ],
+                                      ),
                                     ),
                                   ],
                                 ),
+                                Container(
+                          margin: const EdgeInsets.only(
+                              left: 1, right: 1, top: 30, bottom: 0),
+                          width: 180,
+                        ),
+                        const Divider(
+                          color:
+                              Color.fromARGB(255, 0, 0, 0), //color of divider
+                          height: 1, //height spacing of divider
+                          thickness: 1, //thickness of divier line
+                          indent: 15, //spacing at the start of divider
+                          endIndent: 15, //spacing at the end of divider
+                        ),
+                        Container(
+                          margin: const EdgeInsets.only(
+                              left: 1, right: 1, top: 0, bottom: 10),
+                          width: 180,
+                        )
                               ]),
                         ),
                         const SizedBox(height: 20),
@@ -258,7 +346,7 @@ class _ShopsState extends State<Shops> {
     return Scaffold(
 // appp bar
       appBar: AppBar(
-        title: const Text("Shop"),
+        title: const Text("Kampy Shop"),
         centerTitle: true,
         flexibleSpace: Container(
           decoration: BoxDecoration(
