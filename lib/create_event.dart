@@ -280,7 +280,7 @@ class _CreateEventState extends State<CreateEvent> {
                               children: [
                                 Text("${startingDate.toLocal()}".split(' ')[0]),
                                 const SizedBox(
-                                  height: 20.0,
+                                  height: 10.0,
                                 ),
                                 ElevatedButton(
                                   style: ButtonStyle (backgroundColor: MaterialStateProperty.all<Color>(HexColor('#675975'))),
@@ -310,7 +310,7 @@ class _CreateEventState extends State<CreateEvent> {
                               children: [
                                 Text("${endingDate.toLocal()}".split(' ')[0]),
                                 const SizedBox(
-                                  height: 20.0,
+                                  height: 10.0,
                                 ),
                                 ElevatedButton(
                                   style: ButtonStyle (backgroundColor: MaterialStateProperty.all<Color>(HexColor('#675975'))),
