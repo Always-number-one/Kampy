@@ -116,6 +116,11 @@ dependencies:
   
   mockito: ^3.0.2
   nested: ^0.0.4
+  simple_shadow: ^0.3.0
+  lottie: ^1.4.1
+
+  timeago: ^3.3.0
+
 
 
 
