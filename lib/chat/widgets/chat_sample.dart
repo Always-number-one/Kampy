@@ -6,7 +6,7 @@ import 'package:custom_clippers/custom_clippers.dart';
 
 class ChatSample extends StatefulWidget {
   const ChatSample({Key? key}) : super(key: key);
-
+  
   @override
   State<ChatSample> createState() => _ChatSampleState();
 }
