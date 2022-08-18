@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
-import 'pages/chat_page.dart';
+
 import 'pages/chat_home_page.dart';
 
 class Chat extends StatelessWidget {
@@ -10,10 +10,6 @@ class Chat extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return (ChatHome());
-    // routes: {
-    //   "/":(context)=> ChatHome(),
-    //   "chatPage": (context)=>ChatPage()
-    // },
-    ;
+  
   }
 }
