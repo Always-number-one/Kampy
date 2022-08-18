@@ -9,16 +9,11 @@ class Chat extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        scaffoldBackgroundColor: Colors.white,
-       
-      ),
-      routes: {
-        "/":(context)=> ChatHome(),
-        "chatPage": (context)=>ChatPage()
-      },
-    );
+    return (ChatHome());
+    // routes: {
+    //   "/":(context)=> ChatHome(),
+    //   "chatPage": (context)=>ChatPage()
+    // },
+    ;
   }
 }
