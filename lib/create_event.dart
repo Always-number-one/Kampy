@@ -119,7 +119,7 @@ class _CreateEventState extends State<CreateEvent> {
   }
 
   //function to pick starting date from calender with showDatePicker()
-  Future<void> _selectDate(BuildContext context) async {
+  Future<void> _selectStartingDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
         context: context,
         initialDate: startingDate,
@@ -273,18 +273,31 @@ class _CreateEventState extends State<CreateEvent> {
                             ),
                           ),
                           //Select starting date from calender
-                          Padding(
+                            Padding(
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 8, vertical: 16),
                             child: Column(
                               children: [
                                 Text("${startingDate.toLocal()}".split(' ')[0]),
                                 const SizedBox(
-                                  height: 20.0,
+                                  height: 10.0,
                                 ),
                                 ElevatedButton(
-                                  onPressed: () => _selectDate(context),
-                                  child: const Text('Select Starting date'),
+                                  style: ButtonStyle (backgroundColor: MaterialStateProperty.all<Color>(HexColor('#675975'))),
+                                  onPressed: () => _selectStartingDate(context),
+                                  child:RichText(
+                                    text: const TextSpan(
+                                      children: [
+                                    
+                                    WidgetSpan(
+                                      child: Padding(padding: EdgeInsets.symmetric(horizontal: 2.0),
+                                      child: Icon(Icons.calendar_month_outlined),
+                                      )
+                                    ),
+                                    TextSpan(text:'Starting date'),
+                                      ]
+                                    ),
+                                  )
                                 ),
                               ],
                             ),
@@ -297,11 +310,24 @@ class _CreateEventState extends State<CreateEvent> {
                               children: [
                                 Text("${endingDate.toLocal()}".split(' ')[0]),
                                 const SizedBox(
-                                  height: 20.0,
+                                  height: 10.0,
                                 ),
                                 ElevatedButton(
+                                  style: ButtonStyle (backgroundColor: MaterialStateProperty.all<Color>(HexColor('#675975'))),
                                   onPressed: () => _selectEndingDate(context),
-                                  child: const Text('Select Ending date'),
+                                  child:RichText(
+                                    text: const TextSpan(
+                                      children: [
+                                    
+                                    WidgetSpan(
+                                      child: Padding(padding: EdgeInsets.symmetric(horizontal: 2.0),
+                                      child: Icon(Icons.calendar_month_outlined),
+                                      )
+                                    ),
+                                    TextSpan(text:'Ending  date'),
+                                      ]
+                                    ),
+                                  )
                                 ),
                               ],
                             ),
