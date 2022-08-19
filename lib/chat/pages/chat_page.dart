@@ -5,9 +5,16 @@ import 'package:flutter/material.dart';
 import '../widgets/chat_bottom_sheet.dart';
 import '../widgets/chat_sample.dart';
 
-class ChatPage extends StatelessWidget {
-  const ChatPage({Key? key}) : super(key: key);
+class ChatPage extends StatefulWidget {
+  final  conversation; 
+  final user;
+  ChatPage({Key? key, required this.conversation, required this.user}) : super(key: key);
 
+  @override
+  State<ChatPage> createState() => _ChatPageState();
+}
+
+class _ChatPageState extends State<ChatPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,15 +29,18 @@ class ChatPage extends StatelessWidget {
             title: Row(children: [
               ClipRRect(
                 borderRadius: BorderRadius.circular(45),
-                child: Image.asset('images/profile1.jpg',
-                height: 45,
-                width: 45,
+                child: Image.asset(
+                  'images/profile1.jpg',
+                  height: 45,
+                  width: 45,
                 ),
-                
               ),
-              Padding(padding: EdgeInsets.only(left: 10),
-              child: Text('User',
-              style: TextStyle(color: Colors.white),),
+              Padding(
+                padding: EdgeInsets.only(left: 10),
+                child: Text(
+                  'User',
+                  style: TextStyle(color: Colors.white),
+                ),
               )
             ]),
           ),
