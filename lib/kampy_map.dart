@@ -30,7 +30,7 @@ class _MapKampyState extends State<MapKampy> {
 
 // original navbar
   int index = 0;
-  final List<Widget> _views = [KampyEvent(), MapKampy(), Chat(), Welcome()];
+  final List<Widget> _views = [WeatherPage(), MapKampy(), Chat(), Welcome()];
 
   final LatLng _center = const LatLng(45.521563, -122.677433);
 
