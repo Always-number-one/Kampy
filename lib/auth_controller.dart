@@ -92,6 +92,7 @@ final saveStorage = await FirebaseStorage.instance.ref().child(name).putFile(Fil
     "photoUrl":downloadUrl,
     "eventName":" ",
     "likes":[],
+    "messagesIds":[],
   });
 
     return _user(user);
