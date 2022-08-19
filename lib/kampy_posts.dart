@@ -705,6 +705,7 @@ class PostsTitle extends StatelessWidget {
                           color: Color.fromARGB(255, 0, 0, 0)),
                     ),
                   ])),
+                  
           Container(
             margin: const EdgeInsets.fromLTRB(190, 30, 00, 10),
             width: MediaQuery.of(context).size.width,

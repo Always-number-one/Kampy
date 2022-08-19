@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "860256847653",
-    "project_id": "kampy-2",
-    "storage_bucket": "kampy-2.appspot.com"
+    "project_number": "1072645436092",
+    "project_id": "kampy-3",
+    "storage_bucket": "kampy-3.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:860256847653:android:ef3508b26eaff3ff0c7ccc",
+        "mobilesdk_app_id": "1:1072645436092:android:447a08c0988294de1a16b9",
         "android_client_info": {
           "package_name": "com.example.kampy"
         }
       },
       "oauth_client": [
         {
-          "client_id": "860256847653-cs3cotg962na1fsk8jb46cd0a0q74cfs.apps.googleusercontent.com",
+          "client_id": "1072645436092-lpd1k65vj1nqg18ldh024e7dhlp3115h.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAlw4d-UilV5IZONiZaLfMxlfhrJuiNK-E"
+          "current_key": "AIzaSyAoBiXoFrmXbY3tHuw_P1xGSR93eoL2Aro"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "860256847653-cs3cotg962na1fsk8jb46cd0a0q74cfs.apps.googleusercontent.com",
+              "client_id": "1072645436092-lpd1k65vj1nqg18ldh024e7dhlp3115h.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
