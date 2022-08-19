@@ -28,6 +28,10 @@ class ChatHome extends StatefulWidget {
 }
 
 class _ChatHomeState extends State<ChatHome> {
+  // create firestore instance
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
+  // get the collection
+  CollectionReference chats = FirebaseFirestore.instance.collection('chats');
   // authonticaion
   final FirebaseAuth auth = FirebaseAuth.instance;
   // navbar
@@ -171,10 +175,19 @@ class _ChatHomeState extends State<ChatHome> {
                               )
                             ]),
                         child: GestureDetector(
-                          onTap: () {
-                            print(snapshot.data!.docs[i]['uid']);
+                          onTap: ()async  {
+                            var obj ={"fromId":uid,"message":"","toId":snapshot.data!.docs[i]['uid']};
+                                QuerySnapshot chatsSnapshot = await chats.get();
+                                    //  var arrChats=  chatsSnapshot.docs[i]['conversation'];
+                                    var arrChats=[];
+                                    arrChats.add(obj);
+                           chats.add({
+                               "conversation":arrChats  })
+                      .then((value) => print("message successfully add"))
+                           .catchError((error) => print("Failed to add user: $error"));
+                          
                             peerID = snapshot.data!.docs[i]['uid'];
-                            // getConversation();
+                 
                             print(messages);
                             Navigator.push(
                                 context,
