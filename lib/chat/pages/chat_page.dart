@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 // chat clipper
 import 'package:custom_clippers/custom_clippers.dart';
+import 'chat_home_page.dart';
 
 class ChatPage extends StatefulWidget {
 
@@ -22,8 +23,7 @@ class _ChatPageState extends State<ChatPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar:  AppBar(
-        
-         
+automaticallyImplyLeading: false,
         flexibleSpace: Container(
           decoration:  BoxDecoration(
             gradient: LinearGradient(
@@ -33,6 +33,14 @@ class _ChatPageState extends State<ChatPage> {
           ),
         ),
         title: Row(children: [
+          IconButton(onPressed: ()=>{
+            Navigator.push( context,
+                                MaterialPageRoute(
+                                    builder: (context) => ChatHome())
+                                    )
+                                
+          }, icon:Icon(Icons.arrow_back)
+          ),
               ClipRRect(
                 borderRadius: BorderRadius.circular(45),
                 child: Image.asset(
