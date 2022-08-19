@@ -14,6 +14,7 @@ import 'chat/chat_main.dart';
 import 'kampy_welcome.dart';
 import 'kampy_shops.dart';
 import 'create_event.dart';
+import "./weather/weather_page.dart";
 
 class MapKampy extends StatefulWidget {
   MapKampy({Key? key}) : super(key: key);
