@@ -3,11 +3,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/chat/widgets/recent_chats.dart';
+import 'package:flutter_application_1/chat/helper/helper_Functions.dart';
 import 'package:flutter_application_1/kampy_posts.dart';
 import 'package:intl/intl.dart';
-import '../widgets/active_chats.dart';
-
+import 'chat_page.dart';
 // navbar
 
 import 'package:flutter_application_1/kampy_event.dart';
@@ -20,13 +19,21 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ChatHome extends StatefulWidget {
-  const ChatHome({Key? key}) : super(key: key);
+  const ChatHome({
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<ChatHome> createState() => _ChatHomeState();
 }
 
 class _ChatHomeState extends State<ChatHome> {
+  // create firestore instance
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
+  // get the collection
+  CollectionReference chats = FirebaseFirestore.instance.collection('chats');
+  // authonticaion
+  final FirebaseAuth auth = FirebaseAuth.instance;
   // navbar
   final List<Widget> _pages = [KampyEvent(), Posts(), Welcome(), Chat()];
 // plus button array of pages
@@ -34,57 +41,56 @@ class _ChatHomeState extends State<ChatHome> {
   int index = 0;
 
   final controller = TextEditingController();
-  List usersPhotos = [];
   List lastMessages = [];
-  String? _name;
+  List usersID = [];
+  List messages = [];
+ 
   String? _photoUrl;
   String? _uid;
+  String? peerID;
 
-  loggedUser() async {
-    final user = FirebaseAuth.instance.currentUser!;
-    await FirebaseFirestore.instance
-        .collection('users')
-        .doc(user.uid)
-        .get()
-        .then((value) {
-      _name = value.data()!['name'];
-      _photoUrl = value.data()!["photorUrl"];
-      _uid = value.data()!['uid'];
-    });
-  }
+// show users in the top
 
-  Future getUsers() async {
-    List tmpUsersPhotos = [];
-    await FirebaseFirestore.instance
-        .collection("users")
-        .where("uid", isNotEqualTo: _uid)
-        .get()
-        .then((snapshot) => snapshot.docs.forEach((doc) {
-              tmpUsersPhotos.add({
-                'photoUrl': doc.data()['photoUrl'],
-                "name": doc.data()["name"],
-                "id": doc.data()['uid']
-              });
-            }));
-    usersPhotos = tmpUsersPhotos;
-  }
   // convert a TimeStamp into a string ;
 
   String formatteDate(timeStamp) {
-    
     var dateFromTimeStamp =
         DateTime.fromMillisecondsSinceEpoch(timeStamp.seconds * 1000);
-    return DateFormat("dd-MM-yyyy hh:mm a").format(dateFromTimeStamp);
+    return DateFormat("hh:mm a").format(dateFromTimeStamp);
+  }
+  // get a coversation between two users
+
+  Future addConversation(idConversation) async {
+   await FirebaseFirestore.instance
+        .collection('chats')
+        .add(idConversation)
+        .catchError((e) {
+      print(e);
+    });
   }
 
-  Future getUserbyID(id) async {
-    var result;
-    await FirebaseFirestore.instance
-        .collection("users")
-        .where('id', isEqualTo: id)
-        .get()
-        .then((value) => result = {value});
-  }
+  // Future getConversation() async {
+  //   List tmpmessages = [];
+    // String idConversation = HelperFunctions.getConvoID(_uid!, peerID!);
+
+  //   await FirebaseFirestore.instance
+  //       .collection('chats')
+  //       .doc(idConversation)
+  //       .collection('messages')
+  //       .orderBy('date', descending: true)
+  //       .get()
+  //       .then((snapshot) => {
+  //             if (snapshot.docs.length==0) {
+  //               print('not found'),
+  //               addConversation(idConversation)
+  //             },
+  //             snapshot.docs.forEach((element) {
+  //               print(element.data()['content']);
+  //               tmpmessages.add({'message': element.data()['content']});
+  //             })
+  //           });
+  //   messages = tmpmessages;
+  // }
 
   Future getLastMessage() async {
     List tmpsLast = [];
@@ -104,77 +110,27 @@ class _ChatHomeState extends State<ChatHome> {
 
     lastMessages = tmpsLast;
   }
-
-  @override
-  Widget build(BuildContext context) {
-    getLastMessage();
-    getUsers();
-    loggedUser();
-    print(lastMessages);
-    return Scaffold(
-         appBar: AppBar(
-          title: const Text('Kampy Chat'),
-          centerTitle: true,
-          flexibleSpace: Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                  begin: Alignment.centerLeft,
-                  end: Alignment.centerRight,
-                  colors: [HexColor('#675975'), HexColor('#7b94c4')]
-                  ),
-            ),
-          ),
-        ),
-      drawer: Drawer(),
-       // navbar bottom
-        bottomNavigationBar: Builder(
-            builder: (context) => AnimatedBottomBar(
-                  defaultIconColor: HexColor('#7b94c4'),
-                  activatedIconColor: HexColor('#7b94c4'),
-                  background: Colors.white,
-                  buttonsIcons: const [
-                    Icons.sunny_snowing,
-                    Icons.explore_sharp,
-                    Icons.messenger_outlined,
-                    Icons.person
-                  ],
-                  buttonsHiddenIcons: const [
-                    Icons.event_outlined,
-                    Icons.shopping_bag,
-                    Icons.image_rounded,
-                    Icons.post_add_rounded
-                  ],
-                  backgroundColorMiddleIcon: HexColor('#7b94c4'),
-                  onTapButton: (i) {
-                    setState(() {
-                      index = i;
-                    });
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => _views[i]),
-                    );
-                  },
-                  // navigate between pages
-                  onTapButtonHidden: (i) {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => _pages[i]),
-                    );
-                  },
-                )),
-// navbar bottom ends here
-      
-      body: ListView(children: [
-        Padding(
-          padding: EdgeInsets.symmetric(vertical: 25, horizontal: 20),
-          child: Text(
-            "$_name",
-            style: TextStyle(
-                color: HexColor('#7b94c4'),
-                fontSize: 28,
-                fontWeight: FontWeight.bold),
-          ),
-        ),
+  // body users list
+  usersList (){
+                // get current user connected
+    final User? user = auth.currentUser;
+    final uid = user?.uid;
+    //  create firestore instance
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
+    // grab the collection
+    CollectionReference Users = firestore.collection('users');
+    return StreamBuilder<QuerySnapshot>(
+       stream: Users.snapshots(),
+        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot)  {
+          if (snapshot.hasError) {
+            return const Text("Something went wrong");
+          }
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Text("loading");
+          }
+          if (snapshot.hasData) {
+            return ListView(children: [
+       
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 15),
           child: Container(
@@ -190,39 +146,208 @@ class _ChatHomeState extends State<ChatHome> {
                     offset: Offset(0, 3),
                   )
                 ]),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                SizedBox(
-                    width: 300,
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 15),
-                      child: TextFormField(
-                        decoration: InputDecoration(
-                            hintText: "Search", border: InputBorder.none),
-                      ),
-                    )),
-                Icon(
-                  Icons.search,
-                  color:HexColor('#7b94c4'),
-                )
-              ],
-            ),
+         
           ),
         ),
-        ActiveChats(
-          photos: usersPhotos,
+        Padding(
+          padding: EdgeInsets.only(top: 25, left: 5),
+          child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: [
+                  for (var i = 0; i < snapshot.data!.docs.length; i++)
+                  if(uid!=snapshot.data!.docs[i]['uid'])
+                    Padding(
+                      padding:
+                          EdgeInsets.symmetric(vertical: 10, horizontal: 12),
+                      child: Container(
+                        width: 65,
+                        height: 65,
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(35),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.5),
+                                blurRadius: 10,
+                                spreadRadius: 2,
+                                offset: Offset(0, 3),
+                              )
+                            ]),
+                        child: GestureDetector(
+                          onTap: ()async  {
+                            var obj ={"fromId":uid,"message":"","toId":snapshot.data!.docs[i]['uid']};
+                                QuerySnapshot chatsSnapshot = await chats.get();
+                                    //  var arrChats=  chatsSnapshot.docs[i]['conversation'];
+                                    var arrChats=[];
+                                    arrChats.add(obj);
+                           chats.add({
+                               "conversation":arrChats  })
+                      .then((value) => print("message successfully add"))
+                           .catchError((error) => print("Failed to add user: $error"));
+                          
+                            peerID = snapshot.data!.docs[i]['uid'];
+                 
+                            print(messages);
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ChatPage()));
+                          },
+                          child: CircleAvatar(
+                            radius: 50,
+                            backgroundImage:
+                                NetworkImage(snapshot.data!.docs[i]['photoUrl']),
+                          ),
+                        ),
+                      ),
+                    ),
+                ],
+              )),
         ),
-        RecentChats(chats: lastMessages),
-      ]),
-      floatingActionButton: FloatingActionButton(
-        // this hero tag for the navbar 
-        heroTag: "navbar",
-
-        onPressed: () {},
-        backgroundColor: HexColor('#7b94c4'),
-        child: Icon(Icons.message),
+        // recent chats container
+Container(
+      margin: EdgeInsets.only(top: 20),
+      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 25),
+      decoration: BoxDecoration(
+          color: Color.fromARGB(220, 255, 255, 255),
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(35),
+            topRight: Radius.circular(35),
+          ),
+          boxShadow: [
+            BoxShadow(
+                color: Colors.grey.withOpacity(0.2),
+                blurRadius: 10,
+                spreadRadius: 2,
+                offset: Offset(0, 2))
+          ]
+          ),
+      child: Column(
+        children: [
+          for (int i = 0; i < 10 ; i++) // map throug the data
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 15),
+              child: InkWell(
+                // onTap: () {
+                //  Navigator.push(context,
+                //         MaterialPageRoute(builder: (context)=>ChatPage()));
+                // },
+                child: Container(
+                  height: 65,
+                  child: Row(
+                    children: [
+                      // CircleAvatar(
+                      //   radius: 35,
+                      //   backgroundImage: NetworkImage(chats[i]['senderURL']),
+                      // ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 20),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "sameh",
+                              style: TextStyle(
+                                fontSize: 18,
+                                color: Color.fromARGB(255, 19, 13, 24),
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Text(
+                             'hello',   
+                              style: TextStyle(
+                                  fontSize: 16, color: Colors.black54),
+                            )
+                          ],
+                        ),
+                      ),
+                      Spacer(),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 10),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                             '22',
+                              style: TextStyle(
+                                  fontSize: 15, color: Colors.black54),
+                            ),
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            )
+        ],
       ),
+    )
+          ]);
+     
+          }
+           return Text("nothing here yet");
+  });
+}
+  @override
+  Widget build(BuildContext context)  {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Kampy Chat'),
+        centerTitle: true,
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+                begin: Alignment.centerLeft,
+                end: Alignment.centerRight,
+                colors: [HexColor('#675975'), HexColor('#7b94c4')]),
+          ),
+        ),
+      ),
+      drawer: Drawer(),
+      // navbar bottom
+      bottomNavigationBar: Builder(
+          builder: (context) => AnimatedBottomBar(
+                defaultIconColor: HexColor('#7b94c4'),
+                activatedIconColor: HexColor('#7b94c4'),
+                background: Colors.white,
+                buttonsIcons: const [
+                  Icons.sunny_snowing,
+                  Icons.explore_sharp,
+                  Icons.messenger_outlined,
+                  Icons.person
+                ],
+                buttonsHiddenIcons: const [
+                  Icons.event_outlined,
+                  Icons.shopping_bag,
+                  Icons.image_rounded,
+                  Icons.post_add_rounded
+                ],
+                backgroundColorMiddleIcon: HexColor('#7b94c4'),
+                onTapButton: (i) {
+                  setState(() {
+                    index = i;
+                  });
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => _views[i]),
+                  );
+                },
+                // navigate between pages
+                onTapButtonHidden: (i) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => _pages[i]),
+                  );
+                },
+              )),
+// navbar bottom ends here
+
+      body: usersList()
     );
   }
 }

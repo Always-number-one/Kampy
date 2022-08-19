@@ -19,27 +19,13 @@ class ChatBottomSheet extends StatelessWidget {
       ]),
       // ignore: prefer_const_literals_to_create_immutables
       child: Row(children: [
-        Padding(
-          padding: EdgeInsets.only(left: 10),
-          child: Icon(
-            Icons.add,
-            color: Color.fromARGB(255, 57, 1, 59),
-            size: 30,
-          ),
-        ),
-        Padding(
-          padding: EdgeInsets.only(left: 10),
-          child: Icon(
-            Icons.emoji_emotions,
-            color: Color.fromARGB(255, 57, 1, 59),
-            size: 30,
-          ),
-        ),
+        
+       
         Padding(
           padding: EdgeInsets.only(left: 10),
           child: Container(
             alignment: Alignment.centerRight,
-            width: 270,
+            width: 250,
             child: TextFormField(
               decoration: InputDecoration(
                 hintText: "Type Something",
@@ -54,7 +40,7 @@ class ChatBottomSheet extends StatelessWidget {
           padding: EdgeInsets.only(right: 10),
           icon: Icon(
             Icons.send,
-            color: Color.fromARGB(255, 57, 1, 59),
+            color: Color.fromARGB(255, 148, 98, 195),
             size: 30,
           ),
         )

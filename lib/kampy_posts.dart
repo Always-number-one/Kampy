@@ -20,13 +20,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'navbar_animated.dart';
 
 import 'chat/chat_main.dart';
+
 import './kampy_welcome.dart';
 import 'kampy_shops.dart';
 import 'auth_controller.dart';
 // import emoji
 import 'kampy_emoji.dart';
-
-
 
 
 

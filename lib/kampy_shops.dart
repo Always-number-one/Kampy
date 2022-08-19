@@ -149,8 +149,9 @@ class _ShopsState extends State<Shops> {
                                       padding: const EdgeInsets.only(
                                           bottom: 5, left: 10),
                                       child: Text(
-                                        snapshot.data!.docs[i]['userName'], style: TextStyle(
-                                                      fontSize: 20,)
+                                        snapshot.data!.docs[i]['userName'],
+                                         style: TextStyle(
+                                                      fontSize: 17,)
                                       ),
                                     ),
                                     // plus button to delete and update
@@ -280,6 +281,9 @@ class _ShopsState extends State<Shops> {
                                               const  Align(
                                                     alignment:
                                                         Alignment.topLeft),
+                                                        //  Icon(
+                                                        //   Icons.description
+                                                        // ),
                                                 const Text("Description ",
                                                     style: TextStyle(
                                                       // backgroundColor: Color.fromARGB(255, 183, 180, 185),
@@ -379,13 +383,9 @@ class _ShopsState extends State<Shops> {
                                                const Align(
                                                     alignment:
                                                         Alignment.topLeft),
-                                                        const Text("P-Number ",
-                                                    style: TextStyle(
-                                              // backgroundColor: Color.fromARGB(255, 183, 180, 185),
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontSize: 17,
-                                                    )),
+                                                        Icon(
+                                                          Icons.phone
+                                                        ),
                                                 Text(": "+
                                                       snapshot.data!.docs[i]
                                                           ['phoneN'],
