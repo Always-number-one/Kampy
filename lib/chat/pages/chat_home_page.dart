@@ -130,31 +130,45 @@ class _ChatHomeState extends State<ChatHome> {
                             
                                 //  get the currrent user messsages ids and update it 
                                 for (var currid=0;currid<UsersSnapshot.docs.length;currid++){
+                            
+                                 
                                   if (UsersSnapshot.docs[currid]["uid"]==uid){
-                                    print ("current user");
+                                    print("current user connected");
+                                    
                                     // loop into user one to check i he already has a conversation with anothe user 
-                                    for(var us1=0;us1<UsersSnapshot.docs[currid]["messagesIds"].length;us1++){
+                                    if (UsersSnapshot.docs[i]["messagesIds"].length>0){
+                                    
                                       // compare with user clicked whish is use r2
-                                      for(var us2=0;us2<UsersSnapshot.docs[currid]["messagesIds"].length;us2++){
-                                                     if(UsersSnapshot.docs[currid]["messagesIds"][us1]==UsersSnapshot.docs[currid]["messagesIds"][us2]){
+                                    for(var us2=0;us2<UsersSnapshot.docs[currid]["messagesIds"].length;us2++){
+                                                     if(UsersSnapshot.docs[i]["messagesIds"].contains(UsersSnapshot.docs[currid]["messagesIds"][us2])){
                                                       print("they already have a conversation together");
                                                       // if they have a conversation let's get it 
                                             for (var msg=0;msg<chatsSnapshot.docs.length; msg++){
-                                              if(chatsSnapshot.docs[i].reference.id==UsersSnapshot.docs[currid]["messagesIds"][us1]){
-                                             await   Navigator.push( context,
+                                     
+                                              if(chatsSnapshot.docs[msg].reference.id==UsersSnapshot.docs[i]["messagesIds"][us2]){
+                                  
+                                 await  Navigator.push( context,
                                 MaterialPageRoute(
                                     builder: (context) => ChatPage())
                                     );
+                                  break;
                                               }
+                                            
                                             }
                                                       
-                                                     }
+                                                     }   
+                                        
+                                                     
                                       }
-                                       print("they doesn't have conversation");
+                                     
+                                      // 
+                                                      print("they doesn't have conversation");
+                                   // if length less than zero
+                                  
                                           var arrChats=[];
-                                    var currUserId;
+                                  var currUserId;
                                     arrChats.add(obj);
-                         chats.add({
+                        await chats.add({
                                "conversation":arrChats 
                                 })
                       .then((value) => currUserId=value.id)
@@ -175,15 +189,53 @@ class _ChatHomeState extends State<ChatHome> {
                                     "messagesIds":users2Id
                                 }
                                 );
-                                    //  var arrChats=  chatsSnapshot.docs[i]['conversation'];
                                
-                           // ignore: use_build_context_synchronously
-                           await  Navigator.push( context,
+                       
+                         await Navigator.push( context,
                                 MaterialPageRoute(
                                     builder: (context) => ChatPage())
                                     );
-                                  }
+                                
+                                      
+                                    }
+                                    print("arr length is less than one");
+
+                                     print("they doesn't have conversation");
+                                   // if length less than zero
+                                  
+                                          var arrChats=[];
+                                  var currUserId;
+                                    arrChats.add(obj);
+                        await chats.add({
+                               "conversation":arrChats 
+                                })
+                      .then((value) => currUserId=value.id)
+                           .catchError((error) => print("Failed to add user: $error"));
+                          snapshot.data!.docs[i].reference.id;
+
+                                      // add message ids to the cureent user messsages                                    print ("this is the current user $UsersSnapshot.docs[currid]['uid']");
+                                     var user1Id=UsersSnapshot.docs[currid]["messagesIds"];
+                                    await user1Id.add(currUserId);
+                                     await  UsersSnapshot.docs[currid].reference.update({
+                                    "messagesIds":user1Id
+                                });
+                                 //  first user id
+                                 var users2Id=snapshot.data!.docs[i]["messagesIds"];
+                                    await users2Id.add(currUserId);
+                                    //  update the user2 messages ids
+                               await snapshot.data!.docs[i].reference.update({
+                                    "messagesIds":users2Id
                                 }
+                                );
+                               
+                       
+                         await Navigator.push( context,
+                                MaterialPageRoute(
+                                    builder: (context) => ChatPage())
+                                    );
+                                                     
+                            
+                                }print("not the same user id");
                                
                                     }
                                 
