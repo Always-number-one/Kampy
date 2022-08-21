@@ -10,7 +10,8 @@ import 'chat_home_page.dart';
 class ChatPage extends StatefulWidget {
 
 
-  ChatPage({Key? key, }) : super(key: key);
+String? from , to ,msgId,userphoto,username;
+  ChatPage({Key? key,required this.from ,this.to,this.msgId,this.userphoto,this.username}) : super(key: key);
 
   @override
   State<ChatPage> createState() => _ChatPageState();
@@ -52,7 +53,7 @@ automaticallyImplyLeading: false,
               Padding(
                 padding: EdgeInsets.only(left: 10),
                 child: Text(
-                  'User',
+                  widget.username.toString(),
                   style: TextStyle(color: Colors.white),
                 ),
               )

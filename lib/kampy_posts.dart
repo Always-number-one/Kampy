@@ -612,7 +612,7 @@ class _PostsState extends State<Posts>   with SingleTickerProviderStateMixin{
       bottomNavigationBar: Builder(
           builder: (context) => AnimatedBottomBar(
                 defaultIconColor: HexColor('#7b94c4'),
-                activatedIconColor: HexColor('#675975'),
+                activatedIconColor: HexColor('#7b94c4'),
                 background: Colors.white,
                 buttonsIcons: const [
                   Icons.sunny_snowing,
@@ -626,7 +626,7 @@ class _PostsState extends State<Posts>   with SingleTickerProviderStateMixin{
                   Icons.image_rounded,
                   Icons.post_add_rounded
                 ],
-                backgroundColorMiddleIcon: HexColor('#675975'),
+                backgroundColorMiddleIcon: HexColor('#7b94c4'),
                 onTapButton: (i) {
                   setState(() {
                     index = i;

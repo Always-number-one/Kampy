@@ -118,6 +118,7 @@ class _ChatHomeState extends State<ChatHome> {
                               )
                             ]),
                         child: GestureDetector(
+                          // on tap on user avatar
                           onTap: ()async  {
                             
                             var obj ={"fromId":uid,"message":"","toId":snapshot.data!.docs[i]['uid']};
@@ -145,11 +146,11 @@ class _ChatHomeState extends State<ChatHome> {
                                                       // if they have a conversation let's get it 
                                             for (var msg=0;msg<chatsSnapshot.docs.length; msg++){
                                      
-                                              if(chatsSnapshot.docs[msg].reference.id==UsersSnapshot.docs[i]["messagesIds"][us2]){
+                                              if(chatsSnapshot.docs[msg].reference.id==UsersSnapshot.docs[currid]["messagesIds"][us2]){
                                   
                                  await  Navigator.push( context,
                                 MaterialPageRoute(
-                                    builder: (context) => ChatPage())
+                                    builder: (context) => ChatPage(from:uid,to:snapshot.data!.docs[i]['uid'],msgId:chatsSnapshot.docs[msg].reference.id,userphoto:snapshot.data!.docs[i]['photoUrl'],username:snapshot.data!.docs[i]['name']))
                                     );
                                   break;
                                               }
@@ -165,11 +166,11 @@ class _ChatHomeState extends State<ChatHome> {
                                                       print("they doesn't have conversation");
                                    // if length less than zero
                                   
-                                          var arrChats=[];
+                                        
                                   var currUserId;
-                                    arrChats.add(obj);
+                                  
                         await chats.add({
-                               "conversation":arrChats 
+                               "conversation":[] 
                                 })
                       .then((value) => currUserId=value.id)
                            .catchError((error) => print("Failed to add user: $error"));
@@ -193,7 +194,7 @@ class _ChatHomeState extends State<ChatHome> {
                        
                          await Navigator.push( context,
                                 MaterialPageRoute(
-                                    builder: (context) => ChatPage())
+                                    builder: (context) => ChatPage(from:uid,to:snapshot.data!.docs[i]['uid'],msgId:currUserId ,userphoto:snapshot.data!.docs[i]['photoUrl'],username:snapshot.data!.docs[i]['name']))
                                     );
                                 
                                       
@@ -231,7 +232,7 @@ class _ChatHomeState extends State<ChatHome> {
                        
                          await Navigator.push( context,
                                 MaterialPageRoute(
-                                    builder: (context) => ChatPage())
+                                    builder: (context) => ChatPage(from:uid,to:snapshot.data!.docs[i]['uid'],msgId:currUserId,userphoto:snapshot.data!.docs[i]['photoUrl'],username:snapshot.data!.docs[i]['name']))
                                     );
                                                      
                             
