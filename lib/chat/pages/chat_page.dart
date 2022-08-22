@@ -98,11 +98,11 @@ automaticallyImplyLeading: false,
           
               padding:  EdgeInsets.all(15),
               decoration: BoxDecoration(
-            color:  Color.fromARGB(255, 138, 91, 227),
+            color:  Color.fromARGB(255, 96, 63, 156),
             borderRadius: BorderRadius.circular(20),
           ),
               child:Text(arrMessages[conv]["message"].toString(),
-              style: TextStyle(fontSize:  17,color: Colors.white,fontWeight: FontWeight.w500,),)
+              style: TextStyle(fontSize:  16,color: Colors.white,fontWeight: FontWeight.w500,),)
             ) ,
         
           ),
