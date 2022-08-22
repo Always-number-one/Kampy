@@ -29,7 +29,7 @@ class ChatHome extends StatefulWidget {
 class _ChatHomeState extends State<ChatHome> {
   // create firestore instance
   FirebaseFirestore firestore = FirebaseFirestore.instance;
-  // get the collection
+  // get the collection chats
   CollectionReference chats = FirebaseFirestore.instance.collection('chats');
   
   // authonticaion
