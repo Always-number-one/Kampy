@@ -206,7 +206,7 @@ class _ChatHomeState extends State<ChatHome> {
                                   
                                           var arrChats=[];
                                   var currUserId;
-                                    arrChats.add(obj);
+                                  
                         await chats.add({
                                "conversation":arrChats 
                                 })
