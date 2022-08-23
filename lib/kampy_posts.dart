@@ -145,7 +145,7 @@ class _PostsState extends State<Posts>   with SingleTickerProviderStateMixin{
          
             return SingleChildScrollView(
               
-                padding: const EdgeInsets.only(top: 70),
+                padding: const EdgeInsets.only(top:30),
                 child: Column(children: [
                   
                   for (int i = 0; i < snapshot.data!.docs.length; i++)
@@ -264,221 +264,51 @@ class _PostsState extends State<Posts>   with SingleTickerProviderStateMixin{
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       
                                        children: [
-    //opening emoji
-    //                                
-             checkEmoji!=false ? 
+    // //opening emoji
+    // //                                
+    //          checkEmoji!=false ? 
           
-      //all emojis 
-                Container(
-      width: 230,
-      height: 40, 
-       decoration: BoxDecoration(
-    borderRadius: BorderRadius.circular(50),
-    color: Colors.white,),
-               child :Row(
-            children: <Widget> [
-                 const  SizedBox(width:10,),
-           GestureDetector(
-             child :Image.asset('images/amoreux.gif',height: 30,width:30,),
+    //   //all emojis 
+    //             Container(
+    //   width: 230,
+    //   height: 40, 
+    //    decoration: BoxDecoration(
+    // borderRadius: BorderRadius.circular(50),
+    // color: Colors.white,),
+    //            child :Row(
+    //         children: <Widget> [
+    //              const  SizedBox(width:10,),
+    //        GestureDetector(
+    //          child :Image.asset('images/amoreux.gif',height: 30,width:30,),
             
 
-              onTap: () { 
-                setState(() {
-                   checkEmoji= false;
-                });
+    //           onTap: () { 
+    //             setState(() {
+    //                checkEmoji= false;
+    //             });
           
-              }
-           ),
-          //  second emoji
-           const SizedBox(width: 5,),
-            Text( snapshot.data!.docs[i]["likesCount"].toString()),
-              GestureDetector(
-             child :Image.asset('images/smile.gif',height: 30,width:30,),
+    //           }
+    //        ),
+    //       //  second emoji
+    //        const SizedBox(width: 5,),
+    //         Text( snapshot.data!.docs[i]["likesCount"].toString()),
+    //           GestureDetector(
+    //          child :Image.asset('images/smile.gif',height: 30,width:30,),
             
-              onTap: () { 
+    //           onTap: () { 
         
-              }
-           ),
-          const  SizedBox(width: 5,),
-            Text( snapshot.data!.docs[i]["likesCount"].toString()),
-             //  third emoji
-             const  SizedBox(width: 5,),
+    //           }
+    //        ),
+    //       const  SizedBox(width: 5,),
+    //         Text( snapshot.data!.docs[i]["likesCount"].toString()),
+    //          //  third emoji
+    //          const  SizedBox(width: 5,),
            
-              GestureDetector(
-             child :Image.asset('images/neutre.gif',height: 30,width:30,),
+    //           GestureDetector(
+    //          child :Image.asset('images/neutre.gif',height: 30,width:30,),
             
-              onTap: () async { 
-                     // get current user connected
-    final User? user = auth.currentUser;
-    final id = user?.uid;
-    //  create firestore instance
-    FirebaseFirestore firestore = FirebaseFirestore.instance;
-    // grab the collection
-    CollectionReference users = firestore.collection('users');
-    // get docs from user reference
-    QuerySnapshot querySnapshot = await users.get();
-         for (var s = 0; s < querySnapshot.docs.length; s++) {
-      if (querySnapshot.docs[s]['uid'] == id) {
-        print(querySnapshot.docs[s]['name']);
-        if(querySnapshot.docs[s]['likes'].length>0){
-      for (var j=0;j<querySnapshot.docs[s]['likes'].length;j++){
-        print(querySnapshot.docs[s]["likes"][j]);
-        if(snapshot.data!.docs[i].reference.id==querySnapshot.docs[s]["likes"][j]){
-         var counter = snapshot.data!.docs[i]["likesCount"];
-         counter--;
-          await snapshot.data!.docs[i].reference.update({
-                          "likesCount": counter ??0,
-                         });
-          var arr=querySnapshot.docs[s]["likes"];
-          arr.removeAt(j);
-         
-         print("heryou are");
-       return   await querySnapshot.docs[s].reference.update({
-                          "likes": arr
-                         });
-        }
-      }
-       var count = snapshot.data!.docs[i]["likesCount"];
-         count++;
-
-          await snapshot.data!.docs[i].reference.update({
-                          "likesCount": count
-                         });
-          var arr=querySnapshot.docs[s]["likes"];
-          arr.add(snapshot.data!.docs[i].reference.id);
-        return  await querySnapshot.docs[s].reference.update({
-                          "likes":arr ??[]});
-      }else{
-        var count = snapshot.data!.docs[i]["likesCount"];
-         count++;
-
-          await snapshot.data!.docs[i].reference.update({
-                          "likesCount": count
-                         });
-          var arr=querySnapshot.docs[s]["likes"];
-          arr.add(snapshot.data!.docs[i].reference.id);
-        return  await querySnapshot.docs[s].reference.update({
-                          "likes":arr ??[]});
-      }
-         
-      
-      }else{
-        print("no user matched");
-      }
-    }
-              }
-           ),
-           const  SizedBox(width: 5,),
-           
-                  Text( snapshot.data!.docs[i]["likesCount"].toString()),
-              GestureDetector(
-             child :Image.asset('images/fire.gif',height: 30,width:30,),
-            
-              onTap: () async { 
-                     // get current user connected
-    final User? user = auth.currentUser;
-    final id = user?.uid;
-    //  create firestore instance
-    FirebaseFirestore firestore = FirebaseFirestore.instance;
-    // grab the collection
-    CollectionReference users = firestore.collection('users');
-    // get docs from user reference
-    QuerySnapshot querySnapshot = await users.get();
-         for (var s = 0; s < querySnapshot.docs.length; s++) {
-      if (querySnapshot.docs[s]['uid'] == id) {
-        print(querySnapshot.docs[s]['name']);
-        if(querySnapshot.docs[s]['likes'].length>0){
-      for (var j=0;j<querySnapshot.docs[s]['likes'].length;j++){
-        print(querySnapshot.docs[s]["likes"][j]);
-        if(snapshot.data!.docs[i].reference.id==querySnapshot.docs[s]["likes"][j]){
-         var counter = snapshot.data!.docs[i]["likesCount"];
-         counter--;
-          await snapshot.data!.docs[i].reference.update({
-                          "likesCount": counter ??0,
-                         });
-          var arr=querySnapshot.docs[s]["likes"];
-          arr.removeAt(j);
-         
-         print("heryou are");
-       return   await querySnapshot.docs[s].reference.update({
-                          "likes": arr
-                         });
-        }
-      }
-       var count = snapshot.data!.docs[i]["likesCount"];
-         count++;
-
-          await snapshot.data!.docs[i].reference.update({
-                          "likesCount": count
-                         });
-          var arr=querySnapshot.docs[s]["likes"];
-          arr.add(snapshot.data!.docs[i].reference.id);
-        return  await querySnapshot.docs[s].reference.update({
-                          "likes":arr ??[]});
-      }else{
-        var count = snapshot.data!.docs[i]["likesCount"];
-         count++;
-
-          await snapshot.data!.docs[i].reference.update({
-                          "likesCount": count
-                         });
-          var arr=querySnapshot.docs[s]["likes"];
-          arr.add(snapshot.data!.docs[i].reference.id);
-        return  await querySnapshot.docs[s].reference.update({
-                          "likes":arr ??[]});
-      }
-
-         
-      
-      }else{
-        print("no user matched");
-      }
-    }
-              }
-           ),
-          const  SizedBox(width: 5,),
-            Text( snapshot.data!.docs[i]["likesCount"].toString()),
-            ],
-
-           
-       
-          )
-        
-         
-          ):
-             
-
-               Row(
-            children: <Widget> [
-                 const  SizedBox(width:10,),
-           GestureDetector(
-             child :Image.asset('images/bonfire.png',height: 30,width:30,),
-            
-              onTap: () { 
-                
-         setState(() {
-
-           checkEmoji= true;
-           
-         });
-        
-              }
-           ),
-            Text("4"),
-        
-                 ]  ),
-        
-            
-            
-         
-         
-           
-                      // like button posts
-    //                 IconButton(
-    //                     icon:const Icon(Icons.favorite)
-    //               ,onPressed: ()async{
-                  
-    //               // get current user connected
+    //           onTap: () async { 
+    //                  // get current user connected
     // final User? user = auth.currentUser;
     // final id = user?.uid;
     // //  create firestore instance
@@ -536,10 +366,183 @@ class _PostsState extends State<Posts>   with SingleTickerProviderStateMixin{
     //     print("no user matched");
     //   }
     // }
+    //           }
+    //        ),
+    //        const  SizedBox(width: 5,),
+           
+    //               Text( snapshot.data!.docs[i]["likesCount"].toString()),
+    //           GestureDetector(
+    //          child :Image.asset('images/fire.gif',height: 30,width:30,),
+            
+    //           onTap: () async { 
+    //                  // get current user connected
+    // final User? user = auth.currentUser;
+    // final id = user?.uid;
+    // //  create firestore instance
+    // FirebaseFirestore firestore = FirebaseFirestore.instance;
+    // // grab the collection
+    // CollectionReference users = firestore.collection('users');
+    // // get docs from user reference
+    // QuerySnapshot querySnapshot = await users.get();
+    //      for (var s = 0; s < querySnapshot.docs.length; s++) {
+    //   if (querySnapshot.docs[s]['uid'] == id) {
+    //     print(querySnapshot.docs[s]['name']);
+    //     if(querySnapshot.docs[s]['likes'].length>0){
+    //   for (var j=0;j<querySnapshot.docs[s]['likes'].length;j++){
+    //     print(querySnapshot.docs[s]["likes"][j]);
+    //     if(snapshot.data!.docs[i].reference.id==querySnapshot.docs[s]["likes"][j]){
+    //      var counter = snapshot.data!.docs[i]["likesCount"];
+    //      counter--;
+    //       await snapshot.data!.docs[i].reference.update({
+    //                       "likesCount": counter ??0,
+    //                      });
+    //       var arr=querySnapshot.docs[s]["likes"];
+    //       arr.removeAt(j);
+         
+    //      print("heryou are");
+    //    return   await querySnapshot.docs[s].reference.update({
+    //                       "likes": arr
+    //                      });
+    //     }
+    //   }
+    //    var count = snapshot.data!.docs[i]["likesCount"];
+    //      count++;
+
+    //       await snapshot.data!.docs[i].reference.update({
+    //                       "likesCount": count
+    //                      });
+    //       var arr=querySnapshot.docs[s]["likes"];
+    //       arr.add(snapshot.data!.docs[i].reference.id);
+    //     return  await querySnapshot.docs[s].reference.update({
+    //                       "likes":arr ??[]});
+    //   }else{
+    //     var count = snapshot.data!.docs[i]["likesCount"];
+    //      count++;
+
+    //       await snapshot.data!.docs[i].reference.update({
+    //                       "likesCount": count
+    //                      });
+    //       var arr=querySnapshot.docs[s]["likes"];
+    //       arr.add(snapshot.data!.docs[i].reference.id);
+    //     return  await querySnapshot.docs[s].reference.update({
+    //                       "likes":arr ??[]});
+    //   }
+
+         
+      
+    //   }else{
+    //     print("no user matched");
+    //   }
+    // }
+    //           }
+    //        ),
+        //   const  SizedBox(width: 5,),
+        //     Text( snapshot.data!.docs[i]["likesCount"].toString()),
+        //     ],
+
+           
+       
+        //   )
+        
+         
+        //   ):
+             
+
+        //        Row(
+        //     children: <Widget> [
+        //          const  SizedBox(width:10,),
+        //    GestureDetector(
+        //      child :Image.asset('images/bonfire.png',height: 30,width:30,),
+            
+        //       onTap: () { 
+                
+        //  setState(() {
+
+        //    checkEmoji= true;
+           
+        //  });
+        
+        //       }
+        //    ),
+        //     Text("4"),
+        
+        //          ]  ),
+        
+            
+            
+         
+         
+            Row(
+                                 mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                      // like button posts
+                    IconButton(
+                        icon:const Icon(Icons.favorite)
+                  ,onPressed: ()async{
+                  
+                  // get current user connected
+    final User? user = auth.currentUser;
+    final id = user?.uid;
+    //  create firestore instance
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
+    // grab the collection
+    CollectionReference users = firestore.collection('users');
+    // get docs from user reference
+    QuerySnapshot querySnapshot = await users.get();
+         for (var s = 0; s < querySnapshot.docs.length; s++) {
+      if (querySnapshot.docs[s]['uid'] == id) {
+        print(querySnapshot.docs[s]['name']);
+        if(querySnapshot.docs[s]['likes'].length>0){
+      for (var j=0;j<querySnapshot.docs[s]['likes'].length;j++){
+        print(querySnapshot.docs[s]["likes"][j]);
+        if(snapshot.data!.docs[i].reference.id==querySnapshot.docs[s]["likes"][j]){
+         var counter = snapshot.data!.docs[i]["likesCount"];
+         counter--;
+          await snapshot.data!.docs[i].reference.update({
+                          "likesCount": counter ??0,
+                         });
+          var arr=querySnapshot.docs[s]["likes"];
+          arr.removeAt(j);
+         
+         print("heryou are");
+       return   await querySnapshot.docs[s].reference.update({
+                          "likes": arr
+                         });
+        }
+      }
+       var count = snapshot.data!.docs[i]["likesCount"];
+         count++;
+
+          await snapshot.data!.docs[i].reference.update({
+                          "likesCount": count
+                         });
+          var arr=querySnapshot.docs[s]["likes"];
+          arr.add(snapshot.data!.docs[i].reference.id);
+        return  await querySnapshot.docs[s].reference.update({
+                          "likes":arr ??[]});
+      }else{
+        var count = snapshot.data!.docs[i]["likesCount"];
+         count++;
+
+          await snapshot.data!.docs[i].reference.update({
+                          "likesCount": count
+                         });
+          var arr=querySnapshot.docs[s]["likes"];
+          arr.add(snapshot.data!.docs[i].reference.id);
+        return  await querySnapshot.docs[s].reference.update({
+                          "likes":arr ??[]});
+      }
+         
+      
+      }else{
+        print("no user matched");
+      }
+    }
 
             
-    //       },),
-
+          },),
+          Text( snapshot.data!.docs[i]["likesCount"].toString()),
+                                ]),
 
                                Row(
                                  mainAxisAlignment: MainAxisAlignment.end,
@@ -547,7 +550,7 @@ class _PostsState extends State<Posts>   with SingleTickerProviderStateMixin{
                                    const  Icon(
                                     
                              Icons.place_sharp,
-                         color: Colors.orange,
+                         color: Color.fromARGB(255, 18, 16, 14),
                              size:20.0,
                                       ),
                                Text(
@@ -569,6 +572,9 @@ class _PostsState extends State<Posts>   with SingleTickerProviderStateMixin{
                                           endIndent:
                                               15, //spacing at the end of divider
                                         ),
+                                         const SizedBox(
+                                  height: 20,
+                                ),
                         
                       ],
                     ),
@@ -699,6 +705,7 @@ class PostsTitle extends StatelessWidget {
                           color: Color.fromARGB(255, 0, 0, 0)),
                     ),
                   ])),
+                  
           Container(
             margin: const EdgeInsets.fromLTRB(190, 30, 00, 10),
             width: MediaQuery.of(context).size.width,

@@ -13,4 +13,14 @@ class CrudMethods {
   getData() async {
     return await FirebaseFirestore.instance.collection("events").get();
   }
+
+  Future<void> editEvent(data , String? id) async {
+    await FirebaseFirestore.instance
+        .collection("events")
+        .doc(id)
+        .update(data)
+        .catchError((e)=>{
+          print(e)
+        });
+  }
 }

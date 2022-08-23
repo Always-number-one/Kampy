@@ -1,33 +1,30 @@
 import 'dart:io';
-import 'dart:async';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/services/crud.dart';
-import 'package:get/get.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
-import 'package:intl/intl.dart';
-import 'package:path/path.dart' as path;
 import 'package:random_string/random_string.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
-class CreateEvent extends StatefulWidget {
-  const CreateEvent({Key? key}) : super(key: key);
+import 'services/crud.dart';
+
+class EditEvent extends StatefulWidget {
+  const EditEvent({Key? key}) : super(key: key);
 
   @override
-  State<CreateEvent> createState() => _CreateEventState();
+  State<EditEvent> createState() => _EditEventState();
 }
 
-class _CreateEventState extends State<CreateEvent> {
-  final FirebaseAuth auth = FirebaseAuth.instance;
+class _EditEventState extends State<EditEvent> {
+final FirebaseAuth auth = FirebaseAuth.instance;
 
   DateTime startingDate = DateTime.now();
   DateTime endingDate = DateTime.now();
 
   String?
-      // id,
+      id,
       eventName,
       destination,
       nbrPlace,
@@ -96,9 +93,9 @@ class _CreateEventState extends State<CreateEvent> {
       // uploadTask.then((res) {
       //   res.ref.getDownloadURL();
       // });
-      //create a Map with the input data events
-      Map<String, dynamic>? eventMap = {
-        // "id": eventId,
+      //create a Map with the updated data events
+      Map<String, dynamic>? dataMap = {
+        "id": id ,
         "imgUrl": downloadUrl,
         "eventName": eventName ?? "",
         "destination": destination ?? "",
@@ -114,7 +111,7 @@ class _CreateEventState extends State<CreateEvent> {
         "eventLikes": [],
         "eventUsersList": [],
       };
-      crudMethods.addData(eventMap).then((result) {
+      crudMethods.editEvent(dataMap, id).then((result) {
         Navigator.pop(context);
       });
     } else {}
@@ -167,7 +164,7 @@ class _CreateEventState extends State<CreateEvent> {
           title: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: const [
-              Text("Add", style: TextStyle(fontSize: 22)),
+              Text("Edit", style: TextStyle(fontSize: 22)),
               Text(" Event",
                   style: TextStyle(fontSize: 22, color: Colors.white))
             ],

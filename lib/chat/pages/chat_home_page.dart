@@ -3,7 +3,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/chat/helper/helper_Functions.dart';
+
 import 'package:flutter_application_1/kampy_posts.dart';
 import 'package:intl/intl.dart';
 import 'chat_page.dart';
@@ -16,7 +16,6 @@ import 'package:flutter_application_1/navbar_animated.dart';
 
 // hex color
 import 'package:hexcolor/hexcolor.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ChatHome extends StatefulWidget {
   const ChatHome({
@@ -32,6 +31,7 @@ class _ChatHomeState extends State<ChatHome> {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   // get the collection
   CollectionReference chats = FirebaseFirestore.instance.collection('chats');
+  
   // authonticaion
   final FirebaseAuth auth = FirebaseAuth.instance;
   // navbar
@@ -41,13 +41,7 @@ class _ChatHomeState extends State<ChatHome> {
   int index = 0;
 
   final controller = TextEditingController();
-  List lastMessages = [];
-  List usersID = [];
-  List messages = [];
  
-  String? _photoUrl;
-  String? _uid;
-  String? peerID;
 
 // show users in the top
 
@@ -58,58 +52,7 @@ class _ChatHomeState extends State<ChatHome> {
         DateTime.fromMillisecondsSinceEpoch(timeStamp.seconds * 1000);
     return DateFormat("hh:mm a").format(dateFromTimeStamp);
   }
-  // get a coversation between two users
 
-  Future addConversation(idConversation) async {
-   await FirebaseFirestore.instance
-        .collection('chats')
-        .add(idConversation)
-        .catchError((e) {
-      print(e);
-    });
-  }
-
-  // Future getConversation() async {
-  //   List tmpmessages = [];
-    // String idConversation = HelperFunctions.getConvoID(_uid!, peerID!);
-
-  //   await FirebaseFirestore.instance
-  //       .collection('chats')
-  //       .doc(idConversation)
-  //       .collection('messages')
-  //       .orderBy('date', descending: true)
-  //       .get()
-  //       .then((snapshot) => {
-  //             if (snapshot.docs.length==0) {
-  //               print('not found'),
-  //               addConversation(idConversation)
-  //             },
-  //             snapshot.docs.forEach((element) {
-  //               print(element.data()['content']);
-  //               tmpmessages.add({'message': element.data()['content']});
-  //             })
-  //           });
-  //   messages = tmpmessages;
-  // }
-
-  Future getLastMessage() async {
-    List tmpsLast = [];
-    await FirebaseFirestore.instance
-        .collection('chats')
-        .orderBy('date', descending: true)
-        .get()
-        .then((snapshot) => snapshot.docs.forEach((doc) {
-              tmpsLast.add({
-                'message': doc.data()['message'],
-                'date': formatteDate(doc.data()['date']),
-                'fromID': doc.data()['fromID'],
-                'senderURL': doc.data()['senderURL'],
-                "name": doc.data()["name"]
-              });
-            }));
-
-    lastMessages = tmpsLast;
-  }
   // body users list
   usersList (){
                 // get current user connected
@@ -176,23 +119,126 @@ class _ChatHomeState extends State<ChatHome> {
                             ]),
                         child: GestureDetector(
                           onTap: ()async  {
+                            
                             var obj ={"fromId":uid,"message":"","toId":snapshot.data!.docs[i]['uid']};
                                 QuerySnapshot chatsSnapshot = await chats.get();
-                                    //  var arrChats=  chatsSnapshot.docs[i]['conversation'];
-                                    var arrChats=[];
-                                    arrChats.add(obj);
-                           chats.add({
-                               "conversation":arrChats  })
-                      .then((value) => print("message successfully add"))
-                           .catchError((error) => print("Failed to add user: $error"));
-                          
-                            peerID = snapshot.data!.docs[i]['uid'];
-                 
-                            print(messages);
-                            Navigator.push(
-                                context,
+                                 QuerySnapshot UsersSnapshot = await Users.get();
+
+                                //  if users doesn't have converstion
+                                          // add chat and store chat id
+                                 
+                            
+                                //  get the currrent user messsages ids and update it 
+                                for (var currid=0;currid<UsersSnapshot.docs.length;currid++){
+                            
+                                 
+                                  if (UsersSnapshot.docs[currid]["uid"]==uid){
+                                    print("current user connected");
+                                    
+                                    // loop into user one to check i he already has a conversation with anothe user 
+                                    if (UsersSnapshot.docs[i]["messagesIds"].length>0){
+                                    
+                                      // compare with user clicked whish is use r2
+                                    for(var us2=0;us2<UsersSnapshot.docs[currid]["messagesIds"].length;us2++){
+                                                     if(UsersSnapshot.docs[i]["messagesIds"].contains(UsersSnapshot.docs[currid]["messagesIds"][us2])){
+                                                      print("they already have a conversation together");
+                                                      // if they have a conversation let's get it 
+                                            for (var msg=0;msg<chatsSnapshot.docs.length; msg++){
+                                     
+                                              if(chatsSnapshot.docs[msg].reference.id==UsersSnapshot.docs[i]["messagesIds"][us2]){
+                                  
+                                 await  Navigator.push( context,
                                 MaterialPageRoute(
-                                    builder: (context) => ChatPage()));
+                                    builder: (context) => ChatPage())
+                                    );
+                                  break;
+                                              }
+                                            
+                                            }
+                                                      
+                                                     }   
+                                        
+                                                     
+                                      }
+                                     
+                                      // 
+                                                      print("they doesn't have conversation");
+                                   // if length less than zero
+                                  
+                                          var arrChats=[];
+                                  var currUserId;
+                                    arrChats.add(obj);
+                        await chats.add({
+                               "conversation":arrChats 
+                                })
+                      .then((value) => currUserId=value.id)
+                           .catchError((error) => print("Failed to add user: $error"));
+                          snapshot.data!.docs[i].reference.id;
+
+                                      // add message ids to the cureent user messsages                                    print ("this is the current user $UsersSnapshot.docs[currid]['uid']");
+                                     var user1Id=UsersSnapshot.docs[currid]["messagesIds"];
+                                    await user1Id.add(currUserId);
+                                     await  UsersSnapshot.docs[currid].reference.update({
+                                    "messagesIds":user1Id
+                                });
+                                 //  first user id
+                                 var users2Id=snapshot.data!.docs[i]["messagesIds"];
+                                    await users2Id.add(currUserId);
+                                    //  update the user2 messages ids
+                               await snapshot.data!.docs[i].reference.update({
+                                    "messagesIds":users2Id
+                                }
+                                );
+                               
+                       
+                         await Navigator.push( context,
+                                MaterialPageRoute(
+                                    builder: (context) => ChatPage())
+                                    );
+                                
+                                      
+                                    }
+                                    print("arr length is less than one");
+
+                                     print("they doesn't have conversation");
+                                   // if length less than zero
+                                  
+                                          var arrChats=[];
+                                  var currUserId;
+                                    arrChats.add(obj);
+                        await chats.add({
+                               "conversation":arrChats 
+                                })
+                      .then((value) => currUserId=value.id)
+                           .catchError((error) => print("Failed to add user: $error"));
+                          snapshot.data!.docs[i].reference.id;
+
+                                      // add message ids to the cureent user messsages                                    print ("this is the current user $UsersSnapshot.docs[currid]['uid']");
+                                     var user1Id=UsersSnapshot.docs[currid]["messagesIds"];
+                                    await user1Id.add(currUserId);
+                                     await  UsersSnapshot.docs[currid].reference.update({
+                                    "messagesIds":user1Id
+                                });
+                                 //  first user id
+                                 var users2Id=snapshot.data!.docs[i]["messagesIds"];
+                                    await users2Id.add(currUserId);
+                                    //  update the user2 messages ids
+                               await snapshot.data!.docs[i].reference.update({
+                                    "messagesIds":users2Id
+                                }
+                                );
+                               
+                       
+                         await Navigator.push( context,
+                                MaterialPageRoute(
+                                    builder: (context) => ChatPage())
+                                    );
+                                                     
+                            
+                                }print("not the same user id");
+                               
+                                    }
+                                
                           },
                           child: CircleAvatar(
                             radius: 50,
