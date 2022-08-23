@@ -220,7 +220,7 @@ class _PostsState extends State<Posts>   with SingleTickerProviderStateMixin{
             children: <Widget> [
                  const  SizedBox(width:10,),
            GestureDetector(
-             child :Image.asset('images/tinder.png',height: 30,width:30,),
+             child :Image.asset('images/like1.png',height: 30,width:30,),
             
 
               onTap: () async{ 
@@ -302,7 +302,7 @@ class _PostsState extends State<Posts>   with SingleTickerProviderStateMixin{
 
               //  second emoji
               GestureDetector(
-             child :Image.asset('images/owl.png',height: 30,width:30,),
+             child :Image.asset('images/love1.png',height: 30,width:30,),
             
               onTap: ()async { 
                 checkEmoji= false;
@@ -377,7 +377,7 @@ class _PostsState extends State<Posts>   with SingleTickerProviderStateMixin{
              const  SizedBox(width: 5,),
            
               GestureDetector(
-             child :Image.asset('images/fox.png',height: 30,width:30,),
+             child :Image.asset('images/sm.png',height: 30,width:30,),
             
               onTap: () async { 
      checkEmoji= false;
@@ -448,7 +448,7 @@ class _PostsState extends State<Posts>   with SingleTickerProviderStateMixin{
            
                   Text( snapshot.data!.docs[i]["dogscount"].toString()),
               GestureDetector(
-             child :Image.asset('images/tent2.png',height: 30,width:30,),
+             child :Image.asset('images/cool1.png',height: 30,width:30,),
             
               onTap: () async { 
                       checkEmoji= false;

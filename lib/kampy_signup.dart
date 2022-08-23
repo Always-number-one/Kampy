@@ -134,6 +134,7 @@ child: Stack(
         
           
           ),
+        
                    
           const SizedBox(  height: 130,),
          
@@ -396,7 +397,7 @@ GestureDetector(
       backgroundColor: Color.fromARGB(0, 255, 255, 255),
       child: ClipOval(
          child: (_photo == null)
-           ? Image.network('https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/Unknown_person.jpg/434px-Unknown_person.jpg')
+           ? Image.asset('images/user.png')
               : Image.file(_photo!),
       ),
     ),
@@ -416,16 +417,12 @@ GestureDetector(
             context: context,
             builder: (BuildContext context) {
         
-              return SizedBox(
-                height: 200,
+              return Container(
+                height: 70,
+      decoration: BoxDecoration(color: Color.fromARGB(237, 130, 134, 182)),
                child: Column(
       children: <Widget>[
-        const Text(
-          "choose Profile photo",
-          style:  TextStyle(
-            fontSize: 20.0,
-          ),
-          ),
+        
           const SizedBox(
             height: 20,
           ),
@@ -433,27 +430,26 @@ GestureDetector(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
                 // take photo from the camera
-              TextButton.icon(
-                icon: const Icon(Icons.camera),
-             onPressed: (){
+             GestureDetector(
+               child: Image.asset('images/camera.png',height: 40,width:40,),
+             onTap: (){
              
           getFromCamera();
-           print(_photo);
-              },
-              label: const Text("Camera"),
+        
+              }
+           
 
               ),
+              SizedBox(width: 40, ),
             // Get photo from Gallery
-               TextButton.icon(
-               
-                
-            icon: const Icon(Icons.image),
-             onPressed: (){
+                GestureDetector(
+               child: Image.asset('images/picture1.png',height: 40,width:40,),
+             onTap: (){
                      imgFromGallery(); 
                      
                      print(_photo.toString());  
               },
-              label: const Text("Galerry"),
+          
 
              )
             ],),
