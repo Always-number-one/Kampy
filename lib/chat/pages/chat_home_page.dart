@@ -158,12 +158,11 @@ class _ChatHomeState extends State<ChatHome> {
                                             }
                                                       
                                                      }   
-                                        
                                                      
                                       }
                                      
-                                      // 
-                                                      print("they doesn't have conversation");
+                               
+                             print("they doesn't have conversation");
                                    // if length less than zero
                                   
                                         
@@ -270,31 +269,59 @@ Container(
                 offset: Offset(0, 2))
           ]
           ),
-      child: Column(
+
+          // here starts the list of messages
+      child: StreamBuilder<QuerySnapshot>(
+       stream: chats.snapshots(),
+        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> chatsnapshot)  {
+          if (chatsnapshot.hasError) {
+            return const Text("Something went wrong");
+          }
+          if (chatsnapshot.connectionState == ConnectionState.waiting) {
+            return const Text("loading");
+          }
+          if (chatsnapshot.hasData) {
+            
+            // for (var ms=0;ms<chatsnapshot.data!.docs.length;ms++){
+            //   if (chatsnapshot.data!.docs[ms]['conversation'].length>0){
+            //   if (chatsnapshot.data!.docs[ms]['conversation'][0]['fromId']==uid ){
+            //     for (var us=0;us<snapshot.data!.docs.length;us++){
+            //     print(chatsnapshot.data!.docs[ms]['conversation'][0]['toId']);
+            //     if (snapshot.data!.docs[us]['uid']==chatsnapshot.data!.docs[ms]['conversation'][0]['toId']){
+            //       print(snapshot.data!.docs[us]['name']);
+            //         print(snapshot.data!.docs[us]['photoUrl']);
+            //       print(chatsnapshot.data!.docs[ms]['conversation'][chatsnapshot.data!.docs[ms]['conversation'].length-1]['message']);
+
+       return  Column(
         children: [
-          for (int i = 0; i < 10 ; i++) // map throug the data
+           for (var ms=0;ms<chatsnapshot.data!.docs.length;ms++)
+            if (chatsnapshot.data!.docs[ms]['conversation'].length>0)
+             if (chatsnapshot.data!.docs[ms]['conversation'][0]['fromId']==uid )
+               for (var us=0;us<snapshot.data!.docs.length;us++)
+                if (snapshot.data!.docs[us]['uid']==chatsnapshot.data!.docs[ms]['conversation'][0]['toId'])
+       // map throug the data
             Padding(
               padding: EdgeInsets.symmetric(vertical: 15),
-              child: InkWell(
+              child: GestureDetector(
                 // onTap: () {
                 //  Navigator.push(context,
-                //         MaterialPageRoute(builder: (context)=>ChatPage()));
+                //         MaterialPageRoute(builder: (context)=>ChatPage(from:)));
                 // },
                 child: Container(
                   height: 65,
                   child: Row(
                     children: [
-                      // CircleAvatar(
-                      //   radius: 35,
-                      //   backgroundImage: NetworkImage(chats[i]['senderURL']),
-                      // ),
+                      CircleAvatar(
+                        radius: 35,
+                        backgroundImage: NetworkImage(snapshot.data!.docs[us]['photoUrl']),
+                      ),
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 20),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              "sameh",
+                            snapshot.data!.docs[us]['name'],
                               style: TextStyle(
                                 fontSize: 18,
                                 color: Color.fromARGB(255, 19, 13, 24),
@@ -305,34 +332,32 @@ Container(
                               height: 10,
                             ),
                             Text(
-                             'hello',   
+                            chatsnapshot.data!.docs[ms]['conversation'][chatsnapshot.data!.docs[ms]['conversation'].length-1]['message'],   
                               style: TextStyle(
                                   fontSize: 16, color: Colors.black54),
                             )
                           ],
                         ),
                       ),
-                      Spacer(),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 10),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Text(
-                             '22',
-                              style: TextStyle(
-                                  fontSize: 15, color: Colors.black54),
-                            ),
-                          ],
-                        ),
-                      )
+   
                     ],
                   ),
                 ),
               ),
             )
-        ],
-      ),
+        ],) ;
+        
+      
+
+        
+        
+        
+        
+        
+        }
+return Text("this user has no conversation yet");
+        // secende stream builder ends
+          }),
     )
           ]);
      
