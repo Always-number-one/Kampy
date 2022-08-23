@@ -1,12 +1,11 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
-
-import '../widgets/chat_bottom_sheet.dart';
 // hex color
 import 'package:hexcolor/hexcolor.dart';
 // chat clipper
 import 'package:custom_clippers/custom_clippers.dart';
+import 'chat_home_page.dart';
 
 class ChatPage extends StatefulWidget {
 
@@ -24,8 +23,7 @@ class _ChatPageState extends State<ChatPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar:  AppBar(
-        
-         
+automaticallyImplyLeading: false,
         flexibleSpace: Container(
           decoration:  BoxDecoration(
             gradient: LinearGradient(
@@ -35,6 +33,14 @@ class _ChatPageState extends State<ChatPage> {
           ),
         ),
         title: Row(children: [
+          IconButton(onPressed: ()=>{
+            Navigator.push( context,
+                                MaterialPageRoute(
+                                    builder: (context) => ChatHome())
+                                    )
+                                
+          }, icon:Icon(Icons.arrow_back)
+          ),
               ClipRRect(
                 borderRadius: BorderRadius.circular(45),
                 child: Image.asset(
@@ -105,7 +111,46 @@ class _ChatPageState extends State<ChatPage> {
    )]),
         ],
       ),
-      bottomSheet: ChatBottomSheet(),
+      // botttom chat
+      bottomSheet:Container(
+      height: 65,
+      decoration: BoxDecoration(color: Colors.white, boxShadow: [
+        BoxShadow(
+          color: Colors.grey.withOpacity(0.5),
+          spreadRadius: 2,
+          blurRadius: 10,
+          offset: Offset(0, 3),
+        )
+      ]),
+      // ignore: prefer_const_literals_to_create_immutables
+      child: Row(children: [
+        
+       
+        Padding(
+          padding: EdgeInsets.only(left: 10),
+          child: Container(
+            alignment: Alignment.centerRight,
+            width: 250,
+            child: TextFormField(
+              decoration: InputDecoration(
+                hintText: "Type Something",
+                border: InputBorder.none,
+              ),
+            ),
+          ),
+        ),
+        Spacer(),
+        IconButton(
+          onPressed: () => {print('pressed')},
+          padding: EdgeInsets.only(right: 10),
+          icon: Icon(
+            Icons.send,
+            color: Color.fromARGB(255, 148, 98, 195),
+            size: 30,
+          ),
+        )
+      ]),
+    ),
     );
   }
 }

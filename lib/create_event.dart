@@ -42,7 +42,8 @@ class _CreateEventState extends State<CreateEvent> {
       username,
       userImage,
       eventLikes,
-      eventUsersList;
+      eventUsersList,
+      contactUs;
 
   File? _photo;
   bool _isLoading = false;
@@ -109,6 +110,7 @@ class _CreateEventState extends State<CreateEvent> {
         "description": description ?? "",
         "username": username ?? "",
         "userImage": userImage ?? "",
+        "contactUs": contactUs ??"",
         "eventLikes": [],
         "eventUsersList": [],
       };
@@ -250,7 +252,7 @@ class _CreateEventState extends State<CreateEvent> {
                             child: TextFormField(
                               decoration: const InputDecoration(
                                 border: UnderlineInputBorder(),
-                                labelText: 'Enter your event name',
+                                labelText: 'Event Name',
                               ),
                               onChanged: (val) {
                                 eventName = val;
@@ -369,6 +371,19 @@ class _CreateEventState extends State<CreateEvent> {
                               ),
                               onChanged: (val) {
                                 group = val;
+                              },
+                            ),
+                          ),
+                              Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 8, vertical: 16),
+                            child: TextFormField(
+                              decoration: const InputDecoration(
+                                border: UnderlineInputBorder(),
+                                labelText: 'Contact',
+                              ),
+                              onChanged: (val) {
+                                contactUs = val;
                               },
                             ),
                           ),

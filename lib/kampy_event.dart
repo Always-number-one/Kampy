@@ -27,10 +27,10 @@ class KampyEvent extends StatefulWidget {
 class _KampyEventState extends State<KampyEvent> {
   final FirebaseAuth auth = FirebaseAuth.instance;
   // plus button array of pages
-  final List<Widget> _pages = [KampyEvent(), Shops(), Posts(), CreateEvent()];
+  final List<Widget> _pages = [const KampyEvent(), Shops(), const Posts(), const CreateEvent()];
 
 // original navbar
-  final List<Widget> _views = [KampyEvent(), MapKampy(), Chat(), Welcome()];
+  final List<Widget> _views = [const KampyEvent(), MapKampy(), const Chat(), Welcome()];
   int index = 0;
   bool? participiteCheck;
   bool? checkUser;
@@ -90,7 +90,7 @@ class _KampyEventState extends State<KampyEvent> {
 
   // method to show own event
   showDialogFunc(context, img, eventName, destination, startingDate, endingDate,
-      nbrPlace, requiredEquipment, group, description) {
+      nbrPlace, requiredEquipment, group, contact, description) {
     return showDialog(
         context: context,
         builder: (context) {
@@ -129,12 +129,18 @@ class _KampyEventState extends State<KampyEvent> {
                     const SizedBox(
                       height: 7,
                     ),
-                    Text(
-                      destination,
-                      style: TextStyle(
-                          fontSize: 25,
-                          color: HexColor('#675975'),
-                          fontWeight: FontWeight.bold),
+                    Row(
+                      children: [
+                        Icon(Icons.location_on, color: HexColor('#7b94c4'),),
+                        const SizedBox(width: 5,),
+                        Text(
+                          destination,
+                          style: TextStyle(
+                              fontSize: 25,
+                              color: HexColor('#7b94c4'),
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ],
                     ),
                     const SizedBox(
                       height: 18,
@@ -230,6 +236,29 @@ class _KampyEventState extends State<KampyEvent> {
                                 color: HexColor('#7b94c4'))),
                         Text(
                           group,
+                          style: const TextStyle(
+                            fontSize: 17,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ],
+                    ),
+                      const SizedBox(
+                      height: 10,
+                    ),
+                    Row(
+                      children: [
+                        Icon(
+                          Icons.phone,
+                          color: HexColor('#7b94c4'),
+                        ),
+                        Text('Contact:  ',
+                            style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                color: HexColor('#7b94c4'))),
+                        Text(
+                          contact,
                           style: const TextStyle(
                             fontSize: 17,
                             color: Colors.black,
@@ -367,6 +396,7 @@ class _KampyEventState extends State<KampyEvent> {
                                             snapshot.data!.docs[i]
                                                 ['requiredEquipment'],
                                             snapshot.data!.docs[i]['group'],
+                                            snapshot.data!.docs[i]['contactUs'],
                                             snapshot.data!.docs[i]
                                                 ['description'],
                                           );
