@@ -303,10 +303,10 @@ Container(
             Padding(
               padding: EdgeInsets.symmetric(vertical: 15),
               child: GestureDetector(
-                // onTap: () {
-                //  Navigator.push(context,
-                //         MaterialPageRoute(builder: (context)=>ChatPage(from:)));
-                // },
+                onTap: () {
+                 Navigator.push(context,
+                        MaterialPageRoute(builder: (context)=>ChatPage(from:chatsnapshot.data!.docs[ms]['conversation'][0]['fromId'],to:chatsnapshot.data!.docs[ms]['conversation'][0]['toId'],msgId:chatsnapshot.data!.docs[ms].reference.id ,userphoto:snapshot.data!.docs[us]['photoUrl'],username:snapshot.data!.docs[us]['name'] ,)));
+                },
                 child: Container(
                   height: 65,
                   child: Row(
