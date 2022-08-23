@@ -81,8 +81,8 @@ class WeatherPage extends StatelessWidget {
                 onEditingComplete: () {
                   handleSearchCity();
                 },
-                style: TextStyle(color: Colors.white, fontSize: 24),
-                decoration: InputDecoration(
+                style: const TextStyle(color: Colors.white, fontSize: 24),
+                decoration: const  InputDecoration(
                   hintText: 'Search City',
                   hintStyle: TextStyle(color: Colors.white, fontSize: 24),
                   border: InputBorder.none,
@@ -97,7 +97,7 @@ class WeatherPage extends StatelessWidget {
     Widget weatherIcon() {
       return Center(
         child: Container(
-          margin: EdgeInsets.fromLTRB(0, 30, 0, 0),
+          margin: const EdgeInsets.fromLTRB(0, 30, 0, 0),
           height: height * 0.2,
           child: SimpleShadow(
             opacity: 0.20,
@@ -105,7 +105,7 @@ class WeatherPage extends StatelessWidget {
             offset: Offset(3, 10),
             sigma: 30,
             child: c.isLoading.value
-                ? Center(
+                ? const Center(
                     child: SizedBox(
                       child: CircularProgressIndicator(
                         color: Colors.white,
@@ -124,8 +124,8 @@ class WeatherPage extends StatelessWidget {
 
     Widget weatherInformation() {
       return Container(
-        margin: EdgeInsets.fromLTRB(30, 40, 30, 0),
-        padding: EdgeInsets.fromLTRB(0, 17, 0, 17),
+        margin: const EdgeInsets.fromLTRB(30, 40, 30, 0),
+        padding: const EdgeInsets.fromLTRB(0, 17, 0, 17),
         width: double.infinity,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(
@@ -135,10 +135,10 @@ class WeatherPage extends StatelessWidget {
             color: Color(0xffB2C9DD),
             width: 2,
           ),
-          color: Color(0xffFFFFFF).withOpacity(0.30),
+          color: const Color(0xffFFFFFF).withOpacity(0.30),
         ),
         child: c.isLoading.value
-            ? Center(
+            ? const Center(
                 child: SizedBox(
                   width: 100,
                   height: 100,
@@ -153,7 +153,7 @@ class WeatherPage extends StatelessWidget {
                   Container(
                     child: Text(
                       'Today, $day $month',
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 18,
                         color: Colors.white,
                       ),
@@ -161,7 +161,7 @@ class WeatherPage extends StatelessWidget {
                   ),
                   // Temperature
                   Container(
-                    margin: EdgeInsets.fromLTRB(0, 15, 0, 0),
+                    margin: const EdgeInsets.fromLTRB(0, 15, 0, 0),
                     child: SimpleShadow(
                       opacity: 0.25,
                       color: Colors.black,
@@ -169,7 +169,7 @@ class WeatherPage extends StatelessWidget {
                       sigma: 25,
                       child: Text(
                         '${(c.weather.value.temp / 10).toStringAsFixed(0)}\u00B0',
-                        style: TextStyle(
+                        style:const  TextStyle(
                           fontSize: 90,
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
@@ -182,7 +182,7 @@ class WeatherPage extends StatelessWidget {
                     margin: EdgeInsets.fromLTRB(0, 20, 0, 0),
                     child: Text(
                       '${c.weather.value.description.toUpperCase()}',
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 22,
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
@@ -198,7 +198,7 @@ class WeatherPage extends StatelessWidget {
                         // Icon
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
+                          children:const  [
                             Icon(
                               Icons.flag_outlined,
                               color: Colors.white,
@@ -224,7 +224,7 @@ class WeatherPage extends StatelessWidget {
                         // Type
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
+                          children: const [
                             Text(
                               'Country',
                               style: TextStyle(
@@ -261,7 +261,7 @@ class WeatherPage extends StatelessWidget {
                         SizedBox(width: 20),
                         // Divider
                         Column(
-                          children: [
+                          children: const [
                             Text(
                               '|',
                               style: TextStyle(
@@ -358,9 +358,10 @@ class WeatherPage extends StatelessWidget {
       
       // navbar bottom
       bottomNavigationBar: Builder(
+        
           builder: (context) => AnimatedBottomBar(
                 defaultIconColor: HexColor('#7b94c4'),
-                activatedIconColor: HexColor('#675975'),
+                activatedIconColor: HexColor('#7b94c4'),
                 background: Colors.white,
                 buttonsIcons: const [
                   Icons.sunny_snowing,
@@ -374,7 +375,7 @@ class WeatherPage extends StatelessWidget {
                   Icons.image_rounded,
                   Icons.post_add_rounded
                 ],
-                backgroundColorMiddleIcon: HexColor('#675975'),
+                backgroundColorMiddleIcon:HexColor('#7b94c4'),
                 onTapButton: (i) {
   
                     index = i;
@@ -392,15 +393,17 @@ class WeatherPage extends StatelessWidget {
                   );
                 },
               )),
-        body: Container(
+              backgroundColor: Color.fromARGB(255, 214, 204, 228),
+        body:
+         Container(
           height: height,
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             gradient: LinearGradient(
-              begin: Alignment.bottomLeft,
-              end: Alignment.topRight,
+              begin: Alignment.center,
+              end: Alignment.bottomRight,
               colors: [
-                Color.fromARGB(255, 156, 152, 152),
-                Color.fromARGB(255, 128, 162, 172),
+                Color.fromARGB(255, 133, 147, 155),
+                Color.fromARGB(255, 124, 93, 167),
               ],
             ),
           ),

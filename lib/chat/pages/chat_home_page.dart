@@ -29,7 +29,7 @@ class ChatHome extends StatefulWidget {
 class _ChatHomeState extends State<ChatHome> {
   // create firestore instance
   FirebaseFirestore firestore = FirebaseFirestore.instance;
-  // get the collection
+  // get the collection chats
   CollectionReference chats = FirebaseFirestore.instance.collection('chats');
   
   // authonticaion
@@ -118,6 +118,7 @@ class _ChatHomeState extends State<ChatHome> {
                               )
                             ]),
                         child: GestureDetector(
+                          // on tap on user avatar
                           onTap: ()async  {
                             
                             var obj ={"fromId":uid,"message":"","toId":snapshot.data!.docs[i]['uid']};
@@ -145,11 +146,11 @@ class _ChatHomeState extends State<ChatHome> {
                                                       // if they have a conversation let's get it 
                                             for (var msg=0;msg<chatsSnapshot.docs.length; msg++){
                                      
-                                              if(chatsSnapshot.docs[msg].reference.id==UsersSnapshot.docs[i]["messagesIds"][us2]){
+                                              if(chatsSnapshot.docs[msg].reference.id==UsersSnapshot.docs[currid]["messagesIds"][us2]){
                                   
                                  await  Navigator.push( context,
                                 MaterialPageRoute(
-                                    builder: (context) => ChatPage())
+                                    builder: (context) => ChatPage(from:uid,to:snapshot.data!.docs[i]['uid'],msgId:chatsSnapshot.docs[msg].reference.id,userphoto:snapshot.data!.docs[i]['photoUrl'],username:snapshot.data!.docs[i]['name']))
                                     );
                                   break;
                                               }
@@ -157,19 +158,18 @@ class _ChatHomeState extends State<ChatHome> {
                                             }
                                                       
                                                      }   
-                                        
                                                      
                                       }
                                      
-                                      // 
-                                                      print("they doesn't have conversation");
+                               
+                             print("they doesn't have conversation");
                                    // if length less than zero
                                   
-                                          var arrChats=[];
+                                        
                                   var currUserId;
-                                    arrChats.add(obj);
+                                  
                         await chats.add({
-                               "conversation":arrChats 
+                               "conversation":[] 
                                 })
                       .then((value) => currUserId=value.id)
                            .catchError((error) => print("Failed to add user: $error"));
@@ -193,7 +193,7 @@ class _ChatHomeState extends State<ChatHome> {
                        
                          await Navigator.push( context,
                                 MaterialPageRoute(
-                                    builder: (context) => ChatPage())
+                                    builder: (context) => ChatPage(from:uid,to:snapshot.data!.docs[i]['uid'],msgId:currUserId ,userphoto:snapshot.data!.docs[i]['photoUrl'],username:snapshot.data!.docs[i]['name']))
                                     );
                                 
                                       
@@ -205,7 +205,7 @@ class _ChatHomeState extends State<ChatHome> {
                                   
                                           var arrChats=[];
                                   var currUserId;
-                                    arrChats.add(obj);
+                                  
                         await chats.add({
                                "conversation":arrChats 
                                 })
@@ -231,7 +231,7 @@ class _ChatHomeState extends State<ChatHome> {
                        
                          await Navigator.push( context,
                                 MaterialPageRoute(
-                                    builder: (context) => ChatPage())
+                                    builder: (context) => ChatPage(from:uid,to:snapshot.data!.docs[i]['uid'],msgId:currUserId,userphoto:snapshot.data!.docs[i]['photoUrl'],username:snapshot.data!.docs[i]['name']))
                                     );
                                                      
                             
@@ -269,31 +269,59 @@ Container(
                 offset: Offset(0, 2))
           ]
           ),
-      child: Column(
+
+          // here starts the list of messages
+      child: StreamBuilder<QuerySnapshot>(
+       stream: chats.snapshots(),
+        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> chatsnapshot)  {
+          if (chatsnapshot.hasError) {
+            return const Text("Something went wrong");
+          }
+          if (chatsnapshot.connectionState == ConnectionState.waiting) {
+            return const Text("loading");
+          }
+          if (chatsnapshot.hasData) {
+            
+            // for (var ms=0;ms<chatsnapshot.data!.docs.length;ms++){
+            //   if (chatsnapshot.data!.docs[ms]['conversation'].length>0){
+            //   if (chatsnapshot.data!.docs[ms]['conversation'][0]['fromId']==uid ){
+            //     for (var us=0;us<snapshot.data!.docs.length;us++){
+            //     print(chatsnapshot.data!.docs[ms]['conversation'][0]['toId']);
+            //     if (snapshot.data!.docs[us]['uid']==chatsnapshot.data!.docs[ms]['conversation'][0]['toId']){
+            //       print(snapshot.data!.docs[us]['name']);
+            //         print(snapshot.data!.docs[us]['photoUrl']);
+            //       print(chatsnapshot.data!.docs[ms]['conversation'][chatsnapshot.data!.docs[ms]['conversation'].length-1]['message']);
+
+       return  Column(
         children: [
-          for (int i = 0; i < 10 ; i++) // map throug the data
+           for (var ms=0;ms<chatsnapshot.data!.docs.length;ms++)
+            if (chatsnapshot.data!.docs[ms]['conversation'].length>0)
+             if (chatsnapshot.data!.docs[ms]['conversation'][0]['fromId']==uid )
+               for (var us=0;us<snapshot.data!.docs.length;us++)
+                if (snapshot.data!.docs[us]['uid']==chatsnapshot.data!.docs[ms]['conversation'][0]['toId'])
+       // map throug the data
             Padding(
               padding: EdgeInsets.symmetric(vertical: 15),
-              child: InkWell(
-                // onTap: () {
-                //  Navigator.push(context,
-                //         MaterialPageRoute(builder: (context)=>ChatPage()));
-                // },
+              child: GestureDetector(
+                onTap: () {
+                 Navigator.push(context,
+                        MaterialPageRoute(builder: (context)=>ChatPage(from:chatsnapshot.data!.docs[ms]['conversation'][0]['fromId'],to:chatsnapshot.data!.docs[ms]['conversation'][0]['toId'],msgId:chatsnapshot.data!.docs[ms].reference.id ,userphoto:snapshot.data!.docs[us]['photoUrl'],username:snapshot.data!.docs[us]['name'] ,)));
+                },
                 child: Container(
                   height: 65,
                   child: Row(
                     children: [
-                      // CircleAvatar(
-                      //   radius: 35,
-                      //   backgroundImage: NetworkImage(chats[i]['senderURL']),
-                      // ),
+                      CircleAvatar(
+                        radius: 35,
+                        backgroundImage: NetworkImage(snapshot.data!.docs[us]['photoUrl']),
+                      ),
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 20),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              "sameh",
+                            snapshot.data!.docs[us]['name'],
                               style: TextStyle(
                                 fontSize: 18,
                                 color: Color.fromARGB(255, 19, 13, 24),
@@ -304,34 +332,32 @@ Container(
                               height: 10,
                             ),
                             Text(
-                             'hello',   
+                            chatsnapshot.data!.docs[ms]['conversation'][chatsnapshot.data!.docs[ms]['conversation'].length-1]['message'],   
                               style: TextStyle(
                                   fontSize: 16, color: Colors.black54),
                             )
                           ],
                         ),
                       ),
-                      Spacer(),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 10),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Text(
-                             '22',
-                              style: TextStyle(
-                                  fontSize: 15, color: Colors.black54),
-                            ),
-                          ],
-                        ),
-                      )
+   
                     ],
                   ),
                 ),
               ),
             )
-        ],
-      ),
+        ],) ;
+        
+      
+
+        
+        
+        
+        
+        
+        }
+return Text("this user has no conversation yet");
+        // secende stream builder ends
+          }),
     )
           ]);
      
