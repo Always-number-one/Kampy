@@ -220,7 +220,7 @@ class _PostsState extends State<Posts>   with SingleTickerProviderStateMixin{
             children: <Widget> [
                  const  SizedBox(width:10,),
            GestureDetector(
-             child :Image.asset('images/love1.png',height: 30,width:30,),
+             child :Image.asset('images/like1.png',height: 30,width:30,),
             
 
               onTap: () async{ 
@@ -302,7 +302,7 @@ class _PostsState extends State<Posts>   with SingleTickerProviderStateMixin{
 
               //  second emoji
               GestureDetector(
-             child :Image.asset('images/like1.png',height: 30,width:30,),
+             child :Image.asset('images/love1.png',height: 30,width:30,),
             
               onTap: ()async { 
                 checkEmoji= false;
