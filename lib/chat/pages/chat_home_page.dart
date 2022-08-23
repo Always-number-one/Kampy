@@ -296,7 +296,7 @@ Container(
         children: [
            for (var ms=0;ms<chatsnapshot.data!.docs.length;ms++)
             if (chatsnapshot.data!.docs[ms]['conversation'].length>0)
-             if (chatsnapshot.data!.docs[ms]['conversation'][0]['fromId']==uid )
+             if (chatsnapshot.data!.docs[ms]['conversation'][0]['fromId']==uid ||chatsnapshot.data!.docs[ms]['conversation'][0]['toId']==uid )
                for (var us=0;us<snapshot.data!.docs.length;us++)
                 if (snapshot.data!.docs[us]['uid']==chatsnapshot.data!.docs[ms]['conversation'][0]['toId'])
        // map throug the data
