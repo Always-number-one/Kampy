@@ -219,7 +219,7 @@ class _PostsState extends State<Posts>   with SingleTickerProviderStateMixin{
             children: <Widget> [
                  const  SizedBox(width:10,),
            GestureDetector(
-             child :Image.asset('images/photolike.png',height: 30,width:30,),
+             child :Image.asset('images/tinder.png',height: 30,width:30,),
             
 
               onTap: () { 

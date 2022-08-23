@@ -46,7 +46,7 @@ class _ChatPageState extends State<ChatPage> {
             return const Text("loading");
           }
           if (snapshot.hasData) {
-           
+         
             for (var i=0;i<snapshot.data!.docs.length;i++) {
               // get the id message 
             if (snapshot.data!.docs[i].reference.id==widget.msgId){
