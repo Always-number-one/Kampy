@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/create_event.dart';
+import 'package:flutter_application_1/editEvent.dart';
 import 'package:flutter_application_1/services/crud.dart';
 import 'package:like_button/like_button.dart';
 import 'package:path/path.dart';
@@ -27,10 +28,20 @@ class KampyEvent extends StatefulWidget {
 class _KampyEventState extends State<KampyEvent> {
   final FirebaseAuth auth = FirebaseAuth.instance;
   // plus button array of pages
-  final List<Widget> _pages = [const KampyEvent(), Shops(), const Posts(), const CreateEvent()];
+  final List<Widget> _pages = [
+    const KampyEvent(),
+    Shops(),
+    const Posts(),
+    const CreateEvent()
+  ];
 
 // original navbar
-  final List<Widget> _views = [const KampyEvent(), MapKampy(), const Chat(), Welcome()];
+  final List<Widget> _views = [
+    const KampyEvent(),
+    MapKampy(),
+    const Chat(),
+    Welcome()
+  ];
   int index = 0;
   bool? participiteCheck;
   bool? checkUser;
@@ -131,12 +142,17 @@ class _KampyEventState extends State<KampyEvent> {
                     ),
                     Row(
                       children: [
-                        Icon(Icons.location_on, color: HexColor('#7b94c4'),),
-                        const SizedBox(width: 5,),
+                        Icon(
+                          Icons.location_on,
+                          color: HexColor('#7b94c4'),
+                        ),
+                        const SizedBox(
+                          width: 5,
+                        ),
                         Text(
                           destination,
                           style: TextStyle(
-                              fontSize: 25,
+                              fontSize: 20,
                               color: HexColor('#7b94c4'),
                               fontWeight: FontWeight.bold),
                         ),
@@ -243,7 +259,7 @@ class _KampyEventState extends State<KampyEvent> {
                         ),
                       ],
                     ),
-                      const SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     Row(
@@ -315,47 +331,73 @@ class _KampyEventState extends State<KampyEvent> {
                           child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
-                                Row(
-                                  children: <Widget>[
-                                    // user avatar
-                                    Row(
-                                      children: [
-                                        CircleAvatar(
-                                          radius: 24.0,
-                                          backgroundImage: NetworkImage(snapshot
-                                              .data!.docs[i]['userImage']),
-                                          backgroundColor: Colors.transparent,
+                                FittedBox(
+                                  child: Row(
+                                    children: <Widget>[
+                                      // user avatar
+                                      Row(
+                                        children: [
+                                          CircleAvatar(
+                                            radius: 24.0,
+                                            backgroundImage: NetworkImage(
+                                                snapshot.data!.docs[i]
+                                                    ['userImage']),
+                                            backgroundColor: Colors.transparent,
+                                          ),
+                                        ],
+                                      ),
+                                      // user name :
+                                      Container(
+                                        padding: const EdgeInsets.only(
+                                            bottom: 5, left: 10),
+                                        child: Text(
+                                          snapshot.data!.docs[i]['username'],
                                         ),
-                                      ],
-                                    ),
-                                    // user name :
-                                    Container(
-                                      padding: const EdgeInsets.only(
-                                          bottom: 5, left: 10),
-                                      child: Text(
-                                        snapshot.data!.docs[i]['username'],
                                       ),
-                                    ),
-                                    //  button to delete
-                                    Container(
-                                      margin: const EdgeInsets.only(left: 220),
-                                      child: IconButton(
-                                        icon: const Icon(Icons.delete),
-                                        color: const Color.fromARGB(
-                                            248, 211, 40, 40),
-                                        iconSize: 19.0,
-                                        onPressed: () async {
-                                          await checkuser(snapshot.data!.docs[i]
-                                              ['username']);
-                                          if (checkUser != false) {
-                                            return await snapshot
-                                                .data!.docs[i].reference
-                                                .delete();
-                                          }
-                                        },
+                                      //  button to delete
+                                      Row(
+                                        children: [
+                                          Container(
+                                            margin:
+                                                const EdgeInsets.only(left: 150),
+                                            child: IconButton(
+                                              icon: const Icon(Icons.delete),
+                                              color: const Color.fromARGB(
+                                                  248, 211, 40, 40),
+                                              iconSize: 25.0,
+                                              onPressed: () async {
+                                                await checkuser(snapshot
+                                                    .data!.docs[i]['username']);
+                                                if (checkUser != false) {
+                                                  return await snapshot
+                                                      .data!.docs[i].reference
+                                                      .delete();
+                                                }
+                                              },
+                                            ),
+                                          ),
+                                            Container(
+                                        // margin:
+                                        //     const EdgeInsets.only(left: 220),
+                                        child: IconButton(
+                                          icon: const Icon(Icons.edit),
+                                          color: HexColor('#7b94c4'),
+                                          iconSize: 25.0,
+                                          onPressed: () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                     const EditEvent()),
+                                            );
+                                          },
+                                        ),
                                       ),
-                                    ),
-                                  ],
+                                        ],
+                                      ),
+                                    
+                                    ],
+                                  ),
                                 ),
 
                                 const SizedBox(
