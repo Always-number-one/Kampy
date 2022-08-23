@@ -204,11 +204,12 @@ class _PostsState extends State<Posts>   with SingleTickerProviderStateMixin{
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween, 
                                        children: [
                                         // emoji button
-                                        // //opening emoji
-    // //                                
+                                       
+ 
              checkEmoji!=false ? 
           
       //all emojis 
+      // first emoji 
                 Container(
       width: 230,
       height: 40, 
@@ -222,34 +223,10 @@ class _PostsState extends State<Posts>   with SingleTickerProviderStateMixin{
              child :Image.asset('images/tinder.png',height: 30,width:30,),
             
 
-              onTap: () { 
-                setState(() {
-                   checkEmoji= false;
-                });
-          
-              }
-           ),
-          //  second emoji
-           const SizedBox(width: 5,),
-            Text( snapshot.data!.docs[i]["likesCount"].toString()),
-              GestureDetector(
-             child :Image.asset('images/owl.png',height: 30,width:30,),
-            
-              onTap: () { 
-        
-              }
-           ),
-          const  SizedBox(width: 5,),
-            Text( snapshot.data!.docs[i]["likesCount"].toString()),
-             //  third emoji
-             const  SizedBox(width: 5,),
-           
-              GestureDetector(
-             child :Image.asset('images/fox.png',height: 30,width:30,),
-            
-              onTap: () async { 
-                     // get current user connected
-    final User? user = auth.currentUser;
+              onTap: () async{ 
+                checkEmoji= false;
+                  
+                 final User? user = auth.currentUser;
     final id = user?.uid;
     //  create firestore instance
     FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -259,7 +236,7 @@ class _PostsState extends State<Posts>   with SingleTickerProviderStateMixin{
     QuerySnapshot querySnapshot = await users.get();
          for (var s = 0; s < querySnapshot.docs.length; s++) {
       if (querySnapshot.docs[s]['uid'] == id) {
-        print(querySnapshot.docs[s]['name']);
+
         if(querySnapshot.docs[s]['likes'].length>0){
       for (var j=0;j<querySnapshot.docs[s]['likes'].length;j++){
         print(querySnapshot.docs[s]["likes"][j]);
@@ -288,6 +265,7 @@ class _PostsState extends State<Posts>   with SingleTickerProviderStateMixin{
           arr.add(snapshot.data!.docs[i].reference.id);
         return  await querySnapshot.docs[s].reference.update({
                           "likes":arr ??[]});
+                          
       }else{
         var count = snapshot.data!.docs[i]["likesCount"];
          count++;
@@ -299,6 +277,164 @@ class _PostsState extends State<Posts>   with SingleTickerProviderStateMixin{
           arr.add(snapshot.data!.docs[i].reference.id);
         return  await querySnapshot.docs[s].reference.update({
                           "likes":arr ??[]});
+                     
+                          
+      }
+         
+      
+      }else{
+        print("no user matched");
+      }
+    }
+
+
+
+
+
+               
+          
+              }
+           ),
+        
+           const SizedBox(width: 5,),
+            Text( snapshot.data!.docs[i]["likesCount"].toString()),
+
+
+              //  second emoji
+              GestureDetector(
+             child :Image.asset('images/owl.png',height: 30,width:30,),
+            
+              onTap: ()async { 
+                checkEmoji= false;
+                  
+                 final User? user = auth.currentUser;
+    final id = user?.uid;
+    //  create firestore instance
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
+    // grab the collection
+    CollectionReference users = firestore.collection('users');
+    // get docs from user reference
+    QuerySnapshot querySnapshot = await users.get();
+         for (var s = 0; s < querySnapshot.docs.length; s++) {
+      if (querySnapshot.docs[s]['uid'] == id) {
+
+        if(querySnapshot.docs[s]['owl'].length>0){
+      for (var j=0;j<querySnapshot.docs[s]['owl'].length;j++){
+        print(querySnapshot.docs[s]["owl"][j]);
+        if(snapshot.data!.docs[i].reference.id==querySnapshot.docs[s]["owl"][j]){
+         var counter = snapshot.data!.docs[i]["owlscount"];
+         counter--;
+          await snapshot.data!.docs[i].reference.update({
+                          "owlscount": counter ??0,
+                         });
+          var arr=querySnapshot.docs[s]["owl"];
+          arr.removeAt(j);
+         
+         print("heryou are");
+       return   await querySnapshot.docs[s].reference.update({
+                          "owl": arr
+                         });
+        }
+      }
+       var count = snapshot.data!.docs[i]["owlscount"];
+         count++;
+
+          await snapshot.data!.docs[i].reference.update({
+                          "owlscount": count
+                         });
+          var arr=querySnapshot.docs[s]["owl"];
+          arr.add(snapshot.data!.docs[i].reference.id);
+        return  await querySnapshot.docs[s].reference.update({
+                          "owl":arr ??[]});
+                          
+      }else{
+        var count = snapshot.data!.docs[i]["owlscount"];
+         count++;
+
+          await snapshot.data!.docs[i].reference.update({
+                          "owlscount": count
+                         });
+          var arr=querySnapshot.docs[s]["owl"];
+          arr.add(snapshot.data!.docs[i].reference.id);
+        return  await querySnapshot.docs[s].reference.update({
+                          "owl":arr ??[]});
+                     
+                          
+      }
+         
+      
+      }else{
+        print("no user matched");
+      }
+    }
+
+              }
+           ),
+
+          const  SizedBox(width: 5,),
+            Text( snapshot.data!.docs[i]["owlscount"].toString()),
+             //  third emoji
+             const  SizedBox(width: 5,),
+           
+              GestureDetector(
+             child :Image.asset('images/fox.png',height: 30,width:30,),
+            
+              onTap: () async { 
+     checkEmoji= false;
+                  
+                 final User? user = auth.currentUser;
+    final id = user?.uid;
+    //  create firestore instance
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
+    // grab the collection
+    CollectionReference users = firestore.collection('users');
+    // get docs from user reference
+    QuerySnapshot querySnapshot = await users.get();
+         for (var s = 0; s < querySnapshot.docs.length; s++) {
+      if (querySnapshot.docs[s]['uid'] == id) {
+
+        if(querySnapshot.docs[s]['dog'].length>0){
+      for (var j=0;j<querySnapshot.docs[s]['dog'].length;j++){
+        print(querySnapshot.docs[s]["dog"][j]);
+        if(snapshot.data!.docs[i].reference.id==querySnapshot.docs[s]["dog"][j]){
+         var counter = snapshot.data!.docs[i]["dogscount"];
+         counter--;
+          await snapshot.data!.docs[i].reference.update({
+                          "dogscount": counter ??0,
+                         });
+          var arr=querySnapshot.docs[s]["dog"];
+          arr.removeAt(j);
+         
+         print("heryou are");
+       return   await querySnapshot.docs[s].reference.update({
+                          "dog": arr
+                         });
+        }
+      }
+       var count = snapshot.data!.docs[i]["dogscount"];
+         count++;
+
+          await snapshot.data!.docs[i].reference.update({
+                          "dogscount": count
+                         });
+          var arr=querySnapshot.docs[s]["dog"];
+          arr.add(snapshot.data!.docs[i].reference.id);
+        return  await querySnapshot.docs[s].reference.update({
+                          "dog":arr ??[]});
+                          
+      }else{
+        var count = snapshot.data!.docs[i]["dogscount"];
+         count++;
+
+          await snapshot.data!.docs[i].reference.update({
+                          "dogscount": count
+                         });
+          var arr=querySnapshot.docs[s]["dog"];
+          arr.add(snapshot.data!.docs[i].reference.id);
+        return  await querySnapshot.docs[s].reference.update({
+                          "dog":arr ??[]});
+                     
+                          
       }
          
       
@@ -310,13 +446,14 @@ class _PostsState extends State<Posts>   with SingleTickerProviderStateMixin{
            ),
            const  SizedBox(width: 5,),
            
-                  Text( snapshot.data!.docs[i]["likesCount"].toString()),
+                  Text( snapshot.data!.docs[i]["dogscount"].toString()),
               GestureDetector(
              child :Image.asset('images/tent2.png',height: 30,width:30,),
             
               onTap: () async { 
-                     // get current user connected
-    final User? user = auth.currentUser;
+                      checkEmoji= false;
+                  
+                 final User? user = auth.currentUser;
     final id = user?.uid;
     //  create firestore instance
     FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -326,48 +463,50 @@ class _PostsState extends State<Posts>   with SingleTickerProviderStateMixin{
     QuerySnapshot querySnapshot = await users.get();
          for (var s = 0; s < querySnapshot.docs.length; s++) {
       if (querySnapshot.docs[s]['uid'] == id) {
-        print(querySnapshot.docs[s]['name']);
-        if(querySnapshot.docs[s]['likes'].length>0){
-      for (var j=0;j<querySnapshot.docs[s]['likes'].length;j++){
-        print(querySnapshot.docs[s]["likes"][j]);
-        if(snapshot.data!.docs[i].reference.id==querySnapshot.docs[s]["likes"][j]){
-         var counter = snapshot.data!.docs[i]["likesCount"];
+
+        if(querySnapshot.docs[s]['tent'].length>0){
+      for (var j=0;j<querySnapshot.docs[s]['tent'].length;j++){
+        print(querySnapshot.docs[s]["tent"][j]);
+        if(snapshot.data!.docs[i].reference.id==querySnapshot.docs[s]["tent"][j]){
+         var counter = snapshot.data!.docs[i]["tentscount"];
          counter--;
           await snapshot.data!.docs[i].reference.update({
-                          "likesCount": counter ??0,
+                          "tentscount": counter ??0,
                          });
-          var arr=querySnapshot.docs[s]["likes"];
+          var arr=querySnapshot.docs[s]["tent"];
           arr.removeAt(j);
          
          print("heryou are");
        return   await querySnapshot.docs[s].reference.update({
-                          "likes": arr
+                          "tent": arr
                          });
         }
       }
-       var count = snapshot.data!.docs[i]["likesCount"];
+       var count = snapshot.data!.docs[i]["tentscount"];
          count++;
 
           await snapshot.data!.docs[i].reference.update({
-                          "likesCount": count
+                          "tentscount": count
                          });
-          var arr=querySnapshot.docs[s]["likes"];
+          var arr=querySnapshot.docs[s]["tent"];
           arr.add(snapshot.data!.docs[i].reference.id);
         return  await querySnapshot.docs[s].reference.update({
-                          "likes":arr ??[]});
+                          "tent":arr ??[]});
+                          
       }else{
-        var count = snapshot.data!.docs[i]["likesCount"];
+        var count = snapshot.data!.docs[i]["tentscount"];
          count++;
 
           await snapshot.data!.docs[i].reference.update({
-                          "likesCount": count
+                          "tentscount": count
                          });
-          var arr=querySnapshot.docs[s]["likes"];
+          var arr=querySnapshot.docs[s]["tent"];
           arr.add(snapshot.data!.docs[i].reference.id);
         return  await querySnapshot.docs[s].reference.update({
-                          "likes":arr ??[]});
+                          "tent":arr ??[]});
+                     
+                          
       }
-
          
       
       }else{
@@ -377,7 +516,7 @@ class _PostsState extends State<Posts>   with SingleTickerProviderStateMixin{
               }
            ),
           const  SizedBox(width: 5,),
-            Text( snapshot.data!.docs[i]["likesCount"].toString()),
+            Text( snapshot.data!.docs[i]["tentscount"].toString()),
             ],
 
            
@@ -404,7 +543,7 @@ class _PostsState extends State<Posts>   with SingleTickerProviderStateMixin{
         
               }
            ),
-            Text("4"),
+            Text((snapshot.data!.docs[i]["likesCount"]+snapshot.data!.docs[i]["owlscount"]+snapshot.data!.docs[i]["dogscount"]+snapshot.data!.docs[i]["tentscount"]).toString()),
         
                  ]  ),
         // emoji2
