@@ -3,21 +3,123 @@
 import 'package:flutter/material.dart';
 // hex color
 import 'package:hexcolor/hexcolor.dart';
-// chat clipper
-import 'package:custom_clippers/custom_clippers.dart';
+
 import 'chat_home_page.dart';
+// firebase
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class ChatPage extends StatefulWidget {
 
 
-  ChatPage({Key? key, }) : super(key: key);
+String? from , to ,msgId,userphoto,username;
+  ChatPage({Key? key,required this.from ,this.to,this.msgId,this.userphoto,this.username}) : super(key: key);
 
   @override
   State<ChatPage> createState() => _ChatPageState();
 }
 
 class _ChatPageState extends State<ChatPage> {
+  // get message input
+     final TextEditingController msgInput =TextEditingController();
+  // create firestore instance
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
+  // get the collection
+  CollectionReference chats = FirebaseFirestore.instance.collection('chats');
+  
+  // authonticaion
+  final FirebaseAuth auth = FirebaseAuth.instance;
+
     var arrMessages=[{"from":1,"message":"hello"},{"from":2,"message":"hi"},{"from":2,"message":"hi"},{"from":1,"message":"yoo"},{"from":2,"message":"how are  you doing"},{"from":1,"message":"i'm fine thanks what about you how is it going so far"},{"from":2,"message":"me too fine thanks what about you how is it going so far"}];
+ messages(){
+   final User? user = auth.currentUser;
+    final uid = user?.uid;
+ return StreamBuilder<QuerySnapshot>(
+  
+        // build dnapshot using users collection
+        stream: chats.snapshots(),
+        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot)  {
+          if (snapshot.hasError) {
+            return const Text("Something went wrong");
+          }
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Text("loading");
+          }
+          if (snapshot.hasData) {
+         
+            for (var i=0;i<snapshot.data!.docs.length;i++) {
+              // get the id message 
+            if (snapshot.data!.docs[i].reference.id==widget.msgId){
+              return   ListView(
+        padding: EdgeInsets.only(top: 20, left: 20, right: 20, bottom: 80),
+        children: [
+        Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      
+      children: [
+         for (var conv=0;conv<snapshot.data!.docs[i]['conversation'].length; conv++)
+         Column(       
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // if fromid is the same current user connected uid
+   snapshot.data!.docs[i]['conversation'][conv]["toId"]==uid? 
+      Padding(
+        padding: EdgeInsets.only(right: 80,top: 20),
+      
+         
+          child:Container(
+            padding:  EdgeInsets.all(15),
+           decoration: BoxDecoration(
+            color:  Colors.grey[200],
+            borderRadius: BorderRadius.circular(20),
+          ),
+           
+            child: 
+                
+                 Text(snapshot.data!.docs[i]['conversation'][conv]["message"].toString(),
+            style: TextStyle(fontSize: 16,fontWeight: FontWeight.w500,),),
+          ) ,
+    
+        ):
+      Container(
+        alignment:Alignment.centerRight ,
+        child: Padding(
+          padding: EdgeInsets.only(top: 20, left: 100),
+            child:Container(
+          
+              padding:  EdgeInsets.all(15),
+              decoration: BoxDecoration(
+            color:  Color.fromARGB(255, 96, 63, 156),
+            borderRadius: BorderRadius.circular(20),
+          ),
+              child:Text(snapshot.data!.docs[i]['conversation'][conv]["message"].toString(),
+              style: TextStyle(fontSize:  16,color: Colors.white,fontWeight: FontWeight.w500,),)
+            ) ,
+        
+          ),
+      ),
+
+
+      ],      
+   )]),
+   
+        ],
+
+
+
+        
+      );}
+      
+   
+      }
+         return Text("doesn't much with msg id ");
+          } 
+          return Text ("try again");
+ }
+
+ );
+ }
+
 
     @override
   Widget build(BuildContext context) {
@@ -43,16 +145,16 @@ automaticallyImplyLeading: false,
           ),
               ClipRRect(
                 borderRadius: BorderRadius.circular(45),
-                child: Image.asset(
-                  'images/profile1.jpg',
-                  height: 45,
-                  width: 45,
-                ),
+                child: CircleAvatar(
+                            radius: 20,
+                            backgroundImage:
+                                NetworkImage(widget.userphoto.toString()),
+                          ),
               ),
               Padding(
                 padding: EdgeInsets.only(left: 10),
                 child: Text(
-                  'User',
+                  widget.username.toString(),
                   style: TextStyle(color: Colors.white),
                 ),
               )
@@ -60,57 +162,7 @@ automaticallyImplyLeading: false,
       
       ),
       // body
-      body: ListView(
-        padding: EdgeInsets.only(top: 20, left: 20, right: 20, bottom: 80),
-        children: [
-        Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      
-      children: [
-         for (var conv=0;conv<arrMessages.length; conv++)
-         Column(       
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-     arrMessages[conv]["from"]==1?  Padding(
-        padding: EdgeInsets.only(right: 80),
-        child: ClipPath(
-          clipper:UpperNipMessageClipper(MessageType.receive),
-          child:Container(
-            padding:  EdgeInsets.all(20),
-            decoration: BoxDecoration(
-              color: Color(0xFFE1E1E2),
-            ),
-           
-            child: 
-                
-                 Text(arrMessages[conv]["message"].toString(),
-            style: TextStyle(fontSize: 16),),
-          ) ,
-        ),
-        ):
-      Container(
-        alignment:Alignment.centerRight ,
-        child: Padding(padding: EdgeInsets.only(top: 20, left: 200),
-          child: ClipPath(
-            clipper:UpperNipMessageClipper(MessageType.send),
-            child:Container(
-              padding:  EdgeInsets.only(left: 20,top:10,bottom: 25,right: 20),
-              decoration: BoxDecoration(
-                color: Color.fromARGB(255, 23, 54, 84), 
-               
-              ),
-              child:Text(arrMessages[conv]["message"].toString(),
-              style: TextStyle(fontSize:  16,color: Colors.white),)
-            ) ,
-          ),
-          ),
-      ),
-
-
-      ],      
-   )]),
-        ],
-      ),
+      body: messages(),
       // botttom chat
       bottomSheet:Container(
       height: 65,
@@ -130,9 +182,11 @@ automaticallyImplyLeading: false,
           padding: EdgeInsets.only(left: 10),
           child: Container(
             alignment: Alignment.centerRight,
-            width: 250,
+            width: 220,
             child: TextFormField(
+              controller: msgInput,
               decoration: InputDecoration(
+
                 hintText: "Type Something",
                 border: InputBorder.none,
               ),
@@ -140,10 +194,26 @@ automaticallyImplyLeading: false,
           ),
         ),
         Spacer(),
-        IconButton(
-          onPressed: () => {print('pressed')},
-          padding: EdgeInsets.only(right: 10),
-          icon: Icon(
+        GestureDetector(
+          onTap: () async {
+                // get current user connected
+
+            QuerySnapshot snapshotmsg =await chats.get();
+               for (var i=0;i<snapshotmsg.docs.length;i++) {
+              // get the id message 
+            if (snapshotmsg.docs[i].reference.id==widget.msgId){
+                  var arr=snapshotmsg.docs[i]['conversation'];
+                  arr.add({'fromId':widget.from,"message":msgInput.text,"toId":widget.to});
+                  await snapshotmsg.docs[i].reference.update({
+                     'conversation':arr,
+                  });
+                  break;
+            }
+            }
+            print("send");
+            },
+        
+         child :Icon(
             Icons.send,
             color: Color.fromARGB(255, 148, 98, 195),
             size: 30,
